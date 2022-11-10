@@ -1,22 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.home.HomeFragment">
 
     <TextView
         android:id="@+id/text_home"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
+        android:layout_marginTop="97dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="47dp"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:text = "Skillcinema"
+        tools:ignore="HardcodedText" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="ScrollViewCount">
+
+        <include
+            android:id="@+id/premier_kit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/movie_list"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="36dp"/>
+        <include
+            android:id="@+id/popular_kit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/movie_list"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="36dp"/>
+        <include
+            android:id="@+id/random1_kit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/movie_list"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="36dp"/>
+        <include
+            android:id="@+id/random2_kit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/movie_list"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="36dp"/>
+        <include
+            android:id="@+id/top250_kit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/movie_list"/>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="36dp"/>
+        <include
+            android:id="@+id/serial_kit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/movie_list"/>
+    </ScrollView>
+</LinearLayout>
