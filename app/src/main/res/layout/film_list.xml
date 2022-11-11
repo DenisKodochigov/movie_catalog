@@ -23,7 +23,7 @@
         android:hint="@string/show_all"
         />
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/movie_recycler_horizontal"
+        android:id="@+id/film_recycler_horizontal"
         android:layout_marginTop="26dp"
         android:layout_marginStart="26dp"
         android:layout_width="wrap_content"

@@ -21,7 +21,7 @@
             android:id="@+id/premier_kit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            layout="@layout/movie_list"/>
+            layout="@layout/film_list"/>
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
             android:id="@+id/popular_kit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            layout="@layout/movie_list"/>
+            layout="@layout/film_list"/>
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
             android:id="@+id/random1_kit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            layout="@layout/movie_list"/>
+            layout="@layout/film_list"/>
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
             android:id="@+id/random2_kit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            layout="@layout/movie_list"/>
+            layout="@layout/film_list"/>
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
             android:id="@+id/top250_kit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            layout="@layout/movie_list"/>
+            layout="@layout/film_list"/>
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -66,5 +66,5 @@
             android:id="@+id/serial_kit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            layout="@layout/movie_list"/>
+            layout="@layout/film_list"/>
 </LinearLayout>

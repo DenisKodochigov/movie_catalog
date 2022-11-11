@@ -1,6 +1,6 @@
 package com.example.movie_catalog.entity
 
-data class Movie(
+data class Film(
     val id:Int? = null,
     val name:String? = null,
     val poster:String? = null,
