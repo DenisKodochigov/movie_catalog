@@ -1,13 +1,36 @@
 package com.example.movie_catalog.ui.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.movie_catalog.data.repositary.DataRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor() : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+    private val dataRepository = DataRepository()
+
+    private var _genreMap = MutableStateFlow<Map<String, String>>(emptyMap())
+    var genreMap = _genreMap.asStateFlow()
+
+    init {
+        getGenres()
     }
-    val text: LiveData<String> = _text
+
+    private fun getGenres() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                dataRepository.getGenres()
+            }.fold(
+                onSuccess = {_genreMap.value = it },
+                onFailure = { Log.d("HomeViewModel",it.message ?: "")}
+            )
+        }
+    }
 }
