@@ -5,11 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.movie_catalog.Constants.QTY_CARD
 import com.example.movie_catalog.databinding.FilmBinding
 import com.example.movie_catalog.entity.Film
 
-class FilmListAdapter : RecyclerView.Adapter<FilmViewHolder>() {
+class FilmFullListAdapter : RecyclerView.Adapter<FilmFullListViewHolder>() {
 
     private var films: List<Film> = emptyList()
 
@@ -19,13 +18,13 @@ class FilmListAdapter : RecyclerView.Adapter<FilmViewHolder>() {
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmViewHolder {
-        return FilmViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmFullListViewHolder {
+        return FilmFullListViewHolder(
             FilmBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 
-    override fun onBindViewHolder(holder: FilmViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: FilmFullListViewHolder, position: Int) {
         var genreTxt = ""
         val item = films.getOrNull(position)
         holder.binding.nameFilm.text = item?.nameRu ?: ""
@@ -42,14 +41,7 @@ class FilmListAdapter : RecyclerView.Adapter<FilmViewHolder>() {
         }
     }
 
-    override fun getItemCount(): Int{
-
-        return if (films.size > QTY_CARD-1) {
-            QTY_CARD
-        }else{
-            films.size
-        }
-    }
+    override fun getItemCount()=films.size
 }
 
-class FilmViewHolder(val binding: FilmBinding) : RecyclerView.ViewHolder(binding.root)
+class FilmFullListViewHolder(val binding: FilmBinding) : RecyclerView.ViewHolder(binding.root)

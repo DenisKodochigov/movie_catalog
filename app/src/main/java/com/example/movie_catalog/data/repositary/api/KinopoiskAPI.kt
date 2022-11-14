@@ -20,7 +20,6 @@ interface KinopoiskAPI {
     @GET("/api/v2.2/films/premieres?page=$pageSize")
     suspend fun getPremieres(@Query("year") year:Int, @Query("month") month: String): Premieres
 
-
     companion object{
         const val pageSize = 20
         private const val api_key = "f8b0f389-e491-48d0-8794-240a6d0bc635"

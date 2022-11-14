@@ -9,7 +9,11 @@
         android:id="@+id/navigation_home"
         android:name="com.example.movie_catalog.ui.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_navigation_home_to_listfilms"
+            app:destination="@id/listfilms" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_search"
@@ -22,4 +26,13 @@
         android:name="com.example.movie_catalog.ui.profile.ProfileFragment"
         android:label="profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/listfilms"
+        android:name="com.example.movie_catalog.ui.full_list_films.ListFilmsFragment"
+        android:label="fragment_listfilms"
+        tools:layout="@layout/fragment_listfilms" >
+        <action
+            android:id="@+id/action_listfilms_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
 </navigation>
