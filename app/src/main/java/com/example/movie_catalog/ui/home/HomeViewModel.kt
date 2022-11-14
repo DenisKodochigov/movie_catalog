@@ -4,8 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.data.repositary.DataRepository
-import com.example.movie_catalog.entity.Film
-import com.example.movie_catalog.entity.FilmList
+import com.example.movie_catalog.entity.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +19,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
 
     private var _genreMap = MutableStateFlow<Map<String, String>>(emptyMap())
     var genreMap = _genreMap.asStateFlow()
-    private var _premieres = MutableStateFlow<List<Film>>(emptyList())
+    private var _premieres = MutableStateFlow(Premieres())
     var premieres = _premieres.asStateFlow()
 
     init {
@@ -34,7 +33,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                 dataRepository.getGenres()
             }.fold(
                 onSuccess = {_genreMap.value = it },
-                onFailure = { Log.d("HomeViewModel",it.message ?: "")}
+                onFailure = { Log.d("KDS",it.message ?: "")}
             )
         }
     }
@@ -45,7 +44,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                 dataRepository.getPremieres()
             }.fold(
                 onSuccess = {_premieres.value = it },
-                onFailure = { Log.d("HomeViewModel",it.message ?: "")}
+                onFailure = { Log.d("KDS",it.message ?: "")}
             )
         }
     }

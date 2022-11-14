@@ -6,5 +6,9 @@
     <string name="name_movie">name_movie</string>
     <string name="genre_movie">genre_movie</string>
     <string name="kit_name">KIT NAME</string>
-    <string name="show_all">show_all</string>
+    <string name="show_all">Все</string>
+    <string name="premieres">Премьеры</string>
+    <string name="popular">Популярное</string>
+    <string name="top">Top 250</string>
+    <string name="serials">Сериалы</string>
 </resources>
