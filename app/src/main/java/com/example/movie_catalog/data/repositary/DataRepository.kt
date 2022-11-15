@@ -5,8 +5,7 @@ import android.icu.text.SimpleDateFormat
 import android.util.Log
 import com.example.movie_catalog.Constants.PREMIERES_WEEKS
 import com.example.movie_catalog.data.repositary.api.retrofitApi
-import com.example.movie_catalog.entity.MonthKinopoisk
-import com.example.movie_catalog.entity.Premieres
+import com.example.movie_catalog.entity.*
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -20,8 +19,18 @@ class DataRepository @Inject constructor() {
             .replaceFirstChar { it.uppercase() } + " " + genreList.countries?.random()?.country.toString()
         val genre2 = genreList.genres?.random()?.genre.toString()
             .replaceFirstChar { it.uppercase() } + " " + genreList.countries?.random()?.country.toString()
-        Log.d("KDS", "genre1=$genre1; genre2=$genre2")
+//        Log.d("KDS", "genre1=$genre1; genre2=$genre2")
         return mapOf("genre1" to genre1, "genre2" to genre2)
+    }
+
+    suspend fun getFilmInfo(id: Int):FilmInfoSeasons{
+        val filmInfoSeasons = FilmInfoSeasons()
+        filmInfoSeasons.filmInfo = retrofitApi.getFilmInfo(id)
+        Log.d("KDS1", "filmInfoSeasons = ${filmInfoSeasons.toString()}")
+        if (filmInfoSeasons.filmInfo!!.serial!!) {
+            filmInfoSeasons.seasons = retrofitApi.getSeasons(id)
+        }
+        return filmInfoSeasons
     }
 
     suspend fun getPremieres(): Premieres {
@@ -29,7 +38,7 @@ class DataRepository @Inject constructor() {
         val currentYear = calendar.get(Calendar.YEAR)
         val currentMonth = MonthKinopoisk.values()[calendar.get(Calendar.MONTH)].toString()
         val premieres = retrofitApi.getPremieres(currentYear, currentMonth)
-        Log.d("KDS", "year=$currentYear, month=$currentMonth")
+//        Log.d("KDS", "year=$currentYear, month=$currentMonth")
         return selectPremieresTwoWeeks(premieres)
     }
 

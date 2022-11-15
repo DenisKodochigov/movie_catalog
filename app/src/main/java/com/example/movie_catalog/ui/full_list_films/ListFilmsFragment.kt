@@ -10,7 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.movie_catalog.databinding.FragmentListfilmsBinding
 import com.example.movie_catalog.ui.home.recyclerView.FilmFullListAdapter
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -23,7 +22,7 @@ class ListFilmsFragment : Fragment() {
     private val premieresAdapter = FilmFullListAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?): View? {
+        savedInstanceState: Bundle?): View {
         _binding = FragmentListfilmsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -34,6 +33,10 @@ class ListFilmsFragment : Fragment() {
         binding.filmRecyclerVertical.adapter = premieresAdapter
         viewModel.premieres.onEach {
             premieresAdapter.setListFilm(it.items)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+        viewModel.premieresLoading.onEach {
+            if (it) binding.loading.visibility = View.VISIBLE
+            else binding.loading.visibility = View.INVISIBLE
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
     override fun onDestroyView() {

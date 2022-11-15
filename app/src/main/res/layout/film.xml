@@ -16,12 +16,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/name_film"
         app:cardCornerRadius="6dp">
+
         <ImageView
             android:id="@+id/poster"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:contentDescription="@string/poster_small"
             tools:background="@color/background_card"
-        />
+            tools:ignore="ImageContrastCheck" />
     </androidx.cardview.widget.CardView>
 
     <TextView
@@ -30,18 +32,20 @@
         android:layout_width="111dp"
         android:hint="@string/name_movie"
         android:paddingTop="8dp"
+        android:textColorHint="#78909C"
         app:layout_constraintEnd_toEndOf="@id/cv_poster"
         app:layout_constraintStart_toStartOf="@id/cv_poster"
         app:layout_constraintTop_toBottomOf="@id/cv_poster"
         app:textAllCaps="false" />
+
     <TextView
         android:id="@+id/genre_film"
+        style="@style/textApp.movie_genre"
         android:layout_width="111dp"
         android:hint="@string/genre_movie"
-        style = "@style/textApp.movie_genre"
-        app:layout_constraintTop_toBottomOf="@id/name_film"
-        app:layout_constraintStart_toStartOf="@id/cv_poster"
+        android:textColorHint="#757575"
         app:layout_constraintEnd_toEndOf="@id/cv_poster"
-        />
+        app:layout_constraintStart_toStartOf="@id/cv_poster"
+        app:layout_constraintTop_toBottomOf="@id/name_film" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,6 +18,8 @@ class ListfilmsViewModel @Inject constructor(): ViewModel() {
 
     private var _premieres = MutableStateFlow(Premieres())
     var premieres = _premieres.asStateFlow()
+    private var _premieresLoading = MutableStateFlow(false)
+    var premieresLoading = _premieresLoading.asStateFlow()
 
     init {
         getPremieres()

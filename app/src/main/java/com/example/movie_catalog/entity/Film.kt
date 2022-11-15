@@ -1,8 +1,11 @@
 package com.example.movie_catalog.entity
 
+import android.os.Parcelable
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @JsonClass(generateAdapter = true)
 data class Film(
     @Json(name = "kinopoiskId") val kinopoiskId:Int? = null,
@@ -15,4 +18,4 @@ data class Film(
     @Json(name = "genres") val genres:List<Genre> = emptyList(),
     @Json(name = "duration") val duration:Int? = null,
     @Json(name = "premiereRu") val premiereRu:String? = null,
-)
+): Parcelable

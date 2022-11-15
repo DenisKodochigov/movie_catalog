@@ -11,4 +11,17 @@
     <string name="popular">Популярное</string>
     <string name="top">Top 250</string>
     <string name="serials">Сериалы</string>
+    <string name="poster_small">poster_small</string>
+    <string name="poster_big">poster_big</string>
+    <string name="logotype">Logotype</string>
+    <string name="nameru">nameRu</string>
+    <string name="nameen">nameEn</string>
+    <string name="poster_yeargenreother">poster_yearGenreOther</string>
+    <string name="icon_favorite">icon_favorite</string>
+    <string name="icon_bookmark">icon_bookmark</string>
+    <string name="icon_viewed">icon_viewed</string>
+    <string name="icon_share">icon_share</string>
+    <string name="icon_other">icon_other</string>
+    <string name="the_film_starred">The film starred</string>
+    <string name="descriptions_film">Descriptions film</string>
 </resources>

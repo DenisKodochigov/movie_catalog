@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_navigation_home_to_listfilms"
             app:destination="@id/listfilms" />
+        <action
+            android:id="@+id/action_navigation_home_to_filmInfoFragment"
+            app:destination="@id/filmInfoFragment" />
     </fragment>
 
     <fragment
@@ -33,6 +36,20 @@
         tools:layout="@layout/fragment_listfilms" >
         <action
             android:id="@+id/action_listfilms_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_listfilms_to_filmInfoFragment"
+            app:destination="@id/filmInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/filmInfoFragment"
+        android:name="com.example.movie_catalog.ui.film_info.FilmInfoFragment"
+        android:label="FilmInfoFragment" >
+        <action
+            android:id="@+id/action_filmInfoFragment_to_listfilms"
+            app:destination="@id/listfilms" />
+        <action
+            android:id="@+id/action_filmInfoFragment_to_navigation_home"
             app:destination="@id/navigation_home" />
     </fragment>
 </navigation>

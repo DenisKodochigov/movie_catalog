@@ -1,11 +1,14 @@
 package com.example.movie_catalog.data.repositary.api
 
+import com.example.movie_catalog.entity.FilmInfo
 import com.example.movie_catalog.entity.ListGenres
 import com.example.movie_catalog.entity.Premieres
+import com.example.movie_catalog.entity.Seasons
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 private const val SERVER_API = "https://kinopoiskapiunofficial.tech"
@@ -17,8 +20,16 @@ interface KinopoiskAPI {
     suspend fun getGenres(): ListGenres
 
     @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
-    @GET("/api/v2.2/films/premieres?page=$pageSize")
+    @GET("/api/v2.2/films/premieres")
     suspend fun getPremieres(@Query("year") year:Int, @Query("month") month: String): Premieres
+
+    @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
+    @GET("/api/v2.2/films/{id}")
+    suspend fun getFilmInfo(@Path("id") id:Int): FilmInfo
+
+    @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
+    @GET("/api/v2.2/films/{id}")
+    suspend fun getSeasons(@Path("id") id:Int): Seasons
 
     companion object{
         const val pageSize = 20
