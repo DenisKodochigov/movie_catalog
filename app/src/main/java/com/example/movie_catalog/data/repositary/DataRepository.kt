@@ -26,7 +26,7 @@ class DataRepository @Inject constructor() {
     suspend fun getFilmInfo(id: Int):FilmInfoSeasons{
         val filmInfoSeasons = FilmInfoSeasons()
         filmInfoSeasons.filmInfo = retrofitApi.getFilmInfo(id)
-        Log.d("KDS1", "filmInfoSeasons = ${filmInfoSeasons.toString()}")
+//        Log.d("KDS1", "filmInfoSeasons = ${filmInfoSeasons.toString()}")
         if (filmInfoSeasons.filmInfo!!.serial!!) {
             filmInfoSeasons.seasons = retrofitApi.getSeasons(id)
         }

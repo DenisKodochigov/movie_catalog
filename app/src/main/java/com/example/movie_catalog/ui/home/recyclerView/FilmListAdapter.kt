@@ -1,6 +1,7 @@
 package com.example.movie_catalog.ui.home.recyclerView
 
 import android.annotation.SuppressLint
+import android.graphics.drawable.AnimationDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -30,6 +31,7 @@ class FilmListAdapter @Inject constructor( private val onClick: (Film) -> Unit
     override fun onBindViewHolder(holder: FilmViewHolder, position: Int) {
         var genreTxt = ""
         val film = films.getOrNull(position)
+
         //Set film name
         holder.binding.nameFilm.text = film?.nameRu ?: ""
         //Set film genres.
@@ -38,10 +40,22 @@ class FilmListAdapter @Inject constructor( private val onClick: (Film) -> Unit
                      else { genreTxt + ", " + it.genre.toString()}
         }
         holder.binding.genreFilm.text = genreTxt
-        //Load small poster.
-        film?.let {
-            Glide.with(holder.binding.poster).load(it.posterUrlPreview).into(holder.binding.poster)
+
+        //Load small poster. Before load image, show waiting animation.
+        val animationCard = holder.binding.poster.background as AnimationDrawable
+        if (film?.posterUrlPreview == null) {
+            animationCard.apply {
+                setEnterFadeDuration(1000)
+                setExitFadeDuration(1000)
+                start()
+            }
+        }else{
+            film?.let {
+                Glide.with(holder.binding.poster).load(it.posterUrlPreview).into(holder.binding.poster)
+                animationCard.stop()
+            }
         }
+
 
         //Set action on click item recyclerView
         holder.binding.root.setOnClickListener {

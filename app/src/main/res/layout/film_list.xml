@@ -26,21 +26,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
-    <FrameLayout
-        android:id="@+id/loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/film_recycler_horizontal"
-        app:layout_constraintEnd_toEndOf="@id/film_recycler_horizontal"
-        app:layout_constraintTop_toTopOf="@id/film_recycler_horizontal"
-        app:layout_constraintBottom_toBottomOf="@id/film_recycler_horizontal"
-        android:visibility="invisible">
-        <ProgressBar
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
-    </FrameLayout>
-
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/show_all"
         style = "@style/textApp.show_all"

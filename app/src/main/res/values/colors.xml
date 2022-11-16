@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="background_card">#B5B5C9</color>
+    <color name="gradient_dark">#C16C6C6C</color>
+    <color name="gradient_light">#C1BAB9B9</color>
 </resources>

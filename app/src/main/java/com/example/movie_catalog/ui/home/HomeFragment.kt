@@ -1,5 +1,6 @@
 package com.example.movie_catalog.ui.home
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -53,19 +54,18 @@ class HomeFragment: Fragment() {
         //Get list premier films
         processingPremieres()
     }
+
     private fun onItemClick(film: Film) {
         setFragmentResult("requestKey", bundleOf("FILM" to film))
         filmApp = film
         findNavController().navigate(R.id.action_navigation_home_to_filmInfoFragment)
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private fun processingPremieres(){
         binding.premierKit.filmRecyclerHorizontal.adapter = premieresAdapter
         binding.premierKit.kitName.text=getText(R.string.premieres)
-        binding.premierKit.loading.visibility = View.VISIBLE
-
-        homeViewModel.premieres.onEach {
-            binding.premierKit.loading.visibility = View.INVISIBLE
+           homeViewModel.premieres.onEach {
             premieresAdapter.setListFilm(it.items)
             if (it.items.size>QTY_CARD) binding.premierKit.showAll.visibility = View.VISIBLE
             else binding.premierKit.showAll.visibility = View.INVISIBLE
@@ -77,7 +77,6 @@ class HomeFragment: Fragment() {
     }
 
     private fun initAdapters(){
-
 //        binding.popularKit.filmRecyclerHorizontal.adapter = popularAdapter
 //        binding.random1Kit.filmRecyclerHorizontal.adapter = random1Adapter
 //        binding.random2Kit.filmRecyclerHorizontal.adapter = random2Adapter
@@ -95,6 +94,7 @@ class HomeFragment: Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
     companion object {
         fun newInstance() = HomeFragment()
     }

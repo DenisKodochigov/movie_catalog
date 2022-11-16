@@ -3,14 +3,23 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="poster_logo_top">240dp</dimen>
-    <dimen name="poster_logo_bottom">16dp</dimen>
+    <dimen name="poster_logo_bottom_v1">16dp</dimen>
+    <dimen name="poster_logo_bottom">80dp</dimen>
     <dimen name="poster_image_height">400dp</dimen>
     <dimen name="poster_icon_end">28dp</dimen>
     <dimen name="poster_linear_icon_top">16dp</dimen>
     <dimen name="poster_linear_icon_bottom">28dp</dimen>
-    <dimen name="poster_name_top">296dp</dimen>
-    <dimen name="poster_yearGenreOther_top">4dp</dimen>
-    <dimen name="poster_yearGenreOther_bottom">16dp</dimen>
+    <dimen name="poster_name_top">16dp</dimen>
+    <dimen name="poster_yearGenreOther_top">16dp</dimen>
+    <dimen name="poster_yearGenreOther_bottom">4dp</dimen>
     <dimen name="description_margin_hor">26dp</dimen>
-    <dimen name="description_margin_top">40dp</dimen>
+    <dimen name="description_margin_top">16dp</dimen>
+    <dimen name="short_description_margin_top">40dp</dimen>
+    <dimen name="card_film_width">111dp</dimen>
+    <dimen name="card_film_height">157dp</dimen>
+    <dimen name="card_film_radius">6dp</dimen>
+    <dimen name="card_film_name_marTop">8dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="ratio_wave">300dp</dimen>
+
 </resources>

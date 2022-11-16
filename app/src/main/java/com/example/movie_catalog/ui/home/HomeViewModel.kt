@@ -7,6 +7,7 @@ import com.example.movie_catalog.data.repositary.DataRepository
 import com.example.movie_catalog.entity.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -19,7 +20,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
 
     private var _genreMap = MutableStateFlow<Map<String, String>>(emptyMap())
     var genreMap = _genreMap.asStateFlow()
-    private var _premieres = MutableStateFlow(Premieres())
+    private var _premieres = MutableStateFlow(premieresStart)
     var premieres = _premieres.asStateFlow()
 
     init {
@@ -28,6 +29,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun getGenres() {
+
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 dataRepository.getGenres()
@@ -47,5 +49,12 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                 onFailure = { Log.d("KDS",it.message ?: "")}
             )
         }
+    }
+
+    companion object {
+        var listFilm = mutableListOf(Film(),Film(),Film(),Film(),Film(),Film(),Film(),Film(),
+            Film(),Film(),Film(),Film(),Film(),Film(),Film(),Film(),Film(),Film(),Film(),Film(),)
+        var premieresStart = Premieres(total = 20, items = listFilm)
+
     }
 }
