@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.example.movie_catalog.databinding.FragmentTestBinding
+import com.example.movie_catalog.databinding.ItemRecyclerFragmentTestBinding
 import com.example.movie_catalog.ui.placeholder.PlaceholderContent.PlaceholderItem
 
 
@@ -15,7 +15,7 @@ class MytestRecyclerViewAdapter( private val values: List<PlaceholderItem>
 ) : RecyclerView.Adapter<MytestRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(FragmentTestBinding.inflate(LayoutInflater.from(parent.context), parent, false ))
+        return ViewHolder(ItemRecyclerFragmentTestBinding.inflate(LayoutInflater.from(parent.context), parent, false ))
     }
 
     @SuppressLint("SuspiciousIndentation")
@@ -34,7 +34,7 @@ class MytestRecyclerViewAdapter( private val values: List<PlaceholderItem>
 
     override fun getItemCount(): Int = values.size
 
-    inner class ViewHolder(binding: FragmentTestBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(binding: ItemRecyclerFragmentTestBinding) : RecyclerView.ViewHolder(binding.root) {
         val idView: TextView = binding.itemNumber
         val contentView: TextView = binding.content
         val imageView: ImageView = binding.poster

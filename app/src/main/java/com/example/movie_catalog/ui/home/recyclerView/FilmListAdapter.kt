@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movie_catalog.Constants.QTY_CARD
-import com.example.movie_catalog.databinding.FilmBinding
+import com.example.movie_catalog.databinding.ItemRecyclerFilmListBinding
 import com.example.movie_catalog.entity.Film
 import javax.inject.Inject
 
@@ -24,7 +24,7 @@ class FilmListAdapter @Inject constructor( private val onClick: (Film) -> Unit
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmViewHolder {
         return FilmViewHolder(
-            FilmBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemRecyclerFilmListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 
@@ -74,4 +74,4 @@ class FilmListAdapter @Inject constructor( private val onClick: (Film) -> Unit
     }
 }
 
-class FilmViewHolder(val binding: FilmBinding) : RecyclerView.ViewHolder(binding.root)
+class FilmViewHolder(val binding: ItemRecyclerFilmListBinding) : RecyclerView.ViewHolder(binding.root)

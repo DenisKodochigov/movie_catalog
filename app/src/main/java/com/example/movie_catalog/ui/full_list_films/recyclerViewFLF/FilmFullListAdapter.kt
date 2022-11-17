@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.movie_catalog.databinding.FilmBinding
+import com.example.movie_catalog.databinding.ItemRecyclerFilmListBinding
 import com.example.movie_catalog.entity.Film
 
 class FilmFullListAdapter : RecyclerView.Adapter<FilmFullListViewHolder>() {
@@ -20,7 +20,7 @@ class FilmFullListAdapter : RecyclerView.Adapter<FilmFullListViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmFullListViewHolder {
         return FilmFullListViewHolder(
-            FilmBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemRecyclerFilmListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 
@@ -44,4 +44,4 @@ class FilmFullListAdapter : RecyclerView.Adapter<FilmFullListViewHolder>() {
     override fun getItemCount()=films.size
 }
 
-class FilmFullListViewHolder(val binding: FilmBinding) : RecyclerView.ViewHolder(binding.root)
+class FilmFullListViewHolder(val binding: ItemRecyclerFilmListBinding) : RecyclerView.ViewHolder(binding.root)

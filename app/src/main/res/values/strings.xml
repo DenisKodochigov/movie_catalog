@@ -26,4 +26,6 @@
     <string name="descriptions_film">Descriptions film</string>
     <string name="poster_rating_name_ru_film">Rating, name RU film</string>
     <string name="poster_show_logotype_film">Show Logotype film</string>
+    <string name="search">Search</string>
+    <string name="profile">Profile</string>
 </resources>

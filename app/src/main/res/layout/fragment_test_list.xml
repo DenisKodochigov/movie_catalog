@@ -11,4 +11,4 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context=".ui.test.TestFragment"
-    tools:listitem="@layout/fragment_test" />
+    tools:listitem="@layout/item_recycler_fragment_test" />

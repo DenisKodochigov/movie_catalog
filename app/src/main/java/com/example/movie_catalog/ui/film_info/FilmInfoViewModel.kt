@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.App.Companion.filmApp
 import com.example.movie_catalog.data.repositary.DataRepository
-import com.example.movie_catalog.entity.FilmInfo
 import com.example.movie_catalog.entity.FilmInfoSeasons
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

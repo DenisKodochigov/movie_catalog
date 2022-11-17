@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -15,15 +18,22 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/description_margin_top"/>
 
-        <TextView android:id="@+id/short_description_film"
+        <TextView
+            android:id="@+id/short_description_film"
             style="@style/textApp.short_description"
-            android:hint="@string/descriptions_film"/>
-        <TextView android:id="@+id/description_film"
-            style="@style/textApp.description"
-            android:hint="@string/descriptions_film"/>
+            android:minHeight="48dp"
+            tools:ignore="TextContrastCheck,DuplicateSpeakableTextCheck" />
 
-        <TextView android:id="@+id/starred"
+        <TextView
+            android:id="@+id/description_film"
+            style="@style/textApp.description"
+            android:minHeight="48dp"
+            tools:ignore="TextContrastCheck" />
+
+        <TextView
+            android:id="@+id/starred"
             style="@style/textApp.starred"
-            android:hint="@string/the_film_starred" />
+            android:hint="@string/the_film_starred"
+            tools:ignore="TextContrastCheck" />
     </LinearLayout>
 </ScrollView>
