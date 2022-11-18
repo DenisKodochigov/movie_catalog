@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp">
+    android:layout_margin="@dimen/card_film_name_marTop">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_poster"
@@ -27,18 +27,17 @@
 
     <TextView
         android:id="@+id/name_film"
-        style="@style/textApp.movie_name"
-        android:layout_width="111dp"
+        style="@style/H4_home"
+        android:layout_width="@dimen/card_film_width"
         android:hint="@string/name_movie"
         android:layout_marginTop="@dimen/card_film_name_marTop"
         app:layout_constraintEnd_toEndOf="@id/cv_poster"
         app:layout_constraintStart_toStartOf="@id/cv_poster"
-        app:layout_constraintTop_toBottomOf="@id/cv_poster"
-        app:textAllCaps="false" />
+        app:layout_constraintTop_toBottomOf="@id/cv_poster"/>
 
     <TextView
         android:id="@+id/genre_film"
-        style="@style/textApp.movie_genre"
+        style="@style/H5_home"
         android:layout_width="@dimen/card_film_width"
         android:hint="@string/genre_movie"
         app:layout_constraintEnd_toEndOf="@id/cv_poster"

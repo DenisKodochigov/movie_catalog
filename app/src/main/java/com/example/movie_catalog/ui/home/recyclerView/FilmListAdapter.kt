@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movie_catalog.Constants.QTY_CARD
 import com.example.movie_catalog.databinding.ItemRecyclerFilmListBinding
-import com.example.movie_catalog.entity.Film
+import com.example.movie_catalog.entity.home.premieres.Film
 import javax.inject.Inject
 
 class FilmListAdapter @Inject constructor( private val onClick: (Film) -> Unit
@@ -55,7 +55,6 @@ class FilmListAdapter @Inject constructor( private val onClick: (Film) -> Unit
                 animationCard.stop()
             }
         }
-
 
         //Set action on click item recyclerView
         holder.binding.root.setOnClickListener {

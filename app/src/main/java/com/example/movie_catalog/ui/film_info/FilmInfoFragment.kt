@@ -8,13 +8,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.movie_catalog.App
+import com.example.movie_catalog.Constants
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentFilmInfoBinding
-import com.example.movie_catalog.entity.FilmInfoSeasons
+import com.example.movie_catalog.entity.filminfo.FilmInfoSeasons
+import com.example.movie_catalog.entity.filminfo.person.Person
+import com.example.movie_catalog.ui.film_info.recyclerView.PersonAdapter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -22,6 +31,8 @@ class FilmInfoFragment : Fragment() {
 
     private var _binding: FragmentFilmInfoBinding? = null
     private val binding get() = _binding!!
+    private val actorAdapter = PersonAdapter{person -> onPersonClick(person)}
+    private val staffAdapter = PersonAdapter{person -> onPersonClick(person)}
     private val viewModel: FilmInfoViewModel by viewModels()
 
     override fun onCreateView(
@@ -38,6 +49,45 @@ class FilmInfoFragment : Fragment() {
             if (it.filmInfo != null) fillMaket(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
+        processingPerson()
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun processingPerson(){
+        binding.actors.personRecycler.layoutManager= GridLayoutManager(context,5,
+                                                                RecyclerView.HORIZONTAL,false)
+        binding.actors.tvHeader.text = getText(R.string.header_actor)
+        binding.actors.personRecycler.adapter = actorAdapter
+
+        binding.staff.personRecycler.layoutManager= GridLayoutManager(context,5,
+                                                                RecyclerView.HORIZONTAL,false)
+        binding.staff.tvHeader.text = getText(R.string.header_staff)
+        binding.staff.personRecycler.adapter = staffAdapter
+
+        viewModel.actors.onEach {
+            actorAdapter.setListFilm(it.filter { person -> person.professionKey == "ACTOR" })
+            var sizeList = it.filter { person -> person.professionKey == "ACTOR" }.size
+            if (it.filter { person -> person.professionKey == "ACTOR" }.size> Constants.QTY_CARD) {
+                binding.actors.tvQuantityActor.visibility = View.VISIBLE
+                binding.actors.tvQuantityActor.text = "$sizeList >"
+            } else {
+                binding.actors.tvQuantityActor.visibility = View.INVISIBLE
+            }
+
+            staffAdapter.setListFilm(it.filter { person -> person.professionKey != "ACTOR" })
+            sizeList = it.filter { person -> person.professionKey != "ACTOR" }.size
+            if (sizeList > Constants.QTY_CARD) {
+                binding.staff.tvQuantityActor.visibility = View.VISIBLE
+                binding.staff.tvQuantityActor.text = "$sizeList >"
+            } else {
+                binding.staff.tvQuantityActor.visibility = View.INVISIBLE
+            }
+
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+//        binding.actors.tvQuantityActor.setOnClickListener {
+//            findNavController().navigate(R.id.action_navigation_home_to_listfilms)
+//        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -108,7 +158,7 @@ class FilmInfoFragment : Fragment() {
         }
 //Show full description
         if (filmInfo.description != null){
-            if (binding.shortDescriptionFilm.text.length != 0) {
+            if (binding.shortDescriptionFilm.text.isNotEmpty()) {
                 binding.descriptionFilm.text = filmInfo.description.toString()
             } else{
                 binding.descriptionFilm.text = filmInfo.description.substringAfter(".")
@@ -117,6 +167,12 @@ class FilmInfoFragment : Fragment() {
         } else {
             binding.descriptionFilm.visibility = View.INVISIBLE
         }
+    }
+
+    private fun onPersonClick(person: Person) {
+        setFragmentResult("requestKey", bundleOf("FILM" to person))
+        App.personApp = person
+        findNavController().navigate(R.id.action_filmInfoFragment_to_actorFragment)
     }
 
     override fun onDestroyView() {

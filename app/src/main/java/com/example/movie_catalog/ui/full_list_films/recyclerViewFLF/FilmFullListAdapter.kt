@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movie_catalog.databinding.ItemRecyclerFilmListBinding
-import com.example.movie_catalog.entity.Film
+import com.example.movie_catalog.entity.home.premieres.Film
 
 class FilmFullListAdapter : RecyclerView.Adapter<FilmFullListViewHolder>() {
 

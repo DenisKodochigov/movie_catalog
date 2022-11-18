@@ -1,4 +1,4 @@
-package com.example.movie_catalog.entity
+package com.example.movie_catalog.entity.home.getKit
 
 import android.os.Parcelable
 import com.squareup.moshi.Json
@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 @JsonClass(generateAdapter = true)
-data class Kitcinema (
-        @Json(name = "name") val name: String? = null
+data class GenreID(
+    @Json(name = "id") val id:Int? = null,
+    @Json(name = "genre") val genre:String?=null
 ) : Parcelable
-

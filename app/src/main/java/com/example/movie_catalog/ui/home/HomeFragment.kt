@@ -17,7 +17,7 @@ import com.example.movie_catalog.App.Companion.filmApp
 import com.example.movie_catalog.Constants.QTY_CARD
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentHomeBinding
-import com.example.movie_catalog.entity.Film
+import com.example.movie_catalog.entity.home.premieres.Film
 import com.example.movie_catalog.ui.home.recyclerView.FilmListAdapter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -35,8 +35,8 @@ class HomeFragment: Fragment() {
 //    private val serialAdapter = FilmListAdapter{film -> onItemClick(film)}
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text = ""
         return binding.root
@@ -44,16 +44,16 @@ class HomeFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (activity as AppCompatActivity).supportActionBar?.title = ""
-        (activity as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(false)
+//        (activity as AppCompatActivity).supportActionBar?.title = ""
+//        (activity as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(false)
         initAdapters()
         initKitFilms()
         //Get data for two random kit cinema
 
         homeViewModel.genreMap.onEach {
             //Get data for two random kit cinema
-            binding.random1Kit.kitName.text = it["genre1"].toString()
-            binding.random2Kit.kitName.text = it["genre2"].toString()
+            if (it["genre1"] != null) binding.random1Kit.kitName.text = it["genre1"].toString()
+            if (it["genre2"] != null) binding.random2Kit.kitName.text = it["genre2"].toString()
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         //Get list premier films
@@ -93,6 +93,8 @@ class HomeFragment: Fragment() {
         binding.popularKit.kitName.text=getText(R.string.popular)
         binding.top250Kit.kitName.text=getText(R.string.top )
         binding.serialKit.kitName.text=getText(R.string.serials)
+        binding.random1Kit.kitName.text = getText(R.string.random1)
+        binding.random2Kit.kitName.text = getText(R.string.random2)
     }
 
     override fun onDestroyView() {

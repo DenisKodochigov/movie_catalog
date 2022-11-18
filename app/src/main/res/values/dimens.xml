@@ -2,6 +2,7 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
     <dimen name="poster_logo_top">240dp</dimen>
     <dimen name="poster_logo_bottom_v1">16dp</dimen>
     <dimen name="poster_logo_bottom">80dp</dimen>
@@ -12,14 +13,30 @@
     <dimen name="poster_name_top">16dp</dimen>
     <dimen name="poster_yearGenreOther_top">16dp</dimen>
     <dimen name="poster_yearGenreOther_bottom">4dp</dimen>
-    <dimen name="description_margin_hor">26dp</dimen>
-    <dimen name="description_margin_top">16dp</dimen>
-    <dimen name="short_description_margin_top">40dp</dimen>
+
+    <dimen name="margin_1">28dp</dimen>
+    <dimen name="margin_app_hor">26dp</dimen>
+    <dimen name="margin_app_top">16dp</dimen>
+    <dimen name="margin_top_h5_filminfo">4dp</dimen>
+    <dimen name="margin_top_h5_home">2dp</dimen>
+    <dimen name="margin_top_display">0dp</dimen>
+
     <dimen name="card_film_width">111dp</dimen>
     <dimen name="card_film_height">157dp</dimen>
     <dimen name="card_film_radius">6dp</dimen>
     <dimen name="card_film_name_marTop">8dp</dimen>
+
+    <dimen name="card_actor_width">49dp</dimen>
+    <dimen name="card_actor_height">68dp</dimen>
+    <dimen name="card_actor_total_width">215dp</dimen>
+    <dimen name="card_actor_actor_width">126dp</dimen>
+    <dimen name="card_actor_radius">6dp</dimen>
+    <dimen name="card_actor_name_marTop">4dp</dimen>
+    <dimen name="card_actor_name_marHor">16dp</dimen>
+    <dimen name="card_person_recycler_marTop">32dp</dimen>
+
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="short_description_margin_top">40dp</dimen>
     <dimen name="ratio_wave">300dp</dimen>
 
 </resources>

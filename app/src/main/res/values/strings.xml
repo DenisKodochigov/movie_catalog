@@ -5,16 +5,26 @@
     <string name="title_notifications">Notifications</string>
     <string name="name_movie">Название фильма</string>
     <string name="genre_movie">Жанр фильма</string>
+
     <string name="kit_name">KIT NAME</string>
     <string name="show_all">Все</string>
+    <string name="quantity_starred">Участники</string>
+
     <string name="premieres">Премьеры</string>
     <string name="popular">Популярное</string>
     <string name="top">Top 250</string>
     <string name="serials">Сериалы</string>
+    <string name="random1">Подборка 1</string>
+    <string name="random2">Подборка 2</string>
+
+    <string name="card_starred_actor">Актер</string>
+    <string name="card_starred_role">Роль</string>
+    <string name="card_starred_photo">Фотография актера</string>
+
     <string name="poster_small">poster_small</string>
     <string name="poster_big">poster_big</string>
     <string name="logotype">Logotype</string>
-    <string name="nameru">Ркское название фильма</string>
+    <string name="nameru">Руское название фильма</string>
     <string name="nameen">Английское название фильма</string>
     <string name="poster_yeargenreother">poster_yearGenreOther</string>
     <string name="icon_favorite">icon_favorite</string>
@@ -22,10 +32,14 @@
     <string name="icon_viewed">icon_viewed</string>
     <string name="icon_share">icon_share</string>
     <string name="icon_other">icon_other</string>
-    <string name="the_film_starred">The film starred</string>
+    <string name="the_film_starred">В фильме снимались</string>
     <string name="descriptions_film">Descriptions film</string>
     <string name="poster_rating_name_ru_film">Rating, name RU film</string>
     <string name="poster_show_logotype_film">Show Logotype film</string>
     <string name="search">Search</string>
     <string name="profile">Profile</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="header_actor">В фильме снимались</string>
+    <string name="header_staff">Над фильмом работали</string>
 </resources>

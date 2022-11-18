@@ -4,10 +4,10 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.data.repositary.DataRepository
-import com.example.movie_catalog.entity.*
+import com.example.movie_catalog.entity.home.premieres.Film
+import com.example.movie_catalog.entity.home.premieres.Premieres
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -52,8 +52,27 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     }
 
     companion object {
-        var listFilm = mutableListOf(Film(),Film(),Film(),Film(),Film(),Film(),Film(),Film(),
-            Film(),Film(),Film(),Film(),Film(),Film(),Film(),Film(),Film(),Film(),Film(),Film(),)
+        var listFilm = mutableListOf(
+            Film(),
+            Film(),
+            Film(),
+            Film(),
+            Film(),
+            Film(),
+            Film(),
+            Film(),
+            Film(),
+            Film(),
+            Film(),
+            Film(),
+            Film(),
+            Film(),
+            Film(),
+            Film(),
+            Film(),
+            Film(),
+            Film(),
+            Film(),)
         var premieresStart = Premieres(total = 20, items = listFilm)
 
     }

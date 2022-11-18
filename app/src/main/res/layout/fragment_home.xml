@@ -5,7 +5,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         tools:context=".ui.home.HomeFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/margin_top_display">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,38 +26,37 @@
 
             <include
                 android:id="@+id/premier_kit"
-                layout="@layout/fragment_home_film_list"
+                layout="@layout/include_film_list_fragment_home"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="47dp" />
+                android:layout_height="wrap_content" />
 
             <include
                 android:id="@+id/popular_kit"
-                layout="@layout/fragment_home_film_list"
+                layout="@layout/include_film_list_fragment_home"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <include
                 android:id="@+id/random1_kit"
-                layout="@layout/fragment_home_film_list"
+                layout="@layout/include_film_list_fragment_home"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <include
                 android:id="@+id/random2_kit"
-                layout="@layout/fragment_home_film_list"
+                layout="@layout/include_film_list_fragment_home"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <include
                 android:id="@+id/top250_kit"
-                layout="@layout/fragment_home_film_list"
+                layout="@layout/include_film_list_fragment_home"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <include
                 android:id="@+id/serial_kit"
-                layout="@layout/fragment_home_film_list"
+                layout="@layout/include_film_list_fragment_home"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

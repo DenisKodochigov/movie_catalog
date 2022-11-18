@@ -8,16 +8,16 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/kit_name"
-        style="@style/textApp.kit_name"
-        android:layout_marginStart="26dp"
+        style="@style/H2"
+        android:layout_marginStart="@dimen/margin_app_hor"
         android:hint="@string/kit_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/film_recycler_horizontal"
-        android:layout_marginTop="26dp"
-        android:layout_marginStart="26dp"
+        android:layout_marginTop="@dimen/margin_app_top"
+        android:layout_marginStart="@dimen/margin_app_hor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -28,8 +28,7 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/show_all"
-        style = "@style/textApp.show_all"
-        android:layout_marginEnd="26dp"
+        style = "@style/H4_et"
         android:visibility= "invisible"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,7 +37,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="28dp"
+        android:layout_margin="@dimen/margin_1"
         app:layout_constraintTop_toBottomOf="@id/film_recycler_horizontal"
         app:layout_constraintStart_toStartOf="@id/film_recycler_horizontal"/>
 

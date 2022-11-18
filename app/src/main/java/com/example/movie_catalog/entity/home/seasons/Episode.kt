@@ -1,4 +1,4 @@
-package com.example.movie_catalog.entity
+package com.example.movie_catalog.entity.home.seasons
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass

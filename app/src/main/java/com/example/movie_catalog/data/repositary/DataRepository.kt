@@ -2,12 +2,13 @@ package com.example.movie_catalog.data.repositary
 
 import android.annotation.SuppressLint
 import android.icu.text.SimpleDateFormat
-import android.util.Log
 import com.example.movie_catalog.Constants.PREMIERES_WEEKS
 import com.example.movie_catalog.data.repositary.api.retrofitApi
 import com.example.movie_catalog.entity.*
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
+import com.example.movie_catalog.entity.filminfo.FilmInfoSeasons
+import com.example.movie_catalog.entity.filminfo.person.Person
+import com.example.movie_catalog.entity.home.MonthKinopoisk
+import com.example.movie_catalog.entity.home.premieres.Premieres
 import java.util.*
 import javax.inject.Inject
 
@@ -23,7 +24,11 @@ class DataRepository @Inject constructor() {
         return mapOf("genre1" to genre1, "genre2" to genre2)
     }
 
-    suspend fun getFilmInfo(id: Int):FilmInfoSeasons{
+    suspend fun getActors(id: Int): List<Person> {
+        return retrofitApi.getActors(id)
+    }
+
+    suspend fun getFilmInfo(id: Int): FilmInfoSeasons {
         val filmInfoSeasons = FilmInfoSeasons()
         filmInfoSeasons.filmInfo = retrofitApi.getFilmInfo(id)
 //        Log.d("KDS1", "filmInfoSeasons = ${filmInfoSeasons.toString()}")
@@ -43,7 +48,7 @@ class DataRepository @Inject constructor() {
     }
 
     @SuppressLint("SimpleDateFormat")
-    fun selectPremieresTwoWeeks(premieres: Premieres): Premieres{
+    fun selectPremieresTwoWeeks(premieres: Premieres): Premieres {
 
         //Calculate date next two weeks in milliseconds
         val currentTime=Calendar.getInstance()
