@@ -5,7 +5,7 @@ import androidx.paging.PagingState
 import com.example.movie_catalog.entity.home.top.TopFilm
 import javax.inject.Inject
 
-class TopFilmsPagedSource @Inject constructor(val type: String): PagingSource <Int, TopFilm>() {
+class TopFilmsPagedSource @Inject constructor(private val type: String): PagingSource <Int, TopFilm>() {
 
     override fun getRefreshKey(state: PagingState<Int, TopFilm>) = FIRST_PAGE
 

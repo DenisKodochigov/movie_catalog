@@ -48,14 +48,7 @@ class DataRepository @Inject constructor() {
 //        Log.d("KDS", "year=$currentYear, month=$currentMonth")
         return selectPremieresTwoWeeks(premieres)
     }
-    suspend fun getPopular(): TopFilms {
-        val page = 1
-        return retrofitApi.getTop(page,"")
-    }
-    suspend fun getTop250(): TopFilms {
-        val page = 1
-        return retrofitApi.getTop(page,"")
-    }
+
     suspend fun getFilters(country:Int, genre:Int): FilterFilm {
         val page = 1
         return retrofitApi.getFilters(country,genre,page)
