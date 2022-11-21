@@ -3,17 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="@dimen/card_actor_total_width"
+    android:layout_width="@dimen/card_people_total_width"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/card_actor_name_marTop">
+    android:layout_margin="@dimen/card_people_name_marTop">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_photo"
-        android:layout_width="@dimen/card_actor_width"
-        android:layout_height="@dimen/card_actor_height"
+        android:layout_width="@dimen/card_people_width"
+        android:layout_height="@dimen/card_people_height"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:cardCornerRadius="@dimen/card_actor_radius">
+        app:cardCornerRadius="@dimen/card_people_radius">
         <ImageView
             android:id="@+id/photo"
             android:layout_width="match_parent"
@@ -26,7 +26,7 @@
     <TextView
         android:id="@+id/tv_actor"
         style="@style/H4_"
-        android:layout_width="@dimen/card_actor_actor_width"
+        android:layout_width="@dimen/card_people_actor_width"
         android:hint="@string/card_starred_actor"
         app:layout_constraintStart_toEndOf="@id/cv_photo"
         app:layout_constraintTop_toTopOf="@id/cv_photo"
@@ -35,7 +35,7 @@
     <TextView
         android:id="@+id/tv_role"
         style="@style/H5_actor"
-        android:layout_width="@dimen/card_actor_actor_width"
+        android:layout_width="@dimen/card_people_actor_width"
         android:hint="@string/card_starred_role"
         app:layout_constraintTop_toBottomOf="@id/tv_actor"
         app:layout_constraintStart_toStartOf="@id/tv_actor"

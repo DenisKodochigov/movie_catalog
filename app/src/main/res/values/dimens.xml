@@ -26,14 +26,18 @@
     <dimen name="card_film_radius">6dp</dimen>
     <dimen name="card_film_name_marTop">8dp</dimen>
 
-    <dimen name="card_actor_width">49dp</dimen>
-    <dimen name="card_actor_height">68dp</dimen>
-    <dimen name="card_actor_total_width">215dp</dimen>
-    <dimen name="card_actor_actor_width">126dp</dimen>
-    <dimen name="card_actor_radius">6dp</dimen>
-    <dimen name="card_actor_name_marTop">4dp</dimen>
-    <dimen name="card_actor_name_marHor">16dp</dimen>
+    <dimen name="card_people_width">49dp</dimen>
+    <dimen name="card_people_height">68dp</dimen>
+    <dimen name="card_people_total_width">215dp</dimen>
+    <dimen name="card_people_actor_width">126dp</dimen>
+    <dimen name="card_people_radius">6dp</dimen>
+    <dimen name="card_people_name_marTop">4dp</dimen>
+    <dimen name="card_people_name_marHor">16dp</dimen>
     <dimen name="card_person_recycler_marTop">32dp</dimen>
+
+    <dimen name="card_gallery_width">192dp</dimen>
+    <dimen name="card_gallery_height">108dp</dimen>
+    <dimen name="card_gallery_recycler_marTop">32dp</dimen>
 
     <dimen name="text_margin">16dp</dimen>
     <dimen name="short_description_margin_top">40dp</dimen>

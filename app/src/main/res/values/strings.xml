@@ -8,7 +8,7 @@
 
     <string name="kit_name">KIT NAME</string>
     <string name="show_all">Все</string>
-    <string name="quantity_starred">Участники</string>
+    <string name="quantity_starred">Всего</string>
 
     <string name="premieres">Премьеры</string>
     <string name="popular">Популярное</string>
@@ -20,6 +20,7 @@
     <string name="card_starred_actor">Актер</string>
     <string name="card_starred_role">Роль</string>
     <string name="card_starred_photo">Фотография актера</string>
+    <string name="card_gallery_photo">Фотография кадра</string>
 
     <string name="poster_small">poster_small</string>
     <string name="poster_big">poster_big</string>
@@ -42,4 +43,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="header_actor">В фильме снимались</string>
     <string name="header_staff">Над фильмом работали</string>
+    <string name="header_gallery">Галерея</string>
 </resources>

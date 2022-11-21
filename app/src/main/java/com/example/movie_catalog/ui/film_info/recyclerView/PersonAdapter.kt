@@ -6,13 +6,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.movie_catalog.Constants
 import com.example.movie_catalog.databinding.ItemRecyclerPersonBinding
 import com.example.movie_catalog.entity.filminfo.person.Person
 import javax.inject.Inject
 
-class PersonAdapter @Inject constructor(private val onClick: (Person) -> Unit
-                    ): RecyclerView.Adapter<PersonViewHolder>()
+class PersonAdapter @Inject constructor(private val onClick: (Person) -> Unit,
+                     val sizeGird:Int, val whoteRole: Int): RecyclerView.Adapter<PersonViewHolder>()
 {
     private var people: List<Person> = emptyList()
 
@@ -30,22 +29,23 @@ class PersonAdapter @Inject constructor(private val onClick: (Person) -> Unit
 
     override fun onBindViewHolder(holder: PersonViewHolder, position: Int) {
 
-        val actor = people.getOrNull(position)
+        val person = people.getOrNull(position)
         //Set actor name
-        holder.binding.tvActor.text = actor?.nameRu ?: ""
+        holder.binding.tvActor.text = person?.nameRu ?: ""
         //Set actor role.
-        holder.binding.tvRole.text = actor?.professionText ?: ""
+        if (whoteRole == 1) holder.binding.tvRole.text = person?.description ?: ""
+        else if (whoteRole == 2) holder.binding.tvRole.text = person?.professionText ?: ""
 
         //Load small poster. Before load image, show waiting animation.
         val animationCard = holder.binding.photo.background as AnimationDrawable
-        if (actor?.posterUrl == null) {
+        if (person?.posterUrl == null) {
             animationCard.apply {
                 setEnterFadeDuration(1000)
                 setExitFadeDuration(1000)
                 start()
             }
         }else{
-            actor.let {
+            person.let {
                 Glide.with(holder.binding.photo).load(it.posterUrl).into(holder.binding.photo)
                 animationCard.stop()
             }
@@ -53,18 +53,15 @@ class PersonAdapter @Inject constructor(private val onClick: (Person) -> Unit
 
         //Set action on click item recyclerView
         holder.binding.root.setOnClickListener {
-            actor?.let {
-                onClick(actor)
+            person?.let {
+                onClick(person)
             }
         }
     }
 
     override fun getItemCount(): Int{
-        return if (people.size > Constants.QTY_CARD -1) {
-            Constants.QTY_CARD
-        }else{
-            people.size
-        }
+        return if (people.size > sizeGird -1)  sizeGird
+                else people.size
     }
 }
 

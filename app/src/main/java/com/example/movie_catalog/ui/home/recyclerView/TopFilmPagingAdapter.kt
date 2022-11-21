@@ -1,43 +1,34 @@
 package com.example.movie_catalog.ui.home.recyclerView
 
-import android.annotation.SuppressLint
 import android.graphics.drawable.AnimationDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.movie_catalog.Constants.QTY_CARD
 import com.example.movie_catalog.databinding.ItemRecyclerFilmListBinding
-import com.example.movie_catalog.entity.home.premieres.Film
+import com.example.movie_catalog.entity.home.top.TopFilm
 import javax.inject.Inject
 
-class FilmListAdapter @Inject constructor( private val onClick: (Film) -> Unit
-                                        ): RecyclerView.Adapter<FilmViewHolder>()
-{
-    private var films: List<Film> = emptyList()
+class TopFilmPagingAdapter @Inject constructor(
+    private val onClick: (TopFilm) -> Unit
+): PagingDataAdapter<TopFilm, TopFilmViewHolder>(DiffUtilCallback()) {
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun setListFilm(films: List<Film>) {
-        this.films = films
-        notifyDataSetChanged()
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopFilmViewHolder {
+        return TopFilmViewHolder( ItemRecyclerFilmListBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false))
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmViewHolder {
-        return FilmViewHolder(
-            ItemRecyclerFilmListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        )
-    }
-
-    override fun onBindViewHolder(holder: FilmViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TopFilmViewHolder, position: Int) {
         var genreTxt = ""
-        val film = films.getOrNull(position)
-
+        val film = getItem(position)
         //Set film name
         holder.binding.nameFilm.text = film?.nameRu ?: ""
         //Set film genres.
         film?.genres?.forEach {
             genreTxt = if (genreTxt == "") { it.genre.toString()}
-                     else { genreTxt + ", " + it.genre.toString()}
+            else { genreTxt + ", " + it.genre.toString()}
         }
         holder.binding.genreFilm.text = genreTxt
 
@@ -63,15 +54,13 @@ class FilmListAdapter @Inject constructor( private val onClick: (Film) -> Unit
             }
         }
     }
-
-
-    override fun getItemCount(): Int{
-        return if (films.size > QTY_CARD-1) {
-            QTY_CARD
-        }else{
-            films.size
-        }
-    }
 }
 
-class FilmViewHolder(val binding: ItemRecyclerFilmListBinding) : RecyclerView.ViewHolder(binding.root)
+class TopFilmViewHolder(val binding: ItemRecyclerFilmListBinding) : RecyclerView.ViewHolder(binding.root)
+
+class DiffUtilCallback : DiffUtil.ItemCallback<TopFilm>() {
+    override fun areItemsTheSame(oldItem: TopFilm, newItem: TopFilm): Boolean =
+        oldItem.filmId == newItem.filmId
+
+    override fun areContentsTheSame(oldItem: TopFilm, newItem: TopFilm): Boolean = oldItem == newItem
+}

@@ -14,11 +14,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.movie_catalog.App.Companion.filmApp
+import com.example.movie_catalog.App.Companion.filmAppTop
 import com.example.movie_catalog.Constants.QTY_CARD
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentHomeBinding
 import com.example.movie_catalog.entity.home.premieres.Film
+import com.example.movie_catalog.entity.home.top.TopFilm
 import com.example.movie_catalog.ui.home.recyclerView.FilmListAdapter
+import com.example.movie_catalog.ui.home.recyclerView.StateAdapterTopFilm
+import com.example.movie_catalog.ui.home.recyclerView.TopFilmPagingAdapter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -28,10 +32,10 @@ class HomeFragment: Fragment() {
     private val binding get() = _binding!!
     private val homeViewModel:HomeViewModel by viewModels()
     private val premieresAdapter = FilmListAdapter{film -> onItemClick(film)}
-//    private val popularAdapter = FilmListAdapter{film -> onItemClick(film)}
+    private val popularAdapter = TopFilmPagingAdapter{film -> onItemClickTop(film)}
+    private val top250Adapter = TopFilmPagingAdapter{film -> onItemClickTop(film)}
 //    private val random1Adapter = FilmListAdapter{film -> onItemClick(film)}
 //    private val random2Adapter = FilmListAdapter{film -> onItemClick(film)}
-//    private val topAdapter = FilmListAdapter{film -> onItemClick(film)}
 //    private val serialAdapter = FilmListAdapter{film -> onItemClick(film)}
 
     override fun onCreateView(
@@ -44,9 +48,7 @@ class HomeFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        (activity as AppCompatActivity).supportActionBar?.title = ""
-//        (activity as AppCompatActivity).supportActionBar?.setDisplayShowTitleEnabled(false)
-        initAdapters()
+
         initKitFilms()
         //Get data for two random kit cinema
 
@@ -58,12 +60,8 @@ class HomeFragment: Fragment() {
 
         //Get list premier films
         processingPremieres()
-    }
-
-    private fun onItemClick(film: Film) {
-        setFragmentResult("requestKey", bundleOf("FILM" to film))
-        filmApp = film
-        findNavController().navigate(R.id.action_navigation_home_to_filmInfoFragment)
+        processingPopular()
+        processingTop250()
     }
 
     @SuppressLint("SuspiciousIndentation")
@@ -81,16 +79,37 @@ class HomeFragment: Fragment() {
         }
     }
 
-    private fun initAdapters(){
-//        binding.popularKit.filmRecyclerHorizontal.adapter = popularAdapter
-//        binding.random1Kit.filmRecyclerHorizontal.adapter = random1Adapter
-//        binding.random2Kit.filmRecyclerHorizontal.adapter = random2Adapter
-//        binding.top250Kit.filmRecyclerHorizontal.adapter = topAdapter
-//        binding.serialKit.filmRecyclerHorizontal.adapter = serialAdapter
+    @SuppressLint("SuspiciousIndentation")
+    private fun processingPopular()  {
+        binding.popularKit.kitName.text=getText(R.string.popular)
+        binding.popularKit.filmRecyclerHorizontal.adapter =
+                    popularAdapter.withLoadStateFooter(StateAdapterTopFilm())
+
+        homeViewModel.pageTopFilm.onEach {
+            popularAdapter.submitData(it)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+        binding.popularKit.showAll.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_home_to_listfilms)
+        }
+    }
+
+    @SuppressLint("SuspiciousIndentation")
+    private fun processingTop250()  {
+        binding.popularKit.kitName.text=getText(R.string.popular)
+        binding.popularKit.filmRecyclerHorizontal.adapter =
+            top250Adapter.withLoadStateFooter(StateAdapterTopFilm())
+
+        homeViewModel.pageTop250.onEach {
+            popularAdapter.submitData(it)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+        binding.popularKit.showAll.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_home_to_listfilms)
+        }
     }
 
     private fun initKitFilms(){
-        binding.popularKit.kitName.text=getText(R.string.popular)
         binding.top250Kit.kitName.text=getText(R.string.top )
         binding.serialKit.kitName.text=getText(R.string.serials)
         binding.random1Kit.kitName.text = getText(R.string.random1)
@@ -100,6 +119,18 @@ class HomeFragment: Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun onItemClick(film: Film) {
+        setFragmentResult("requestKey", bundleOf("FILM" to film))
+        filmApp = film
+        findNavController().navigate(R.id.action_navigation_home_to_filmInfoFragment)
+    }
+
+    private fun onItemClickTop(filmTop: TopFilm) {
+        setFragmentResult("requestKey", bundleOf("FILM" to filmTop))
+        filmAppTop = filmTop
+        findNavController().navigate(R.id.action_navigation_home_to_filmInfoFragment)
     }
 
     companion object {

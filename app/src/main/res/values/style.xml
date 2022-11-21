@@ -42,12 +42,16 @@
         <item name="android:gravity">start</item>
     </style>
     <style name="H3_description" parent="H3">
-        <item name="android:maxLines">5</item>
+        <item name="android:maxLines">20</item>
+        <item name="android:ellipsize">end</item>
         <item name="android:inputType">textMultiLine</item>
     </style>
     <style name="H3_short_description" parent="H3">
         <item name="android:inputType">textMultiLine</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:maxLines">5</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
     </style>
 
     <style name="H4" parent = "textApp">
@@ -58,7 +62,7 @@
     </style>
     <style name="H4_" parent = "H4">
         <item name="android:layout_marginTop">@dimen/margin_top_display</item>
-        <item name="android:layout_marginStart">@dimen/card_actor_name_marHor</item>
+        <item name="android:layout_marginStart">@dimen/card_people_name_marHor</item>
     </style>
     <style name="H4_home" parent = "H4">
         <item name="android:layout_marginEnd">@dimen/margin_top_display</item>
@@ -92,5 +96,10 @@
         <item name="android:gravity">center_horizontal</item>
         <item name="android:textColor">@color/general</item>
     </style>
-
+    <style name="app_bold" parent = "textApp">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="app_normal" parent = "textApp">
+        <item name="android:textStyle">normal</item>
+    </style>
 </resources>

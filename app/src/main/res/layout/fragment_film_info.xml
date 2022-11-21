@@ -8,6 +8,7 @@
     android:layout_marginTop="@dimen/margin_top_display">
 
     <LinearLayout
+        android:id="@+id/fragm_film_info_linear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -22,16 +23,8 @@
             android:layout_marginBottom="@dimen/margin_app_top"/>
 
         <TextView
-            android:id="@+id/short_description_film"
-            style="@style/H3_short_description"
-            android:minHeight="48dp"
-            tools:ignore="TextContrastCheck,DuplicateSpeakableTextCheck" />
-
-        <TextView
             android:id="@+id/description_film"
-            style="@style/H3_description"
-            android:minHeight="48dp"
-            tools:ignore="TextContrastCheck" />
+            style="@style/H3_description"/>
 
         <include
             android:id="@+id/actors"
@@ -42,6 +35,12 @@
         <include
             android:id="@+id/staff"
             layout="@layout/include_person_film_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_app_top"/>
+        <include
+            android:id="@+id/gallery"
+            layout="@layout/include_gallery_film_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_app_top"/>

@@ -1,13 +1,17 @@
 package com.example.movie_catalog.ui.film_info
 
+import android.animation.LayoutTransition
 import android.annotation.SuppressLint
+import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
+import android.text.InputFilter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.ui.text.font.Typeface
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
@@ -31,9 +35,10 @@ class FilmInfoFragment : Fragment() {
 
     private var _binding: FragmentFilmInfoBinding? = null
     private val binding get() = _binding!!
-    private val actorAdapter = PersonAdapter{person -> onPersonClick(person)}
-    private val staffAdapter = PersonAdapter{person -> onPersonClick(person)}
+    private val actorAdapter = PersonAdapter({person -> onPersonClick(person)}, sizeGird = 20, whoteRole = 1)
+    private val staffAdapter = PersonAdapter({person -> onPersonClick(person)}, sizeGird = 6, whoteRole = 2)
     private val viewModel: FilmInfoViewModel by viewModels()
+    private var isCollapsed = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -50,6 +55,11 @@ class FilmInfoFragment : Fragment() {
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         processingPerson()
+        processingGallery()
+    }
+
+    private fun processingGallery(){
+
     }
 
     @SuppressLint("SetTextI18n")
@@ -59,12 +69,12 @@ class FilmInfoFragment : Fragment() {
         binding.actors.tvHeader.text = getText(R.string.header_actor)
         binding.actors.personRecycler.adapter = actorAdapter
 
-        binding.staff.personRecycler.layoutManager= GridLayoutManager(context,5,
+        binding.staff.personRecycler.layoutManager= GridLayoutManager(context,2,
                                                                 RecyclerView.HORIZONTAL,false)
         binding.staff.tvHeader.text = getText(R.string.header_staff)
         binding.staff.personRecycler.adapter = staffAdapter
 
-        viewModel.actors.onEach {
+        viewModel.person.onEach {
             actorAdapter.setListFilm(it.filter { person -> person.professionKey == "ACTOR" })
             var sizeList = it.filter { person -> person.professionKey == "ACTOR" }.size
             if (it.filter { person -> person.professionKey == "ACTOR" }.size> Constants.QTY_CARD) {
@@ -93,10 +103,19 @@ class FilmInfoFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     private fun fillMaket(filmInfoSeasons: FilmInfoSeasons){
         val filmInfo = filmInfoSeasons.filmInfo!!
-//Show poster film
-        if (filmInfo.posterUrl != null) {
+//Show poster film. Before load image, show waiting animation.
+        val animationCard = binding.posterBig.poster.background as AnimationDrawable
+        if (filmInfo.posterUrl == null) {
+            animationCard.apply {
+                setEnterFadeDuration(1000)
+                setExitFadeDuration(1000)
+                start()
+            }
+        }else{
             Glide.with(binding.posterBig.poster).load(filmInfo.posterUrl).into(binding.posterBig.poster)
+            animationCard.stop()
         }
+
 //Show logotype or name russia or name original
         if (filmInfo.logoUrl == null) {
             binding.posterBig.logotype.visibility=View.INVISIBLE
@@ -147,25 +166,31 @@ class FilmInfoFragment : Fragment() {
             stringForTextView += ", seasons: " + filmInfoSeasons.seasons?.total.toString()
         }
         binding.posterBig.yearGenreOther.text = stringForTextView
+
 //Show short descriptions
-        if (filmInfo.shortDescription != null){
-            binding.shortDescriptionFilm.text = filmInfo.shortDescription.toString()
-        } else if (filmInfo.slogan != null) {
-            binding.shortDescriptionFilm.text = filmInfo.slogan.toString()
-        } else {
-//            binding.shortDescriptionFilm.visibility = View.INVISIBLE
-            Log.d("KDS","shortDescriptionFilm=null")
+
+        var description = ""
+        if (filmInfo.shortDescription != null) description = filmInfo.shortDescription.toString()
+        if (filmInfo.description != null) description += filmInfo.description.toString()
+        //Animation description
+        binding.fragmFilmInfoLinear.layoutTransition = LayoutTransition().apply {
+            setDuration(600)
+            enableTransitionType(LayoutTransition.CHANGING)
         }
-//Show full description
-        if (filmInfo.description != null){
-            if (binding.shortDescriptionFilm.text.isNotEmpty()) {
-                binding.descriptionFilm.text = filmInfo.description.toString()
-            } else{
-                binding.descriptionFilm.text = filmInfo.description.substringAfter(".")
-                binding.shortDescriptionFilm.text = filmInfo.description.substringBefore(".")
+        Log.d("KDS", "description = $description")
+        binding.descriptionFilm.text = description.substring(0, 250) + "..."
+        binding.descriptionFilm.setTextAppearance(R.style.app_bold)
+
+        binding.descriptionFilm.setOnClickListener {
+            if (isCollapsed){
+                binding.descriptionFilm.setTextAppearance(R.style.app_bold)
+                binding.descriptionFilm.text = description.substring(0,250) + "..."
+                isCollapsed = false
+            } else {
+                binding.descriptionFilm.setTextAppearance(R.style.app_normal)
+                binding.descriptionFilm.text = description
+                isCollapsed = true
             }
-        } else {
-            binding.descriptionFilm.visibility = View.INVISIBLE
         }
     }
 

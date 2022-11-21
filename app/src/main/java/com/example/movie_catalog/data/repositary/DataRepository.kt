@@ -8,7 +8,9 @@ import com.example.movie_catalog.entity.*
 import com.example.movie_catalog.entity.filminfo.FilmInfoSeasons
 import com.example.movie_catalog.entity.filminfo.person.Person
 import com.example.movie_catalog.entity.home.MonthKinopoisk
+import com.example.movie_catalog.entity.home.filter.FilterFilm
 import com.example.movie_catalog.entity.home.premieres.Premieres
+import com.example.movie_catalog.entity.home.top.TopFilms
 import java.util.*
 import javax.inject.Inject
 
@@ -46,7 +48,22 @@ class DataRepository @Inject constructor() {
 //        Log.d("KDS", "year=$currentYear, month=$currentMonth")
         return selectPremieresTwoWeeks(premieres)
     }
-
+    suspend fun getPopular(): TopFilms {
+        val page = 1
+        return retrofitApi.getTop(page,"")
+    }
+    suspend fun getTop250(): TopFilms {
+        val page = 1
+        return retrofitApi.getTop(page,"")
+    }
+    suspend fun getFilters(country:Int, genre:Int): FilterFilm {
+        val page = 1
+        return retrofitApi.getFilters(country,genre,page)
+    }
+    suspend fun getSerials(): FilterFilm {
+        val page = 1
+        return retrofitApi.getSerials(page)
+    }
     @SuppressLint("SimpleDateFormat")
     fun selectPremieresTwoWeeks(premieres: Premieres): Premieres {
 

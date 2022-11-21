@@ -20,8 +20,8 @@ class FilmInfoViewModel @Inject constructor(): ViewModel() {
     private val dataRepository = DataRepository()
     private var _filmInfo = MutableStateFlow(FilmInfoSeasons())
     var filmInfo = _filmInfo.asStateFlow()
-    private var _actors = MutableStateFlow(listOf<Person>())
-    var actors = _actors.asStateFlow()
+    private var _person = MutableStateFlow(listOf<Person>())
+    var person = _person.asStateFlow()
 
     init {
         getFilmInfo()
@@ -43,7 +43,7 @@ class FilmInfoViewModel @Inject constructor(): ViewModel() {
             kotlin.runCatching {
                 dataRepository.getActors(filmApp.kinopoiskId!!)
             }.fold(
-                onSuccess = {_actors.value = it },
+                onSuccess = {_person.value = it },
                 onFailure = { Log.d("KDS",it.message ?: "")}
             )
         }
