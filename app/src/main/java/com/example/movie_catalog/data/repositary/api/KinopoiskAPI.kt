@@ -1,12 +1,13 @@
 package com.example.movie_catalog.data.repositary.api
 
-import com.example.movie_catalog.entity.filminfo.FilmInfo
-import com.example.movie_catalog.entity.filminfo.person.Person
+import com.example.movie_catalog.data.repositary.api.film_info.FilmInfoDTO
+import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
+import com.example.movie_catalog.data.repositary.api.home.filter.FilterDTO
 import com.example.movie_catalog.data.repositary.api.home.filter.FilterFilmDTO
 import com.example.movie_catalog.data.repositary.api.home.getKit.ListGenresDTO
 import com.example.movie_catalog.data.repositary.api.home.premieres.PremieresDTO
 import com.example.movie_catalog.data.repositary.api.home.seasons.SeasonsDTO
-import com.example.movie_catalog.data.repositary.api.home.top.TopFilms
+import com.example.movie_catalog.data.repositary.api.home.top.TopFilmsDTO
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
@@ -29,22 +30,21 @@ interface KinopoiskAPI {
     //TOP_100_POPULAR_FILM  TOP_250_BEST_FILMS
     @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
     @GET("/api/v2.2/films/top?page=1")
-    suspend fun getTop(@Query("page") page: Int, @Query("type") type: String): TopFilms
+    suspend fun getTop(@Query("page") page: Int, @Query("type") type: String): TopFilmsDTO
 
     @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
-    @GET("/api/v2.2/films?order=RATING&type=TV_SERIES&ratingFrom=5&ratingTo=10&yearFrom=1000&yearTo=3000")
-    suspend fun getSerials(@Query("page") page: Int): FilterFilmDTO
+    @GET("/api/v2.2/films?page=1&order=RATING&type=TV_SERIES&ratingFrom=5&ratingTo=10&yearFrom=1000&yearTo=3000")
+    suspend fun getSerials(): FilterDTO
     //Order = RATING сортировка
     // type = FILM, TV_SHOW, TV_SERIES, MINI_SERIES, ALL
 
     @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
-    @GET("/api/v2.2/films?order=RATING&type=FILM&ratingFrom=0&ratingTo=10&yearFrom=1000&yearTo=3000")
-    suspend fun getFilters(@Query("countries") countries: Int,@Query("genres") genres: Int,
-                           @Query("page") page: Int): FilterFilmDTO
+    @GET("/api/v2.2/films?page=1&order=RATING&type=FILM&ratingFrom=0&ratingTo=10&yearFrom=1000&yearTo=3000")
+    suspend fun getFilters(@Query("countries") countries: Int,@Query("genres") genres: Int,): FilterDTO
 
     @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
     @GET("/api/v2.2/films/{id}")
-    suspend fun getFilmInfo(@Path("id") id:Int): FilmInfo
+    suspend fun getFilmInfo(@Path("id") id:Int): FilmInfoDTO
 
     @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
     @GET("/api/v2.2/films/{id}")
@@ -52,7 +52,7 @@ interface KinopoiskAPI {
 
     @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
     @GET("/api/v1/staff")
-    suspend fun getActors(@Query("filmId") id:Int): List<Person>
+    suspend fun getActors(@Query("filmId") id:Int): List<PersonDTO>
 
     @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
     @GET("/api/v2.2/films/{id}")

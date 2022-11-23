@@ -4,10 +4,12 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.data.repositary.DataRepository
+import com.example.movie_catalog.data.repositary.api.home.getKit.SelectedKit
 import com.example.movie_catalog.data.repositary.api.home.premieres.FilmDTO
 import com.example.movie_catalog.data.repositary.api.home.premieres.PremieresDTO
 import com.example.movie_catalog.data.repositary.api.home.top.TopFilmDTO
-import com.example.movie_catalog.data.repositary.api.home.top.TopFilms
+import com.example.movie_catalog.data.repositary.api.home.top.TopFilmsDTO
+import com.example.movie_catalog.entity.home.Film
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,23 +22,33 @@ class HomeViewModel @Inject constructor() : ViewModel() {
 
     private val dataRepository = DataRepository()
 
-    private var _genreMap = MutableStateFlow<Map<String, String>>(emptyMap())
+    private var _genreMap = MutableStateFlow(SelectedKit())
     var genreMap = _genreMap.asStateFlow()
 
-    private var _premieres = MutableStateFlow(premieresDTOStart)
+    private var _premieres = MutableStateFlow(filmsStart)
     var premieres = _premieres.asStateFlow()
 
-    private var _popularFilms = MutableStateFlow(topFilmsStartDTO)
+    private var _popularFilms = MutableStateFlow(filmsStart)
     var popularFilms = _popularFilms.asStateFlow()
 
-    private var _pageTop250 = MutableStateFlow(topFilmsStartDTO)
+    private var _pageTop250 = MutableStateFlow(filmsStart)
     var pageTop250 = _pageTop250.asStateFlow()
+
+    private var _randomKit1 = MutableStateFlow(filmsStart)
+    var randomKit1 = _randomKit1.asStateFlow()
+
+    private var _randomKit2 = MutableStateFlow(filmsStart)
+    var randomKit2 = _randomKit2.asStateFlow()
+
+    private var _serials = MutableStateFlow(filmsStart)
+    var serials = _serials.asStateFlow()
 
     init {
         getGenres()
         getPremieres()
-        getPopular()
-        getTop250()
+//        getPopular()
+//        getTop250()
+//        getSerials()
     }
 
     private fun getGenres() {
@@ -45,7 +57,11 @@ class HomeViewModel @Inject constructor() : ViewModel() {
             kotlin.runCatching {
                 dataRepository.getGenres()
             }.fold(
-                onSuccess = {_genreMap.value = it },
+                onSuccess = {
+                                _genreMap.value = it
+//                                getRandom1(it.genre1.id!!, it.country1.id!!)
+//                                getRandom2(it.genre2.id!!, it.country2.id!!)
+                            },
                 onFailure = { Log.d("KDS",it.message ?: "")}
             )
         }
@@ -65,7 +81,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     private fun getPopular() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                dataRepository.getPopular()
+                dataRepository.getTop("TOP_100_POPULAR_FILM")
             }.fold(
                 onSuccess = {_popularFilms.value = it },
                 onFailure = { Log.d("KDS",it.message ?: "")}
@@ -76,7 +92,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     private fun getTop250() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                dataRepository.getPopular()
+                dataRepository.getTop("TOP_250_BEST_FILMS")
             }.fold(
                 onSuccess = {_pageTop250.value = it },
                 onFailure = { Log.d("KDS",it.message ?: "")}
@@ -84,16 +100,45 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+    private fun getSerials() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                dataRepository.getSerials()
+            }.fold(
+                onSuccess = {_serials.value = it },
+                onFailure = { Log.d("KDS",it.message ?: "")}
+            )
+        }
+    }
+
+    fun getRandom1(genreId:Int, countryId:Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                dataRepository.getFilters(genreId,countryId)
+            }.fold(
+                onSuccess = {_randomKit1.value = it },
+                onFailure = { Log.d("KDS",it.message ?: "")}
+            )
+        }
+    }
+
+    fun getRandom2(genreId:Int, countryId:Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                dataRepository.getFilters(genreId,countryId)
+            }.fold(
+                onSuccess = {_randomKit2.value = it },
+                onFailure = { Log.d("KDS",it.message ?: "")}
+            )
+        }
+    }
+
     companion object {
 
-        var premieresDTOStart = PremieresDTO(total = 20, items = mutableListOf( FilmDTO(), FilmDTO(),  FilmDTO(),
-                    FilmDTO(), FilmDTO(), FilmDTO(), FilmDTO(), FilmDTO(), FilmDTO(), FilmDTO(), FilmDTO(), FilmDTO(), FilmDTO(),
-                    FilmDTO(), FilmDTO(), FilmDTO(), FilmDTO(), FilmDTO(), FilmDTO(), FilmDTO(),))
-
-        var topFilmsStartDTO = TopFilms(pagesCount = 1, films = mutableListOf( TopFilmDTO(), TopFilmDTO(),
-                    TopFilmDTO(), TopFilmDTO(), TopFilmDTO(), TopFilmDTO(), TopFilmDTO(), TopFilmDTO(), TopFilmDTO(),
-                    TopFilmDTO(), TopFilmDTO(), TopFilmDTO(), TopFilmDTO(), TopFilmDTO(), TopFilmDTO(), TopFilmDTO(),
-                    TopFilmDTO(), TopFilmDTO(), TopFilmDTO(), TopFilmDTO(),))
+        var filmsStart = listOf( Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(),
+            Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(),
+            Film(),
+        )
     }
 }
 

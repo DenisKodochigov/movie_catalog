@@ -24,7 +24,7 @@ import com.example.movie_catalog.Constants
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentFilmInfoBinding
 import com.example.movie_catalog.entity.filminfo.FilmInfoSeasons
-import com.example.movie_catalog.entity.filminfo.person.Person
+import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
 import com.example.movie_catalog.ui.film_info.recyclerView.PersonAdapter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -49,7 +49,7 @@ class FilmInfoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.filmInfo.onEach {
-            if (it.filmInfo != null) fillMaket(it)
+            if (it.filmInfoDTO != null) fillMaket(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         processingPerson()
@@ -100,7 +100,7 @@ class FilmInfoFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun fillMaket(filmInfoSeasons: FilmInfoSeasons){
-        val filmInfo = filmInfoSeasons.filmInfo!!
+        val filmInfo = filmInfoSeasons.filmInfoDTO!!
 //Show poster film. Before load image, show waiting animation.
         val animationCard = binding.posterBig.poster.background as AnimationDrawable
         if (filmInfo.posterUrl == null) {
@@ -192,9 +192,9 @@ class FilmInfoFragment : Fragment() {
         }
     }
 
-    private fun onPersonClick(person: Person) {
-        setFragmentResult("requestKey", bundleOf("FILM" to person))
-        App.personApp = person
+    private fun onPersonClick(personDTO: PersonDTO) {
+        setFragmentResult("requestKey", bundleOf("FILM" to personDTO))
+        App.personDTOApp = personDTO
         findNavController().navigate(R.id.action_filmInfoFragment_to_actorFragment)
     }
 

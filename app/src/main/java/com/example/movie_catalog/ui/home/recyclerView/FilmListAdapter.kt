@@ -8,24 +8,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movie_catalog.Constants.QTY_CARD
 import com.example.movie_catalog.databinding.ItemRecyclerFilmListBinding
-import com.example.movie_catalog.data.repositary.api.home.premieres.FilmDTO
-import com.example.movie_catalog.data.repositary.api.home.top.TopFilmDTO
+import com.example.movie_catalog.entity.home.Film
 import javax.inject.Inject
 
-class FilmListAdapter @Inject constructor( private val onClick: (FilmDTO) -> Unit
-                                        ): RecyclerView.Adapter<FilmViewHolder>()
-{
-    private var filmDTOS: List<FilmDTO> = emptyList()
-    private var topFilmDTOS: List<TopFilmDTO> = emptyList()
+class FilmListAdapter @Inject constructor(
+    private val onClick: (Film) -> Unit
+) : RecyclerView.Adapter<FilmViewHolder>() {
+    private var films: List<Film> = emptyList()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setListFilm(filmDTOS: List<FilmDTO>) {
-        this.filmDTOS = filmDTOS
-        notifyDataSetChanged()
-    }
-    @SuppressLint("NotifyDataSetChanged")
-    fun setListTopFilm(films: List<TopFilmDTO>) {
-        this.topFilmDTOS = films
+    fun setListFilm(listFilm: List<Film>) {
+        this.films = listFilm
         notifyDataSetChanged()
     }
 
@@ -37,14 +30,17 @@ class FilmListAdapter @Inject constructor( private val onClick: (FilmDTO) -> Uni
 
     override fun onBindViewHolder(holder: FilmViewHolder, position: Int) {
         var genreTxt = ""
-        val film = filmDTOS.getOrNull(position)
+        val film = films.getOrNull(position)
 
         //Set film name
         holder.binding.nameFilm.text = film?.nameRu ?: ""
         //Set film genres.
         film?.genres?.forEach {
-            genreTxt = if (genreTxt == "") { it.genre.toString()}
-                     else { genreTxt + ", " + it.genre.toString()}
+            genreTxt = if (genreTxt == "") {
+                it.genre.toString()
+            } else {
+                genreTxt + ", " + it.genre.toString()
+            }
         }
         holder.binding.genreFilm.text = genreTxt
 
@@ -56,9 +52,10 @@ class FilmListAdapter @Inject constructor( private val onClick: (FilmDTO) -> Uni
                 setExitFadeDuration(1000)
                 start()
             }
-        }else{
-            film?.let {
-                Glide.with(holder.binding.poster).load(it.posterUrlPreview).into(holder.binding.poster)
+        } else {
+            film.let {
+                Glide.with(holder.binding.poster).load(it.posterUrlPreview)
+                    .into(holder.binding.poster)
                 animationCard.stop()
             }
         }
@@ -71,14 +68,14 @@ class FilmListAdapter @Inject constructor( private val onClick: (FilmDTO) -> Uni
         }
     }
 
-
-    override fun getItemCount(): Int{
-        return if (filmDTOS.size > QTY_CARD-1) {
+    override fun getItemCount(): Int {
+        return if (films.size > QTY_CARD - 1) {
             QTY_CARD
-        }else{
-            filmDTOS.size
+        } else {
+            films.size
         }
     }
 }
 
-class FilmViewHolder(val binding: ItemRecyclerFilmListBinding) : RecyclerView.ViewHolder(binding.root)
+class FilmViewHolder(val binding: ItemRecyclerFilmListBinding) :
+    RecyclerView.ViewHolder(binding.root)

@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.data.repositary.DataRepository
 import com.example.movie_catalog.data.repositary.api.home.premieres.PremieresDTO
+import com.example.movie_catalog.entity.home.Film
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,8 +17,9 @@ import javax.inject.Inject
 class ListfilmsViewModel @Inject constructor(): ViewModel() {
     private val dataRepository = DataRepository()
 
-    private var _premieresDTO = MutableStateFlow(PremieresDTO())
-    var premieres = _premieresDTO.asStateFlow()
+    private var _premieres = MutableStateFlow(filmsStart)
+    var premieres = _premieres.asStateFlow()
+
     private var _premieresLoading = MutableStateFlow(false)
     var premieresLoading = _premieresLoading.asStateFlow()
 
@@ -30,9 +32,16 @@ class ListfilmsViewModel @Inject constructor(): ViewModel() {
             kotlin.runCatching {
                 dataRepository.getPremieres()
             }.fold(
-                onSuccess = {_premieresDTO.value = it },
+                onSuccess = {_premieres.value = it },
                 onFailure = { Log.d("KDS",it.message ?: "")}
             )
         }
+    }
+
+    companion object {
+
+        var filmsStart = listOf( Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(),
+            Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film()
+        )
     }
 }

@@ -7,16 +7,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movie_catalog.databinding.ItemRecyclerPersonBinding
-import com.example.movie_catalog.entity.filminfo.person.Person
+import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
 import javax.inject.Inject
 
-class PersonAdapter @Inject constructor(private val onClick: (Person) -> Unit,
-                     val sizeGird:Int, val whoteRole: Int): RecyclerView.Adapter<PersonViewHolder>()
+class PersonAdapter @Inject constructor(private val onClick: (PersonDTO) -> Unit,
+                                        val sizeGird:Int, val whoteRole: Int): RecyclerView.Adapter<PersonViewHolder>()
 {
-    private var people: List<Person> = emptyList()
+    private var people: List<PersonDTO> = emptyList()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setListFilm(people: List<Person>) {
+    fun setListFilm(people: List<PersonDTO>) {
         this.people = people
         notifyDataSetChanged()
     }

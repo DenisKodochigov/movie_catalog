@@ -1,10 +1,10 @@
-package com.example.movie_catalog.entity.filminfo.person
+package com.example.movie_catalog.data.repositary.api.film_info
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class Person(
+data class PersonDTO(
     @Json(name = "staffId") val staffId:Int? = null,
     @Json(name = "nameRu") val nameRu:String? = null,
     @Json(name = "nameEn") val nameEn:String? = null,

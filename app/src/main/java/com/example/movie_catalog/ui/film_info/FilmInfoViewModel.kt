@@ -3,10 +3,10 @@ package com.example.movie_catalog.ui.film_info
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movie_catalog.App.Companion.filmDTOApp
+import com.example.movie_catalog.App.Companion.filmApp
 import com.example.movie_catalog.data.repositary.DataRepository
 import com.example.movie_catalog.entity.filminfo.FilmInfoSeasons
-import com.example.movie_catalog.entity.filminfo.person.Person
+import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,8 +20,8 @@ class FilmInfoViewModel @Inject constructor(): ViewModel() {
     private val dataRepository = DataRepository()
     private var _filmInfo = MutableStateFlow(FilmInfoSeasons())
     var filmInfo = _filmInfo.asStateFlow()
-    private var _person = MutableStateFlow(listOf<Person>())
-    var person = _person.asStateFlow()
+    private var _personDTO = MutableStateFlow(listOf<PersonDTO>())
+    var person = _personDTO.asStateFlow()
 
     init {
         getFilmInfo()
@@ -31,7 +31,7 @@ class FilmInfoViewModel @Inject constructor(): ViewModel() {
     private fun getFilmInfo() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                dataRepository.getFilmInfo(filmDTOApp.kinopoiskId!!)
+                dataRepository.getFilmInfo(filmApp.kinopoiskId!!)
             }.fold(
                 onSuccess = {_filmInfo.value = it },
                 onFailure = { Log.d("KDS",it.message ?: "")}
@@ -41,9 +41,9 @@ class FilmInfoViewModel @Inject constructor(): ViewModel() {
     private fun getActors() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                dataRepository.getActors(filmDTOApp.kinopoiskId!!)
+                dataRepository.getActors(filmApp.kinopoiskId!!)
             }.fold(
-                onSuccess = {_person.value = it },
+                onSuccess = {_personDTO.value = it },
                 onFailure = { Log.d("KDS",it.message ?: "")}
             )
         }

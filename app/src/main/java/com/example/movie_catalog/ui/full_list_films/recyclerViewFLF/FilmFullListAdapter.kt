@@ -7,14 +7,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movie_catalog.databinding.ItemRecyclerFilmListBinding
 import com.example.movie_catalog.data.repositary.api.home.premieres.FilmDTO
+import com.example.movie_catalog.entity.home.Film
 
 class FilmFullListAdapter : RecyclerView.Adapter<FilmFullListViewHolder>() {
 
-    private var filmDTOS: List<FilmDTO> = emptyList()
+    private var listFilm: List<Film> = emptyList()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setListFilm(filmDTOS: List<FilmDTO>) {
-        this.filmDTOS = filmDTOS
+    fun setListFilm(listFilm: List<Film>) {
+        this.listFilm = listFilm
         notifyDataSetChanged()
     }
 
@@ -26,7 +27,7 @@ class FilmFullListAdapter : RecyclerView.Adapter<FilmFullListViewHolder>() {
 
     override fun onBindViewHolder(holder: FilmFullListViewHolder, position: Int) {
         var genreTxt = ""
-        val item = filmDTOS.getOrNull(position)
+        val item = listFilm.getOrNull(position)
         holder.binding.nameFilm.text = item?.nameRu ?: ""
         item?.genres?.forEach {
             if (genreTxt == "") {
@@ -41,7 +42,7 @@ class FilmFullListAdapter : RecyclerView.Adapter<FilmFullListViewHolder>() {
         }
     }
 
-    override fun getItemCount()=filmDTOS.size
+    override fun getItemCount()=listFilm.size
 }
 
 class FilmFullListViewHolder(val binding: ItemRecyclerFilmListBinding) : RecyclerView.ViewHolder(binding.root)

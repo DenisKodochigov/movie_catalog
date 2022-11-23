@@ -36,7 +36,7 @@ class ListFilmsFragment : Fragment() {
         binding.filmRecyclerVertical.layoutManager=GridLayoutManager(context,2)
         binding.filmRecyclerVertical.adapter = premieresAdapter
         viewModel.premieres.onEach {
-            premieresAdapter.setListFilm(it.items)
+            premieresAdapter.setListFilm(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
         viewModel.premieresLoading.onEach {
             if (it) binding.loading.visibility = View.VISIBLE
