@@ -13,16 +13,12 @@ import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.movie_catalog.App.Companion.filmApp
-import com.example.movie_catalog.App.Companion.filmAppTop
+import com.example.movie_catalog.App.Companion.filmDTOApp
 import com.example.movie_catalog.Constants.QTY_CARD
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentHomeBinding
-import com.example.movie_catalog.entity.home.premieres.Film
-import com.example.movie_catalog.entity.home.top.TopFilm
+import com.example.movie_catalog.data.repositary.api.home.premieres.FilmDTO
 import com.example.movie_catalog.ui.home.recyclerView.FilmListAdapter
-import com.example.movie_catalog.ui.home.recyclerView.StateAdapterTopFilm
-import com.example.movie_catalog.ui.home.recyclerView.TopFilmPagingAdapter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -32,8 +28,8 @@ class HomeFragment: Fragment() {
     private val binding get() = _binding!!
     private val homeViewModel:HomeViewModel by viewModels()
     private val premieresAdapter = FilmListAdapter{film -> onItemClick(film)}
-    private val popularAdapter = TopFilmPagingAdapter{film -> onItemClickTop(film)}
-    private val top250Adapter = TopFilmPagingAdapter{film -> onItemClickTop(film)}
+    private val popularAdapter = FilmListAdapter{film -> onItemClick(film)}
+    private val top250Adapter = FilmListAdapter{film -> onItemClick(film)}
 //    private val random1Adapter = FilmListAdapter{film -> onItemClick(film)}
 //    private val random2Adapter = FilmListAdapter{film -> onItemClick(film)}
 //    private val serialAdapter = FilmListAdapter{film -> onItemClick(film)}
@@ -82,11 +78,11 @@ class HomeFragment: Fragment() {
     @SuppressLint("SuspiciousIndentation")
     private fun processingPopular()  {
         binding.popularKit.kitName.text=getText(R.string.popular)
-        binding.popularKit.filmRecyclerHorizontal.adapter =
-                    popularAdapter.withLoadStateFooter(StateAdapterTopFilm())
+        binding.popularKit.filmRecyclerHorizontal.adapter = popularAdapter
 
-        homeViewModel.pageTopFilm.onEach {
-            popularAdapter.submitData(it)
+        homeViewModel.popularFilms.onEach {
+            popularAdapter.setListTopFilm(it.films)
+            binding.popularKit.showAll.visibility = View.VISIBLE
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         binding.popularKit.showAll.setOnClickListener {
@@ -96,12 +92,12 @@ class HomeFragment: Fragment() {
 
     @SuppressLint("SuspiciousIndentation")
     private fun processingTop250()  {
-        binding.popularKit.kitName.text=getText(R.string.popular)
-        binding.popularKit.filmRecyclerHorizontal.adapter =
-            top250Adapter.withLoadStateFooter(StateAdapterTopFilm())
+        binding.popularKit.kitName.text=getText(R.string.top)
+        binding.popularKit.filmRecyclerHorizontal.adapter = top250Adapter
 
         homeViewModel.pageTop250.onEach {
-            popularAdapter.submitData(it)
+            popularAdapter.setListTopFilm(it.films)
+            binding.popularKit.showAll.visibility = View.VISIBLE
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         binding.popularKit.showAll.setOnClickListener {
@@ -121,15 +117,9 @@ class HomeFragment: Fragment() {
         _binding = null
     }
 
-    private fun onItemClick(film: Film) {
-        setFragmentResult("requestKey", bundleOf("FILM" to film))
-        filmApp = film
-        findNavController().navigate(R.id.action_navigation_home_to_filmInfoFragment)
-    }
-
-    private fun onItemClickTop(filmTop: TopFilm) {
-        setFragmentResult("requestKey", bundleOf("FILM" to filmTop))
-        filmAppTop = filmTop
+    private fun onItemClick(filmDTO: FilmDTO) {
+        setFragmentResult("requestKey", bundleOf("FILM" to filmDTO))
+        filmDTOApp = filmDTO
         findNavController().navigate(R.id.action_navigation_home_to_filmInfoFragment)
     }
 

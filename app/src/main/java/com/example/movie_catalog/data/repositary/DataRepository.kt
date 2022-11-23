@@ -7,10 +7,10 @@ import com.example.movie_catalog.data.repositary.api.retrofitApi
 import com.example.movie_catalog.entity.*
 import com.example.movie_catalog.entity.filminfo.FilmInfoSeasons
 import com.example.movie_catalog.entity.filminfo.person.Person
-import com.example.movie_catalog.entity.home.MonthKinopoisk
-import com.example.movie_catalog.entity.home.filter.FilterFilm
-import com.example.movie_catalog.entity.home.premieres.Premieres
-import com.example.movie_catalog.entity.home.top.TopFilms
+import com.example.movie_catalog.data.repositary.api.home.MonthKinopoisk
+import com.example.movie_catalog.data.repositary.api.home.filter.FilterFilmDTO
+import com.example.movie_catalog.data.repositary.api.home.premieres.PremieresDTO
+import com.example.movie_catalog.data.repositary.api.home.top.TopFilms
 import java.util.*
 import javax.inject.Inject
 
@@ -35,12 +35,12 @@ class DataRepository @Inject constructor() {
         filmInfoSeasons.filmInfo = retrofitApi.getFilmInfo(id)
 //        Log.d("KDS1", "filmInfoSeasons = ${filmInfoSeasons.toString()}")
         if (filmInfoSeasons.filmInfo!!.serial!!) {
-            filmInfoSeasons.seasons = retrofitApi.getSeasons(id)
+            filmInfoSeasons.seasonsDTO = retrofitApi.getSeasons(id)
         }
         return filmInfoSeasons
     }
 
-    suspend fun getPremieres(): Premieres {
+    suspend fun getPremieres(): PremieresDTO {
         val calendar = Calendar.getInstance()
         val currentYear = calendar.get(Calendar.YEAR)
         val currentMonth = MonthKinopoisk.values()[calendar.get(Calendar.MONTH)].toString()
@@ -48,17 +48,46 @@ class DataRepository @Inject constructor() {
 //        Log.d("KDS", "year=$currentYear, month=$currentMonth")
         return selectPremieresTwoWeeks(premieres)
     }
-
-    suspend fun getFilters(country:Int, genre:Int): FilterFilm {
+    suspend fun getPopular(): TopFilms {
+        val topFilms = retrofitApi.getTop(1,"TOP_100_POPULAR_FILM")
+        val countPage = topFilms.pagesCount!!.toInt()
+        if (countPage > 1) {
+            for (i in 2 .. countPage){
+                val _topFilm = retrofitApi.getTop(1,"TOP_100_POPULAR_FILM")
+//                _topFilm.films.forEach {
+//                    topFilms.films.add(it)
+//                }
+                _topFilm.films.addAll(topFilms.films)
+            }
+        }
+//        Log.d("KDS", "year=$currentYear, month=$currentMonth")
+        return topFilms
+    }
+    suspend fun getTop250(): TopFilms {
+        val topFilms = retrofitApi.getTop(1,"TOP_250_BEST_FILMS")
+        val countPage = topFilms.pagesCount!!.toInt()
+        if (countPage > 1) {
+            for (i in 2 .. countPage){
+                val _topFilm = retrofitApi.getTop(1,"TOP_250_BEST_FILMS")
+//                _topFilm.films.forEach {
+//                    topFilms.films.add(it)
+//                }
+                _topFilm.films.addAll(topFilms.films)
+            }
+        }
+//        Log.d("KDS", "year=$currentYear, month=$currentMonth")
+        return topFilms
+    }
+    suspend fun getFilters(country:Int, genre:Int): FilterFilmDTO {
         val page = 1
         return retrofitApi.getFilters(country,genre,page)
     }
-    suspend fun getSerials(): FilterFilm {
+    suspend fun getSerials(): FilterFilmDTO {
         val page = 1
         return retrofitApi.getSerials(page)
     }
     @SuppressLint("SimpleDateFormat")
-    fun selectPremieresTwoWeeks(premieres: Premieres): Premieres {
+    fun selectPremieresTwoWeeks(premieres: PremieresDTO): PremieresDTO {
 
         //Calculate date next two weeks in milliseconds
         val currentTime=Calendar.getInstance()

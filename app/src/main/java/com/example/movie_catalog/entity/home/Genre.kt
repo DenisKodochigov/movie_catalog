@@ -1,4 +1,4 @@
-package com.example.movie_catalog.entity.home.premieres
+package com.example.movie_catalog.entity.home
 
 import android.os.Parcelable
 import com.squareup.moshi.Json

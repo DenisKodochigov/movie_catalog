@@ -1,4 +1,4 @@
-package com.example.movie_catalog.entity.home.getKit
+package com.example.movie_catalog.data.repositary.api.home.getKit
 
 import android.os.Parcelable
 import com.squareup.moshi.Json
@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 @JsonClass(generateAdapter = true)
-data class CountryID(
-    @Json(name = "id") val id: Int? = null,
-    @Json(name = "country") val country: String? = null
+data class GenreIdDTO(
+    @Json(name = "id") val id:Int? = null,
+    @Json(name = "genre") val genre:String?=null
 ) : Parcelable

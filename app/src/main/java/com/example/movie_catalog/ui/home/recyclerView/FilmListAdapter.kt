@@ -8,17 +8,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movie_catalog.Constants.QTY_CARD
 import com.example.movie_catalog.databinding.ItemRecyclerFilmListBinding
-import com.example.movie_catalog.entity.home.premieres.Film
+import com.example.movie_catalog.data.repositary.api.home.premieres.FilmDTO
+import com.example.movie_catalog.data.repositary.api.home.top.TopFilmDTO
 import javax.inject.Inject
 
-class FilmListAdapter @Inject constructor( private val onClick: (Film) -> Unit
+class FilmListAdapter @Inject constructor( private val onClick: (FilmDTO) -> Unit
                                         ): RecyclerView.Adapter<FilmViewHolder>()
 {
-    private var films: List<Film> = emptyList()
+    private var filmDTOS: List<FilmDTO> = emptyList()
+    private var topFilmDTOS: List<TopFilmDTO> = emptyList()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setListFilm(films: List<Film>) {
-        this.films = films
+    fun setListFilm(filmDTOS: List<FilmDTO>) {
+        this.filmDTOS = filmDTOS
+        notifyDataSetChanged()
+    }
+    @SuppressLint("NotifyDataSetChanged")
+    fun setListTopFilm(films: List<TopFilmDTO>) {
+        this.topFilmDTOS = films
         notifyDataSetChanged()
     }
 
@@ -30,7 +37,7 @@ class FilmListAdapter @Inject constructor( private val onClick: (Film) -> Unit
 
     override fun onBindViewHolder(holder: FilmViewHolder, position: Int) {
         var genreTxt = ""
-        val film = films.getOrNull(position)
+        val film = filmDTOS.getOrNull(position)
 
         //Set film name
         holder.binding.nameFilm.text = film?.nameRu ?: ""
@@ -66,10 +73,10 @@ class FilmListAdapter @Inject constructor( private val onClick: (Film) -> Unit
 
 
     override fun getItemCount(): Int{
-        return if (films.size > QTY_CARD-1) {
+        return if (filmDTOS.size > QTY_CARD-1) {
             QTY_CARD
         }else{
-            films.size
+            filmDTOS.size
         }
     }
 }

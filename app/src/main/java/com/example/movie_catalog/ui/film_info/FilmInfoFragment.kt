@@ -4,14 +4,12 @@ import android.animation.LayoutTransition
 import android.annotation.SuppressLint
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
-import android.text.InputFilter
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.ui.text.font.Typeface
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
@@ -162,8 +160,8 @@ class FilmInfoFragment : Fragment() {
             else { stringForTextView + ", " + it.genre.toString()}
         }
         //Add seasons
-        if (filmInfoSeasons.seasons?.total != null) {
-            stringForTextView += ", seasons: " + filmInfoSeasons.seasons?.total.toString()
+        if (filmInfoSeasons.seasonsDTO?.total != null) {
+            stringForTextView += ", seasons: " + filmInfoSeasons.seasonsDTO?.total.toString()
         }
         binding.posterBig.yearGenreOther.text = stringForTextView
 

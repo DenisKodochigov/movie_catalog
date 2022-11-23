@@ -1,12 +1,12 @@
-package com.example.movie_catalog.entity.home.top
+package com.example.movie_catalog.data.repositary.api.home.top
 
-import com.example.movie_catalog.entity.home.premieres.Country
-import com.example.movie_catalog.entity.home.premieres.Genre
+import com.example.movie_catalog.entity.home.Country
+import com.example.movie_catalog.entity.home.Genre
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class TopFilm(
+data class TopFilmDTO(
     @Json(name = "filmId") val filmId:Int? = null,
     @Json(name = "nameRu") var nameRu:String? = null,
     @Json(name = "nameEn") val nameEn:String? = null,

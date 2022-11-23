@@ -3,7 +3,7 @@ package com.example.movie_catalog.ui.film_info
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movie_catalog.App.Companion.filmApp
+import com.example.movie_catalog.App.Companion.filmDTOApp
 import com.example.movie_catalog.data.repositary.DataRepository
 import com.example.movie_catalog.entity.filminfo.FilmInfoSeasons
 import com.example.movie_catalog.entity.filminfo.person.Person
@@ -31,7 +31,7 @@ class FilmInfoViewModel @Inject constructor(): ViewModel() {
     private fun getFilmInfo() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                dataRepository.getFilmInfo(filmApp.kinopoiskId!!)
+                dataRepository.getFilmInfo(filmDTOApp.kinopoiskId!!)
             }.fold(
                 onSuccess = {_filmInfo.value = it },
                 onFailure = { Log.d("KDS",it.message ?: "")}
@@ -41,7 +41,7 @@ class FilmInfoViewModel @Inject constructor(): ViewModel() {
     private fun getActors() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                dataRepository.getActors(filmApp.kinopoiskId!!)
+                dataRepository.getActors(filmDTOApp.kinopoiskId!!)
             }.fold(
                 onSuccess = {_person.value = it },
                 onFailure = { Log.d("KDS",it.message ?: "")}

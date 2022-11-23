@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movie_catalog.databinding.ItemRecyclerFilmListBinding
-import com.example.movie_catalog.entity.home.top.TopFilm
+import com.example.movie_catalog.data.repositary.api.home.top.TopFilmDTO
 import javax.inject.Inject
 
 class TopFilmPagingAdapter @Inject constructor(
-    private val onClick: (TopFilm) -> Unit
-): PagingDataAdapter<TopFilm, TopFilmViewHolder>(DiffUtilCallback()) {
+    private val onClick: (TopFilmDTO) -> Unit
+): PagingDataAdapter<TopFilmDTO, TopFilmViewHolder>(DiffUtilCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TopFilmViewHolder {
         return TopFilmViewHolder( ItemRecyclerFilmListBinding.inflate(
@@ -58,9 +58,9 @@ class TopFilmPagingAdapter @Inject constructor(
 
 class TopFilmViewHolder(val binding: ItemRecyclerFilmListBinding) : RecyclerView.ViewHolder(binding.root)
 
-class DiffUtilCallback : DiffUtil.ItemCallback<TopFilm>() {
-    override fun areItemsTheSame(oldItem: TopFilm, newItem: TopFilm): Boolean =
+class DiffUtilCallback : DiffUtil.ItemCallback<TopFilmDTO>() {
+    override fun areItemsTheSame(oldItem: TopFilmDTO, newItem: TopFilmDTO): Boolean =
         oldItem.filmId == newItem.filmId
 
-    override fun areContentsTheSame(oldItem: TopFilm, newItem: TopFilm): Boolean = oldItem == newItem
+    override fun areContentsTheSame(oldItem: TopFilmDTO, newItem: TopFilmDTO): Boolean = oldItem == newItem
 }

@@ -1,7 +1,7 @@
 package com.example.movie_catalog.entity.filminfo
 
-import com.example.movie_catalog.entity.home.premieres.Country
-import com.example.movie_catalog.entity.home.premieres.Genre
+import com.example.movie_catalog.entity.home.Country
+import com.example.movie_catalog.entity.home.Genre
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
