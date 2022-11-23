@@ -14,7 +14,7 @@ data class TopFilmDTO(
     @Json(name = "filmLength") val filmLength:String? = null,
     @Json(name = "countries") val countries:List<Country> = emptyList(),
     @Json(name = "genres") val genres:List<Genre> = emptyList(),
-    @Json(name = "rating") val rating:Double? = null,
+    @Json(name = "rating") val rating:String? = null,
     @Json(name = "ratingVoteCount") val ratingVoteCount:Int? = null,
     @Json(name = "posterUrl") val posterUrl:String? = null,
     @Json(name = "posterUrlPreview") var posterUrlPreview:String? = null,

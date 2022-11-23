@@ -2,6 +2,7 @@ package com.example.movie_catalog.data.repositary
 
 import android.annotation.SuppressLint
 import android.icu.text.SimpleDateFormat
+import android.util.Log
 import com.example.movie_catalog.Constants.PREMIERES_WEEKS
 import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
 import com.example.movie_catalog.data.repositary.api.home.MonthKinopoisk
@@ -52,15 +53,14 @@ class DataRepository @Inject constructor() {
     }
 
     suspend fun getTop(type: String): List<Film> {
-        val topFilms = retrofitApi.getTop(1,type)
+        val topFilms = retrofitApi.getTop(type)
         val countPage = topFilms.pagesCount!!.toInt()
         if (countPage > 1) {
             for (i in 2 .. countPage){
-                val _topFilm = retrofitApi.getTop(1,type)
+                val _topFilm = retrofitApi.getTop(type)
                 _topFilm.films.addAll(topFilms.films)
             }
         }
-//        Log.d("KDS", "year=$currentYear, month=$currentMonth")
         return copyTopToFilm(topFilms.films)
     }
 
@@ -122,7 +122,7 @@ class DataRepository @Inject constructor() {
                 imdbId = it.imdbId,
                 nameRu = it.nameRu,
                 nameEn = it.nameEn,
-                rating = it.ratingKinopoisk,
+                rating = it.ratingKinopoisk.toString(),
                 posterUrlPreview = it.posterUrlPreview,
                 countries = it.countries,
                 genres = it.genres

@@ -49,17 +49,17 @@ class HomeFragment : Fragment() {
 
         //Get data for two random kit cinema
         homeViewModel.genreMap.onEach {
-//            processingRandomKit1(it)
-//            processingRandomKit2(it)
+            processingRandomKit1(it)
+            processingRandomKit2(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
         //Get list premier films
         processingPremieres()
         //Get list popular films
-//        processingPopular()
+        processingPopular()
         //Get list top250 films
-//        processingTop250()
+        processingTop250()
         //Get list top250 films
-//        processingSerials()
+        processingSerials()
     }
 
     @SuppressLint("SuspiciousIndentation", "SetTextI18n")
@@ -150,8 +150,8 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("SuspiciousIndentation")
     private fun processingSerials() {
-        binding.top250Kit.kitName.text = getText(R.string.serials)
-        binding.top250Kit.filmRecyclerHorizontal.adapter = serialAdapter
+        binding.serialKit.kitName.text = getText(R.string.serials)
+        binding.serialKit.filmRecyclerHorizontal.adapter = serialAdapter
 
         homeViewModel.serials.onEach {
             serialAdapter.setListFilm(it)

@@ -11,7 +11,7 @@ class TopFilmsPagedSource @Inject constructor(private val type: String): PagingS
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, TopFilmDTO> {
         val page = params.key ?: FIRST_PAGE
-        return kotlin.runCatching { retrofitApi.getTop(page,type).films }.fold(
+        return kotlin.runCatching { retrofitApi.getTop(type).films }.fold(
             onSuccess = { LoadResult.Page(it, null, if(it.isEmpty()) null else page + 1)},
             onFailure = { LoadResult.Error(it)}
         )

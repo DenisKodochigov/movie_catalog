@@ -46,9 +46,9 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     init {
         getGenres()
         getPremieres()
-//        getPopular()
-//        getTop250()
-//        getSerials()
+        getPopular()
+        getTop250()
+        getSerials()
     }
 
     private fun getGenres() {
@@ -59,8 +59,8 @@ class HomeViewModel @Inject constructor() : ViewModel() {
             }.fold(
                 onSuccess = {
                                 _genreMap.value = it
-//                                getRandom1(it.genre1.id!!, it.country1.id!!)
-//                                getRandom2(it.genre2.id!!, it.country2.id!!)
+                                getRandom1(it.genre1.id!!, it.country1.id!!)
+                                getRandom2(it.genre2.id!!, it.country2.id!!)
                             },
                 onFailure = { Log.d("KDS",it.message ?: "")}
             )
@@ -81,7 +81,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     private fun getPopular() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                dataRepository.getTop("TOP_100_POPULAR_FILM")
+                dataRepository.getTop("TOP_100_POPULAR_FILMS")
             }.fold(
                 onSuccess = {_popularFilms.value = it },
                 onFailure = { Log.d("KDS",it.message ?: "")}

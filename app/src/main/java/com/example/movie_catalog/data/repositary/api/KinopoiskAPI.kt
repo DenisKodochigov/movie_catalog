@@ -27,16 +27,16 @@ interface KinopoiskAPI {
     @GET("/api/v2.2/films/premieres")
     suspend fun getPremieres(@Query("year") year:Int, @Query("month") month: String): PremieresDTO
 
-    //TOP_100_POPULAR_FILM  TOP_250_BEST_FILMS
+    //TOP_100_POPULAR_FILMS  TOP_250_BEST_FILMS
     @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
     @GET("/api/v2.2/films/top?page=1")
-    suspend fun getTop(@Query("page") page: Int, @Query("type") type: String): TopFilmsDTO
+    suspend fun getTop(@Query("type") type: String): TopFilmsDTO
 
+    //Order = RATING сортировка
+    // type = FILM, TV_SHOW, TV_SERIES, MINI_SERIES, ALL
     @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
     @GET("/api/v2.2/films?page=1&order=RATING&type=TV_SERIES&ratingFrom=5&ratingTo=10&yearFrom=1000&yearTo=3000")
     suspend fun getSerials(): FilterDTO
-    //Order = RATING сортировка
-    // type = FILM, TV_SHOW, TV_SERIES, MINI_SERIES, ALL
 
     @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
     @GET("/api/v2.2/films?page=1&order=RATING&type=FILM&ratingFrom=0&ratingTo=10&yearFrom=1000&yearTo=3000")

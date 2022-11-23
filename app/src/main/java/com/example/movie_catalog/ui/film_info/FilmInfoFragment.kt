@@ -132,7 +132,7 @@ class FilmInfoFragment : Fragment() {
             Glide.with(binding.posterBig.logotype).load(filmInfo.logoUrl).into(binding.posterBig.logotype)
         }
 //Show rating and other name
-        var stringForTextView:String = ""
+        var stringForTextView = ""
         if (filmInfo.ratingKinopoisk == null) {
             if (filmInfo.ratingAwait == null){
                 if (filmInfo.ratingGoodReview == null){
@@ -176,7 +176,7 @@ class FilmInfoFragment : Fragment() {
             enableTransitionType(LayoutTransition.CHANGING)
         }
         Log.d("KDS", "description = $description")
-        binding.descriptionFilm.text = description.substring(0, 250) + "..."
+        if (description.length > 250) binding.descriptionFilm.text = description.substring(0, 250) + "..."
         binding.descriptionFilm.setTextAppearance(R.style.app_bold)
 
         binding.descriptionFilm.setOnClickListener {
