@@ -21,9 +21,33 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="@string/poster_small"
+            android:scaleType="fitXY"
             android:background="@drawable/gradient_list"
             tools:ignore="ImageContrastCheck" />
+
     </androidx.cardview.widget.CardView>
+    <ImageView
+        android:id="@+id/iv_viewed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:background="@drawable/icon_viewed"
+        app:layout_constraintStart_toStartOf="@id/cv_poster"
+        app:layout_constraintEnd_toEndOf="@id/cv_poster"
+        app:layout_constraintTop_toTopOf="@id/cv_poster"
+        app:layout_constraintBottom_toBottomOf="@id/cv_poster"
+        app:layout_constraintHorizontal_bias="0.93"
+        app:layout_constraintVertical_bias="0.93"/>
+
+    <TextView
+        android:id="@+id/tv_rating"
+        style = "@style/icon_rating"
+        app:layout_constraintStart_toStartOf="@id/cv_poster"
+        app:layout_constraintEnd_toEndOf="@id/cv_poster"
+        app:layout_constraintTop_toTopOf="@id/cv_poster"
+        app:layout_constraintBottom_toBottomOf="@id/cv_poster"
+        app:layout_constraintVertical_bias="0.07"
+        app:layout_constraintHorizontal_bias="0.93"/>
 
     <TextView
         android:id="@+id/name_film"

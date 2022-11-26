@@ -4,26 +4,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="24dp">
+    android:layout_marginStart="@dimen/margin_app_hor">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_header"
-        style="@style/H2"
-        android:text="@string/the_film_starred"
+        style="@style/H2_film_info"
+        android:text="@string/header_similar"
+        app:layout_constraintBottom_toTopOf="@id/similar_recycler"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/person_recycler"
-        android:layout_marginTop="@dimen/card_person_recycler_marTop"
-        android:layout_marginStart="@dimen/margin_app_hor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/similar_recycler"
+        style = "@style/cardViewMy"
         app:layout_constraintTop_toBottomOf="@id/tv_header"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"/>
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_quantity_actor"
+        android:id="@+id/tv_quantity_movies"
         style = "@style/H4_et"
         android:visibility= "invisible"
         app:layout_constraintTop_toTopOf="parent"

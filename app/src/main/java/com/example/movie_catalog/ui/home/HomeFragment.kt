@@ -1,6 +1,5 @@
 package com.example.movie_catalog.ui.home
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,12 +13,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.movie_catalog.App.Companion.filmApp
-import com.example.movie_catalog.Constants.QTY_CARD
+import com.example.movie_catalog.App.Companion.kitApp
+import com.example.movie_catalog.Constants
 import com.example.movie_catalog.R
-import com.example.movie_catalog.data.repositary.api.home.getKit.SelectedKit
 import com.example.movie_catalog.databinding.FragmentHomeBinding
-import com.example.movie_catalog.entity.home.Film
+import com.example.movie_catalog.databinding.IncludeHomeFilmListBinding
+import com.example.movie_catalog.entity.Kit
+import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.ui.home.recyclerView.FilmListAdapter
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -49,117 +51,46 @@ class HomeFragment : Fragment() {
 
         //Get data for two random kit cinema
         homeViewModel.genreMap.onEach {
-            processingRandomKit1(it)
-            processingRandomKit2(it)
+            if (it.genre1.id != null) Kit.RANDOM1.genreID = it.genre1.id!!
+            if (it.country1.id != null) Kit.RANDOM1.countryID = it.country1.id!!
+            Kit.RANDOM1.nameKit  = if (it.genre1.genre != null || it.country1.country != null) {
+                (it.genre1.genre.toString() + " " + it.country1.country.toString()).trim()
+            } else getText(R.string.random1).toString()
+            processingView(binding.random1Kit, random1Adapter, homeViewModel.randomKit1, Kit.RANDOM1)
+
+            if (it.genre2.id != null) Kit.RANDOM2.genreID = it.genre2.id!!
+            if (it.country2.id != null) Kit.RANDOM2.countryID = it.country2.id!!
+            Kit.RANDOM2.nameKit = if (it.genre2.genre != null || it.country2.country != null) {
+                (it.genre2.genre.toString() + " " + it.country2.country.toString()).trim()
+            } else getText(R.string.random2).toString()
+            processingView(binding.random2Kit, random2Adapter, homeViewModel.randomKit2, Kit.RANDOM2)
+
         }.launchIn(viewLifecycleOwner.lifecycleScope)
         //Get list premier films
-        processingPremieres()
+        processingView(binding.premierKit, premieresAdapter, homeViewModel.premieres, Kit.PREMIERES)
         //Get list popular films
-        processingPopular()
+        processingView(binding.popularKit, popularAdapter, homeViewModel.popularFilms, Kit.POPULAR)
         //Get list top250 films
-        processingTop250()
+        processingView(binding.top250Kit, top250Adapter, homeViewModel.pageTop250, Kit.TOP250)
         //Get list top250 films
-        processingSerials()
+        processingView(binding.serialKit, serialAdapter, homeViewModel.serials, Kit.SERIALS)
     }
 
-    @SuppressLint("SuspiciousIndentation", "SetTextI18n")
-    private fun processingRandomKit1(selectedKit: SelectedKit) {
-        binding.random1Kit.filmRecyclerHorizontal.adapter = random1Adapter
+    private fun processingView(view: IncludeHomeFilmListBinding, adapter: FilmListAdapter,
+                               flowFilms: StateFlow<List<Film>>, kit :Kit){
+        with(view){
+            kitName.text = kit.nameKit
+            filmRecyclerHorizontal.adapter = adapter
+            flowFilms.onEach {
+                adapter.setListFilm(it)
+                if (it.size > Constants.QTY_CARD-1) showAll.visibility = View.VISIBLE
+                else showAll.visibility = View.INVISIBLE
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
 
-        if (selectedKit.genre1.genre != null || selectedKit.country1.country != null) {
-            binding.random1Kit.kitName.text = (selectedKit.genre1.genre.toString() + " " +
-                        selectedKit.country1.country.toString()).trim()
-        } else binding.random1Kit.kitName.text = getText(R.string.random1)
-
-        homeViewModel.randomKit1.onEach {
-            random1Adapter.setListFilm(it)
-            if (it.size > QTY_CARD) binding.random1Kit.showAll.visibility = View.VISIBLE
-            else binding.random1Kit.showAll.visibility = View.INVISIBLE
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
-
-        binding.premierKit.showAll.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_home_to_listfilms)
-        }
-    }
-
-    @SuppressLint("SuspiciousIndentation", "SetTextI18n")
-    private fun processingRandomKit2(selectedKit: SelectedKit) {
-        binding.random2Kit.filmRecyclerHorizontal.adapter = random2Adapter
-
-        if (selectedKit.genre2.genre != null || selectedKit.country2.country != null) {
-            binding.random2Kit.kitName.text = (selectedKit.genre2.genre.toString() + " " +
-                    selectedKit.country2.country.toString()).trim()
-        } else binding.random2Kit.kitName.text = getText(R.string.random2)
-
-        homeViewModel.randomKit2.onEach {
-            random2Adapter.setListFilm(it)
-            if (it.size > QTY_CARD) binding.random2Kit.showAll.visibility = View.VISIBLE
-            else binding.random2Kit.showAll.visibility = View.INVISIBLE
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
-
-        binding.premierKit.showAll.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_home_to_listfilms)
-        }
-    }
-
-    @SuppressLint("SuspiciousIndentation")
-    private fun processingPremieres() {
-        binding.premierKit.filmRecyclerHorizontal.adapter = premieresAdapter
-        binding.premierKit.kitName.text = getText(R.string.premieres)
-
-        homeViewModel.premieres.onEach {
-            premieresAdapter.setListFilm(it)
-            if (it.size > QTY_CARD) binding.premierKit.showAll.visibility = View.VISIBLE
-            else binding.premierKit.showAll.visibility = View.INVISIBLE
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
-
-        binding.premierKit.showAll.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_home_to_listfilms)
-        }
-    }
-
-    @SuppressLint("SuspiciousIndentation")
-    private fun processingPopular() {
-        binding.popularKit.kitName.text = getText(R.string.popular)
-        binding.popularKit.filmRecyclerHorizontal.adapter = popularAdapter
-
-        homeViewModel.popularFilms.onEach {
-            popularAdapter.setListFilm(it)
-            binding.popularKit.showAll.visibility = View.VISIBLE
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
-
-        binding.popularKit.showAll.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_home_to_listfilms)
-        }
-    }
-
-    @SuppressLint("SuspiciousIndentation")
-    private fun processingTop250() {
-        binding.top250Kit.kitName.text = getText(R.string.top)
-        binding.top250Kit.filmRecyclerHorizontal.adapter = top250Adapter
-
-        homeViewModel.pageTop250.onEach {
-            top250Adapter.setListFilm(it)
-            binding.top250Kit.showAll.visibility = View.VISIBLE
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
-
-        binding.top250Kit.showAll.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_home_to_listfilms)
-        }
-    }
-
-    @SuppressLint("SuspiciousIndentation")
-    private fun processingSerials() {
-        binding.serialKit.kitName.text = getText(R.string.serials)
-        binding.serialKit.filmRecyclerHorizontal.adapter = serialAdapter
-
-        homeViewModel.serials.onEach {
-            serialAdapter.setListFilm(it)
-            binding.serialKit.showAll.visibility = View.VISIBLE
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
-
-        binding.serialKit.showAll.setOnClickListener {
-            findNavController().navigate(R.id.action_navigation_home_to_listfilms)
+            showAll.setOnClickListener {
+                kitApp = kit
+                findNavController().navigate(R.id.action_navigation_home_to_listfilms)
+            }
         }
     }
 

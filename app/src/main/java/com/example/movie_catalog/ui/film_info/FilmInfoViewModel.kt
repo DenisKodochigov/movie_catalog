@@ -5,8 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.App.Companion.filmApp
 import com.example.movie_catalog.data.repositary.DataRepository
+import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.entity.filminfo.FilmInfoSeasons
 import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
+import com.example.movie_catalog.data.repositary.api.film_info.SimilarDTO
+import com.example.movie_catalog.entity.Film
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,15 +26,23 @@ class FilmInfoViewModel @Inject constructor(): ViewModel() {
     private var _personDTO = MutableStateFlow(listOf<PersonDTO>())
     var person = _personDTO.asStateFlow()
 
+    private var _gallery = MutableStateFlow(listOf<FilmImageUrlDTO>())
+    var gallery = _gallery.asStateFlow()
+
+    private var _similar = MutableStateFlow(listOf<Film>())
+    var similar = _similar.asStateFlow()
+
     init {
         getFilmInfo()
         getActors()
+        getGallery()
+        getSimilar()
     }
 
     private fun getFilmInfo() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                dataRepository.getFilmInfo(filmApp.kinopoiskId!!)
+                dataRepository.getInfoSeasson(filmApp.filmId!!)
             }.fold(
                 onSuccess = {_filmInfo.value = it },
                 onFailure = { Log.d("KDS",it.message ?: "")}
@@ -41,9 +52,29 @@ class FilmInfoViewModel @Inject constructor(): ViewModel() {
     private fun getActors() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                dataRepository.getActors(filmApp.kinopoiskId!!)
+                dataRepository.getActors(filmApp.filmId!!)
             }.fold(
                 onSuccess = {_personDTO.value = it },
+                onFailure = { Log.d("KDS",it.message ?: "")}
+            )
+        }
+    }
+    private fun getGallery() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                dataRepository.getGallery(filmApp.filmId!!)
+            }.fold(
+                onSuccess = {_gallery.value = it.items },
+                onFailure = { Log.d("KDS",it.message ?: "")}
+            )
+        }
+    }
+    private fun getSimilar() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                dataRepository.getSimilar(filmApp.filmId!!)
+            }.fold(
+                onSuccess = {_similar.value = it },
                 onFailure = { Log.d("KDS",it.message ?: "")}
             )
         }

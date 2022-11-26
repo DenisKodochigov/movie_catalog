@@ -20,6 +20,7 @@
     <string name="card_starred_actor">Актер</string>
     <string name="card_starred_role">Роль</string>
     <string name="card_starred_photo">Фотография актера</string>
+
     <string name="card_gallery_photo">Фотография кадра</string>
 
     <string name="poster_small">poster_small</string>
@@ -44,4 +45,9 @@
     <string name="header_actor">В фильме снимались</string>
     <string name="header_staff">Над фильмом работали</string>
     <string name="header_gallery">Галерея</string>
+    <string name="header_similar">Похожие фильмы</string>
+
+    <string name="icon_rating_hint">5.5</string>
+    <string name="gallery_tab_hint">Кадры</string>
+    <string name="not_data">Нет данных</string>
 </resources>

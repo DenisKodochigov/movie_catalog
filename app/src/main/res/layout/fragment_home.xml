@@ -26,37 +26,37 @@
 
             <include
                 android:id="@+id/premier_kit"
-                layout="@layout/include_film_list_fragment_home"
+                layout="@layout/include_home_film_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <include
                 android:id="@+id/popular_kit"
-                layout="@layout/include_film_list_fragment_home"
+                layout="@layout/include_home_film_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <include
                 android:id="@+id/random1_kit"
-                layout="@layout/include_film_list_fragment_home"
+                layout="@layout/include_home_film_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <include
                 android:id="@+id/random2_kit"
-                layout="@layout/include_film_list_fragment_home"
+                layout="@layout/include_home_film_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <include
                 android:id="@+id/top250_kit"
-                layout="@layout/include_film_list_fragment_home"
+                layout="@layout/include_home_film_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <include
                 android:id="@+id/serial_kit"
-                layout="@layout/include_film_list_fragment_home"
+                layout="@layout/include_home_film_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

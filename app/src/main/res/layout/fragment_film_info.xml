@@ -5,44 +5,42 @@
     tools:context=".ui.film_info.FilmInfoFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/margin_top_display">
+    android:layout_marginTop="@dimen/margin_app_top">
 
     <LinearLayout
         android:id="@+id/fragm_film_info_linear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+
         <include
             android:id="@+id/poster_big"
-            layout="@layout/include_poster_big"
+            layout="@layout/include_film_info_poster_big"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_app_top"/>
+            android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/description_film"
             style="@style/H3_description"/>
-
         <include
-            android:id="@+id/actors"
-            layout="@layout/include_person_film_info"
+            android:id="@+id/person"
+            layout="@layout/include_film_info_person"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_app_top"/>
+            android:layout_height="wrap_content"/>
         <include
             android:id="@+id/staff"
-            layout="@layout/include_person_film_info"
+            layout="@layout/include_film_info_person"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_app_top"/>
+            android:layout_height="wrap_content"/>
         <include
             android:id="@+id/gallery"
-            layout="@layout/include_gallery_film_info"
+            layout="@layout/include_film_info_gallery"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_app_top"/>
+            android:layout_height="wrap_content"/>
+        <include
+            android:id="@+id/similar"
+            layout="@layout/include_film_info_similars"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 </ScrollView>

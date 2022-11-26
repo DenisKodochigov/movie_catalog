@@ -1,8 +1,11 @@
 package com.example.movie_catalog.data.repositary.api.film_info
 
+import android.os.Parcelable
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @JsonClass(generateAdapter = true)
 data class PersonDTO(
     @Json(name = "staffId") val staffId:Int? = null,
@@ -12,4 +15,4 @@ data class PersonDTO(
     @Json(name = "posterUrl") val posterUrl:String? = null,
     @Json(name = "professionText") val professionText:String? = null,
     @Json(name = "professionKey") val professionKey:String? = null,
-)
+): Parcelable

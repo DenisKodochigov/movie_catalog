@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle" >
+
+    <solid android:color="@color/blue_arrow" />
+
+    <corners
+        android:bottomLeftRadius="@dimen/ic_rating_corners"
+        android:bottomRightRadius="@dimen/ic_rating_corners"
+        android:topLeftRadius="@dimen/ic_rating_corners"
+        android:topRightRadius="@dimen/ic_rating_corners" />
+</shape>

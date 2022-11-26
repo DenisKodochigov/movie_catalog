@@ -6,6 +6,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.movie_catalog.databinding.ActivityMainBinding
+import com.example.movie_catalog.entity.Kit
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,9 +30,16 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.title = ""
-        binding.toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_ios_24)
+
+        binding.toolbar.setNavigationIcon(R.drawable.icon_arrow)
         binding.toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
+        Kit.PREMIERES.nameKit = resources.getString(R.string.premieres)
+        Kit.POPULAR.nameKit = resources.getString(R.string.popular)
+        Kit.SERIALS.nameKit = resources.getString(R.string.serials)
+        Kit.TOP250.nameKit = resources.getString(R.string.top)
+        Kit.RANDOM1.nameKit = resources.getString(R.string.random1)
+        Kit.RANDOM2.nameKit = resources.getString(R.string.random2)
     }
 }

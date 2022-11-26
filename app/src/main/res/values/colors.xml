@@ -14,4 +14,6 @@
     <color name="h5">#838390</color>
     <color name="h5_poster">#B5B5C9</color>
     <color name="blue_arrow">#3D3BFF</color>
+    <color name="ic_rating_text">#FFFFFF</color>
+    <color name="clear">#00FAF8F8</color>
 </resources>

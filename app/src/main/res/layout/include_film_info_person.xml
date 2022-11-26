@@ -4,23 +4,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="24dp">
+    android:layout_marginStart="@dimen/margin_app_hor">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_header"
-        style="@style/H2"
-        android:text="@string/header_gallery"
+        style="@style/H2_film_info"
+        android:text="@string/the_film_starred"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/person_recycler"
-        android:layout_marginTop="@dimen/card_gallery_recycler_marTop"
-        android:layout_marginStart="@dimen/margin_app_hor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style = "@style/cardViewMy"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintTop_toBottomOf="@id/tv_header"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
     <androidx.appcompat.widget.AppCompatTextView

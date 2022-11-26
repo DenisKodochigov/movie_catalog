@@ -6,12 +6,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.movie_catalog.databinding.ItemRecyclerPersonBinding
+import com.example.movie_catalog.databinding.ItemFilmInfoPersonBinding
 import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
 import javax.inject.Inject
 
 class PersonAdapter @Inject constructor(private val onClick: (PersonDTO) -> Unit,
-                                        val sizeGird:Int, val whoteRole: Int): RecyclerView.Adapter<PersonViewHolder>()
+                                        val sizeGird:Int, val whatRole: Int): RecyclerView.Adapter<PersonViewHolder>()
 {
     private var people: List<PersonDTO> = emptyList()
 
@@ -23,7 +23,7 @@ class PersonAdapter @Inject constructor(private val onClick: (PersonDTO) -> Unit
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonViewHolder {
         return PersonViewHolder(
-            ItemRecyclerPersonBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemFilmInfoPersonBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 
@@ -33,8 +33,8 @@ class PersonAdapter @Inject constructor(private val onClick: (PersonDTO) -> Unit
         //Set actor name
         holder.binding.tvActor.text = person?.nameRu ?: ""
         //Set actor role.
-        if (whoteRole == 1) holder.binding.tvRole.text = person?.description ?: ""
-        else if (whoteRole == 2) holder.binding.tvRole.text = person?.professionText ?: ""
+        if (whatRole == 1) holder.binding.tvRole.text = person?.description ?: ""
+        else if (whatRole == 2) holder.binding.tvRole.text = person?.professionText ?: ""
 
         //Load small poster. Before load image, show waiting animation.
         val animationCard = holder.binding.photo.background as AnimationDrawable
@@ -65,4 +65,4 @@ class PersonAdapter @Inject constructor(private val onClick: (PersonDTO) -> Unit
     }
 }
 
-class PersonViewHolder(val binding: ItemRecyclerPersonBinding) : RecyclerView.ViewHolder(binding.root)
+class PersonViewHolder(val binding: ItemFilmInfoPersonBinding) : RecyclerView.ViewHolder(binding.root)

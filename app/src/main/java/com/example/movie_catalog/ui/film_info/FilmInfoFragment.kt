@@ -4,7 +4,6 @@ import android.animation.LayoutTransition
 import android.annotation.SuppressLint
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,15 +16,20 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movie_catalog.App
 import com.example.movie_catalog.Constants
 import com.example.movie_catalog.R
-import com.example.movie_catalog.databinding.FragmentFilmInfoBinding
-import com.example.movie_catalog.entity.filminfo.FilmInfoSeasons
+import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
+import com.example.movie_catalog.databinding.FragmentFilmInfoBinding
+import com.example.movie_catalog.entity.Film
+import com.example.movie_catalog.entity.filminfo.FilmInfoSeasons
+import com.example.movie_catalog.ui.film_info.recyclerView.FilmInfoGalleryAdapter
 import com.example.movie_catalog.ui.film_info.recyclerView.PersonAdapter
+import com.example.movie_catalog.ui.home.recyclerView.FilmListAdapter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -33,8 +37,10 @@ class FilmInfoFragment : Fragment() {
 
     private var _binding: FragmentFilmInfoBinding? = null
     private val binding get() = _binding!!
-    private val actorAdapter = PersonAdapter({person -> onPersonClick(person)}, sizeGird = 20, whoteRole = 1)
-    private val staffAdapter = PersonAdapter({person -> onPersonClick(person)}, sizeGird = 6, whoteRole = 2)
+    private val actorAdapter = PersonAdapter({person -> onPersonClick(person)}, sizeGird = 20, whatRole = 1)
+    private val staffAdapter = PersonAdapter({person -> onPersonClick(person)}, sizeGird = 6, whatRole = 2)
+    private val galleryAdapter = FilmInfoGalleryAdapter { image ->onImageClick(image) }
+    private val similarAdapter = FilmListAdapter { film -> onSimilarClick(film) }
     private val viewModel: FilmInfoViewModel by viewModels()
     private var isCollapsed = false
 
@@ -42,6 +48,7 @@ class FilmInfoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentFilmInfoBinding.inflate(inflater, container,false)
         (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text = ""
+
         return binding.root
     }
 
@@ -54,18 +61,52 @@ class FilmInfoFragment : Fragment() {
 
         processingPerson()
         processingGallery()
+        processingSimilar()
     }
 
-    private fun processingGallery(){
+    @SuppressLint("SetTextI18n")
+    private fun processingSimilar() {
+        binding.similar.similarRecycler.layoutManager = LinearLayoutManager(context,
+            RecyclerView.HORIZONTAL, false)
+        binding.similar.similarRecycler.adapter = similarAdapter
 
+        viewModel.similar.onEach {
+            similarAdapter.setListFilm(it)
+            if (it.size > Constants.QTY_CARD-1) {
+                binding.similar.tvQuantityMovies.visibility = View.VISIBLE
+                binding.similar.tvQuantityMovies.text = it.size.toString()  + " >"
+            } else {
+                binding.gallery.tvQuantityImages.visibility = View.INVISIBLE
+            }
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun processingGallery(){
+        binding.gallery.imageRecycler.layoutManager = LinearLayoutManager(context,
+            RecyclerView.HORIZONTAL,false)
+        binding.gallery.imageRecycler.adapter = galleryAdapter
+        viewModel.gallery.onEach {
+            galleryAdapter.setList(it)
+
+            if (it.size > Constants.QTY_CARD-1) {
+                binding.gallery.tvQuantityImages.visibility = View.VISIBLE
+                binding.gallery.tvQuantityImages.text = it.size.toString() + " >"
+            }else if (it.isEmpty()){
+                binding.gallery.tvQuantityImages.visibility = View.VISIBLE
+                binding.gallery.tvQuantityImages.text = resources.getString(R.string.not_data)
+            } else {
+                binding.gallery.tvQuantityImages.visibility = View.INVISIBLE
+            }
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     @SuppressLint("SetTextI18n")
     private fun processingPerson(){
-        binding.actors.personRecycler.layoutManager= GridLayoutManager(context,5,
+        binding.person.personRecycler.layoutManager= GridLayoutManager(context,5,
                                                                 RecyclerView.HORIZONTAL,false)
-        binding.actors.tvHeader.text = getText(R.string.header_actor)
-        binding.actors.personRecycler.adapter = actorAdapter
+        binding.person.tvHeader.text = getText(R.string.header_actor)
+        binding.person.personRecycler.adapter = actorAdapter
 
         binding.staff.personRecycler.layoutManager= GridLayoutManager(context,2,
                                                                 RecyclerView.HORIZONTAL,false)
@@ -76,10 +117,10 @@ class FilmInfoFragment : Fragment() {
             actorAdapter.setListFilm(it.filter { person -> person.professionKey == "ACTOR" })
             var sizeList = it.filter { person -> person.professionKey == "ACTOR" }.size
             if (it.filter { person -> person.professionKey == "ACTOR" }.size> Constants.QTY_CARD) {
-                binding.actors.tvQuantityActor.visibility = View.VISIBLE
-                binding.actors.tvQuantityActor.text = "$sizeList >"
+                binding.person.tvQuantityActor.visibility = View.VISIBLE
+                binding.person.tvQuantityActor.text = "$sizeList >"
             } else {
-                binding.actors.tvQuantityActor.visibility = View.INVISIBLE
+                binding.person.tvQuantityActor.visibility = View.INVISIBLE
             }
 
             staffAdapter.setListFilm(it.filter { person -> person.professionKey != "ACTOR" })
@@ -112,6 +153,7 @@ class FilmInfoFragment : Fragment() {
         }else{
             Glide.with(binding.posterBig.poster).load(filmInfo.posterUrl).into(binding.posterBig.poster)
             animationCard.stop()
+            binding.posterBig.poster.background.alpha = 0
         }
 
 //Show logotype or name russia or name original
@@ -122,10 +164,10 @@ class FilmInfoFragment : Fragment() {
 //                    Log.d("KDS","nameRu=${filmInfo.nameRu}, nameOriginal=${filmInfo.nameOriginal}")
                     binding.posterBig.nameRuOrig.visibility=View.INVISIBLE
                 } else {
-                    binding.posterBig.nameRuOrig.text = filmInfo.nameOriginal.toString()
+                    binding.posterBig.nameRuOrig.text = filmInfo.nameOriginal.toString().trim()
                 }
             } else {
-                binding.posterBig.nameRuOrig.text = filmInfo.nameRu.toString()
+                binding.posterBig.nameRuOrig.text = filmInfo.nameRu.toString().trim()
             }
         } else {
             binding.posterBig.nameRuOrig.visibility=View.INVISIBLE
@@ -137,36 +179,35 @@ class FilmInfoFragment : Fragment() {
             if (filmInfo.ratingAwait == null){
                 if (filmInfo.ratingGoodReview == null){
                     if (filmInfo.ratingImdb != null){
-                        stringForTextView = filmInfo.ratingImdb.toString()
+                        stringForTextView = filmInfo.ratingImdb.toString().trim()
                     }
-                }else { stringForTextView = filmInfo.ratingGoodReview.toString()}
-            }else { stringForTextView = filmInfo.ratingAwait.toString()}
-        }else { stringForTextView = filmInfo.ratingKinopoisk.toString()}
+                }else { stringForTextView = filmInfo.ratingGoodReview.toString().trim()}
+            }else { stringForTextView = filmInfo.ratingAwait.toString().trim()}
+        }else { stringForTextView = filmInfo.ratingKinopoisk.toString().trim()}
 
         if (filmInfo.nameOriginal != null){
-            stringForTextView = stringForTextView + " " + filmInfo.nameOriginal.toString()
+            stringForTextView = stringForTextView + " " + filmInfo.nameOriginal.toString().trim()
         } else if (filmInfo.nameEn != null){
-            stringForTextView = stringForTextView + " " + filmInfo.nameEn.toString()
+            stringForTextView = stringForTextView + " " + filmInfo.nameEn.toString().trim()
         } else if (filmInfo.nameRu != null) {
-            stringForTextView = stringForTextView + " " + filmInfo.nameRu.toString()
+            stringForTextView = stringForTextView + " " + filmInfo.nameRu.toString().trim()
         }
         binding.posterBig.ratingName.text = stringForTextView
 //Show year, genre, quantity seasons,
         //Add year
-        if (filmInfo.year != null) stringForTextView = filmInfo.year.toString()
+        if (filmInfo.year != null) stringForTextView = filmInfo.year.toString().trim()
         //Add genres
         filmInfo.genres?.forEach {
-            stringForTextView = if (stringForTextView == "") { it.genre.toString()}
-            else { stringForTextView + ", " + it.genre.toString()}
+            stringForTextView = if (stringForTextView == "") { it.genre.toString().trim()}
+            else { stringForTextView + ", " + it.genre.toString().trim()}
         }
         //Add seasons
         if (filmInfoSeasons.seasonsDTO?.total != null) {
-            stringForTextView += ", seasons: " + filmInfoSeasons.seasonsDTO?.total.toString()
+            stringForTextView += ", seasons: " + filmInfoSeasons.seasonsDTO?.total.toString().trim()
         }
         binding.posterBig.yearGenreOther.text = stringForTextView
 
 //Show short descriptions
-
         var description = ""
         if (filmInfo.shortDescription != null) description = filmInfo.shortDescription.toString()
         if (filmInfo.description != null) description += filmInfo.description.toString()
@@ -175,7 +216,7 @@ class FilmInfoFragment : Fragment() {
             setDuration(600)
             enableTransitionType(LayoutTransition.CHANGING)
         }
-        Log.d("KDS", "description = $description")
+//        Log.d("KDS", "description = $description")
         if (description.length > 250) binding.descriptionFilm.text = description.substring(0, 250) + "..."
         binding.descriptionFilm.setTextAppearance(R.style.app_bold)
 
@@ -193,14 +234,25 @@ class FilmInfoFragment : Fragment() {
     }
 
     private fun onPersonClick(personDTO: PersonDTO) {
-        setFragmentResult("requestKey", bundleOf("FILM" to personDTO))
+        setFragmentResult("requestKey", bundleOf("PERSON" to personDTO))
         App.personDTOApp = personDTO
         findNavController().navigate(R.id.action_filmInfoFragment_to_actorFragment)
     }
 
+    private fun onImageClick(image: FilmImageUrlDTO) {
+//        setFragmentResult("requestKey", bundleOf("IMAGE" to image))
+        App.imageApp = image
+//        findNavController().navigate(R.id.action_filmInfoFragment_to_actorFragment)
+    }
+
+    private fun onSimilarClick(film: Film) {
+//        setFragmentResult("requestKey", bundleOf("FILM" to film))
+        App.filmApp = film
+        findNavController().navigate(R.id.action_filmInfoFragment_to_listfilms)
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-    companion object { fun newInstance() = FilmInfoFragment()}
+    companion object { fun newInstance() = FilmInfoFragment() }
 }

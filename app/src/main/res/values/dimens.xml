@@ -16,15 +16,25 @@
 
     <dimen name="margin_1">28dp</dimen>
     <dimen name="margin_app_hor">26dp</dimen>
-    <dimen name="margin_app_top">16dp</dimen>
-    <dimen name="margin_top_h5_filminfo">4dp</dimen>
+    <dimen name="margin_app_top">32dp</dimen>
+    <dimen name="margin_app_bottom">50dp</dimen>
     <dimen name="margin_top_h5_home">2dp</dimen>
     <dimen name="margin_top_display">0dp</dimen>
+
+    <dimen name="film_info_margin_top_h5">4dp</dimen>
+    <dimen name="film_info_margin_top_h2">40dp</dimen>
+    <dimen name="film_info_margin_bottom_h2">32dp</dimen>
 
     <dimen name="card_film_width">111dp</dimen>
     <dimen name="card_film_height">157dp</dimen>
     <dimen name="card_film_radius">6dp</dimen>
     <dimen name="card_film_name_marTop">8dp</dimen>
+
+    <dimen name="card_gallery_icon_width">192dp</dimen>
+    <dimen name="card_gallery_icon_height">108dp</dimen>
+    <dimen name="card_gallery_icon_radius">6dp</dimen>
+    <dimen name="card_gallery_icon_name_marTop">8dp</dimen>
+    <dimen name="card_gallery_icon_marStart">8dp</dimen>
 
     <dimen name="card_people_width">49dp</dimen>
     <dimen name="card_people_height">68dp</dimen>
@@ -35,12 +45,22 @@
     <dimen name="card_people_name_marHor">16dp</dimen>
     <dimen name="card_person_recycler_marTop">32dp</dimen>
 
-    <dimen name="card_gallery_width">192dp</dimen>
-    <dimen name="card_gallery_height">108dp</dimen>
-    <dimen name="card_gallery_recycler_marTop">32dp</dimen>
+    <dimen name="home_recycler_marTop">16dp</dimen>
 
     <dimen name="text_margin">16dp</dimen>
     <dimen name="short_description_margin_top">40dp</dimen>
     <dimen name="ratio_wave">300dp</dimen>
+
+    <dimen name="ic_rating_corners">5dp</dimen>
+    <dimen name="full_list_margin_top">88dp</dimen>
+    <dimen name="toolbar_margin_top">20dp</dimen>
+    <dimen name="dp0">0dp</dimen>
+
+    <dimen name="gallery_tab_rectangle_radius">20dp</dimen>
+    <dimen name="gallery_tab_rectangle_stroke_width">2dp</dimen>
+    <dimen name="gallery_tab_margin_hor">24dp</dimen>
+    <dimen name="gallery_tab_item_margin_hor">10dp</dimen>
+    <dimen name="gallery_tab_margin_ver">8dp</dimen>
+
 
 </resources>

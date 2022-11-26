@@ -21,7 +21,7 @@
             android:layout_height="match_parent"
             android:gravity="center_horizontal">
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/film_recycler_vertical"
+                android:id="@+id/similar_film_recycler"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>

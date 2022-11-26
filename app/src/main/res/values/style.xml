@@ -30,7 +30,14 @@
     <style name="H2" parent = "textApp">
         <item name="android:textSize">18sp</item>
         <item name="android:gravity">start</item>
+    </style>
+    <style name="H2_app" parent = "H2">
         <item name="android:layout_marginTop">@dimen/margin_app_top</item>
+        <item name="android:layout_marginStart">@dimen/margin_app_hor</item>
+    </style>
+    <style name="H2_film_info" parent = "H2">
+        <item name="android:layout_marginTop">@dimen/film_info_margin_top_h2</item>
+        <item name="android:layout_marginBottom">@dimen/film_info_margin_bottom_h2</item>
         <item name="android:layout_marginStart">@dimen/margin_app_hor</item>
     </style>
 
@@ -56,8 +63,6 @@
 
     <style name="H4" parent = "textApp">
         <item name="android:textSize">14sp</item>
-        <item name="android:layout_marginTop">@dimen/margin_app_top</item>
-        <item name="android:layout_marginEnd">@dimen/margin_app_hor</item>
         <item name="android:gravity">start</item>
     </style>
     <style name="H4_" parent = "H4">
@@ -69,6 +74,7 @@
     </style>
     <style name="H4_et" parent = "H4">
         <item name="android:textColor">@color/blue_arrow</item>
+        <item name="android:layout_marginTop">@dimen/film_info_margin_top_h2</item>
         <item name="android:gravity">end|top</item>
     </style>
 
@@ -89,17 +95,49 @@
         <item name="android:layout_marginEnd">@dimen/margin_top_display</item>
     </style>
     <style name="H5_poster" parent = "H5">
-        <item name="android:layout_marginTop">@dimen/margin_top_h5_filminfo</item>
+        <item name="android:layout_marginTop">@dimen/film_info_margin_top_h5</item>
+        <item name="android:layout_marginEnd">@dimen/dp0</item>
     </style>
     <style name="H5_toolbar" parent = "H5">
-        <item name="android:layout_marginTop">@dimen/margin_top_display</item>
+        <item name="android:layout_marginTop">@dimen/toolbar_margin_top</item>
         <item name="android:gravity">center_horizontal</item>
         <item name="android:textColor">@color/general</item>
+
     </style>
     <style name="app_bold" parent = "textApp">
         <item name="android:textStyle">bold</item>
     </style>
     <style name="app_normal" parent = "textApp">
         <item name="android:textStyle">normal</item>
+    </style>
+    <style name="icon_rating" parent = "textApp">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">6sp</item>
+        <item name="android:textColor">@color/ic_rating_text</item>
+        <item name="android:textColorHint">@color/ic_rating_text</item>
+        <item name="android:background">@drawable/card_film_rating_rectangle</item>
+        <item name="android:paddingHorizontal">5dp</item>
+        <item name="android:paddingVertical">2dp</item>
+        <item name="android:hint">@string/icon_rating_hint</item>
+    </style>
+    <style name="cardViewMy" parent="textApp">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/film_info_margin_bottom_h2</item>
+    </style>
+    <style name="gallery_tabs_name" parent = "H2">
+        <item name="android:textColor">@color/ic_rating_text</item>
+        <item name="android:textColorHint">@color/ic_rating_text</item>
+        <item name="android:paddingStart">@dimen/gallery_tab_margin_hor</item>
+        <item name="android:paddingVertical">8dp</item>
+        <item name="android:hint">@string/gallery_tab_hint</item>
+    </style>
+    <style name="gallery_tabs_quantity" parent = "H4">
+        <item name="android:textColor">@color/h5_poster</item>
+        <item name="android:textColorHint">@color/h5_poster</item>
+        <item name="android:paddingStart">@dimen/gallery_tab_item_margin_hor</item>
+        <item name="android:paddingEnd">@dimen/gallery_tab_margin_hor</item>
+        <item name="android:paddingVertical">8dp</item>
+        <item name="android:hint">@string/gallery_tab_hint</item>
     </style>
 </resources>

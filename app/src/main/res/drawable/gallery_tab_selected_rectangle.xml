@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle" >
+
+    <solid android:color="@color/blue_arrow" />
+
+    <corners
+        android:bottomLeftRadius="@dimen/gallery_tab_rectangle_radius"
+        android:bottomRightRadius="@dimen/gallery_tab_rectangle_radius"
+        android:topLeftRadius="@dimen/gallery_tab_rectangle_radius"
+        android:topRightRadius="@dimen/gallery_tab_rectangle_radius" />
+</shape>

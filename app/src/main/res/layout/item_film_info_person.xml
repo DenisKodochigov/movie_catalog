@@ -9,8 +9,8 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_photo"
-        android:layout_width="@dimen/card_gallery_width"
-        android:layout_height="@dimen/card_gallery_height"
+        android:layout_width="@dimen/card_people_width"
+        android:layout_height="@dimen/card_people_height"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:cardCornerRadius="@dimen/card_people_radius">
@@ -18,9 +18,28 @@
             android:id="@+id/photo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:contentDescription="@string/card_gallery_photo"
+            android:scaleType="fitXY"
+            android:contentDescription="@string/card_starred_photo"
             android:background="@drawable/gradient_list"
             tools:ignore="ImageContrastCheck" />
     </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/tv_actor"
+        style="@style/H4_"
+        android:layout_width="@dimen/card_people_actor_width"
+        android:hint="@string/card_starred_actor"
+        app:layout_constraintStart_toEndOf="@id/cv_photo"
+        app:layout_constraintTop_toTopOf="@id/cv_photo"
+        app:layout_constraintBottom_toTopOf="@id/tv_role"/>
+
+    <TextView
+        android:id="@+id/tv_role"
+        style="@style/H5_actor"
+        android:layout_width="@dimen/card_people_actor_width"
+        android:hint="@string/card_starred_role"
+        app:layout_constraintTop_toBottomOf="@id/tv_actor"
+        app:layout_constraintStart_toStartOf="@id/tv_actor"
+        app:layout_constraintBottom_toBottomOf="@id/cv_photo" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
