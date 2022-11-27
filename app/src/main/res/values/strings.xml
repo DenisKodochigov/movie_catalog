@@ -50,4 +50,16 @@
     <string name="icon_rating_hint">5.5</string>
     <string name="gallery_tab_hint">Кадры</string>
     <string name="not_data">Нет данных</string>
+
+    <string name="FAN_ART">Фан-арты</string>
+
+    <string name="CONCEPT">Концепт-арты</string>
+    <string name="COVER">Обложки</string>
+    <string name="POSTER">Постеры</string>
+    <string name="PROMO">Промо</string>
+    <string name="SCREENSHOT">Скриншоты</string>
+    <string name="SHOOTING">Изображения со съемок</string>
+    <string name="STILL">Кадры</string>
+    <string name="WALLPAPER">Обои</string>
+
 </resources>

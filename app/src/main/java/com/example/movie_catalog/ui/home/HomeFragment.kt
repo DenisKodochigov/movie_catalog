@@ -18,7 +18,7 @@ import com.example.movie_catalog.Constants
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentHomeBinding
 import com.example.movie_catalog.databinding.IncludeHomeFilmListBinding
-import com.example.movie_catalog.entity.Kit
+import com.example.movie_catalog.entity.filminfo.Kit
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.ui.home.recyclerView.FilmListAdapter
 import kotlinx.coroutines.flow.StateFlow
@@ -77,7 +77,8 @@ class HomeFragment : Fragment() {
     }
 
     private fun processingView(view: IncludeHomeFilmListBinding, adapter: FilmListAdapter,
-                               flowFilms: StateFlow<List<Film>>, kit :Kit){
+                               flowFilms: StateFlow<List<Film>>, kit : Kit
+    ){
         with(view){
             kitName.text = kit.nameKit
             filmRecyclerHorizontal.adapter = adapter

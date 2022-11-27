@@ -22,11 +22,11 @@ import com.bumptech.glide.Glide
 import com.example.movie_catalog.App
 import com.example.movie_catalog.Constants
 import com.example.movie_catalog.R
-import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
 import com.example.movie_catalog.databinding.FragmentFilmInfoBinding
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.filminfo.FilmInfoSeasons
+import com.example.movie_catalog.entity.filminfo.Gallery
 import com.example.movie_catalog.ui.film_info.recyclerView.FilmInfoGalleryAdapter
 import com.example.movie_catalog.ui.film_info.recyclerView.PersonAdapter
 import com.example.movie_catalog.ui.home.recyclerView.FilmListAdapter
@@ -48,7 +48,6 @@ class FilmInfoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentFilmInfoBinding.inflate(inflater, container,false)
         (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text = ""
-
         return binding.root
     }
 
@@ -88,7 +87,6 @@ class FilmInfoFragment : Fragment() {
         binding.gallery.imageRecycler.adapter = galleryAdapter
         viewModel.gallery.onEach {
             galleryAdapter.setList(it)
-
             if (it.size > Constants.QTY_CARD-1) {
                 binding.gallery.tvQuantityImages.visibility = View.VISIBLE
                 binding.gallery.tvQuantityImages.text = it.size.toString() + " >"
@@ -239,10 +237,10 @@ class FilmInfoFragment : Fragment() {
         findNavController().navigate(R.id.action_filmInfoFragment_to_actorFragment)
     }
 
-    private fun onImageClick(image: FilmImageUrlDTO) {
+    private fun onImageClick(image: Gallery) {
 //        setFragmentResult("requestKey", bundleOf("IMAGE" to image))
-        App.imageApp = image
-//        findNavController().navigate(R.id.action_filmInfoFragment_to_actorFragment)
+        App.imagesApp = image
+//        findNavController().navigate(R.id.action_filmInfoFragment_to_galleryFragment)
     }
 
     private fun onSimilarClick(film: Film) {

@@ -6,19 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.movie_catalog.App
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentGalleryBinding
-import com.example.movie_catalog.entity.Film
+import com.example.movie_catalog.entity.filminfo.Tab
+import com.example.movie_catalog.entity.filminfo.Gallery
 import com.example.movie_catalog.ui.full_list_films.ListFilmsFragment
 import com.example.movie_catalog.ui.gallery.recycler.ImagesAdapter
 import com.example.movie_catalog.ui.gallery.recycler.TabsAdapter
@@ -34,8 +32,9 @@ class GalleryFragment : Fragment() {
     private var _binding: FragmentGalleryBinding? = null
     private val binding get() = _binding!!
     private val viewModel: GalleryViewModel by viewModels()
-    private val tabsAdapter = TabsAdapter()
+    private val tabsAdapter = TabsAdapter{tab -> onClickTab(tab)}
     private val imageAdapter = ImagesAdapter()
+    private var gallery = Gallery()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -53,12 +52,17 @@ class GalleryFragment : Fragment() {
         binding.galleryTabsRecycler.adapter = tabsAdapter
         binding.galleryImagesRecycler.adapter = imageAdapter
 
-        viewModel.images.onEach {
+        viewModel.galleryFlow.onEach {
+            gallery = it
             tabsAdapter.setList(it.tabs)
-            imageAdapter.setList(it.imagesUrl)
+            it.tabs[0].imagesUrl?.let { it1 -> imageAdapter.setList(it1.items) }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
+
+    private fun onClickTab(tab: Tab) {
+        tab.imagesUrl?.let { imageAdapter.setList(it.items) }
+    }
 //    private fun onItemClick(film: Film) {
 //        setFragmentResult("requestKey", bundleOf("FILM" to film))
 //        App.filmApp = film

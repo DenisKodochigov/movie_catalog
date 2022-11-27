@@ -6,7 +6,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.movie_catalog.databinding.ActivityMainBinding
-import com.example.movie_catalog.entity.Kit
+import com.example.movie_catalog.entity.filminfo.Kit
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -35,11 +35,11 @@ class MainActivity : AppCompatActivity() {
         binding.toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
-        Kit.PREMIERES.nameKit = resources.getString(R.string.premieres)
-        Kit.POPULAR.nameKit = resources.getString(R.string.popular)
-        Kit.SERIALS.nameKit = resources.getString(R.string.serials)
-        Kit.TOP250.nameKit = resources.getString(R.string.top)
-        Kit.RANDOM1.nameKit = resources.getString(R.string.random1)
-        Kit.RANDOM2.nameKit = resources.getString(R.string.random2)
+        Kit.PREMIERES.nameKit = getText(R.string.premieres).toString()
+        Kit.POPULAR.nameKit = getText(R.string.popular).toString()
+        Kit.SERIALS.nameKit = getText(R.string.serials).toString()
+        Kit.TOP250.nameKit = getText(R.string.top).toString()
+        Kit.RANDOM1.nameKit = getText(R.string.random1).toString()
+        Kit.RANDOM2.nameKit = getText(R.string.random2).toString()
     }
 }

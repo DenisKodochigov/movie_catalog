@@ -1,4 +1,4 @@
-package com.example.movie_catalog.entity
+package com.example.movie_catalog.entity.filminfo
 
 enum class Kit(var nameKit:String, var genreID: Int, var countryID:Int) {
     PREMIERES ("",1,1),

@@ -10,11 +10,10 @@ import androidx.paging.cachedIn
 import com.example.movie_catalog.App.Companion.kitApp
 import com.example.movie_catalog.data.repositary.DataRepository
 import com.example.movie_catalog.data.repositary.api.PagedSourceAPI
-import com.example.movie_catalog.entity.Kit
+import com.example.movie_catalog.entity.filminfo.Kit
 import com.example.movie_catalog.entity.Film
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

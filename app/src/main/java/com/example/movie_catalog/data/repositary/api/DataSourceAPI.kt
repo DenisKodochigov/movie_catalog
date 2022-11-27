@@ -7,7 +7,6 @@ import com.example.movie_catalog.App
 import com.example.movie_catalog.Constants
 import com.example.movie_catalog.data.repositary.api.film_info.FilmImageDTO
 import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
-import com.example.movie_catalog.data.repositary.api.film_info.SimilarDTO
 import com.example.movie_catalog.data.repositary.api.film_info.SimilarItemDTO
 import com.example.movie_catalog.data.repositary.api.home.MonthKinopoisk
 import com.example.movie_catalog.data.repositary.api.home.filter.FilterFilmDTO
@@ -18,9 +17,8 @@ import com.example.movie_catalog.data.repositary.api.home.premieres.FilmDTO
 import com.example.movie_catalog.data.repositary.api.home.premieres.PremieresDTO
 import com.example.movie_catalog.data.repositary.api.home.top.TopFilmDTO
 import com.example.movie_catalog.entity.Film
-import com.example.movie_catalog.entity.Kit
+import com.example.movie_catalog.entity.filminfo.Kit
 import com.example.movie_catalog.entity.filminfo.FilmInfoSeasons
-import com.example.movie_catalog.entity.home.Country
 import java.util.*
 import javax.inject.Inject
 
@@ -86,8 +84,8 @@ class DataSourceAPI @Inject constructor() {
         return copyFilterToFilm(retrofitApi.getSerials(page).items!!)
     }
 
-    suspend fun getGallery(id:Int): FilmImageDTO {
-        return retrofitApi.getGallery(id)
+    suspend fun getGallery(id:Int, type:String): FilmImageDTO {
+        return retrofitApi.getGallery(id, type)
     }
 
     suspend fun getSimilar(id:Int): List<Film> {

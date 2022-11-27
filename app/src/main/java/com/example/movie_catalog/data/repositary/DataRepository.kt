@@ -1,6 +1,7 @@
 package com.example.movie_catalog.data.repositary
 
 import com.example.movie_catalog.data.repositary.api.DataSourceAPI
+import com.example.movie_catalog.entity.filminfo.Gallery
 import javax.inject.Inject
 
 class DataRepository @Inject constructor() {
@@ -21,11 +22,15 @@ class DataRepository @Inject constructor() {
 
     suspend fun getInfoSeasson(id: Int) = dataSource.getInfoSeasson(id)
 
-    suspend fun getGallery(id: Int) = dataSource.getGallery(id)
+    suspend fun getGallery(id: Int) = dataSource.getGallery(id, "")
 
     suspend fun getSimilar(id: Int) = dataSource.getSimilar(id)
 
-    suspend fun getImages(id: Int): List<String>{
-        return listOf("")
+    suspend fun getGalleryFull(id: Int): Gallery {
+        val gallery = Gallery()
+        gallery.tabs.forEach {
+            it.imagesUrl = dataSource.getGallery(id,it.nameTab.toString())
+        }
+        return gallery
     }
 }

@@ -1,9 +1,11 @@
 package com.example.movie_catalog.ui.gallery
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.App
-import com.example.movie_catalog.entity.Images
+import com.example.movie_catalog.data.repositary.DataRepository
+import com.example.movie_catalog.entity.filminfo.Gallery
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,8 +16,10 @@ import javax.inject.Inject
 @HiltViewModel
 class GalleryViewModel @Inject constructor(): ViewModel() {
 
-    private var _images = MutableStateFlow(Images())
-    var images = _images.asStateFlow()
+    private val dataRepository = DataRepository()
+
+    private var _gallery = MutableStateFlow(Gallery())
+    var galleryFlow = _gallery.asStateFlow()
 
     init {
         getImages()
@@ -23,7 +27,12 @@ class GalleryViewModel @Inject constructor(): ViewModel() {
 
     private fun getImages() {
         viewModelScope.launch(Dispatchers.IO) {
-            _images.value = App.imagesApp!!
+            kotlin.runCatching {
+                dataRepository.getGalleryFull(App.filmApp.filmId!!)
+            }.fold(
+                onSuccess = {_gallery.value = it },
+                onFailure = { Log.d("KDS",it.message ?: "")}
+            )
         }
     }
 }

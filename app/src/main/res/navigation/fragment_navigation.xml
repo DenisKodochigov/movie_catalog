@@ -62,6 +62,17 @@
         <action
             android:id="@+id/action_filmInfoFragment_to_actorFragment"
             app:destination="@id/actorFragment" />
+        <action
+            android:id="@+id/action_filmInfoFragment_to_galleryFragment"
+            app:destination="@id/galleryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/galleryFragment"
+        android:name="com.example.movie_catalog.ui.gallery.GalleryFragment"
+        android:label="GalleryFragment" >
+        <action
+            android:id="@+id/action_galleryFragment_to_filmInfoFragment"
+            app:destination="@id/filmInfoFragment" />
     </fragment>
 
 </navigation>

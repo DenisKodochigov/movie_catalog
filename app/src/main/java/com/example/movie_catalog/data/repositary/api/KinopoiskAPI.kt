@@ -38,7 +38,7 @@ interface KinopoiskAPI {
     @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
     @GET("/api/v2.2/films?order=RATING&type=FILM&ratingFrom=0&ratingTo=10&yearFrom=1000&yearTo=3000")
     suspend fun getFilters(@Query("page") page: Int,
-                      @Query("countries") countries: Int, @Query("genres") genres: Int,): FilterDTO
+                      @Query("countries") countries: Int, @Query("genres") genres: Int): FilterDTO
 
     @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
     @GET("/api/v2.2/films/filters")
@@ -58,7 +58,7 @@ interface KinopoiskAPI {
 
     @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
     @GET("/api/v2.2/films/{id}/images?page=1")
-    suspend fun getGallery(@Path("id") id:Int): FilmImageDTO
+    suspend fun getGallery(@Path("id") id:Int, @Query("type") type: String): FilmImageDTO
 
     @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
     @GET("/api/v2.2/films/{id}/similars")

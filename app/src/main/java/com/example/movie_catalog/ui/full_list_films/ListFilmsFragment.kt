@@ -19,7 +19,7 @@ import com.example.movie_catalog.App
 import com.example.movie_catalog.App.Companion.kitApp
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentListfilmsBinding
-import com.example.movie_catalog.entity.Kit
+import com.example.movie_catalog.entity.filminfo.Kit
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.ui.full_list_films.recyclerViewFLF.FullListFilmAdapter
 import com.example.movie_catalog.ui.full_list_films.recyclerViewFLF.FullListFilmPagingAdapter

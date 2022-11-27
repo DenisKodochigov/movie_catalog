@@ -5,7 +5,7 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class FilmImageDTO(
-    @Json(name = "staffId") val staffId:Int? = null,
+    @Json(name = "total") val total:Int? = null,
     @Json(name = "totalPages") val totalPages:Int? = null,
     @Json(name = "items") val items: List<FilmImageUrlDTO> = emptyList()
 )

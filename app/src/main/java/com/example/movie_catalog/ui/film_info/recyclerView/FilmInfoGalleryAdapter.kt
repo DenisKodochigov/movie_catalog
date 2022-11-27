@@ -9,9 +9,11 @@ import com.bumptech.glide.Glide
 import com.example.movie_catalog.Constants
 import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.databinding.ItemFilmInfoGalleryBinding
+import com.example.movie_catalog.entity.filminfo.Gallery
+import com.example.movie_catalog.entity.filminfo.Tab
 import javax.inject.Inject
 
-class FilmInfoGalleryAdapter @Inject constructor(private val onClick: (FilmImageUrlDTO) -> Unit):
+class FilmInfoGalleryAdapter @Inject constructor(private val onClick: (Gallery) -> Unit):
     RecyclerView.Adapter<FilmInfoGalleryViewHolder>() {
 
     private var listImage: List<FilmImageUrlDTO> = emptyList()
@@ -48,7 +50,8 @@ class FilmInfoGalleryAdapter @Inject constructor(private val onClick: (FilmImage
 
         //Set action on click item recyclerView
         holder.binding.root.setOnClickListener {
-            onClick(imageFilm)
+            val imageBandle = Gallery()
+            onClick(imageBandle)
         }
     }
 
