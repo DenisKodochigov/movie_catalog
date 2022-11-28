@@ -22,11 +22,9 @@ class DataRepository @Inject constructor() {
 
     suspend fun getInfoSeasson(id: Int) = dataSource.getInfoSeasson(id)
 
-    suspend fun getGallery(id: Int) = dataSource.getGallery(id, "")
-
     suspend fun getSimilar(id: Int) = dataSource.getSimilar(id)
 
-    suspend fun getGalleryFull(id: Int): Gallery {
+    suspend fun getGallery(id: Int): Gallery {
         val gallery = Gallery()
         gallery.tabs.forEach {
             it.imagesUrl = dataSource.getGallery(id,it.nameTab.toString())

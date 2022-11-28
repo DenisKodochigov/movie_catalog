@@ -10,6 +10,7 @@ import com.example.movie_catalog.entity.filminfo.FilmInfoSeasons
 import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
 import com.example.movie_catalog.data.repositary.api.film_info.SimilarDTO
 import com.example.movie_catalog.entity.Film
+import com.example.movie_catalog.entity.filminfo.Gallery
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,10 +24,11 @@ class FilmInfoViewModel @Inject constructor(): ViewModel() {
     private val dataRepository = DataRepository()
     private var _filmInfo = MutableStateFlow(FilmInfoSeasons())
     var filmInfo = _filmInfo.asStateFlow()
+
     private var _personDTO = MutableStateFlow(listOf<PersonDTO>())
     var person = _personDTO.asStateFlow()
 
-    private var _gallery = MutableStateFlow(listOf<FilmImageUrlDTO>())
+    private var _gallery = MutableStateFlow(Gallery())
     var gallery = _gallery.asStateFlow()
 
     private var _similar = MutableStateFlow(listOf<Film>())
@@ -64,7 +66,7 @@ class FilmInfoViewModel @Inject constructor(): ViewModel() {
             kotlin.runCatching {
                 dataRepository.getGallery(filmApp.filmId!!)
             }.fold(
-                onSuccess = {_gallery.value = it.items },
+                onSuccess = {_gallery.value = it },
                 onFailure = { Log.d("KDS",it.message ?: "")}
             )
         }

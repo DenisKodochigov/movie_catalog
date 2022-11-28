@@ -35,11 +35,11 @@ class MainActivity : AppCompatActivity() {
         binding.toolbar.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
-        Kit.PREMIERES.nameKit = getText(R.string.premieres).toString()
-        Kit.POPULAR.nameKit = getText(R.string.popular).toString()
-        Kit.SERIALS.nameKit = getText(R.string.serials).toString()
-        Kit.TOP250.nameKit = getText(R.string.top).toString()
-        Kit.RANDOM1.nameKit = getText(R.string.random1).toString()
-        Kit.RANDOM2.nameKit = getText(R.string.random2).toString()
+//        Kit.PREMIERES.nameKit = getText(R.string.premieres).toString()
+//        Kit.POPULAR.nameKit = getText(R.string.popular).toString()
+//        Kit.SERIALS.nameKit = getText(R.string.serials).toString()
+//        Kit.TOP250.nameKit = getText(R.string.top).toString()
+//        Kit.RANDOM1.nameKit = getText(R.string.random1).toString()
+//        Kit.RANDOM2.nameKit = getText(R.string.random2).toString()
     }
 }

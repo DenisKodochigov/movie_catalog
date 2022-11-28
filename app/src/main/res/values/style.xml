@@ -123,21 +123,18 @@
     <style name="cardViewMy" parent="textApp">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/fon_app</item>
         <item name="android:layout_marginTop">@dimen/film_info_margin_bottom_h2</item>
     </style>
     <style name="gallery_tabs_name" parent = "H2">
         <item name="android:textColor">@color/ic_rating_text</item>
-        <item name="android:textColorHint">@color/ic_rating_text</item>
         <item name="android:paddingStart">@dimen/gallery_tab_margin_hor</item>
         <item name="android:paddingVertical">8dp</item>
-        <item name="android:hint">@string/gallery_tab_hint</item>
     </style>
     <style name="gallery_tabs_quantity" parent = "H4">
         <item name="android:textColor">@color/h5_poster</item>
-        <item name="android:textColorHint">@color/h5_poster</item>
         <item name="android:paddingStart">@dimen/gallery_tab_item_margin_hor</item>
         <item name="android:paddingEnd">@dimen/gallery_tab_margin_hor</item>
         <item name="android:paddingVertical">8dp</item>
-        <item name="android:hint">@string/gallery_tab_hint</item>
     </style>
 </resources>

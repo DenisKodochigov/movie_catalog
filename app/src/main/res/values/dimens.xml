@@ -56,6 +56,7 @@
     <dimen name="toolbar_margin_top">20dp</dimen>
     <dimen name="dp0">0dp</dimen>
 
+    <dimen name="gallery_marginTop">20dp</dimen>
     <dimen name="gallery_tab_rectangle_radius">20dp</dimen>
     <dimen name="gallery_tab_rectangle_stroke_width">2dp</dimen>
     <dimen name="gallery_tab_margin_hor">24dp</dimen>

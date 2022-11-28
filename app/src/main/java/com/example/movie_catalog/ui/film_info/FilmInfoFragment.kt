@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide
 import com.example.movie_catalog.App
 import com.example.movie_catalog.Constants
 import com.example.movie_catalog.R
+import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
 import com.example.movie_catalog.databinding.FragmentFilmInfoBinding
 import com.example.movie_catalog.entity.Film
@@ -86,17 +87,30 @@ class FilmInfoFragment : Fragment() {
             RecyclerView.HORIZONTAL,false)
         binding.gallery.imageRecycler.adapter = galleryAdapter
         viewModel.gallery.onEach {
-            galleryAdapter.setList(it)
-            if (it.size > Constants.QTY_CARD-1) {
+
+            val listImage = mutableListOf<FilmImageUrlDTO>()
+            it.tabs.forEach { tab ->
+                tab.imagesUrl?.let { imagesUrl -> listImage.addAll( imagesUrl.items) }
+            }
+//#############################################################
+            App.galleryApp = it
+            App.inageApp = listImage
+//#############################################################
+            galleryAdapter.setList(listImage)
+            if (listImage.size > Constants.QTY_CARD-15) { //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 binding.gallery.tvQuantityImages.visibility = View.VISIBLE
-                binding.gallery.tvQuantityImages.text = it.size.toString() + " >"
-            }else if (it.isEmpty()){
+                binding.gallery.tvQuantityImages.text = listImage.size.toString() + " >"
+            }else if (listImage.isEmpty()){
                 binding.gallery.tvQuantityImages.visibility = View.VISIBLE
                 binding.gallery.tvQuantityImages.text = resources.getString(R.string.not_data)
             } else {
                 binding.gallery.tvQuantityImages.visibility = View.INVISIBLE
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+        binding.gallery.tvQuantityImages.setOnClickListener {
+            findNavController().navigate(R.id.action_filmInfoFragment_to_galleryFragment)
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -239,7 +253,6 @@ class FilmInfoFragment : Fragment() {
 
     private fun onImageClick(image: Gallery) {
 //        setFragmentResult("requestKey", bundleOf("IMAGE" to image))
-        App.imagesApp = image
 //        findNavController().navigate(R.id.action_filmInfoFragment_to_galleryFragment)
     }
 

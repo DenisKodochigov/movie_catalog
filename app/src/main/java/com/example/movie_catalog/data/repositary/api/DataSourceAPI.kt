@@ -135,7 +135,7 @@ class DataSourceAPI @Inject constructor() {
                 )
             )
         }
-        films.shuffle()
+//        films.shuffle()
         return films
     }
 

@@ -32,7 +32,7 @@ class GalleryFragment : Fragment() {
     private var _binding: FragmentGalleryBinding? = null
     private val binding get() = _binding!!
     private val viewModel: GalleryViewModel by viewModels()
-    private val tabsAdapter = TabsAdapter{tab -> onClickTab(tab)}
+    private val tabsAdapter = TabsAdapter{position -> onClickTab(position)}
     private val imageAdapter = ImagesAdapter()
     private var gallery = Gallery()
 
@@ -56,12 +56,14 @@ class GalleryFragment : Fragment() {
             gallery = it
             tabsAdapter.setList(it.tabs)
             it.tabs[0].imagesUrl?.let { it1 -> imageAdapter.setList(it1.items) }
+            it.tabs[0].imagesUrl?.items?.let { it1 -> imageAdapter.setList(it1) }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
 
-    private fun onClickTab(tab: Tab) {
-        tab.imagesUrl?.let { imageAdapter.setList(it.items) }
+    private fun onClickTab(position: Int) {
+        gallery.tabs[position].imagesUrl?.let { imageAdapter.setList(it.items) }
+        binding.galleryTabsRecycler.scrollToPosition(position)
     }
 //    private fun onItemClick(film: Film) {
 //        setFragmentResult("requestKey", bundleOf("FILM" to film))

@@ -4,6 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/gallery_tab_selected_rectangle"
+    android:id="@+id/linearlayout"
     android:orientation="horizontal">
 
     <TextView

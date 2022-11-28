@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class GalleryViewModel @Inject constructor(): ViewModel() {
 
-    private val dataRepository = DataRepository()
+//    private val dataRepository = DataRepository()
 
     private var _gallery = MutableStateFlow(Gallery())
     var galleryFlow = _gallery.asStateFlow()
@@ -27,12 +27,13 @@ class GalleryViewModel @Inject constructor(): ViewModel() {
 
     private fun getImages() {
         viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                dataRepository.getGalleryFull(App.filmApp.filmId!!)
-            }.fold(
-                onSuccess = {_gallery.value = it },
-                onFailure = { Log.d("KDS",it.message ?: "")}
-            )
+//            kotlin.runCatching {
+//                dataRepository.getGallery(App.filmApp.filmId!!)
+//            }.fold(
+//                onSuccess = {_gallery.value = it },
+//                onFailure = { Log.d("KDS",it.message ?: "")}
+//            )
+            _gallery.value = App.galleryApp!!
         }
     }
 }
