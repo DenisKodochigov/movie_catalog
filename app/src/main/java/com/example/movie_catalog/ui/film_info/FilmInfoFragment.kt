@@ -96,15 +96,17 @@ class FilmInfoFragment : Fragment() {
             App.galleryApp = it
             App.imageApp = listImage
 //#############################################################
-            galleryAdapter.setList(listImage)
-            if (listImage.size > Constants.QTY_CARD-15) { //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                binding.gallery.tvQuantityImages.visibility = View.VISIBLE
-                binding.gallery.tvQuantityImages.text = listImage.size.toString() + " >"
-            }else if (listImage.isEmpty()){
-                binding.gallery.tvQuantityImages.visibility = View.VISIBLE
-                binding.gallery.tvQuantityImages.text = resources.getString(R.string.not_data)
-            } else {
-                binding.gallery.tvQuantityImages.visibility = View.INVISIBLE
+            if (listImage.isNotEmpty()) {
+                galleryAdapter.setList(listImage)
+                if (listImage.size > Constants.QTY_CARD-15) { //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    binding.gallery.tvQuantityImages.visibility = View.VISIBLE
+                    binding.gallery.tvQuantityImages.text = listImage.size.toString() + " >"
+                }else if (listImage.isEmpty()){
+                    binding.gallery.tvQuantityImages.visibility = View.VISIBLE
+                    binding.gallery.tvQuantityImages.text = resources.getString(R.string.not_data)
+                } else {
+                    binding.gallery.tvQuantityImages.visibility = View.INVISIBLE
+                }
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
