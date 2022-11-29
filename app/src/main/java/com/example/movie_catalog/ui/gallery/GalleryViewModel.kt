@@ -1,10 +1,8 @@
 package com.example.movie_catalog.ui.gallery
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.App
-import com.example.movie_catalog.data.repositary.DataRepository
 import com.example.movie_catalog.entity.filminfo.Gallery
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -27,12 +25,6 @@ class GalleryViewModel @Inject constructor(): ViewModel() {
 
     private fun getImages() {
         viewModelScope.launch(Dispatchers.IO) {
-//            kotlin.runCatching {
-//                dataRepository.getGallery(App.filmApp.filmId!!)
-//            }.fold(
-//                onSuccess = {_gallery.value = it },
-//                onFailure = { Log.d("KDS",it.message ?: "")}
-//            )
             _gallery.value = App.galleryApp!!
         }
     }

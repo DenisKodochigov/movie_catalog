@@ -94,7 +94,7 @@ class FilmInfoFragment : Fragment() {
             }
 //#############################################################
             App.galleryApp = it
-            App.inageApp = listImage
+            App.imageApp = listImage
 //#############################################################
             galleryAdapter.setList(listImage)
             if (listImage.size > Constants.QTY_CARD-15) { //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

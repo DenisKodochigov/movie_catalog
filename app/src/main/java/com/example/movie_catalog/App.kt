@@ -22,6 +22,6 @@ class App: Application() {
         var personDTOApp = PersonDTO()
         var kitApp: Kit? = null
         var galleryApp: Gallery? = null
-        var inageApp = mutableListOf<FilmImageUrlDTO>()
+        var imageApp = mutableListOf<FilmImageUrlDTO>()
     }
 }
