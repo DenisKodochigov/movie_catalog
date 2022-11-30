@@ -60,5 +60,13 @@
     <string name="SHOOTING">Изображения со съемок</string>
     <string name="STILL">Кадры</string>
     <string name="WALLPAPER">Обои</string>
+    
+    // person page person_filmography_quantity
+    <string name="person_best_film">Лучшее</string>
+    <string name="person_filmography">Фильмография</string>
+    <string name="person_filmography_quantity">фильма</string>
+    <string name="person_goto_link">К списку</string>
+    <string name="person_job">Профессия</string>
+    <string name="person_name">Имя</string>
 
 </resources>

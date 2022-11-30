@@ -63,5 +63,13 @@
     <dimen name="gallery_tab_item_margin_hor">10dp</dimen>
     <dimen name="gallery_tab_margin_ver">8dp</dimen>
 
-
+    //person page
+    <dimen name="person_photo_width">146dp</dimen>
+    <dimen name="person_photo_height">201dp</dimen>
+    <dimen name="person_photo_radius">4dp</dimen>
+    <dimen name="person_photo_margin_hor">8dp</dimen>
+    <dimen name="person_photo_margin_top">98dp</dimen>
+    <dimen name="person_name_margin_start">16dp</dimen>
+    <dimen name="person_name_margin_end">37dp</dimen>
+    <dimen name="person_job_margin_top">4dp</dimen>
 </resources>

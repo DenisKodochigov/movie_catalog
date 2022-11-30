@@ -16,6 +16,7 @@ import com.example.movie_catalog.data.repositary.api.home.getKit.SelectedKit
 import com.example.movie_catalog.data.repositary.api.home.premieres.FilmDTO
 import com.example.movie_catalog.data.repositary.api.home.premieres.PremieresDTO
 import com.example.movie_catalog.data.repositary.api.home.top.TopFilmDTO
+import com.example.movie_catalog.data.repositary.api.person.PersonInfoDTO
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.filminfo.Kit
 import com.example.movie_catalog.entity.filminfo.FilmInfoSeasons
@@ -49,7 +50,7 @@ class DataSourceAPI @Inject constructor() {
         )
     }
 
-    suspend fun getActors(id: Int): List<PersonDTO> {
+    suspend fun getPersons(id: Int): List<PersonDTO> {
         return retrofitApi.getPersons(id)
     }
 
@@ -88,6 +89,9 @@ class DataSourceAPI @Inject constructor() {
         return retrofitApi.getGallery(id, type)
     }
 
+    suspend fun getPersonInfo(id:Int): PersonInfoDTO {
+        return retrofitApi.getPersonInfo(id)
+    }
     suspend fun getSimilar(id:Int): List<Film> {
         return copySimilarToFilm(retrofitApi.getSimilar(id).items!!)
     }

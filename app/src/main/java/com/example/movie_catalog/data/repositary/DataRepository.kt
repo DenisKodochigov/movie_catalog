@@ -18,7 +18,9 @@ class DataRepository @Inject constructor() {
 
     suspend fun getGenres() = dataSource.getGenres()
 
-    suspend fun getActors(id: Int) = dataSource.getActors(id)
+    suspend fun getPersons(id: Int) = dataSource.getPersons(id)
+
+    suspend fun getPersonInfo(id: Int) = dataSource.getPersonInfo(id)
 
     suspend fun getInfoSeasson(id: Int) = dataSource.getInfoSeasson(id)
 

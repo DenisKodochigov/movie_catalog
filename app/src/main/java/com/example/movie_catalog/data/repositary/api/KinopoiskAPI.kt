@@ -9,6 +9,7 @@ import com.example.movie_catalog.data.repositary.api.home.getKit.ListGenresDTO
 import com.example.movie_catalog.data.repositary.api.home.premieres.PremieresDTO
 import com.example.movie_catalog.data.repositary.api.home.seasons.SeasonsDTO
 import com.example.movie_catalog.data.repositary.api.home.top.TopFilmsDTO
+import com.example.movie_catalog.data.repositary.api.person.PersonInfoDTO
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
@@ -55,6 +56,10 @@ interface KinopoiskAPI {
     @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
     @GET("/api/v1/staff")
     suspend fun getPersons(@Query("filmId") id:Int): List<PersonDTO>
+
+    @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
+    @GET("/api/v1/staff/{id}")
+    suspend fun getPersonInfo(@Path("id") id:Int): PersonInfoDTO
 
     @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
     @GET("/api/v2.2/films/{id}/images?page=1")

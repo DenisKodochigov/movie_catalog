@@ -5,10 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.App.Companion.filmApp
 import com.example.movie_catalog.data.repositary.DataRepository
-import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.entity.filminfo.FilmInfoSeasons
 import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
-import com.example.movie_catalog.data.repositary.api.film_info.SimilarDTO
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.filminfo.Gallery
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -54,7 +52,7 @@ class FilmInfoViewModel @Inject constructor(): ViewModel() {
     private fun getActors() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                dataRepository.getActors(filmApp.filmId!!)
+                dataRepository.getPersons(filmApp.filmId!!)
             }.fold(
                 onSuccess = {_personDTO.value = it },
                 onFailure = { Log.d("KDS",it.message ?: "")}

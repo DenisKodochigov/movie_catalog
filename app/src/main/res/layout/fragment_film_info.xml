@@ -5,7 +5,7 @@
     tools:context=".ui.film_info.FilmInfoFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/margin_app_top">
+    android:paddingTop="?attr/actionBarSize">
 
     <LinearLayout
         android:id="@+id/fragm_film_info_linear"

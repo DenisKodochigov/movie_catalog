@@ -38,7 +38,7 @@ class FilmInfoFragment : Fragment() {
 
     private var _binding: FragmentFilmInfoBinding? = null
     private val binding get() = _binding!!
-    private val actorAdapter = PersonAdapter({person -> onPersonClick(person)}, sizeGird = 20, whatRole = 1)
+    private val personAdapter = PersonAdapter({ person -> onPersonClick(person)}, sizeGird = 20, whatRole = 1)
     private val staffAdapter = PersonAdapter({person -> onPersonClick(person)}, sizeGird = 6, whatRole = 2)
     private val galleryAdapter = FilmInfoGalleryAdapter { image ->onImageClick(image) }
     private val similarAdapter = FilmListAdapter { film -> onSimilarClick(film) }
@@ -120,7 +120,7 @@ class FilmInfoFragment : Fragment() {
         binding.person.personRecycler.layoutManager= GridLayoutManager(context,5,
                                                                 RecyclerView.HORIZONTAL,false)
         binding.person.tvHeader.text = getText(R.string.header_actor)
-        binding.person.personRecycler.adapter = actorAdapter
+        binding.person.personRecycler.adapter = personAdapter
 
         binding.staff.personRecycler.layoutManager= GridLayoutManager(context,2,
                                                                 RecyclerView.HORIZONTAL,false)
@@ -128,7 +128,7 @@ class FilmInfoFragment : Fragment() {
         binding.staff.personRecycler.adapter = staffAdapter
 
         viewModel.person.onEach {
-            actorAdapter.setListFilm(it.filter { person -> person.professionKey == "ACTOR" })
+            personAdapter.setListFilm(it.filter { person -> person.professionKey == "ACTOR" })
             var sizeList = it.filter { person -> person.professionKey == "ACTOR" }.size
             if (it.filter { person -> person.professionKey == "ACTOR" }.size> Constants.QTY_CARD) {
                 binding.person.tvQuantityActor.visibility = View.VISIBLE
@@ -248,7 +248,7 @@ class FilmInfoFragment : Fragment() {
     }
 
     private fun onPersonClick(personDTO: PersonDTO) {
-        setFragmentResult("requestKey", bundleOf("PERSON" to personDTO))
+//        setFragmentResult("requestKey", bundleOf("PERSON" to personDTO))
         App.personDTOApp = personDTO
         findNavController().navigate(R.id.action_filmInfoFragment_to_actorFragment)
     }
