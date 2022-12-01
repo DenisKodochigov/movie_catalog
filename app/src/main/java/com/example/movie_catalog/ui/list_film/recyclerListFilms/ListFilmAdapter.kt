@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 class ListFilmAdapter @Inject constructor(
     private val onClick: (Film) -> Unit
-) : RecyclerView.Adapter<ListPersonViewHolder>() {
+) : RecyclerView.Adapter<ListFilmViewHolder>() {
 
     private var listFilm: List<Film> = emptyList()
 
@@ -23,13 +23,13 @@ class ListFilmAdapter @Inject constructor(
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListPersonViewHolder {
-        return ListPersonViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListFilmViewHolder {
+        return ListFilmViewHolder(
             ItemHomeFilmListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 
-    override fun onBindViewHolder(holder: ListPersonViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ListFilmViewHolder, position: Int) {
         var genreTxt = ""
         val film = listFilm.getOrNull(position)!!
 //Set film name

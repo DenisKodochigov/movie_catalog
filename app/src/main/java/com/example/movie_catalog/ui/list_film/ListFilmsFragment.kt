@@ -31,7 +31,7 @@ class ListFilmsFragment : Fragment() {
 
     private var _binding: FragmentListFilmsBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: ListPersonViewModel by viewModels()
+    private val viewModel: ListfilmsViewModel by viewModels()
     private val listAdapter = ListFilmAdapter{film -> onItemClick(film)}
 
     override fun onCreateView(
