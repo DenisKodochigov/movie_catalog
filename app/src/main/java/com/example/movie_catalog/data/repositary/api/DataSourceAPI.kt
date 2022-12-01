@@ -18,6 +18,7 @@ import com.example.movie_catalog.data.repositary.api.home.premieres.PremieresDTO
 import com.example.movie_catalog.data.repositary.api.home.top.TopFilmDTO
 import com.example.movie_catalog.data.repositary.api.person.PersonInfoDTO
 import com.example.movie_catalog.entity.Film
+import com.example.movie_catalog.entity.Person
 import com.example.movie_catalog.entity.filminfo.Kit
 import com.example.movie_catalog.entity.filminfo.FilmInfoSeasons
 import java.util.*
@@ -48,10 +49,6 @@ class DataSourceAPI @Inject constructor() {
             GenreIdDTO(id = 11, genre = "боевик"), CountryIdDTO(id = 1, country = "США"),
             GenreIdDTO(id = 4, genre = "мелодрама"), CountryIdDTO(id = 1, country = "Франция")
         )
-    }
-
-    suspend fun getPersons(id: Int): List<PersonDTO> {
-        return retrofitApi.getPersons(id)
     }
 
     suspend fun getInfoSeasson(id: Int): FilmInfoSeasons {
@@ -89,18 +86,53 @@ class DataSourceAPI @Inject constructor() {
         return retrofitApi.getGallery(id, type)
     }
 
-    suspend fun getPersonInfo(id:Int): PersonInfoDTO {
-        return retrofitApi.getPersonInfo(id)
-    }
     suspend fun getSimilar(id:Int): List<Film> {
         return copySimilarToFilm(retrofitApi.getSimilar(id).items!!)
+    }
+
+    suspend fun getPersons(id: Int): List<PersonDTO> {
+        return retrofitApi.getPersons(id)
+    }
+
+    suspend fun getPersonInfo(id:Int): Person {
+        return copyToPerson(retrofitApi.getPersonInfo(id))
+    }
+
+    private suspend fun copyToPerson(personInfoDTO: PersonInfoDTO):Person{
+        val listFilm: MutableList<Film> = mutableListOf()
+
+        personInfoDTO.films.forEach {
+            listFilm.add(Film(
+                filmId =it.filmId,
+                nameRu = it.nameRu,
+                nameEn = it.nameEn,
+                rating = it.rating,
+                posterUrlPreview = null,
+                countries = emptyList(),
+                genres = retrofitApi.getFilmInfo(it.filmId!!).genres!!,
+                imdbId = null,
+                viewed = false,
+                favorite = false,
+                bookmark = false
+            ))
+        }
+        listFilm.sortByDescending { it.rating }
+        return Person(
+                personId = personInfoDTO.personId,
+                nameRu = personInfoDTO.nameRu,
+                nameEn = personInfoDTO.nameEn,
+                posterUrl = personInfoDTO.posterUrl,
+                age = personInfoDTO.age,
+                hasAwards = personInfoDTO.hasAwards,
+                profession = personInfoDTO.profession,
+                films = listFilm
+        )
     }
 
     private suspend fun copySimilarToFilm(filmList: List<SimilarItemDTO>): List<Film>{
         val films = mutableListOf<Film>()
         filmList.forEach {
-            films.add(
-                Film(
+            films.add( Film(
                     filmId = it.filmId,
                     imdbId = null,
                     nameRu = it.nameRu,

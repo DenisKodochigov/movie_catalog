@@ -3,76 +3,77 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fragment_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/nav_home">
 
     <fragment
-        android:id="@+id/navigation_home"
+        android:id="@+id/nav_home"
         android:name="com.example.movie_catalog.ui.home.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_navigation_home_to_listfilms"
-            app:destination="@id/listfilms" />
+            android:id="@+id/action_nav_home_to_nav_kitfilms"
+            app:destination="@id/nav_kitFilms" />
         <action
-            android:id="@+id/action_navigation_home_to_filmInfoFragment"
-            app:destination="@id/filmInfoFragment" />
+            android:id="@+id/action_nav_home_to_nav_filmInfo"
+            app:destination="@id/nav_filmInfo" />
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_search"
+        android:id="@+id/nav_search"
         android:name="com.example.movie_catalog.ui.search.SearchFragment"
-        android:label="search"
+        android:label="SearchFragment"
         tools:layout="@layout/fragment_search" />
     <fragment
-        android:id="@+id/navigation_profile"
+        android:id="@+id/nav_profile"
         android:name="com.example.movie_catalog.ui.profile.ProfileFragment"
-        android:label="profile"
+        android:label="ProfileFragment"
         tools:layout="@layout/fragment_profile" />
     <fragment
-        android:id="@+id/listfilms"
-        android:name="com.example.movie_catalog.ui.full_list_films.ListFilmsFragment"
-        android:label="fragment_listfilms"
-        tools:layout="@layout/fragment_listfilms" >
+        android:id="@+id/nav_kitFilms"
+        android:name="com.example.movie_catalog.ui.kit_films.KitFilmsFragment"
+        android:label="KitFilmsFragment"
+        tools:layout="@layout/fragment_kit_films" >
         <action
-            android:id="@+id/action_listfilms_to_navigation_home"
-            app:destination="@id/navigation_home" />
-        <action
-            android:id="@+id/action_listfilms_to_filmInfoFragment"
-            app:destination="@id/filmInfoFragment" />
+            android:id="@+id/action_nav_kitFilms_to_nav_filmInfo"
+            app:destination="@id/nav_filmInfo" />
     </fragment>
     <fragment
-        android:id="@+id/actorFragment"
-        android:name="com.example.movie_catalog.ActorFragment"
-        android:label="fragment_actor"
-        tools:layout="@layout/fragment_actor">
-        <action
-            android:id="@+id/action_actorFragment_to_filmInfoFragment"
-            app:destination="@id/filmInfoFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/filmInfoFragment"
+        android:id="@+id/nav_filmInfo"
         android:name="com.example.movie_catalog.ui.film_info.FilmInfoFragment"
         android:label="FilmInfoFragment" >
         <action
-            android:id="@+id/action_filmInfoFragment_to_listfilms"
-            app:destination="@id/listfilms" />
+            android:id="@+id/action_nav_filmInfo_to_nav_gallery"
+            app:destination="@id/nav_gallery" />
         <action
-            android:id="@+id/action_filmInfoFragment_to_navigation_home"
-            app:destination="@id/navigation_home" />
+            android:id="@+id/action_nav_filmInfo_to_nav_person"
+            app:destination="@id/nav_person" />
         <action
-            android:id="@+id/action_filmInfoFragment_to_actorFragment"
-            app:destination="@id/actorFragment" />
-        <action
-            android:id="@+id/action_filmInfoFragment_to_galleryFragment"
-            app:destination="@id/galleryFragment" />
+            android:id="@+id/action_nav_filmInfo_to_nav_list_films"
+            app:destination="@id/nav_list_films" />
     </fragment>
     <fragment
-        android:id="@+id/galleryFragment"
+        android:id="@+id/nav_gallery"
         android:name="com.example.movie_catalog.ui.gallery.GalleryFragment"
-        android:label="GalleryFragment" >
+        android:label="GalleryFragment" />
+    <fragment
+        android:id="@+id/nav_person"
+        android:name="com.example.movie_catalog.ui.person.PersonFragment"
+        android:label="fragment_person"
+        tools:layout="@layout/fragment_person" >
         <action
-            android:id="@+id/action_galleryFragment_to_filmInfoFragment"
-            app:destination="@id/filmInfoFragment" />
+            android:id="@+id/action_nav_person_to_nav_filmInfo"
+            app:destination="@id/nav_filmInfo" />
+        <action
+            android:id="@+id/action_nav_person_to_nav_list_films"
+            app:destination="@id/nav_list_films" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_list_films"
+        android:name="com.example.movie_catalog.ui.list_film.ListPersonFragment"
+        android:label="ListFilmsFragment" >
+        <action
+            android:id="@+id/action_nav_list_films_to_nav_filmInfo"
+            app:destination="@id/nav_filmInfo" />
     </fragment>
 
 </navigation>

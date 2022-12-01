@@ -28,7 +28,7 @@
 
     </androidx.cardview.widget.CardView>
     <TextView
-        android:id="@+id/person_name"
+        android:id="@+id/person_nameRu"
         style = "@style/H3_person_name"
         android:text="@string/person_name"
         app:layout_constraintTop_toTopOf="@id/cv_photo"
@@ -36,11 +36,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"/>
     <TextView
+        android:id="@+id/person_nameEn"
+        style = "@style/H3_person_name"
+        android:text="@string/person_name"
+        app:layout_constraintTop_toBottomOf="@id/person_nameRu"
+        app:layout_constraintStart_toEndOf="@id/cv_photo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"/>
+    <TextView
         android:id="@+id/person_job"
         style = "@style/H5_person_job"
         android:text="@string/person_job"
-        app:layout_constraintTop_toBottomOf="@id/person_name"
-        app:layout_constraintStart_toStartOf="@id/person_name"
+        app:layout_constraintTop_toBottomOf="@id/person_nameEn"
+        app:layout_constraintStart_toStartOf="@id/person_nameEn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"/>
 

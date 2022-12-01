@@ -13,7 +13,7 @@ data class Film(
     val nameEn:String? = null,
     val rating:String? = null,
     var posterUrlPreview:String? = null,
-    val countries:List<Country> = emptyList(),
+    val countries: List<Country>? = emptyList(),
     val genres:List<Genre> = emptyList(),
     val favorite:Boolean = false,
     val viewed:Boolean = false,

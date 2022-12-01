@@ -23,5 +23,7 @@ class App: Application() {
         var kitApp: Kit? = null
         var galleryApp: Gallery? = null
         var imageApp = mutableListOf<FilmImageUrlDTO>()
+        var listFilmApp: List<Film> = emptyList()
+        var listPersonDTOApp: List<PersonDTO> = emptyList()
     }
 }

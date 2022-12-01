@@ -30,12 +30,12 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val homeViewModel: HomeViewModel by viewModels()
-    private val premieresAdapter = FilmListAdapter { film -> onItemClick(film) }
-    private val popularAdapter = FilmListAdapter { film -> onItemClick(film) }
-    private val top250Adapter = FilmListAdapter { film -> onItemClick(film) }
-    private val random1Adapter = FilmListAdapter { film -> onItemClick(film) }
-    private val random2Adapter = FilmListAdapter { film -> onItemClick(film) }
-    private val serialAdapter = FilmListAdapter { film -> onItemClick(film) }
+    private val premieresAdapter = FilmListAdapter(Constants.HOME_QTY_FILMCARD) { film -> onItemClick(film) }
+    private val popularAdapter = FilmListAdapter(Constants.HOME_QTY_FILMCARD) { film -> onItemClick(film) }
+    private val top250Adapter = FilmListAdapter(Constants.HOME_QTY_FILMCARD) { film -> onItemClick(film) }
+    private val random1Adapter = FilmListAdapter(Constants.HOME_QTY_FILMCARD) { film -> onItemClick(film) }
+    private val random2Adapter = FilmListAdapter(Constants.HOME_QTY_FILMCARD) { film -> onItemClick(film) }
+    private val serialAdapter = FilmListAdapter(Constants.HOME_QTY_FILMCARD) { film -> onItemClick(film) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -85,13 +85,13 @@ class HomeFragment : Fragment() {
             filmRecyclerHorizontal.adapter = adapter
             flowFilms.onEach {
                 adapter.setListFilm(it)
-                if (it.size > Constants.QTY_CARD-1) showAll.visibility = View.VISIBLE
+                if (it.size > Constants.HOME_QTY_FILMCARD-1) showAll.visibility = View.VISIBLE
                 else showAll.visibility = View.INVISIBLE
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
             showAll.setOnClickListener {
                 kitApp = kit
-                findNavController().navigate(R.id.action_navigation_home_to_listfilms)
+                findNavController().navigate(R.id.action_nav_home_to_nav_kitfilms)
             }
         }
     }
@@ -104,7 +104,7 @@ class HomeFragment : Fragment() {
     private fun onItemClick(film: Film) {
         setFragmentResult("requestKey", bundleOf("FILM" to film))
         filmApp = film
-        findNavController().navigate(R.id.action_navigation_home_to_filmInfoFragment)
+        findNavController().navigate(R.id.action_nav_home_to_nav_filmInfo)
     }
 
     companion object {

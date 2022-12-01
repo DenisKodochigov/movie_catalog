@@ -3,9 +3,10 @@ package com.example.movie_catalog.ui.person
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.movie_catalog.App
 import com.example.movie_catalog.data.repositary.DataRepository
-import com.example.movie_catalog.data.repositary.api.person.PersonInfoDTO
 import com.example.movie_catalog.entity.Film
+import com.example.movie_catalog.entity.Person
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,8 +18,11 @@ import javax.inject.Inject
 class PersonViewModel @Inject constructor()  : ViewModel() {
 
     private val dataRepository = DataRepository()
+    init {
+        getPerson(App.personDTOApp.staffId!!)
+    }
 
-    private var _bestfilm = MutableStateFlow(PersonInfoDTO())
+    private var _bestfilm = MutableStateFlow(Person(films = filmsStart))
     var bestfilm = _bestfilm.asStateFlow()
 
     private fun getPerson(id:Int) {

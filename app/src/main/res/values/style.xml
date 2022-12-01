@@ -75,7 +75,10 @@
         <item name="android:layout_marginStart">@dimen/card_people_name_marHor</item>
     </style>
     <style name="H4_home" parent = "H4">
-        <item name="android:layout_marginEnd">@dimen/margin_top_display</item>
+        <item name="android:layout_marginStart">@dimen/margin_top_display</item>
+    </style>
+    <style name="H4_person" parent = "H4">
+        <item name="android:layout_marginStart">@dimen/card_people_name_marHor</item>
     </style>
     <style name="H4_et" parent = "H4">
         <item name="android:textColor">@color/blue_arrow</item>

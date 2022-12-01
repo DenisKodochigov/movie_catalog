@@ -68,5 +68,7 @@
     <string name="person_goto_link">К списку</string>
     <string name="person_job">Профессия</string>
     <string name="person_name">Имя</string>
+    <string name="actor">Актер</string>
+    <string name="job">Участие</string>
 
 </resources>

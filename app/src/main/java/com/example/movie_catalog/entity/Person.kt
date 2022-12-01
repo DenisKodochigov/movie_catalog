@@ -1,24 +1,27 @@
 package com.example.movie_catalog.entity
 
-import com.example.movie_catalog.data.repositary.api.person.PersonFilmDTO
-import com.squareup.moshi.Json
+import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
 
 data class Person(
-    val personId:Int? = null,
-    val webUrl:String? = null,
+    var personId:Int? = null,
     val nameRu:String? = null,
     val nameEn:String? = null,
-    val sex:String? = null,
     val posterUrl:String? = null,
-    val growth:Int? = null,
-    val birthday:String? = null,
-    val death:String? = null,
     val age:String? = null,
-    val birthplace:String? = null,
-    val deathplace:String? = null,
-    val spouses:List<String> = emptyList(),
     val hasAwards:Int? = null,
     val profession:String? = null,
-    val facts:List<String> = emptyList(),
     val films:List<Film> = emptyList(),
-)
+) {
+    fun convertor(personDTO: PersonDTO): Person{
+        return Person(
+            personId = personDTO.staffId,
+            nameRu = personDTO.nameRu,
+            nameEn = personDTO.nameEn,
+            posterUrl = personDTO.posterUrl,
+            age = null,
+            hasAwards = null,
+            profession = personDTO.professionText,
+            films = emptyList()
+        )
+    }
+}

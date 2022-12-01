@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="?attr/actionBarSize"
-    tools:context=".ui.full_list_films.ListFilmsFragment">
-
+    tools:context=".ui.kit_films.KitFilmsFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefresh"
@@ -21,7 +20,7 @@
             android:layout_height="match_parent"
             android:gravity="center_horizontal">
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/film_recycler_vertical"
+                android:id="@+id/person_recycler_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>

@@ -1,4 +1,4 @@
-package com.example.movie_catalog.ui.full_list_films.recyclerViewFLF
+package com.example.movie_catalog.ui.list_film.recyclerListFilms
 
 import android.annotation.SuppressLint
 import android.graphics.drawable.AnimationDrawable
@@ -11,9 +11,9 @@ import com.example.movie_catalog.databinding.ItemHomeFilmListBinding
 import com.example.movie_catalog.entity.Film
 import javax.inject.Inject
 
-class FullListFilmAdapter @Inject constructor(
+class ListFilmAdapter @Inject constructor(
     private val onClick: (Film) -> Unit
-) : RecyclerView.Adapter<FullListFilmViewHolder>() {
+) : RecyclerView.Adapter<ListPersonViewHolder>() {
 
     private var listFilm: List<Film> = emptyList()
 
@@ -23,13 +23,13 @@ class FullListFilmAdapter @Inject constructor(
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FullListFilmViewHolder {
-        return FullListFilmViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListPersonViewHolder {
+        return ListPersonViewHolder(
             ItemHomeFilmListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 
-    override fun onBindViewHolder(holder: FullListFilmViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ListPersonViewHolder, position: Int) {
         var genreTxt = ""
         val film = listFilm.getOrNull(position)!!
 //Set film name
@@ -44,7 +44,7 @@ class FullListFilmAdapter @Inject constructor(
         }
         holder.binding.genreFilm.text = genreTxt
 //Set viewed flag
-        if (film!!.viewed) holder.binding.ivViewed.visibility= View.VISIBLE
+        if (film.viewed) holder.binding.ivViewed.visibility= View.VISIBLE
 //Set rating
         if (film.rating != null) holder.binding.tvRating.text = film.rating.toString()
         else holder.binding.tvRating.visibility = View.INVISIBLE
@@ -72,5 +72,5 @@ class FullListFilmAdapter @Inject constructor(
     override fun getItemCount() = listFilm.size
 }
 
-class FullListFilmViewHolder(val binding: ItemHomeFilmListBinding) :
+class ListFilmViewHolder(val binding: ItemHomeFilmListBinding) :
     RecyclerView.ViewHolder(binding.root)

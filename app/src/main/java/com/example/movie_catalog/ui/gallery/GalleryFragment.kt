@@ -14,7 +14,7 @@ import com.example.movie_catalog.App
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentGalleryBinding
 import com.example.movie_catalog.entity.filminfo.Gallery
-import com.example.movie_catalog.ui.full_list_films.ListFilmsFragment
+import com.example.movie_catalog.ui.kit_films.KitFilmsFragment
 import com.example.movie_catalog.ui.gallery.recycler.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -24,7 +24,7 @@ import kotlinx.coroutines.flow.onEach
 class GalleryFragment : Fragment() {
 
     companion object {
-        fun newInstance() = ListFilmsFragment()
+        fun newInstance() = KitFilmsFragment()
     }
 
     private var _binding: FragmentGalleryBinding? = null

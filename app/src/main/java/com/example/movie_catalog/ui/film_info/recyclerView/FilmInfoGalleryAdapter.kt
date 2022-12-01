@@ -10,7 +10,6 @@ import com.example.movie_catalog.Constants
 import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.databinding.ItemFilmInfoGalleryBinding
 import com.example.movie_catalog.entity.filminfo.Gallery
-import com.example.movie_catalog.entity.filminfo.Tab
 import javax.inject.Inject
 
 class FilmInfoGalleryAdapter @Inject constructor(private val onClick: (Gallery) -> Unit):
@@ -56,7 +55,7 @@ class FilmInfoGalleryAdapter @Inject constructor(private val onClick: (Gallery) 
     }
 
     override fun getItemCount(): Int {
-        return if (listImage.size > Constants.QTY_CARD - 1) Constants.QTY_CARD
+        return if (listImage.size > Constants.HOME_QTY_FILMCARD - 1) Constants.HOME_QTY_FILMCARD
                 else listImage.size
     }
 }

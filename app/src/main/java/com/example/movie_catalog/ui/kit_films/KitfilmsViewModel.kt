@@ -1,4 +1,4 @@
-package com.example.movie_catalog.ui.full_list_films
+package com.example.movie_catalog.ui.kit_films
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ListfilmsViewModel @Inject constructor(): ViewModel() {
+class KitfilmsViewModel @Inject constructor(): ViewModel() {
     private val dataRepository = DataRepository()
 
     private var _premieres = MutableStateFlow(filmsStart)

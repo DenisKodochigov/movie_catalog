@@ -1,4 +1,4 @@
-package com.example.movie_catalog.ui.full_list_films.recyclerViewFLF
+package com.example.movie_catalog.ui.kit_films.recyclerKitFilms
 
 import android.graphics.drawable.AnimationDrawable
 import android.view.LayoutInflater
