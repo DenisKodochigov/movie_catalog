@@ -15,30 +15,35 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PersonViewModel @Inject constructor()  : ViewModel() {
+class PersonViewModel @Inject constructor() : ViewModel() {
 
     private val dataRepository = DataRepository()
+
     init {
         getPerson(App.personDTOApp.staffId!!)
     }
 
-    private var _bestfilm = MutableStateFlow(Person(films = filmsStart))
-    var bestfilm = _bestfilm.asStateFlow()
+    private var _person = MutableStateFlow( Person(films = filmsStart) )
+    var person = _person.asStateFlow()
 
-    private fun getPerson(id:Int) {
+    private fun getPerson(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
+                Log.d("KDS", "View model getPerson, start order")
                 dataRepository.getPersonInfo(id)
             }.fold(
-                onSuccess = {_bestfilm.value = it },
-                onFailure = { Log.d("KDS",it.message ?: "")}
+                onSuccess = {
+                    Log.d("KDS", "View model getPerson, send data to fragment")
+                    _person.value = it },
+                onFailure = { Log.d("Error", it.message ?: "") }
             )
         }
     }
 
     companion object {
 
-        var filmsStart = listOf( Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(),
+        var filmsStart = listOf(
+            Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(),
             Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(),
             Film(),
         )

@@ -24,7 +24,7 @@
         android:id="@+id/tv_quantity_actor"
         style = "@style/H4_et"
         android:visibility= "invisible"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_header"
         app:layout_constraintEnd_toEndOf="parent"
         android:hint="@string/quantity_starred"/>
 

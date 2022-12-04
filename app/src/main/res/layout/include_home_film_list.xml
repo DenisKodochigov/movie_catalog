@@ -28,6 +28,6 @@
         android:visibility= "invisible"
         app:layout_constraintTop_toTopOf="@id/kit_name"
         app:layout_constraintEnd_toEndOf="parent"
-        android:hint="@string/show_all"/>
+        android:text="@string/show_all"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

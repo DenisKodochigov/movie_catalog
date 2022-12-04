@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.App.Companion.filmApp
 import com.example.movie_catalog.data.repositary.DataRepository
-import com.example.movie_catalog.entity.filminfo.FilmInfoSeasons
+import com.example.movie_catalog.entity.filminfo.InfoFilmSeasons
 import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.filminfo.Gallery
@@ -20,7 +20,7 @@ import javax.inject.Inject
 class FilmInfoViewModel @Inject constructor(): ViewModel() {
 
     private val dataRepository = DataRepository()
-    private var _filmInfo = MutableStateFlow(FilmInfoSeasons())
+    private var _filmInfo = MutableStateFlow(InfoFilmSeasons())
     var filmInfo = _filmInfo.asStateFlow()
 
     private var _personDTO = MutableStateFlow(listOf<PersonDTO>())
@@ -42,7 +42,7 @@ class FilmInfoViewModel @Inject constructor(): ViewModel() {
     private fun getFilmInfo() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                dataRepository.getInfoSeasson(filmApp.filmId!!)
+                dataRepository.getInfoFilmSeason(filmApp.filmId!!)
             }.fold(
                 onSuccess = {_filmInfo.value = it },
                 onFailure = { Log.d("KDS",it.message ?: "")}

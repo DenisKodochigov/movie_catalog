@@ -1,17 +1,18 @@
 package com.example.movie_catalog.ui.person
 
+import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
-import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.movie_catalog.App
 import com.example.movie_catalog.Constants
 import com.example.movie_catalog.R
@@ -33,19 +34,34 @@ class PersonFragment : Fragment() {
     private val bestfilmAdapter = FilmListAdapter(Constants.PERSON_QTY_FILMCARD) { film -> onItemClick(film) }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentPersonBinding.inflate(inflater, container, false)
         (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text = ""
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         super.onViewCreated(view, savedInstanceState)
 
         var bestFilm:List<Film> = emptyList()
         with(binding.bestFilm){
             filmRecyclerHorizontal.adapter = bestfilmAdapter
-            personViewModel.bestfilm.onEach {
+            personViewModel.person.onEach {
+                Log.d("KDS", "onViewCreated getPerson, get class Person")
+//Show photo person. Before load image, show waiting animation.
+                val animationCard = binding.ivPhoto.background as AnimationDrawable
+                if (it.posterUrl == null) {
+                    animationCard.apply {
+                        setEnterFadeDuration(1000)
+                        setExitFadeDuration(1000)
+                        start()
+                    }
+                }else{
+                    Glide.with(binding.ivPhoto).load(it.posterUrl).into(binding.ivPhoto)
+                    animationCard.stop()
+                    binding.ivPhoto.background.alpha = 0
+                }
                 binding.personNameRu.text = it.nameRu
                 binding.personNameEn.text = it.nameEn
                 binding.personJob.text = it.profession
@@ -66,6 +82,7 @@ class PersonFragment : Fragment() {
             }
         }
     }
+
     //Show info in select film
     private fun onItemClick(film: Film) { //Show info in select film
 //        setFragmentResult("requestKey", bundleOf("FILM" to film))

@@ -26,15 +26,9 @@
         android:id="@+id/show_all"
         style = "@style/H4_et"
         android:visibility= "invisible"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/kit_name"
+        app:layout_constraintTop_toTopOf="@id/kit_name"
         app:layout_constraintEnd_toEndOf="parent"
-        android:hint="@string/show_all"/>
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_1"
-        app:layout_constraintTop_toBottomOf="@id/film_recycler_horizontal"
-        app:layout_constraintStart_toStartOf="@id/film_recycler_horizontal"/>
+        android:text="@string/show_all"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

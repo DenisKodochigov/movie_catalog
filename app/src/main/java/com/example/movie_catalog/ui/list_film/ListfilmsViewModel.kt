@@ -1,8 +1,10 @@
 package com.example.movie_catalog.ui.list_film
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.App
+import com.example.movie_catalog.data.repositary.DataRepository
 import com.example.movie_catalog.entity.Film
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -14,6 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ListfilmsViewModel @Inject constructor(): ViewModel() {
 
+    private val dataRepository = DataRepository()
+
     private var _listFilms = MutableStateFlow(filmsStart)
     var listFilms = _listFilms.asStateFlow()
 
@@ -23,7 +27,16 @@ class ListfilmsViewModel @Inject constructor(): ViewModel() {
 
     private fun getData() {
         viewModelScope.launch(Dispatchers.IO) {
-            if (App.listFilmApp.isEmpty()) _listFilms.value = App.listFilmApp
+            if (App.listFilmApp.isNotEmpty()) {
+                App.listFilmApp.forEach { film ->
+                    if ( film.posterUrlPreview == null && film.filmId != null){
+                        Log.d("KDS","Order for film: ${film.nameRu}")
+                        film.posterUrlPreview =
+                            dataRepository.getInfoFilmSeason( film.filmId ).filmInfoDTO?.posterUrlPreview
+                    }
+                }
+                _listFilms.value = App.listFilmApp
+            }
         }
     }
 

@@ -14,8 +14,6 @@ import javax.inject.Inject
 @HiltViewModel
 class GalleryViewModel @Inject constructor(): ViewModel() {
 
-//    private val dataRepository = DataRepository()
-
     private var _gallery = MutableStateFlow(Gallery())
     var galleryFlow = _gallery.asStateFlow()
 

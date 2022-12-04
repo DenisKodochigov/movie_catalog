@@ -50,6 +50,7 @@ class FilmListAdapter @Inject constructor(
         else holder.binding.tvRating.visibility = View.INVISIBLE
 //Load small poster. Before load image, show waiting animation.
         val animationCard = holder.binding.poster.background as AnimationDrawable
+
         if (film.posterUrlPreview == null) {
             animationCard.apply {
                 setEnterFadeDuration(1000)

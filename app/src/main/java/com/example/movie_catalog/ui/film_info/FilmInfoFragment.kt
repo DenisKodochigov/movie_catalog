@@ -24,8 +24,7 @@ import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
 import com.example.movie_catalog.databinding.FragmentFilmInfoBinding
 import com.example.movie_catalog.entity.Film
-import com.example.movie_catalog.entity.Person
-import com.example.movie_catalog.entity.filminfo.FilmInfoSeasons
+import com.example.movie_catalog.entity.filminfo.InfoFilmSeasons
 import com.example.movie_catalog.entity.filminfo.Gallery
 import com.example.movie_catalog.ui.film_info.recyclerView.FilmInfoGalleryAdapter
 import com.example.movie_catalog.ui.film_info.recyclerView.PersonAdapter
@@ -164,7 +163,7 @@ class FilmInfoFragment : Fragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun fillMaket(filmInfoSeasons: FilmInfoSeasons){
+    private fun fillMaket(filmInfoSeasons: InfoFilmSeasons){
         val filmInfo = filmInfoSeasons.filmInfoDTO!!
 //Show poster film. Before load image, show waiting animation.
         val animationCard = binding.posterBig.poster.background as AnimationDrawable

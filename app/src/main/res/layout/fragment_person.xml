@@ -70,15 +70,14 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/person_goto_link"
         style="@style/H4_et"
-        android:layout_marginStart="136dp"
         android:text="@string/person_goto_link"
-        app:layout_constraintStart_toEndOf="@id/person_filmography"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/person_filmography" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/person_filmography_quantity"
         style="@style/H5_person_job"
-        android:text="@string/person_filmography_quantity"
+        android:hint="@string/person_filmography_quantity"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/person_filmography" />
 

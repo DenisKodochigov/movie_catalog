@@ -1,10 +1,13 @@
 package com.example.movie_catalog.ui.gallery.recycler
 
-import android.graphics.drawable.AnimationDrawable
+import android.annotation.SuppressLint
+import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import com.example.movie_catalog.R
+import com.example.movie_catalog.animations.LoadImageURLShow
 import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.databinding.ItemGalleryImageBinding
 import javax.inject.Inject
@@ -13,33 +16,37 @@ class ImagesAdapter @Inject constructor(): RecyclerView.Adapter<ImageViewHolder>
 
     private var images: List<FilmImageUrlDTO> = emptyList()
 
-    fun setList( listImages: List<FilmImageUrlDTO>){
+    @SuppressLint("NotifyDataSetChanged")
+    fun setList(listImages: List<FilmImageUrlDTO>){
         images = listImages
+        notifyDataSetChanged()
+        Log.d("KDS", "ImagesAdapter, set new list. Size list=${images.size} ")
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
-        return ImageViewHolder( ItemGalleryImageBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false ))
+        return ImageViewHolder(
+            ItemGalleryImageBinding.inflate( LayoutInflater.from(parent.context), parent, false ))
     }
 
     override fun getItemCount()= images.size
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        val image = images[position]
-
-        //Load small poster. Before load image, show waiting animation.
-        val animationCard = holder.binding.image.background as AnimationDrawable
-        if (image.imageUrl == null) {
-            animationCard.apply {
-                setEnterFadeDuration(1000)
-                setExitFadeDuration(1000)
-                start()
-            }
-        } else {
-            image.let {
-                Glide.with(holder.binding.image).load(it.imageUrl)
-                    .into(holder.binding.image)
-                animationCard.stop()
+        Log.d("KDS", "ImagesAdapter, onBindViewHolder start")
+        val animationCard = LoadImageURLShow()
+        holder.binding.image.foregroundGravity = Gravity.CENTER_HORIZONTAL
+        with(holder.binding.image){
+            if (position % 3 == 2) {
+                layoutParams.width = resources.getDimension(R.dimen.gallery_list_big_card_width).toInt()
+                layoutParams.height = resources.getDimension(R.dimen.gallery_list_big_card_height).toInt()
+                holder.binding.root.gravity = Gravity.CENTER_HORIZONTAL
+                animationCard.setAnimation(holder.binding.image, images[position].imageUrl!!)
+            } else if (position % 3 == 1) {
+                holder.binding.root.gravity = Gravity.START
+                animationCard.setAnimation(holder.binding.image, images[position].previewUrl!!)
+            } else if (position % 3 == 0) {
+                holder.binding.root.gravity = Gravity.END
+                animationCard.setAnimation(holder.binding.image, images[position].previewUrl!!)
             }
         }
     }

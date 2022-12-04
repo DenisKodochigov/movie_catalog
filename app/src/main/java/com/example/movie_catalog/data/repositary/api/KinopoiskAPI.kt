@@ -74,6 +74,9 @@ interface KinopoiskAPI {
     }
 }
 
+// 20c3f30c-7ba7-4417-9c72-4975ac6091c6
+// f8b0f389-e491-48d0-8794-240a6d0bc635
+
 val retrofitApi: KinopoiskAPI by lazy {
     Retrofit
         .Builder()

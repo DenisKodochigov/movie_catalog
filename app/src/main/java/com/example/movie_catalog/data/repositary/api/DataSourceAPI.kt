@@ -20,7 +20,7 @@ import com.example.movie_catalog.data.repositary.api.person.PersonInfoDTO
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Person
 import com.example.movie_catalog.entity.filminfo.Kit
-import com.example.movie_catalog.entity.filminfo.FilmInfoSeasons
+import com.example.movie_catalog.entity.filminfo.InfoFilmSeasons
 import java.util.*
 import javax.inject.Inject
 
@@ -51,8 +51,8 @@ class DataSourceAPI @Inject constructor() {
         )
     }
 
-    suspend fun getInfoSeasson(id: Int): FilmInfoSeasons {
-        val filmInfoSeasons = FilmInfoSeasons()
+    suspend fun getInfoFilmSeason(id: Int): InfoFilmSeasons {
+        val filmInfoSeasons = InfoFilmSeasons()
         filmInfoSeasons.filmInfoDTO = retrofitApi.getFilmInfo(id)
 //        Log.d("KDS1", "filmInfoSeasons = ${filmInfoSeasons.toString()}")
         if (filmInfoSeasons.filmInfoDTO!!.serial!!) {
@@ -100,16 +100,17 @@ class DataSourceAPI @Inject constructor() {
 
     private suspend fun copyToPerson(personInfoDTO: PersonInfoDTO):Person{
         val listFilm: MutableList<Film> = mutableListOf()
-
+        Log.d("KDS", "DataSourceAPI copyToPerson, start order")
         personInfoDTO.films.forEach {
+            val filmInfoDTO = retrofitApi.getFilmInfo(it.filmId!!)
             listFilm.add(Film(
                 filmId =it.filmId,
                 nameRu = it.nameRu,
                 nameEn = it.nameEn,
                 rating = it.rating,
-                posterUrlPreview = null,
+                posterUrlPreview = filmInfoDTO.posterUrlPreview,
                 countries = emptyList(),
-                genres = retrofitApi.getFilmInfo(it.filmId!!).genres!!,
+                genres = filmInfoDTO.genres!!,
                 imdbId = null,
                 viewed = false,
                 favorite = false,
@@ -147,7 +148,7 @@ class DataSourceAPI @Inject constructor() {
                 )
             )
         }
-        Log.d("KDS", "size list=${films.size}")
+//        Log.d("KDS", "size list=${films.size}")
         films.shuffle()
         return films
     }

@@ -69,7 +69,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_list_films"
-        android:name="com.example.movie_catalog.ui.list_film.ListPersonFragment"
+        android:name="com.example.movie_catalog.ui.list_film.ListFilmsFragment"
         android:label="ListFilmsFragment" >
         <action
             android:id="@+id/action_nav_list_films_to_nav_filmInfo"

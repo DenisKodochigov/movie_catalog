@@ -30,7 +30,6 @@ class GalleryFragment : Fragment() {
     private var _binding: FragmentGalleryBinding? = null
     private val binding get() = _binding!!
     private val viewModel: GalleryViewModel by viewModels()
-    private var gallery = Gallery()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -43,16 +42,13 @@ class GalleryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        binding.galleryTabsRecycler.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-
-        processingTabLayout()
 
         viewModel.galleryFlow.onEach {
-            gallery = it
+            processingTabLayout(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
-    private fun processingTabLayout(){
+    private fun processingTabLayout(gallery: Gallery){
         binding.viewpager.adapter = ViewPagerAdapter(gallery)
         binding.viewpager.currentItem = 0
         TabLayoutMediator(binding.tabs, binding.viewpager) { tab, position ->
@@ -60,27 +56,28 @@ class GalleryFragment : Fragment() {
             tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)?.text =
                 gallery.tabs[position].nameTabDisplay
             tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_quantity)?.text =
-                gallery.tabs[position].imagesUrl?.items?.size.toString()
-            tab?.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)?.
+                gallery.tabs[position].imagesUrl?.total.toString()
+            tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)?.
             setTextColor(resources.getColor(R.color.black,  null))
         }.attach()
-        binding.tabs.getTabAt(0)?.select()
+
         binding.tabs.getTabAt(0)?.customView?.findViewById<ConstraintLayout>(R.id.linearlayout)?.
-        setBackgroundResource(R.drawable.gallery_tab_selected_rectangle)
+                    setBackgroundResource(R.drawable.gallery_tab_selected_rectangle)
         binding.tabs.getTabAt(0)?.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)?.
-        setTextColor(resources.getColor(R.color.white,  null))
+                    setTextColor(resources.getColor(R.color.white,  null))
+
         binding.tabs.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.customView?.findViewById<ConstraintLayout>(R.id.linearlayout)?.
-                setBackgroundResource(R.drawable.gallery_tab_selected_rectangle)
+                            setBackgroundResource(R.drawable.gallery_tab_selected_rectangle)
                 tab?.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)?.
-                setTextColor(resources.getColor(R.color.white,  null))
+                            setTextColor(resources.getColor(R.color.white,  null))
             }
             override fun onTabUnselected(tab: TabLayout.Tab?) {
                 tab?.customView?.findViewById<ConstraintLayout>(R.id.linearlayout)?.
-                setBackgroundResource(R.drawable.gallery_tab_unselected_rectangle)
+                        setBackgroundResource(R.drawable.gallery_tab_unselected_rectangle)
                 tab?.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)?.
-                setTextColor(resources.getColor(R.color.black,  null))
+                        setTextColor(resources.getColor(R.color.black,  null))
             }
             override fun onTabReselected(tab: TabLayout.Tab?) { }
         })

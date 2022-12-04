@@ -17,7 +17,7 @@
     <dimen name="margin_1">28dp</dimen>
     <dimen name="margin_app_hor">26dp</dimen>
     <dimen name="margin_app_top">32dp</dimen>
-    <dimen name="margin_app_bottom">50dp</dimen>
+    <dimen name="margin_app_bottom">60dp</dimen>
     <dimen name="margin_top_h5_home">2dp</dimen>
     <dimen name="margin_top_display">0dp</dimen>
 
@@ -62,6 +62,11 @@
     <dimen name="gallery_tab_margin_hor">24dp</dimen>
     <dimen name="gallery_tab_item_margin_hor">10dp</dimen>
     <dimen name="gallery_tab_margin_ver">8dp</dimen>
+    <dimen name="gallery_list_big_card_width">308dp</dimen>
+    <dimen name="gallery_list_big_card_height">173dp</dimen>
+    <dimen name="gallery_list_small_card_width">146dp</dimen>
+    <dimen name="gallery_list_small_card_height">82dp</dimen>
+    <dimen name="gallery_list_small_card_margin_hor">8dp</dimen>
 
     //person page
     <dimen name="person_photo_width">146dp</dimen>

@@ -22,7 +22,7 @@ class DataRepository @Inject constructor() {
 
     suspend fun getPersonInfo(id: Int) = dataSource.getPersonInfo(id)
 
-    suspend fun getInfoSeasson(id: Int) = dataSource.getInfoSeasson(id)
+    suspend fun getInfoFilmSeason(id: Int) = dataSource.getInfoFilmSeason(id)
 
     suspend fun getSimilar(id: Int) = dataSource.getSimilar(id)
 
