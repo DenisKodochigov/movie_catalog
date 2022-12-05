@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_catalog.App
+import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.databinding.FragmentGalleryPageBinding
 import com.example.movie_catalog.entity.filminfo.Gallery
 
@@ -34,7 +35,12 @@ class ViewPagerAdapter(val gallery: Gallery): RecyclerView.Adapter<PagerHV>() {
 
         holder.binding.recyclerImage.adapter = imageAdapter
         Log.d("KDS", "ViewPagerAdapter, load image tab[position]=$position ")
-        imageAdapter.setList(gallery.tabs[position].imagesUrl!!.items)
+        if (gallery.tabs[position].imagesUrl!!.items.isEmpty()){
+            imageAdapter.setList(listOf(FilmImageUrlDTO("",""),FilmImageUrlDTO("","")))
+        }else{
+            imageAdapter.setList(gallery.tabs[position].imagesUrl!!.items)
+        }
+
     }
 }
 

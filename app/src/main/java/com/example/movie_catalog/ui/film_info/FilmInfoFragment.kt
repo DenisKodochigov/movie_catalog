@@ -87,8 +87,8 @@ class FilmInfoFragment : Fragment() {
         binding.gallery.imageRecycler.layoutManager = LinearLayoutManager(context,
             RecyclerView.HORIZONTAL,false)
         binding.gallery.imageRecycler.adapter = galleryAdapter
-        viewModel.gallery.onEach {
 
+        viewModel.gallery.onEach {
             val listImage = mutableListOf<FilmImageUrlDTO>()
             it.tabs.forEach { tab ->
                 tab.imagesUrl?.let { imagesUrl -> listImage.addAll( imagesUrl.items) }

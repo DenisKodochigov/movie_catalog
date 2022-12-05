@@ -20,7 +20,7 @@ class ImagesAdapter @Inject constructor(): RecyclerView.Adapter<ImageViewHolder>
     fun setList(listImages: List<FilmImageUrlDTO>){
         images = listImages
         notifyDataSetChanged()
-        Log.d("KDS", "ImagesAdapter, set new list. Size list=${images.size} ")
+//        Log.d("KDS", "ImagesAdapter, set new list. Size list=${images.size} ")
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
@@ -32,7 +32,7 @@ class ImagesAdapter @Inject constructor(): RecyclerView.Adapter<ImageViewHolder>
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-        Log.d("KDS", "ImagesAdapter, onBindViewHolder start")
+//        Log.d("KDS", "ImagesAdapter, onBindViewHolder start")
         val animationCard = LoadImageURLShow()
         holder.binding.image.foregroundGravity = Gravity.CENTER_HORIZONTAL
         with(holder.binding.image){
