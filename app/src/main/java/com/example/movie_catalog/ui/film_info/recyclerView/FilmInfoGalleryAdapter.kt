@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movie_catalog.Constants
+import com.example.movie_catalog.R
+import com.example.movie_catalog.animations.LoadImageURLShow
 import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.databinding.ItemFilmInfoGalleryBinding
 import com.example.movie_catalog.entity.filminfo.Gallery
@@ -32,20 +34,9 @@ class FilmInfoGalleryAdapter @Inject constructor(private val onClick: (Gallery) 
         val imageFilm = listImage[position]
 
         //Load small poster. Before load image, show waiting animation.
-        val animationCard = holder.binding.poster.background as AnimationDrawable
-
-        if (imageFilm.previewUrl == null) {
-            animationCard.apply {
-                setEnterFadeDuration(1000)
-                setExitFadeDuration(1000)
-                start()
-            }
-        }else{
-            imageFilm.let {
-                Glide.with(holder.binding.poster).load(it.previewUrl).into(holder.binding.poster)
-                animationCard.stop()
-            }
-        }
+        val animationCard = LoadImageURLShow()
+        animationCard.setAnimation(holder.binding.poster,imageFilm.previewUrl,
+                                R.dimen.film_info_gallery_radius)
 
         //Set action on click item recyclerView
         holder.binding.root.setOnClickListener {

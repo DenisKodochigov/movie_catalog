@@ -10,9 +10,12 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.movie_catalog.App
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentGalleryBinding
+import com.example.movie_catalog.entity.ImagePosition
 import com.example.movie_catalog.entity.filminfo.Gallery
 import com.example.movie_catalog.ui.kit_films.KitFilmsFragment
 import com.example.movie_catalog.ui.gallery.recycler.ViewPagerAdapter
@@ -32,7 +35,8 @@ class GalleryFragment : Fragment() {
     private val viewModel: GalleryViewModel by viewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
 
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
         (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text =
@@ -48,8 +52,9 @@ class GalleryFragment : Fragment() {
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
-    private fun processingTabLayout(gallery: Gallery){
-        binding.viewpager.adapter = ViewPagerAdapter(gallery)
+    private fun processingTabLayout(gallery: Gallery) {
+        binding.viewpager.adapter =
+            ViewPagerAdapter(gallery) { position -> onClickViewPager(position) }
         binding.viewpager.currentItem = 0
         TabLayoutMediator(binding.tabs, binding.viewpager) { tab, position ->
             tab.setCustomView(R.layout.item_gallery_tab)
@@ -57,30 +62,39 @@ class GalleryFragment : Fragment() {
                 gallery.tabs[position].nameTabDisplay
             tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_quantity)?.text =
                 gallery.tabs[position].imagesUrl?.total.toString()
-            tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)?.
-            setTextColor(resources.getColor(R.color.black,  null))
+            tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)
+                ?.setTextColor(resources.getColor(R.color.black, null))
         }.attach()
 
-        binding.tabs.getTabAt(0)?.customView?.findViewById<ConstraintLayout>(R.id.linearlayout)?.
-                    setBackgroundResource(R.drawable.gallery_tab_selected_rectangle)
-        binding.tabs.getTabAt(0)?.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)?.
-                    setTextColor(resources.getColor(R.color.white,  null))
+        binding.tabs.getTabAt(0)?.customView?.findViewById<ConstraintLayout>(R.id.linearlayout)
+            ?.setBackgroundResource(R.drawable.gallery_tab_selected_rectangle)
+        binding.tabs.getTabAt(0)?.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)
+            ?.setTextColor(resources.getColor(R.color.white, null))
 
-        binding.tabs.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+        binding.tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                tab?.customView?.findViewById<ConstraintLayout>(R.id.linearlayout)?.
-                            setBackgroundResource(R.drawable.gallery_tab_selected_rectangle)
-                tab?.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)?.
-                            setTextColor(resources.getColor(R.color.white,  null))
+                tab?.customView?.findViewById<ConstraintLayout>(R.id.linearlayout)
+                    ?.setBackgroundResource(R.drawable.gallery_tab_selected_rectangle)
+                tab?.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)
+                    ?.setTextColor(resources.getColor(R.color.white, null))
             }
+
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-                tab?.customView?.findViewById<ConstraintLayout>(R.id.linearlayout)?.
-                        setBackgroundResource(R.drawable.gallery_tab_unselected_rectangle)
-                tab?.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)?.
-                        setTextColor(resources.getColor(R.color.black,  null))
+                tab?.customView?.findViewById<ConstraintLayout>(R.id.linearlayout)
+                    ?.setBackgroundResource(R.drawable.gallery_tab_unselected_rectangle)
+                tab?.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)
+                    ?.setTextColor(resources.getColor(R.color.black, null))
             }
-            override fun onTabReselected(tab: TabLayout.Tab?) { }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
+    }
+
+    fun onClickViewPager(imagePosition: Int) {
+
+        App.imagePositionApp = ImagePosition(positionTab = binding.tabs.selectedTabPosition,
+                                            positionList = imagePosition)
+        findNavController().navigate(R.id.action_nav_gallery_to_nav_viewer_image)
     }
 
     override fun onDestroyView() {

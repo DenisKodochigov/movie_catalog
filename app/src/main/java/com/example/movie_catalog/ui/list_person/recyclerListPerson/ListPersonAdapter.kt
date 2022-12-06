@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.movie_catalog.R
+import com.example.movie_catalog.animations.LoadImageURLShow
 import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
 import com.example.movie_catalog.databinding.ItemPersonListBinding
 import javax.inject.Inject
@@ -35,21 +37,10 @@ class ListPersonAdapter @Inject constructor(
         holder.binding.personName.text = person.nameRu ?: ""
 //Set Person job.
         holder.binding.personJob.text = person.professionText
-//Load small poster. Before load image, show waiting animation.
-        val animationCard = holder.binding.poster.background as AnimationDrawable
-        if (person.posterUrl == null) {
-            animationCard.apply {
-                setEnterFadeDuration(1000)
-                setExitFadeDuration(1000)
-                start()
-            }
-        } else {
-            person.let {
-                Glide.with(holder.binding.poster).load(it.posterUrl)
-                    .into(holder.binding.poster)
-                animationCard.stop()
-            }
-        }
+//Load small poster. Before load image, show waiting animation
+        val animationCard = LoadImageURLShow()
+        animationCard.setAnimation(holder.binding.poster,person.posterUrl, R.dimen.card_film_radius)
+
 //Set action on click item recyclerView
         holder.binding.root.setOnClickListener {
             onClick(person)

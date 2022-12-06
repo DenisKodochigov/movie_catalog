@@ -9,9 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_catalog.App
 import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.databinding.FragmentGalleryPageBinding
+import com.example.movie_catalog.entity.ImagePosition
 import com.example.movie_catalog.entity.filminfo.Gallery
 
-class ViewPagerAdapter(val gallery: Gallery): RecyclerView.Adapter<PagerHV>() {
+class ViewPagerAdapter(val gallery: Gallery, private val onClick: (Int) -> Unit ): RecyclerView.Adapter<PagerHV>() {
 
     override fun getItemCount() = gallery.tabs.size
 
@@ -22,7 +23,7 @@ class ViewPagerAdapter(val gallery: Gallery): RecyclerView.Adapter<PagerHV>() {
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: PagerHV, position: Int) {
 
-        val imageAdapter = ImagesAdapter()
+        val imageAdapter = ImagesAdapter { image -> onClickImagesAdapter(image)}
 //        Log.d("KDS", "ViewPagerAdapter, onBindViewHolder start. Position=$position")
         holder.binding.recyclerImage.layoutManager = GridLayoutManager(App.context, 2).also {
             it.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
@@ -40,7 +41,10 @@ class ViewPagerAdapter(val gallery: Gallery): RecyclerView.Adapter<PagerHV>() {
         }else{
             imageAdapter.setList(gallery.tabs[position].imagesUrl!!.items)
         }
+    }
 
+    private fun onClickImagesAdapter(positionList: Int) {
+        onClick(positionList)
     }
 }
 

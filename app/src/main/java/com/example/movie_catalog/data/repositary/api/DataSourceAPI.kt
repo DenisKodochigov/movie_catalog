@@ -54,9 +54,10 @@ class DataSourceAPI @Inject constructor() {
     suspend fun getInfoFilmSeason(id: Int): InfoFilmSeasons {
         val filmInfoSeasons = InfoFilmSeasons()
         filmInfoSeasons.filmInfoDTO = retrofitApi.getFilmInfo(id)
-//        Log.d("KDS1", "filmInfoSeasons = ${filmInfoSeasons.toString()}")
+        Log.d("KDS start retrofit", "getFilmInfo start")
         if (filmInfoSeasons.filmInfoDTO!!.serial!!) {
             filmInfoSeasons.seasonsDTO = retrofitApi.getSeasons(id)
+            Log.d("KDS start retrofit", "getSeasons start")
         }
         return filmInfoSeasons
     }
@@ -65,44 +66,52 @@ class DataSourceAPI @Inject constructor() {
         val calendar = Calendar.getInstance()
         val currentYear = calendar.get(Calendar.YEAR)
         val currentMonth = MonthKinopoisk.values()[calendar.get(Calendar.MONTH)].toString()
+        Log.d("KDS start retrofit", "getPremieres start")
         val premieres = retrofitApi.getPremieres(currentYear, currentMonth)
 //        Log.d("KDS", "year=$currentYear, month=$currentMonth")
         return copyToFilm(selectPremieresTwoWeeks(premieres).items)
     }
 
     suspend fun getTop(page:Int, type: String): List<Film> {
+        Log.d("KDS start retrofit", "getTop start")
         return copyTopToFilm(retrofitApi.getTop(page, type).films)
     }
 
     suspend fun getFilters(page:Int, genre:Int, country:Int): List<Film> {
+        Log.d("KDS start retrofit", "getFilters start")
         return copyFilterToFilm(retrofitApi.getFilters(page, country,genre).items!!)
     }
 
     suspend fun getSerials(page:Int): List<Film> {
+        Log.d("KDS start retrofit", "getSerials start")
         return copyFilterToFilm(retrofitApi.getSerials(page).items!!)
     }
 
-    suspend fun getGallery(id:Int, type:String): FilmImageDTO {
-        return retrofitApi.getGallery(id, type)
+    suspend fun getGallery(id:Int, type:String, page: Int): FilmImageDTO {
+        Log.d("KDS start retrofit", "getGallery start")
+        return retrofitApi.getGallery(id, type, page)
     }
 
     suspend fun getSimilar(id:Int): List<Film> {
+        Log.d("KDS start retrofit", "getSimilar start")
         return copySimilarToFilm(retrofitApi.getSimilar(id).items!!)
     }
 
     suspend fun getPersons(id: Int): List<PersonDTO> {
+        Log.d("KDS start retrofit", "getPersons start")
         return retrofitApi.getPersons(id)
     }
 
     suspend fun getPersonInfo(id:Int): Person {
+        Log.d("KDS start retrofit", "getPersonInfo start")
         return copyToPerson(retrofitApi.getPersonInfo(id))
     }
 
     private suspend fun copyToPerson(personInfoDTO: PersonInfoDTO):Person{
         val listFilm: MutableList<Film> = mutableListOf()
-        Log.d("KDS", "DataSourceAPI copyToPerson, start order")
         personInfoDTO.films.forEach {
             val filmInfoDTO = retrofitApi.getFilmInfo(it.filmId!!)
+            Log.d("KDS start retrofit", "getFilmInfo start")
             listFilm.add(Film(
                 filmId =it.filmId,
                 nameRu = it.nameRu,
@@ -133,7 +142,9 @@ class DataSourceAPI @Inject constructor() {
     private suspend fun copySimilarToFilm(filmList: List<SimilarItemDTO>): List<Film>{
         val films = mutableListOf<Film>()
         filmList.forEach {
-            films.add( Film(
+            Log.d("KDS start retrofit", "getFilmInfo start")
+            films.add(
+                Film(
                     filmId = it.filmId,
                     imdbId = null,
                     nameRu = it.nameRu,
@@ -141,7 +152,7 @@ class DataSourceAPI @Inject constructor() {
                     rating = null,
                     posterUrlPreview = it.posterUrlPreview,
                     countries = emptyList(),
-                    genres = retrofitApi.getFilmInfo(it.filmId!!).genres!!,
+                    genres = emptyList(),// retrofitApi.getFilmInfo(it.filmId!!).genres!!,
                     viewed = false,
                     favorite = setFavorite(it.filmId),
                     bookmark = setBookMark(it.filmId)
@@ -167,7 +178,7 @@ class DataSourceAPI @Inject constructor() {
                     countries = it.countries,
                     genres = it.genres,
                     viewed = false,
-                    favorite = setFavorite(it.kinopoiskId!!),
+                    favorite = setFavorite(it.kinopoiskId),
                     bookmark = setBookMark(it.kinopoiskId)
                 )
             )
@@ -222,11 +233,11 @@ class DataSourceAPI @Inject constructor() {
         return films
     }
 
-    private fun setFavorite(id: Int):Boolean{
+    private fun setFavorite(id: Int?):Boolean{
         return false
     }
 
-    private fun setBookMark(id: Int):Boolean{
+    private fun setBookMark(id: Int?):Boolean{
         return false
     }
 

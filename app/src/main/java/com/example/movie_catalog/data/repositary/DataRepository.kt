@@ -1,7 +1,10 @@
 package com.example.movie_catalog.data.repositary
 
+import com.example.movie_catalog.App
 import com.example.movie_catalog.data.repositary.api.DataSourceAPI
+import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.entity.filminfo.Gallery
+import com.example.movie_catalog.entity.gallery.ListImages
 import javax.inject.Inject
 
 class DataRepository @Inject constructor() {
@@ -28,9 +31,33 @@ class DataRepository @Inject constructor() {
 
     suspend fun getGallery(id: Int): Gallery {
         val gallery = Gallery()
-        gallery.tabs.forEach {
-            it.imagesUrl = dataSource.getGallery(id,it.nameTab.toString())
+        gallery.tabs.forEach { tab ->
+            var page = 1
+            val items = mutableListOf<FilmImageUrlDTO>()
+            val filmImageDTO = dataSource.getGallery(id,tab.nameTab.toString(), page)
+            items.addAll(filmImageDTO.items)
+            while (filmImageDTO.totalPages!! >= page){
+                page ++
+                items.addAll(dataSource.getGallery(id,tab.nameTab.toString(), page).items)
+            }
+            tab.imagesUrl = filmImageDTO
+            tab.imagesUrl!!.items = items.toList()
         }
         return gallery
+    }
+
+    suspend fun getListImage():ListImages{
+        val listImages = ListImages()
+        val image = App.galleryApp!!.tabs[App.imagePositionApp.positionTab!!]
+                            .imagesUrl!!.items[App.imagePositionApp.positionList!!].imageUrl
+
+        App.galleryApp!!.tabs.forEach { tab->
+            tab.imagesUrl!!.items.forEach {
+                listImages.images.add(it.imageUrl!!)
+            }
+        }
+        listImages.position = listImages.images.indices.find{ listImages.images[it] == image}
+
+        return listImages
     }
 }

@@ -5,7 +5,5 @@
 
     <solid android:color="#ffffff" />
 
-    <corners
-        android:radius="@dimen/gallery_tab_margin_ver"
-/>
+    <corners android:radius="@dimen/gallery_tab_margin_ver"/>
 </shape>

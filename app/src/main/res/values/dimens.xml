@@ -24,6 +24,9 @@
     <dimen name="film_info_margin_top_h5">4dp</dimen>
     <dimen name="film_info_margin_top_h2">40dp</dimen>
     <dimen name="film_info_margin_bottom_h2">32dp</dimen>
+    <dimen name="film_info_card_person_radius">4dp</dimen>
+    <dimen name="film_info_gallery_margin_hor">4dp</dimen>
+    <dimen name="film_info_gallery_radius">6dp</dimen>
 
     <dimen name="card_film_width">111dp</dimen>
     <dimen name="card_film_height">157dp</dimen>
@@ -43,7 +46,7 @@
     <dimen name="card_people_radius">6dp</dimen>
     <dimen name="card_people_name_marTop">4dp</dimen>
     <dimen name="card_people_name_marHor">16dp</dimen>
-    <dimen name="card_person_recycler_marTop">32dp</dimen>
+    <dimen name="card_people_recycler_marTop">32dp</dimen>
 
     <dimen name="home_recycler_marTop">16dp</dimen>
 
@@ -67,6 +70,8 @@
     <dimen name="gallery_list_small_card_width">146dp</dimen>
     <dimen name="gallery_list_small_card_height">82dp</dimen>
     <dimen name="gallery_list_small_card_margin_hor">8dp</dimen>
+    <dimen name="gallery_list_small_card_radius">4dp</dimen>
+    <dimen name="gallery_list_big_card_radius">6dp</dimen>
 
     //person page
     <dimen name="person_photo_width">146dp</dimen>
@@ -77,4 +82,13 @@
     <dimen name="person_name_margin_start">16dp</dimen>
     <dimen name="person_name_margin_end">37dp</dimen>
     <dimen name="person_job_margin_top">4dp</dimen>
+
+    //viewer image
+    <dimen name="viewer_image_button_radius">20dp</dimen>
+    <dimen name="viewer_image_button_length">20dp</dimen>
+    <dimen name="viewer_image_button_margin_end">20dp</dimen>
+    <dimen name="viewer_image_button_margin_ver">8dp</dimen>
+    <dimen name="viewer_image_button_corner">44</dimen>
+    <dimen name="viewer_image_button_corner_minus">-44</dimen>
+
 </resources>

@@ -7,5 +7,5 @@ import com.squareup.moshi.JsonClass
 data class FilmImageDTO(
     @Json(name = "total") val total:Int? = null,
     @Json(name = "totalPages") val totalPages:Int? = null,
-    @Json(name = "items") val items: MutableList<FilmImageUrlDTO> = mutableListOf()
+    @Json(name = "items") var items: List<FilmImageUrlDTO> = emptyList()
 )

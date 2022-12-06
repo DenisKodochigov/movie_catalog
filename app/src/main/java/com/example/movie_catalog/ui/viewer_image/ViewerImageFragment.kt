@@ -1,0 +1,67 @@
+package com.example.movie_catalog.ui.viewer_image
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import com.example.movie_catalog.App
+import com.example.movie_catalog.R
+import com.example.movie_catalog.databinding.FragmentViewerImageBinding
+import com.example.movie_catalog.entity.gallery.ListImages
+import com.example.movie_catalog.ui.kit_films.KitFilmsFragment
+import com.example.movie_catalog.ui.viewer_image.recycler.ViewerViewPagerAdapter
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+
+class ViewerImageFragment : Fragment() {
+
+    companion object {
+        fun newInstance() = KitFilmsFragment()
+    }
+
+    private var _binding: FragmentViewerImageBinding? = null
+    private val binding get() = _binding!!
+    private val viewModel: ViewerImageViewModel by viewModels()
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+
+        _binding = FragmentViewerImageBinding.inflate(inflater, container, false)
+        (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text =
+            App.kitApp?.nameKit ?: ""
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.listImage.onEach {
+            processingTabLayout(it)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+    }
+
+    private fun processingTabLayout(listImages: ListImages) {
+        binding.viewpager.adapter =
+            ViewerViewPagerAdapter(listImages.images)
+        binding.viewpager.currentItem = listImages.position!!
+
+        binding.ivButtonLeft.setOnClickListener {
+            if (binding.viewpager.currentItem > 0)
+                binding.viewpager.currentItem = binding.viewpager.currentItem - 1
+        }
+        binding.ivButtonRight.setOnClickListener {
+            if (binding.viewpager.currentItem < listImages.images.size)
+                binding.viewpager.currentItem = binding.viewpager.currentItem + 1
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+}

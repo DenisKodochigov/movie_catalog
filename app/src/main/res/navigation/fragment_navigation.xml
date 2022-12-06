@@ -54,7 +54,11 @@
     <fragment
         android:id="@+id/nav_gallery"
         android:name="com.example.movie_catalog.ui.gallery.GalleryFragment"
-        android:label="GalleryFragment" />
+        android:label="GalleryFragment" >
+        <action
+            android:id="@+id/action_nav_gallery_to_nav_viewer_image"
+            app:destination="@id/nav_viewer_image" />
+    </fragment>
     <fragment
         android:id="@+id/nav_person"
         android:name="com.example.movie_catalog.ui.person.PersonFragment"
@@ -75,5 +79,9 @@
             android:id="@+id/action_nav_list_films_to_nav_filmInfo"
             app:destination="@id/nav_filmInfo" />
     </fragment>
+    <fragment
+        android:id="@+id/nav_viewer_image"
+        android:name="com.example.movie_catalog.ui.viewer_image.ViewerImageFragment"
+        android:label="ViewerImageFragment" />
 
 </navigation>

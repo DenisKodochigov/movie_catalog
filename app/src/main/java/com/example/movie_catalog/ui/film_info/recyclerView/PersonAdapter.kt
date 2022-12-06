@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.movie_catalog.R
+import com.example.movie_catalog.animations.LoadImageURLShow
 import com.example.movie_catalog.databinding.ItemFilmInfoPersonBinding
 import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
 import javax.inject.Inject
@@ -37,19 +39,8 @@ class PersonAdapter @Inject constructor(private val onClick: (PersonDTO) -> Unit
         else if (whatRole == 2) holder.binding.tvRole.text = person?.professionText ?: ""
 
         //Load small poster. Before load image, show waiting animation.
-        val animationCard = holder.binding.photo.background as AnimationDrawable
-        if (person?.posterUrl == null) {
-            animationCard.apply {
-                setEnterFadeDuration(1000)
-                setExitFadeDuration(1000)
-                start()
-            }
-        }else{
-            person.let {
-                Glide.with(holder.binding.photo).load(it.posterUrl).into(holder.binding.photo)
-                animationCard.stop()
-            }
-        }
+        val animationCard = LoadImageURLShow()
+        animationCard.setAnimation(holder.binding.photo,person?.posterUrl, R.dimen.card_people_radius)
 
         //Set action on click item recyclerView
         holder.binding.root.setOnClickListener {

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -24,11 +25,11 @@ import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
 import com.example.movie_catalog.databinding.FragmentFilmInfoBinding
 import com.example.movie_catalog.entity.Film
-import com.example.movie_catalog.entity.filminfo.InfoFilmSeasons
 import com.example.movie_catalog.entity.filminfo.Gallery
+import com.example.movie_catalog.entity.filminfo.InfoFilmSeasons
 import com.example.movie_catalog.ui.film_info.recyclerView.FilmInfoGalleryAdapter
 import com.example.movie_catalog.ui.film_info.recyclerView.PersonAdapter
-import com.example.movie_catalog.ui.home.recyclerView.FilmListAdapter
+import com.example.movie_catalog.ui.list_film.recyclerListFilms.ListFilmAdapter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -39,7 +40,7 @@ class FilmInfoFragment : Fragment() {
     private val personAdapter = PersonAdapter({ person -> onPersonClick(person)}, sizeGird = 20, whatRole = 1)
     private val staffAdapter = PersonAdapter({person -> onPersonClick(person)}, sizeGird = 6, whatRole = 2)
     private val galleryAdapter = FilmInfoGalleryAdapter { image ->onImageClick(image) }
-    private val similarAdapter = FilmListAdapter(Constants.HOME_QTY_FILMCARD) { film -> onSimilarClick(film) }
+    private val similarAdapter = ListFilmAdapter{ film -> onSimilarClick(film) }
     private val viewModel: FilmInfoViewModel by viewModels()
     private var isCollapsed = false
 
@@ -80,6 +81,10 @@ class FilmInfoFragment : Fragment() {
                 binding.gallery.tvQuantityImages.visibility = View.INVISIBLE
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
+
+        binding.similar.tvQuantityMovies.setOnClickListener {
+            findNavController().navigate(R.id.action_nav_filmInfo_to_nav_list_films)
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -254,6 +259,19 @@ class FilmInfoFragment : Fragment() {
                 isCollapsed = true
             }
         }
+//Show info serial
+        if (filmInfoSeasons.seasonsDTO != null ){
+            binding.serials.root.visibility = View.VISIBLE
+
+            binding.serials.tvHeaderDown.text = resources.getText(R.string.first_season).toString() +
+                    filmInfoSeasons.seasonsDTO!!.total.toString() + " " +
+               resources.getText(R.string.quantity_series).toString() +
+                    filmInfoSeasons.seasonsDTO!!.items?.get(0)!!.number.toString()
+        } else {
+            binding.serials.root.visibility = View.INVISIBLE
+            binding.serials.root.layoutParams.height = 0
+        }
+
     }
 
     private fun onPersonClick(personDTO: PersonDTO) {
@@ -271,9 +289,11 @@ class FilmInfoFragment : Fragment() {
 //        setFragmentResult("requestKey", bundleOf("FILM" to film))
         findNavController().navigate(R.id.action_nav_filmInfo_to_nav_list_films)
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
     companion object { fun newInstance() = FilmInfoFragment() }
 }

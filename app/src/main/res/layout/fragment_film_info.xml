@@ -24,6 +24,11 @@
             android:id="@+id/description_film"
             style="@style/H3_description"/>
         <include
+            android:id="@+id/serials"
+            layout="@layout/include_film_info_serials"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <include
             android:id="@+id/person"
             layout="@layout/include_film_info_person"
             android:layout_width="match_parent"

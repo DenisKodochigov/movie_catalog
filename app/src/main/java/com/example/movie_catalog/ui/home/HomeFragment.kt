@@ -68,7 +68,6 @@ class HomeFragment : Fragment() {
         }.launchIn(viewLifecycleOwner.lifecycleScope)
         //Get list premier films
         processingView(binding.premierKit, premieresAdapter, homeViewModel.premieres, Kit.PREMIERES)
-//        binding.premierKit.filmRecyclerHorizontal.scrollToPosition(10)
         //Get list popular films
         processingView(binding.popularKit, popularAdapter, homeViewModel.popularFilms, Kit.POPULAR)
         //Get list top250 films

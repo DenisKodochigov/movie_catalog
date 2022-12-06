@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_header"
+        style="@style/H2_film_info"
+        android:text="@string/seasonSeries"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_header_down"
+        style = "@style/H5_poster"
+        android:visibility= "invisible"
+        app:layout_constraintTop_toBottomOf="@id/tv_header"
+        app:layout_constraintStart_toStartOf="@id/tv_header"
+        android:hint="@string/quantity_starred"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_all"
+        style = "@style/H4_et"
+        android:visibility= "invisible"
+        app:layout_constraintTop_toTopOf="@id/tv_header"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="@string/show_all"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

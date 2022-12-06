@@ -34,7 +34,7 @@ class FilmInfoViewModel @Inject constructor(): ViewModel() {
 
     init {
         getFilmInfo()
-        getActors()
+        getPersons()
         getGallery()
         getSimilar()
     }
@@ -49,7 +49,7 @@ class FilmInfoViewModel @Inject constructor(): ViewModel() {
             )
         }
     }
-    private fun getActors() {
+    private fun getPersons() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 dataRepository.getPersons(filmApp.filmId!!)

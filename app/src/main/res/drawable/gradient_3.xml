@@ -3,4 +3,5 @@
     <gradient
         android:startColor="@color/gradient_light"
         android:endColor="@color/gradient_dark"/>
+    <corners android:radius="@dimen/film_info_card_person_radius"/>
 </shape>

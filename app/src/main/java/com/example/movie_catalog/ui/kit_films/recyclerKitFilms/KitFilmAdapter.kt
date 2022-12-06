@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.movie_catalog.R
+import com.example.movie_catalog.animations.LoadImageURLShow
 import com.example.movie_catalog.databinding.ItemHomeFilmListBinding
 import com.example.movie_catalog.entity.Film
 import javax.inject.Inject
@@ -49,20 +51,9 @@ class FullListFilmAdapter @Inject constructor(
         if (film.rating != null) holder.binding.tvRating.text = film.rating.toString()
         else holder.binding.tvRating.visibility = View.INVISIBLE
 //Load small poster. Before load image, show waiting animation.
-        val animationCard = holder.binding.poster.background as AnimationDrawable
-        if (film.posterUrlPreview == null) {
-            animationCard.apply {
-                setEnterFadeDuration(1000)
-                setExitFadeDuration(1000)
-                start()
-            }
-        } else {
-            film.let {
-                Glide.with(holder.binding.poster).load(it.posterUrlPreview)
-                    .into(holder.binding.poster)
-                animationCard.stop()
-            }
-        }
+        val animationCard = LoadImageURLShow()
+        animationCard.setAnimation(holder.binding.poster, film.posterUrlPreview,
+                                                                  R.dimen.card_film_radius)
 //Set action on click item recyclerView
         holder.binding.root.setOnClickListener {
             onClick(film)

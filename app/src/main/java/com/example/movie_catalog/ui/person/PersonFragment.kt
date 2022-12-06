@@ -16,9 +16,11 @@ import com.bumptech.glide.Glide
 import com.example.movie_catalog.App
 import com.example.movie_catalog.Constants
 import com.example.movie_catalog.R
+import com.example.movie_catalog.animations.LoadImageURLShow
 import com.example.movie_catalog.databinding.FragmentPersonBinding
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.ui.home.recyclerView.FilmListAdapter
+import com.example.movie_catalog.ui.list_film.recyclerListFilms.ListFilmAdapter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -31,7 +33,7 @@ class PersonFragment : Fragment() {
     private var _binding: FragmentPersonBinding? = null
     private val binding get() = _binding!!
     private val personViewModel: PersonViewModel by viewModels()
-    private val bestfilmAdapter = FilmListAdapter(Constants.PERSON_QTY_FILMCARD) { film -> onItemClick(film) }
+    private val bestfilmAdapter = ListFilmAdapter { film -> onItemClick(film) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -43,25 +45,14 @@ class PersonFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         super.onViewCreated(view, savedInstanceState)
-
+        val animationCard = LoadImageURLShow()
         var bestFilm:List<Film> = emptyList()
         with(binding.bestFilm){
             filmRecyclerHorizontal.adapter = bestfilmAdapter
             personViewModel.person.onEach {
-                Log.d("KDS", "onViewCreated getPerson, get class Person")
+//                Log.d("KDS", "onViewCreated getPerson, get class Person")
 //Show photo person. Before load image, show waiting animation.
-                val animationCard = binding.ivPhoto.background as AnimationDrawable
-                if (it.posterUrl == null) {
-                    animationCard.apply {
-                        setEnterFadeDuration(1000)
-                        setExitFadeDuration(1000)
-                        start()
-                    }
-                }else{
-                    Glide.with(binding.ivPhoto).load(it.posterUrl).into(binding.ivPhoto)
-                    animationCard.stop()
-                    binding.ivPhoto.background.alpha = 0
-                }
+                animationCard.setAnimation(binding.ivPhoto, it.posterUrl,R.dimen.card_people_radius)
                 binding.personNameRu.text = it.nameRu
                 binding.personNameEn.text = it.nameEn
                 binding.personJob.text = it.profession

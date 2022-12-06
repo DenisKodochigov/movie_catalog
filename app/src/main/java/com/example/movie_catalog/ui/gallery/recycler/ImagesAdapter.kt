@@ -12,12 +12,12 @@ import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.databinding.ItemGalleryImageBinding
 import javax.inject.Inject
 
-class ImagesAdapter @Inject constructor(): RecyclerView.Adapter<ImageViewHolder>() {
+class ImagesAdapter @Inject constructor(private val onClick: (Int) -> Unit ) : RecyclerView.Adapter<ImageViewHolder>() {
 
     private var images: List<FilmImageUrlDTO> = emptyList()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setList(listImages: List<FilmImageUrlDTO>){
+    fun setList(listImages: List<FilmImageUrlDTO>) {
         images = listImages
         notifyDataSetChanged()
 //        Log.d("KDS", "ImagesAdapter, set new list. Size list=${images.size} ")
@@ -25,31 +25,58 @@ class ImagesAdapter @Inject constructor(): RecyclerView.Adapter<ImageViewHolder>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         return ImageViewHolder(
-            ItemGalleryImageBinding.inflate( LayoutInflater.from(parent.context), parent, false ))
+            ItemGalleryImageBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        )
     }
 
-    override fun getItemCount()= images.size
+    override fun getItemCount() = images.size
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
-//        Log.d("KDS", "ImagesAdapter, onBindViewHolder start")
+        Log.d("KDS", "ImagesAdapter, onBindViewHolder start. position=$position")
         val animationCard = LoadImageURLShow()
         holder.binding.image.foregroundGravity = Gravity.CENTER_HORIZONTAL
-        with(holder.binding.image){
+        with(holder.binding) {
             if (position % 3 == 2) {
-                layoutParams.width = resources.getDimension(R.dimen.gallery_list_big_card_width).toInt()
-                layoutParams.height = resources.getDimension(R.dimen.gallery_list_big_card_height).toInt()
-                holder.binding.root.gravity = Gravity.CENTER_HORIZONTAL
-                animationCard.setAnimation(holder.binding.image, images[position].imageUrl!!)
+                image.layoutParams.width =
+                    root.resources.getDimension(R.dimen.gallery_list_big_card_width).toInt()
+                image.layoutParams.height =
+                    root.resources.getDimension(R.dimen.gallery_list_big_card_height).toInt()
+                root.gravity = Gravity.CENTER_HORIZONTAL
+                animationCard.setAnimation(
+                    image,
+                    images[position].imageUrl!!,
+                    R.dimen.gallery_list_big_card_radius
+                )
             } else if (position % 3 == 1) {
-                holder.binding.root.gravity = Gravity.START
-                animationCard.setAnimation(holder.binding.image, images[position].previewUrl!!)
+                image.layoutParams.width =
+                    root.resources.getDimension(R.dimen.gallery_list_small_card_width).toInt()
+                image.layoutParams.height =
+                    root.resources.getDimension(R.dimen.gallery_list_small_card_height).toInt()
+                root.gravity = Gravity.START
+                animationCard.setAnimation(
+                    image,
+                    images[position].previewUrl!!,
+                    R.dimen.gallery_list_small_card_radius
+                )
             } else if (position % 3 == 0) {
-                holder.binding.root.gravity = Gravity.END
-                animationCard.setAnimation(holder.binding.image, images[position].previewUrl!!)
+                image.layoutParams.width =
+                    root.resources.getDimension(R.dimen.gallery_list_small_card_width).toInt()
+                image.layoutParams.height =
+                    root.resources.getDimension(R.dimen.gallery_list_small_card_height).toInt()
+                root.gravity = Gravity.END
+                animationCard.setAnimation(
+                    image,
+                    images[position].previewUrl!!,
+                    R.dimen.gallery_list_small_card_radius
+                )
+            }
+
+            image.setOnClickListener {
+                onClick(position)
             }
         }
     }
 }
 
-class ImageViewHolder(val binding: ItemGalleryImageBinding): RecyclerView.ViewHolder(binding.root)
+class ImageViewHolder(val binding: ItemGalleryImageBinding) : RecyclerView.ViewHolder(binding.root)

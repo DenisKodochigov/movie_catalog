@@ -40,7 +40,7 @@
     <string name="poster_show_logotype_film">Show Logotype film</string>
     <string name="search">Search</string>
     <string name="profile">Profile</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="header_actor">В фильме снимались</string>
     <string name="header_staff">Над фильмом работали</string>
@@ -70,5 +70,8 @@
     <string name="person_name">Имя</string>
     <string name="actor">Актер</string>
     <string name="job">Участие</string>
+    <string name="seasonSeries">Сезоны и серии</string>
 
+    <string name="first_season">1 сезон</string>
+    <string name="quantity_series">серий</string>
 </resources>
