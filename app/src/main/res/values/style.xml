@@ -104,6 +104,7 @@
     <style name="H5_poster" parent = "H5">
         <item name="android:layout_marginTop">@dimen/film_info_margin_top_h5</item>
         <item name="android:layout_marginEnd">@dimen/dp0</item>
+        <item name="android:gravity">center_horizontal</item>
     </style>
     <style name="H5_toolbar" parent = "H5">
         <item name="android:layout_marginTop">@dimen/toolbar_margin_top</item>

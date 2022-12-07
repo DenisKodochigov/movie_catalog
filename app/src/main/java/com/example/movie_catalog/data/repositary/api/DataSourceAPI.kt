@@ -15,6 +15,7 @@ import com.example.movie_catalog.data.repositary.api.home.getKit.GenreIdDTO
 import com.example.movie_catalog.data.repositary.api.home.getKit.SelectedKit
 import com.example.movie_catalog.data.repositary.api.home.premieres.FilmDTO
 import com.example.movie_catalog.data.repositary.api.home.premieres.PremieresDTO
+import com.example.movie_catalog.data.repositary.api.home.seasons.SeasonsDTO
 import com.example.movie_catalog.data.repositary.api.home.top.TopFilmDTO
 import com.example.movie_catalog.data.repositary.api.person.PersonInfoDTO
 import com.example.movie_catalog.entity.Film
@@ -54,10 +55,10 @@ class DataSourceAPI @Inject constructor() {
     suspend fun getInfoFilmSeason(id: Int): InfoFilmSeasons {
         val filmInfoSeasons = InfoFilmSeasons()
         filmInfoSeasons.filmInfoDTO = retrofitApi.getFilmInfo(id)
-        Log.d("KDS start retrofit", "getFilmInfo start")
+//        Log.d("KDS start retrofit", "getFilmInfo start")
         if (filmInfoSeasons.filmInfoDTO!!.serial!!) {
             filmInfoSeasons.seasonsDTO = retrofitApi.getSeasons(id)
-            Log.d("KDS start retrofit", "getSeasons start")
+//            Log.d("KDS start retrofit", "getSeasons start id=$id")
         }
         return filmInfoSeasons
     }
@@ -66,44 +67,44 @@ class DataSourceAPI @Inject constructor() {
         val calendar = Calendar.getInstance()
         val currentYear = calendar.get(Calendar.YEAR)
         val currentMonth = MonthKinopoisk.values()[calendar.get(Calendar.MONTH)].toString()
-        Log.d("KDS start retrofit", "getPremieres start")
+//        Log.d("KDS start retrofit", "getPremieres start")
         val premieres = retrofitApi.getPremieres(currentYear, currentMonth)
 //        Log.d("KDS", "year=$currentYear, month=$currentMonth")
         return copyToFilm(selectPremieresTwoWeeks(premieres).items)
     }
 
     suspend fun getTop(page:Int, type: String): List<Film> {
-        Log.d("KDS start retrofit", "getTop start")
+//        Log.d("KDS start retrofit", "getTop start")
         return copyTopToFilm(retrofitApi.getTop(page, type).films)
     }
 
     suspend fun getFilters(page:Int, genre:Int, country:Int): List<Film> {
-        Log.d("KDS start retrofit", "getFilters start")
+//        Log.d("KDS start retrofit", "getFilters start")
         return copyFilterToFilm(retrofitApi.getFilters(page, country,genre).items!!)
     }
 
     suspend fun getSerials(page:Int): List<Film> {
-        Log.d("KDS start retrofit", "getSerials start")
+//        Log.d("KDS start retrofit", "getSerials start")
         return copyFilterToFilm(retrofitApi.getSerials(page).items!!)
     }
 
     suspend fun getGallery(id:Int, type:String, page: Int): FilmImageDTO {
-        Log.d("KDS start retrofit", "getGallery start")
+//        Log.d("KDS start retrofit", "getGallery start")
         return retrofitApi.getGallery(id, type, page)
     }
 
     suspend fun getSimilar(id:Int): List<Film> {
-        Log.d("KDS start retrofit", "getSimilar start")
+//        Log.d("KDS start retrofit", "getSimilar start")
         return copySimilarToFilm(retrofitApi.getSimilar(id).items!!)
     }
 
     suspend fun getPersons(id: Int): List<PersonDTO> {
-        Log.d("KDS start retrofit", "getPersons start")
+//        Log.d("KDS start retrofit", "getPersons start")
         return retrofitApi.getPersons(id)
     }
 
     suspend fun getPersonInfo(id:Int): Person {
-        Log.d("KDS start retrofit", "getPersonInfo start")
+//        Log.d("KDS start retrofit", "getPersonInfo start")
         return copyToPerson(retrofitApi.getPersonInfo(id))
     }
 
@@ -111,7 +112,7 @@ class DataSourceAPI @Inject constructor() {
         val listFilm: MutableList<Film> = mutableListOf()
         personInfoDTO.films.forEach {
             val filmInfoDTO = retrofitApi.getFilmInfo(it.filmId!!)
-            Log.d("KDS start retrofit", "getFilmInfo start")
+//            Log.d("KDS start retrofit", "getFilmInfo start")
             listFilm.add(Film(
                 filmId =it.filmId,
                 nameRu = it.nameRu,
@@ -142,7 +143,7 @@ class DataSourceAPI @Inject constructor() {
     private suspend fun copySimilarToFilm(filmList: List<SimilarItemDTO>): List<Film>{
         val films = mutableListOf<Film>()
         filmList.forEach {
-            Log.d("KDS start retrofit", "getFilmInfo start")
+//            Log.d("KDS start retrofit", "getFilmInfo start")
             films.add(
                 Film(
                     filmId = it.filmId,

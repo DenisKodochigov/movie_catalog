@@ -1,6 +1,7 @@
 package com.example.movie_catalog.ui.viewer_image
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +12,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.movie_catalog.App
 import com.example.movie_catalog.R
+import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.databinding.FragmentViewerImageBinding
-import com.example.movie_catalog.entity.gallery.ListImages
 import com.example.movie_catalog.ui.kit_films.KitFilmsFragment
 import com.example.movie_catalog.ui.viewer_image.recycler.ViewerViewPagerAdapter
 import kotlinx.coroutines.flow.launchIn
@@ -45,17 +46,16 @@ class ViewerImageFragment : Fragment() {
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
-    private fun processingTabLayout(listImages: ListImages) {
-        binding.viewpager.adapter =
-            ViewerViewPagerAdapter(listImages.images)
-        binding.viewpager.currentItem = listImages.position!!
-
+    private fun processingTabLayout(listImages: List<FilmImageUrlDTO>) {
+        binding.viewpager.adapter = ViewerViewPagerAdapter(listImages)
+        binding.viewpager.currentItem = App.galleryApp?.viewingPosition!!
+//        Log.d("KDS","ViewerImageFragment.processingTabLayout currentItem=${App.galleryApp?.viewingPosition!!}")
         binding.ivButtonLeft.setOnClickListener {
             if (binding.viewpager.currentItem > 0)
                 binding.viewpager.currentItem = binding.viewpager.currentItem - 1
         }
         binding.ivButtonRight.setOnClickListener {
-            if (binding.viewpager.currentItem < listImages.images.size)
+            if (binding.viewpager.currentItem < listImages.size)
                 binding.viewpager.currentItem = binding.viewpager.currentItem + 1
         }
     }

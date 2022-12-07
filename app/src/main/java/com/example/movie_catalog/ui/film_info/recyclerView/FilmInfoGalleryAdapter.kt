@@ -14,7 +14,7 @@ import com.example.movie_catalog.databinding.ItemFilmInfoGalleryBinding
 import com.example.movie_catalog.entity.filminfo.Gallery
 import javax.inject.Inject
 
-class FilmInfoGalleryAdapter @Inject constructor(private val onClick: (Gallery) -> Unit):
+class FilmInfoGalleryAdapter @Inject constructor(private val onClick: (String) -> Unit):
     RecyclerView.Adapter<FilmInfoGalleryViewHolder>() {
 
     private var listImage: List<FilmImageUrlDTO> = emptyList()
@@ -35,13 +35,11 @@ class FilmInfoGalleryAdapter @Inject constructor(private val onClick: (Gallery) 
 
         //Load small poster. Before load image, show waiting animation.
         val animationCard = LoadImageURLShow()
-        animationCard.setAnimation(holder.binding.poster,imageFilm.previewUrl,
-                                R.dimen.film_info_gallery_radius)
+        animationCard.setAnimation(holder.binding.poster,imageFilm.previewUrl, R.dimen.film_info_gallery_radius)
 
         //Set action on click item recyclerView
         holder.binding.root.setOnClickListener {
-            val imageBandle = Gallery()
-            onClick(imageBandle)
+            onClick(imageFilm.imageUrl!!)
         }
     }
 

@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.marginTop
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -25,7 +24,6 @@ import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
 import com.example.movie_catalog.databinding.FragmentFilmInfoBinding
 import com.example.movie_catalog.entity.Film
-import com.example.movie_catalog.entity.filminfo.Gallery
 import com.example.movie_catalog.entity.filminfo.InfoFilmSeasons
 import com.example.movie_catalog.ui.film_info.recyclerView.FilmInfoGalleryAdapter
 import com.example.movie_catalog.ui.film_info.recyclerView.PersonAdapter
@@ -55,7 +53,7 @@ class FilmInfoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.filmInfo.onEach {
-            if (it.filmInfoDTO != null) fillMaket(it)
+            if (it.filmInfoDTO != null) fillPage(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         processingPerson()
@@ -72,6 +70,7 @@ class FilmInfoFragment : Fragment() {
         viewModel.similar.onEach {
             similarAdapter.setListFilm(it)
 //#############################################################
+//            Log.d("KDS", "Load list similar film:${App.filmApp.filmId!!} ${it.size}")
             App.listFilmApp = it
 //#############################################################
             if (it.size > Constants.HOME_QTY_FILMCARD-1) {
@@ -168,7 +167,7 @@ class FilmInfoFragment : Fragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun fillMaket(filmInfoSeasons: InfoFilmSeasons){
+    private fun fillPage(filmInfoSeasons: InfoFilmSeasons){
         val filmInfo = filmInfoSeasons.filmInfoDTO!!
 //Show poster film. Before load image, show waiting animation.
         val animationCard = binding.posterBig.poster.background as AnimationDrawable
@@ -229,9 +228,10 @@ class FilmInfoFragment : Fragment() {
             stringForTextView = if (stringForTextView == "") { it.genre.toString().trim()}
             else { stringForTextView + ", " + it.genre.toString().trim()}
         }
-        //Add seasons
+        //Add seasons film_info_poster_seasons
         if (filmInfoSeasons.seasonsDTO?.total != null) {
-            stringForTextView += ", seasons: " + filmInfoSeasons.seasonsDTO?.total.toString().trim()
+            stringForTextView += ", " + context?.getString(R.string.film_info_poster_seasons) +
+                                        filmInfoSeasons.seasonsDTO?.total.toString().trim()
         }
         binding.posterBig.yearGenreOther.text = stringForTextView
 
@@ -263,15 +263,25 @@ class FilmInfoFragment : Fragment() {
         if (filmInfoSeasons.seasonsDTO != null ){
             binding.serials.root.visibility = View.VISIBLE
 
-            binding.serials.tvHeaderDown.text = resources.getText(R.string.first_season).toString() +
-                    filmInfoSeasons.seasonsDTO!!.total.toString() + " " +
-               resources.getText(R.string.quantity_series).toString() +
-                    filmInfoSeasons.seasonsDTO!!.items?.get(0)!!.number.toString()
+            var text = context?.getString(R.string.first_season)+ " "
+//            text += if (filmInfoSeasons.seasonsDTO!!.total == null) ""
+//                    else filmInfoSeasons.seasonsDTO!!.total.toString() + " "
+            text += if (filmInfoSeasons.seasonsDTO!!.items == null) "0"
+                    else filmInfoSeasons.seasonsDTO!!.items?.get(0)!!.episodes!!.size.toString() + " "
+            text += App.context.getString(R.string.quantity_series)
+
+            binding.serials.tvHeaderDown.text = text
         } else {
             binding.serials.root.visibility = View.INVISIBLE
             binding.serials.root.layoutParams.height = 0
         }
-
+        binding.serials.tvAll.setOnClickListener {
+//#############################################################
+//            Log.d("KDS", "Load list similar film:${App.filmApp.filmId!!} ${it.size}")
+            App.filmInfoSeasonsApp = filmInfoSeasons
+//#############################################################
+//            findNavController().navigate(R.id.action_nav_filmInfo_to_nav_person)
+        }
     }
 
     private fun onPersonClick(personDTO: PersonDTO) {
@@ -280,7 +290,7 @@ class FilmInfoFragment : Fragment() {
         findNavController().navigate(R.id.action_nav_filmInfo_to_nav_person)
     }
 
-    private fun onImageClick(image: Gallery) {
+    private fun onImageClick(imageURL: String) {
 //        setFragmentResult("requestKey", bundleOf("IMAGE" to image))
         findNavController().navigate(R.id.action_nav_filmInfo_to_nav_gallery)
     }

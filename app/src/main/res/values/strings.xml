@@ -72,6 +72,7 @@
     <string name="job">Участие</string>
     <string name="seasonSeries">Сезоны и серии</string>
 
-    <string name="first_season">1 сезон</string>
+    <string name="first_season">1 сезон, </string>
+    <string name="film_info_poster_seasons">сезонов: </string>
     <string name="quantity_series">серий</string>
 </resources>

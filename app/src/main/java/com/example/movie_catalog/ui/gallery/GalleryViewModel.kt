@@ -15,7 +15,9 @@ import javax.inject.Inject
 @HiltViewModel
 class GalleryViewModel @Inject constructor(): ViewModel() {
 
-    private var _gallery = MutableStateFlow(Gallery())
+    private var _gallery = MutableStateFlow(Gallery(tabs = mutableListOf(),
+                listImageUrl = mutableListOf(),
+                viewingPosition = null))
     var galleryFlow = _gallery.asStateFlow()
 
     init {

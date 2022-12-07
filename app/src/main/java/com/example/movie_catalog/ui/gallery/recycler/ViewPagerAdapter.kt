@@ -9,10 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_catalog.App
 import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.databinding.FragmentGalleryPageBinding
-import com.example.movie_catalog.entity.ImagePosition
 import com.example.movie_catalog.entity.filminfo.Gallery
 
-class ViewPagerAdapter(val gallery: Gallery, private val onClick: (Int) -> Unit ): RecyclerView.Adapter<PagerHV>() {
+class ViewPagerAdapter(val gallery: Gallery, private val onClick: (String) -> Unit ): RecyclerView.Adapter<PagerHV>() {
 
     override fun getItemCount() = gallery.tabs.size
 
@@ -43,8 +42,8 @@ class ViewPagerAdapter(val gallery: Gallery, private val onClick: (Int) -> Unit 
         }
     }
 
-    private fun onClickImagesAdapter(positionList: Int) {
-        onClick(positionList)
+    private fun onClickImagesAdapter(imageURL: String) {
+        onClick(imageURL)
     }
 }
 

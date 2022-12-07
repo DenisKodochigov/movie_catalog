@@ -15,7 +15,6 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_header_down"
         style = "@style/H5_poster"
-        android:visibility= "invisible"
         app:layout_constraintTop_toBottomOf="@id/tv_header"
         app:layout_constraintStart_toStartOf="@id/tv_header"
         android:hint="@string/quantity_starred"/>
@@ -23,7 +22,6 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_all"
         style = "@style/H4_et"
-        android:visibility= "invisible"
         app:layout_constraintTop_toTopOf="@id/tv_header"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="@string/show_all"/>

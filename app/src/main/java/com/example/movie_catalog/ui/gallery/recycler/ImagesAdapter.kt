@@ -12,7 +12,7 @@ import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.databinding.ItemGalleryImageBinding
 import javax.inject.Inject
 
-class ImagesAdapter @Inject constructor(private val onClick: (Int) -> Unit ) : RecyclerView.Adapter<ImageViewHolder>() {
+class ImagesAdapter @Inject constructor(private val onClick: (String) -> Unit ) : RecyclerView.Adapter<ImageViewHolder>() {
 
     private var images: List<FilmImageUrlDTO> = emptyList()
 
@@ -38,42 +38,25 @@ class ImagesAdapter @Inject constructor(private val onClick: (Int) -> Unit ) : R
         holder.binding.image.foregroundGravity = Gravity.CENTER_HORIZONTAL
         with(holder.binding) {
             if (position % 3 == 2) {
-                image.layoutParams.width =
-                    root.resources.getDimension(R.dimen.gallery_list_big_card_width).toInt()
-                image.layoutParams.height =
-                    root.resources.getDimension(R.dimen.gallery_list_big_card_height).toInt()
+                image.layoutParams.width = root.resources.getDimension(R.dimen.gallery_list_big_card_width).toInt()
+                image.layoutParams.height = root.resources.getDimension(R.dimen.gallery_list_big_card_height).toInt()
                 root.gravity = Gravity.CENTER_HORIZONTAL
-                animationCard.setAnimation(
-                    image,
-                    images[position].imageUrl!!,
-                    R.dimen.gallery_list_big_card_radius
-                )
+                animationCard.setAnimation( image, images[position].imageUrl!!, R.dimen.gallery_list_big_card_radius)
             } else if (position % 3 == 1) {
-                image.layoutParams.width =
-                    root.resources.getDimension(R.dimen.gallery_list_small_card_width).toInt()
-                image.layoutParams.height =
-                    root.resources.getDimension(R.dimen.gallery_list_small_card_height).toInt()
+                image.layoutParams.width = root.resources.getDimension(R.dimen.gallery_list_small_card_width).toInt()
+                image.layoutParams.height = root.resources.getDimension(R.dimen.gallery_list_small_card_height).toInt()
                 root.gravity = Gravity.START
-                animationCard.setAnimation(
-                    image,
-                    images[position].previewUrl!!,
-                    R.dimen.gallery_list_small_card_radius
-                )
+                animationCard.setAnimation(image, images[position].previewUrl!!, R.dimen.gallery_list_small_card_radius)
             } else if (position % 3 == 0) {
-                image.layoutParams.width =
-                    root.resources.getDimension(R.dimen.gallery_list_small_card_width).toInt()
-                image.layoutParams.height =
-                    root.resources.getDimension(R.dimen.gallery_list_small_card_height).toInt()
+                image.layoutParams.width = root.resources.getDimension(R.dimen.gallery_list_small_card_width).toInt()
+                image.layoutParams.height = root.resources.getDimension(R.dimen.gallery_list_small_card_height).toInt()
                 root.gravity = Gravity.END
-                animationCard.setAnimation(
-                    image,
-                    images[position].previewUrl!!,
-                    R.dimen.gallery_list_small_card_radius
+                animationCard.setAnimation( image, images[position].previewUrl!!, R.dimen.gallery_list_small_card_radius
                 )
             }
 
             image.setOnClickListener {
-                onClick(position)
+                onClick( images[position].imageUrl!!)
             }
         }
     }

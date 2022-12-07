@@ -6,8 +6,8 @@ import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
 import com.example.movie_catalog.entity.filminfo.Kit
 import com.example.movie_catalog.entity.Film
-import com.example.movie_catalog.entity.ImagePosition
 import com.example.movie_catalog.entity.filminfo.Gallery
+import com.example.movie_catalog.entity.filminfo.InfoFilmSeasons
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
@@ -26,6 +26,6 @@ class App: Application() {
         var imageApp = mutableListOf<FilmImageUrlDTO>()
         var listFilmApp: List<Film> = emptyList()
         var listPersonDTOApp: List<PersonDTO> = emptyList()
-        var imagePositionApp = ImagePosition()
+        var filmInfoSeasonsApp = InfoFilmSeasons()
     }
 }

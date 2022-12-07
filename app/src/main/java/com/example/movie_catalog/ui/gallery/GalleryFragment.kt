@@ -10,12 +10,10 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.movie_catalog.App
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentGalleryBinding
-import com.example.movie_catalog.entity.ImagePosition
 import com.example.movie_catalog.entity.filminfo.Gallery
 import com.example.movie_catalog.ui.kit_films.KitFilmsFragment
 import com.example.movie_catalog.ui.gallery.recycler.ViewPagerAdapter
@@ -59,7 +57,7 @@ class GalleryFragment : Fragment() {
         TabLayoutMediator(binding.tabs, binding.viewpager) { tab, position ->
             tab.setCustomView(R.layout.item_gallery_tab)
             tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)?.text =
-                gallery.tabs[position].nameTabDisplay
+                gallery.tabs[position].tab!!.nameDisplay
             tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_quantity)?.text =
                 gallery.tabs[position].imagesUrl?.total.toString()
             tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)
@@ -85,15 +83,14 @@ class GalleryFragment : Fragment() {
                 tab?.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)
                     ?.setTextColor(resources.getColor(R.color.black, null))
             }
-
             override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
     }
 
-    fun onClickViewPager(imagePosition: Int) {
+    private fun onClickViewPager(imageURL: String) {
 
-        App.imagePositionApp = ImagePosition(positionTab = binding.tabs.selectedTabPosition,
-                                            positionList = imagePosition)
+        App.galleryApp?.viewingPosition = App.galleryApp!!.listImageUrl.indices.find {
+                App.galleryApp!!.listImageUrl[it].imageUrl == imageURL }
         findNavController().navigate(R.id.action_nav_gallery_to_nav_viewer_image)
     }
 

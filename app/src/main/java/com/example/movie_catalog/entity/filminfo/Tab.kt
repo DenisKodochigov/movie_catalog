@@ -1,9 +1,16 @@
 package com.example.movie_catalog.entity.filminfo
 
-import com.example.movie_catalog.data.repositary.api.film_info.FilmImageDTO
+import com.example.movie_catalog.App
+import com.example.movie_catalog.R
 
-data class Tab(
-    var nameTab:String? = null,
-    var nameTabDisplay:String? = null,
-    var imagesUrl: FilmImageDTO? = null
-)
+enum class Tab (val nameDisplay: String) {
+    STILL(App.context.getString(R.string.STILL)),
+    SHOOTING(App.context.getString(R.string.SHOOTING)),
+    POSTER(App.context.getString(R.string.POSTER)),
+    FAN_ART(App.context.getString(R.string.FAN_ART)),
+    PROMO(App.context.getString(R.string.PROMO)),
+    CONCEPT(App.context.getString(R.string.CONCEPT)),
+    WALLPAPER(App.context.getString(R.string.WALLPAPER)),
+    COVER(App.context.getString(R.string.COVER)),
+    SCREENSHOT(App.context.getString(R.string.SCREENSHOT)),
+}
