@@ -1,4 +1,4 @@
-package com.example.movie_catalog.ui.list_film
+package com.example.movie_catalog.ui.list_person
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,10 +13,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_catalog.App
-import com.example.movie_catalog.App.Companion.kitApp
 import com.example.movie_catalog.R
 import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
-import com.example.movie_catalog.databinding.FragmentListFilmsBinding
+import com.example.movie_catalog.databinding.FragmentListPersonBinding
+import com.example.movie_catalog.ui.list_film.ListPersonViewModel
 import com.example.movie_catalog.ui.list_person.recyclerListPerson.ListPersonAdapter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -27,25 +27,24 @@ class ListPersonFragment : Fragment() {
         fun newInstance() = ListPersonFragment()
     }
 
-    private var _binding: FragmentListFilmsBinding? = null
+    private var _binding: FragmentListPersonBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ListPersonViewModel by viewModels()
     private val listAdapter = ListPersonAdapter{person -> onItemClick(person)}
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = FragmentListFilmsBinding.inflate(inflater, container, false)
-        (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text =
-            kitApp?.nameKit ?: ""
+        _binding = FragmentListPersonBinding.inflate(inflater, container, false)
+        (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text = ""
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.filmRecyclerVertical.layoutManager =
+        binding.personRecyclerVertical.layoutManager =
             GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
 
-        binding.filmRecyclerVertical.adapter = listAdapter
+        binding.personRecyclerVertical.adapter = listAdapter
 
         viewModel.listPerson.onEach {
             listAdapter.setListPerson(it)

@@ -15,11 +15,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_catalog.App
-import com.example.movie_catalog.App.Companion.kitApp
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentListFilmsBinding
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.ui.list_film.recyclerListFilms.ListFilmAdapter
+import com.example.movie_catalog.ui.list_person.ListPersonFragment
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -37,8 +37,7 @@ class ListFilmsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentListFilmsBinding.inflate(inflater, container, false)
-        (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text =
-            kitApp?.nameKit ?: ""
+        (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text = ""
         return binding.root
     }
 

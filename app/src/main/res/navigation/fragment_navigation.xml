@@ -50,6 +50,12 @@
         <action
             android:id="@+id/action_nav_filmInfo_to_nav_list_films"
             app:destination="@id/nav_list_films" />
+        <action
+            android:id="@+id/action_nav_filmInfo_to_nav_list_person"
+            app:destination="@id/nav_list_person" />
+        <action
+            android:id="@+id/action_nav_filmInfo_to_nav_seasons"
+            app:destination="@id/nav_seasons" />
     </fragment>
     <fragment
         android:id="@+id/nav_gallery"
@@ -83,5 +89,17 @@
         android:id="@+id/nav_viewer_image"
         android:name="com.example.movie_catalog.ui.viewer_image.ViewerImageFragment"
         android:label="ViewerImageFragment" />
-
+    <fragment
+        android:id="@+id/nav_list_person"
+        android:name="com.example.movie_catalog.ui.list_person.ListPersonFragment"
+        android:label="ListPersonFragment" >
+        <action
+            android:id="@+id/action_nav_list_person_to_nav_person"
+            app:destination="@id/nav_person" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_seasons"
+        android:name="com.example.movie_catalog.ui.viewer_seasons.ViewerSeasonsFragment"
+        android:label="ViewerSeasonsFragment" >
+    </fragment>
 </navigation>

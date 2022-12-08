@@ -1,4 +1,4 @@
-package com.example.movie_catalog.ui.viewer_image
+package com.example.movie_catalog.ui.viewer_seasons
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,28 +9,27 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.example.movie_catalog.App
 import com.example.movie_catalog.R
-import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
-import com.example.movie_catalog.databinding.FragmentViewerImageBinding
-import com.example.movie_catalog.ui.viewer_image.recycler.ViewerViewPagerAdapter
+import com.example.movie_catalog.data.repositary.api.home.seasons.SeasonDTO
+import com.example.movie_catalog.databinding.FragmentViewerSeasonsBinding
+import com.example.movie_catalog.ui.viewer_seasons.recycler.ViewerSerialViewPagerAdapter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-class ViewerImageFragment : Fragment() {
+class ViewerSeasonsFragment : Fragment() {
 
     companion object {
-        fun newInstance() = ViewerImageFragment()
+        fun newInstance() = ViewerSeasonsFragment()
     }
 
-    private var _binding: FragmentViewerImageBinding? = null
+    private var _binding: FragmentViewerSeasonsBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: ViewerImageViewModel by viewModels()
+    private val viewModel: ViewerSeasonsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
-        _binding = FragmentViewerImageBinding.inflate(inflater, container, false)
+        _binding = FragmentViewerSeasonsBinding.inflate(inflater, container, false)
         (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text = ""
         return binding.root
     }
@@ -38,21 +37,23 @@ class ViewerImageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.listImage.onEach {
-            processingTabLayout(it)
+        viewModel.listSeason.onEach {
+            (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text =
+                it.infoFilm?.nameRu
+            if (it.infoSeasons != null) processingTabLayout(it.infoSeasons?.items!!)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
-    private fun processingTabLayout(listImages: List<FilmImageUrlDTO>) {
-        binding.viewpager.adapter = ViewerViewPagerAdapter(listImages)
-        binding.viewpager.currentItem = App.galleryApp?.viewingPosition!!
+    private fun processingTabLayout(listSeason: List<SeasonDTO>) {
+        binding.viewpager.adapter = ViewerSerialViewPagerAdapter(listSeason)
 //        Log.d("KDS","ViewerImageFragment.processingTabLayout currentItem=${App.galleryApp?.viewingPosition!!}")
+        binding
         binding.ivButtonLeft.setOnClickListener {
             if (binding.viewpager.currentItem > 0)
                 binding.viewpager.currentItem = binding.viewpager.currentItem - 1
         }
         binding.ivButtonRight.setOnClickListener {
-            if (binding.viewpager.currentItem < listImages.size)
+            if (binding.viewpager.currentItem < listSeason.size)
                 binding.viewpager.currentItem = binding.viewpager.currentItem + 1
         }
     }

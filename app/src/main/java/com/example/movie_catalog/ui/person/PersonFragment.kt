@@ -1,8 +1,6 @@
 package com.example.movie_catalog.ui.person
 
-import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,14 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
 import com.example.movie_catalog.App
 import com.example.movie_catalog.Constants
 import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
 import com.example.movie_catalog.databinding.FragmentPersonBinding
 import com.example.movie_catalog.entity.Film
-import com.example.movie_catalog.ui.home.recyclerView.FilmListAdapter
 import com.example.movie_catalog.ui.list_film.recyclerListFilms.ListFilmAdapter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

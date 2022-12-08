@@ -1,14 +1,13 @@
 package com.example.movie_catalog.ui.viewer_image.recycler
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
 import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
-import com.example.movie_catalog.databinding.ItemViewerImageBinding
+import com.example.movie_catalog.databinding.ItemViewerImageRecyclerBinding
 
 class ViewerViewPagerAdapter(private val listImages: List<FilmImageUrlDTO>): RecyclerView.Adapter<PagerHV>() {
 
@@ -16,7 +15,7 @@ class ViewerViewPagerAdapter(private val listImages: List<FilmImageUrlDTO>): Rec
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagerHV {
         return PagerHV(
-            ItemViewerImageBinding.inflate( LayoutInflater.from(parent.context), parent, false))
+            ItemViewerImageRecyclerBinding.inflate( LayoutInflater.from(parent.context), parent, false))
     }
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: PagerHV, position: Int) {
@@ -29,4 +28,4 @@ class ViewerViewPagerAdapter(private val listImages: List<FilmImageUrlDTO>): Rec
     }
 }
 
-class PagerHV(val binding: ItemViewerImageBinding): RecyclerView.ViewHolder(binding.root)
+class PagerHV(val binding: ItemViewerImageRecyclerBinding): RecyclerView.ViewHolder(binding.root)

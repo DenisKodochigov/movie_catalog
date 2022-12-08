@@ -2,7 +2,6 @@ package com.example.movie_catalog.data.repositary.api
 
 import android.annotation.SuppressLint
 import android.icu.text.SimpleDateFormat
-import android.util.Log
 import com.example.movie_catalog.App
 import com.example.movie_catalog.Constants
 import com.example.movie_catalog.data.repositary.api.film_info.FilmImageDTO
@@ -15,7 +14,6 @@ import com.example.movie_catalog.data.repositary.api.home.getKit.GenreIdDTO
 import com.example.movie_catalog.data.repositary.api.home.getKit.SelectedKit
 import com.example.movie_catalog.data.repositary.api.home.premieres.FilmDTO
 import com.example.movie_catalog.data.repositary.api.home.premieres.PremieresDTO
-import com.example.movie_catalog.data.repositary.api.home.seasons.SeasonsDTO
 import com.example.movie_catalog.data.repositary.api.home.top.TopFilmDTO
 import com.example.movie_catalog.data.repositary.api.person.PersonInfoDTO
 import com.example.movie_catalog.entity.Film
@@ -54,10 +52,10 @@ class DataSourceAPI @Inject constructor() {
 
     suspend fun getInfoFilmSeason(id: Int): InfoFilmSeasons {
         val filmInfoSeasons = InfoFilmSeasons()
-        filmInfoSeasons.filmInfoDTO = retrofitApi.getFilmInfo(id)
+        filmInfoSeasons.infoFilm = retrofitApi.getFilmInfo(id)
 //        Log.d("KDS start retrofit", "getFilmInfo start")
-        if (filmInfoSeasons.filmInfoDTO!!.serial!!) {
-            filmInfoSeasons.seasonsDTO = retrofitApi.getSeasons(id)
+        if (filmInfoSeasons.infoFilm!!.serial!!) {
+            filmInfoSeasons.infoSeasons = retrofitApi.getSeasons(id)
 //            Log.d("KDS start retrofit", "getSeasons start id=$id")
         }
         return filmInfoSeasons

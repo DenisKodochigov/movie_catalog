@@ -84,6 +84,13 @@
         <item name="android:textColor">@color/blue_arrow</item>
         <item name="android:gravity">end|top</item>
     </style>
+    <style name="H4_viewer_serial" parent = "H4">
+        <item name="android:textColor">@color/h5</item>
+    </style>
+    <style name="H4_viewer_serial_rec_episode" parent = "H4">
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginTop">@dimen/viewer_season_header_top</item>
+    </style>
 
     <style name="H5" parent = "textApp">
         <item name="android:textSize">12sp</item>
@@ -115,6 +122,18 @@
         <item name="android:textStyle">bold</item>
         <item name="android:layout_marginTop">@dimen/person_job_margin_top</item>
         <item name="android:gravity">left</item>
+    </style>
+    <style name="H5_description" parent = "H5">
+        <item name="android:layout_marginTop">@dimen/viewer_season_recycler_data_top</item>
+        <item name="android:inputType">textMultiLine</item>
+    </style>
+
+
+    <style name="H6" parent = "textApp">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/h5</item>
+        <item name="android:layout_marginTop">@dimen/viewer_season_recycler_data_top</item>
+        <item name="android:gravity">start</item>
     </style>
 
     <style name="app_bold" parent = "textApp">

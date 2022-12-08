@@ -32,7 +32,7 @@ class ListfilmsViewModel @Inject constructor(): ViewModel() {
                     if ( film.posterUrlPreview == null && film.filmId != null){
                         Log.d("KDS","Order for film: ${film.nameRu}")
                         film.posterUrlPreview =
-                            dataRepository.getInfoFilmSeason( film.filmId ).filmInfoDTO?.posterUrlPreview
+                            dataRepository.getInfoFilmSeason( film.filmId ).infoFilm?.posterUrlPreview
                     }
                 }
                 _listFilms.value = App.listFilmApp

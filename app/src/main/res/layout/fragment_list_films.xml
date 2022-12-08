@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="?attr/actionBarSize"
-    tools:context=".ui.kit_films.KitFilmsFragment">
+    tools:context=".ui.list_film.ListFilmsFragment">
 
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

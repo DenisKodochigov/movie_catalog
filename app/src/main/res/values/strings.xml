@@ -74,5 +74,10 @@
 
     <string name="first_season">1 сезон, </string>
     <string name="film_info_poster_seasons">сезонов: </string>
+    <string name="viewer_seasons_season">сезон</string>
+    <string name="episode">серия</string>
     <string name="quantity_series">серий</string>
+    <string name="numberSeriaName">Номер серии. Название</string>
+    <string name="date">Дата</string>
+    <string name="description">Описание</string>
 </resources>

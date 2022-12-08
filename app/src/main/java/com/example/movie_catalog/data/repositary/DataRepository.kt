@@ -45,4 +45,5 @@ class DataRepository @Inject constructor() {
         }
         return gallery
     }
+
 }

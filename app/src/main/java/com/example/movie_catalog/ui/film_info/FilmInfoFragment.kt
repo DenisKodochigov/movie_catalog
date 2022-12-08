@@ -2,7 +2,6 @@ package com.example.movie_catalog.ui.film_info
 
 import android.animation.LayoutTransition
 import android.annotation.SuppressLint
-import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +19,7 @@ import com.bumptech.glide.Glide
 import com.example.movie_catalog.App
 import com.example.movie_catalog.Constants
 import com.example.movie_catalog.R
+import com.example.movie_catalog.animations.LoadImageURLShow
 import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
 import com.example.movie_catalog.databinding.FragmentFilmInfoBinding
@@ -53,7 +53,7 @@ class FilmInfoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.filmInfo.onEach {
-            if (it.filmInfoDTO != null) fillPage(it)
+            if (it.infoFilm != null) fillPage(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         processingPerson()
@@ -158,31 +158,22 @@ class FilmInfoFragment : Fragment() {
 
         binding.person.tvQuantityActor.setOnClickListener {
             App.listPersonDTOApp = actorList
-//            findNavController().navigate(R.id.action_nav_home_to_nav_list_person)
+            findNavController().navigate(R.id.action_nav_filmInfo_to_nav_list_person)
         }
         binding.staff.tvQuantityActor.setOnClickListener {
             App.listPersonDTOApp = staffList
-//            findNavController().navigate(R.id.action_nav_home_to_nav_list_person)
+            findNavController().navigate(R.id.action_nav_filmInfo_to_nav_list_person)
         }
     }
 
     @SuppressLint("SetTextI18n")
     private fun fillPage(filmInfoSeasons: InfoFilmSeasons){
-        val filmInfo = filmInfoSeasons.filmInfoDTO!!
-//Show poster film. Before load image, show waiting animation.
-        val animationCard = binding.posterBig.poster.background as AnimationDrawable
-        if (filmInfo.posterUrl == null) {
-            animationCard.apply {
-                setEnterFadeDuration(1000)
-                setExitFadeDuration(1000)
-                start()
-            }
-        }else{
-            Glide.with(binding.posterBig.poster).load(filmInfo.posterUrl).into(binding.posterBig.poster)
-            animationCard.stop()
-            binding.posterBig.poster.background.alpha = 0
-        }
 
+        val filmInfo = filmInfoSeasons.infoFilm!!
+//Show poster film. Before load image, show waiting animation.
+        val animationCard = LoadImageURLShow()
+        animationCard.setAnimation(binding.posterBig.poster, filmInfo.posterUrl,
+                                                                R.dimen.film_info_poster_radius)
 //Show logotype or name russia or name original
         if (filmInfo.logoUrl == null) {
             binding.posterBig.logotype.visibility=View.INVISIBLE
@@ -229,9 +220,9 @@ class FilmInfoFragment : Fragment() {
             else { stringForTextView + ", " + it.genre.toString().trim()}
         }
         //Add seasons film_info_poster_seasons
-        if (filmInfoSeasons.seasonsDTO?.total != null) {
+        if (filmInfoSeasons.infoSeasons?.total != null) {
             stringForTextView += ", " + context?.getString(R.string.film_info_poster_seasons) +
-                                        filmInfoSeasons.seasonsDTO?.total.toString().trim()
+                                        filmInfoSeasons.infoSeasons?.total.toString().trim()
         }
         binding.posterBig.yearGenreOther.text = stringForTextView
 
@@ -260,14 +251,14 @@ class FilmInfoFragment : Fragment() {
             }
         }
 //Show info serial
-        if (filmInfoSeasons.seasonsDTO != null ){
+        if (filmInfoSeasons.infoSeasons != null ){
             binding.serials.root.visibility = View.VISIBLE
 
             var text = context?.getString(R.string.first_season)+ " "
 //            text += if (filmInfoSeasons.seasonsDTO!!.total == null) ""
 //                    else filmInfoSeasons.seasonsDTO!!.total.toString() + " "
-            text += if (filmInfoSeasons.seasonsDTO!!.items == null) "0"
-                    else filmInfoSeasons.seasonsDTO!!.items?.get(0)!!.episodes!!.size.toString() + " "
+            text += if (filmInfoSeasons.infoSeasons!!.items == null) "0"
+                    else filmInfoSeasons.infoSeasons!!.items?.get(0)!!.episodes!!.size.toString() + " "
             text += App.context.getString(R.string.quantity_series)
 
             binding.serials.tvHeaderDown.text = text
@@ -280,7 +271,7 @@ class FilmInfoFragment : Fragment() {
 //            Log.d("KDS", "Load list similar film:${App.filmApp.filmId!!} ${it.size}")
             App.filmInfoSeasonsApp = filmInfoSeasons
 //#############################################################
-//            findNavController().navigate(R.id.action_nav_filmInfo_to_nav_person)
+            findNavController().navigate(R.id.action_nav_filmInfo_to_nav_seasons)
         }
     }
 

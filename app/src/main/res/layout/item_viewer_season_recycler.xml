@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginBottom="@dimen/viewer_season_recycler_bottom">
+
+   <TextView
+      android:id="@+id/tvNameEn"
+       android:hint="@string/numberSeriaName"
+      style = "@style/H4"/>
+   <TextView
+       android:id="@+id/tvNameRu"
+       android:hint="@string/numberSeriaName"
+       style = "@style/H4"/>
+   <TextView
+       android:id="@+id/tvDescription"
+       android:hint="@string/date"
+       style = "@style/H5_description"/>
+   <TextView
+       android:id="@+id/tvData"
+       android:hint="@string/date"
+       style = "@style/H6"/>
+</LinearLayout>
