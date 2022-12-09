@@ -20,17 +20,19 @@ import com.example.movie_catalog.App
 import com.example.movie_catalog.Constants
 import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
-import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
-import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
+import com.example.movie_catalog.data.api.film_info.FilmImageUrlDTO
+import com.example.movie_catalog.data.api.film_info.PersonDTO
 import com.example.movie_catalog.databinding.FragmentFilmInfoBinding
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.filminfo.InfoFilmSeasons
 import com.example.movie_catalog.ui.film_info.recyclerView.FilmInfoGalleryAdapter
 import com.example.movie_catalog.ui.film_info.recyclerView.PersonAdapter
 import com.example.movie_catalog.ui.list_film.recyclerListFilms.ListFilmAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
+@AndroidEntryPoint
 class FilmInfoFragment : Fragment() {
 
     private var _binding: FragmentFilmInfoBinding? = null

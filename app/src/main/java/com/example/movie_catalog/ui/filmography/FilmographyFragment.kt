@@ -22,9 +22,11 @@ import com.example.movie_catalog.ui.gallery.GalleryFragment
 import com.example.movie_catalog.ui.gallery.recycler.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
+@AndroidEntryPoint
 class FilmographyFragment : Fragment() {
 
     companion object {

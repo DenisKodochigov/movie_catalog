@@ -5,12 +5,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.App
 import com.example.movie_catalog.entity.Person
 import com.example.movie_catalog.entity.filminfo.Gallery
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class FilmographyViewModel @Inject constructor(): ViewModel() {
 
     private var _person = MutableStateFlow( Person() )

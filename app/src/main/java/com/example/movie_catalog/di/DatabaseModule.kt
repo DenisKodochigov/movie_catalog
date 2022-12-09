@@ -2,8 +2,8 @@ package com.example.movie_catalog.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.movie_catalog.data.repositary.room.AppDatabase
-import com.example.movie_catalog.data.repositary.room.DataDao
+import com.example.movie_catalog.data.room.AppDatabase
+import com.example.movie_catalog.data.room.DataDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,15 +18,13 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext appContext: Context): AppDatabase {
-        return Room.databaseBuilder(
-            appContext,
-            AppDatabase::class.java,
-            "data.db"
-        ).build()
+//        return Room.databaseBuilder(
+//            appContext, AppDatabase::class.java, "data.db").build()
+        return Room.inMemoryDatabaseBuilder(appContext, AppDatabase::class.java).build()
     }
-
+//inMemoryDatabaseBuilder
     @Provides
-    fun provideLogDao(database: AppDatabase): DataDao {
+    fun provideDataDao(database: AppDatabase): DataDao {
         return database.dataDao()
     }
 }

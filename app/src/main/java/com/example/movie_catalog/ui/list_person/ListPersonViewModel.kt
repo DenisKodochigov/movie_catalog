@@ -3,8 +3,7 @@ package com.example.movie_catalog.ui.list_film
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.App
-import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
-import com.example.movie_catalog.entity.Film
+import com.example.movie_catalog.data.api.film_info.PersonDTO
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

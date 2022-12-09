@@ -1,15 +1,13 @@
 package com.example.movie_catalog.ui.film_info.recyclerView
 
 import android.annotation.SuppressLint
-import android.graphics.drawable.AnimationDrawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
 import com.example.movie_catalog.databinding.ItemFilmInfoPersonBinding
-import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
+import com.example.movie_catalog.data.api.film_info.PersonDTO
 import javax.inject.Inject
 
 class PersonAdapter @Inject constructor(private val onClick: (PersonDTO) -> Unit,

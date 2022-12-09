@@ -20,9 +20,11 @@ import com.example.movie_catalog.databinding.FragmentListFilmsBinding
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.ui.list_film.recyclerListFilms.ListFilmAdapter
 import com.example.movie_catalog.ui.list_person.ListPersonFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
+@AndroidEntryPoint
 class ListFilmsFragment : Fragment() {
 
     companion object {

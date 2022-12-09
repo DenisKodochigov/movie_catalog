@@ -14,13 +14,15 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_catalog.App
 import com.example.movie_catalog.R
-import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
+import com.example.movie_catalog.data.api.film_info.PersonDTO
 import com.example.movie_catalog.databinding.FragmentListPersonBinding
 import com.example.movie_catalog.ui.list_film.ListPersonViewModel
 import com.example.movie_catalog.ui.list_person.recyclerListPerson.ListPersonAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
+@AndroidEntryPoint
 class ListPersonFragment : Fragment() {
 
     companion object {

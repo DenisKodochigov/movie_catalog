@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
-import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
+import com.example.movie_catalog.data.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.databinding.ItemGalleryViewerRecyclerBinding
 import javax.inject.Inject
 

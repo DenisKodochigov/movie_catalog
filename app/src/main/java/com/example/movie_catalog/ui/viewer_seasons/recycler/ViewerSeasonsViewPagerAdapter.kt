@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_catalog.App
 import com.example.movie_catalog.R
-import com.example.movie_catalog.data.repositary.api.home.seasons.SeasonDTO
+import com.example.movie_catalog.data.api.home.seasons.SeasonDTO
 import com.example.movie_catalog.databinding.ItemViewerSeasonBinding
 
 class ViewerSerialViewPagerAdapter(private val listSeason: List<SeasonDTO>): RecyclerView.Adapter<PagerHV>() {

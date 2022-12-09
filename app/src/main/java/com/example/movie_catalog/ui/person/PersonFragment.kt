@@ -14,14 +14,15 @@ import com.example.movie_catalog.App
 import com.example.movie_catalog.Constants
 import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
-import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
 import com.example.movie_catalog.databinding.FragmentPersonBinding
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Person
 import com.example.movie_catalog.ui.list_film.recyclerListFilms.ListFilmAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
+@AndroidEntryPoint
 class PersonFragment : Fragment() {
 
     companion object {

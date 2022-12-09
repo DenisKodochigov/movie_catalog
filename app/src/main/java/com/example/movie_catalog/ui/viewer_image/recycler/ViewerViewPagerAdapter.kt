@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
-import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
+import com.example.movie_catalog.data.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.databinding.ItemViewerImageRecyclerBinding
 
 class ViewerViewPagerAdapter(private val listImages: List<FilmImageUrlDTO>): RecyclerView.Adapter<PagerHV>() {

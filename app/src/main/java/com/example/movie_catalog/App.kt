@@ -2,8 +2,8 @@ package com.example.movie_catalog
 
 import android.app.Application
 import android.content.Context
-import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
-import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
+import com.example.movie_catalog.data.api.film_info.FilmImageUrlDTO
+import com.example.movie_catalog.data.api.film_info.PersonDTO
 import com.example.movie_catalog.entity.filminfo.Kit
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Person

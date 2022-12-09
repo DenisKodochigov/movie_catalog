@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.App.Companion.filmApp
-import com.example.movie_catalog.data.repositary.DataRepository
+import com.example.movie_catalog.data.DataRepository
 import com.example.movie_catalog.entity.filminfo.InfoFilmSeasons
-import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
+import com.example.movie_catalog.data.api.film_info.PersonDTO
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.filminfo.Gallery
 import dagger.hilt.android.lifecycle.HiltViewModel

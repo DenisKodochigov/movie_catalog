@@ -11,12 +11,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.movie_catalog.App
 import com.example.movie_catalog.R
-import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
+import com.example.movie_catalog.data.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.databinding.FragmentViewerImageBinding
 import com.example.movie_catalog.ui.viewer_image.recycler.ViewerViewPagerAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
+@AndroidEntryPoint
 class ViewerImageFragment : Fragment() {
 
     companion object {

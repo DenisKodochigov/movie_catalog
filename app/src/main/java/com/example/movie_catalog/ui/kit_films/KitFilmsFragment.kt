@@ -24,9 +24,11 @@ import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.ui.kit_films.recyclerKitFilms.FullListFilmAdapter
 import com.example.movie_catalog.ui.kit_films.recyclerKitFilms.FullListFilmPagingAdapter
 import com.example.movie_catalog.ui.kit_films.recyclerKitFilms.StateAdapterTopFilm
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
+@AndroidEntryPoint
 class KitFilmsFragment : Fragment() {
 
     companion object {

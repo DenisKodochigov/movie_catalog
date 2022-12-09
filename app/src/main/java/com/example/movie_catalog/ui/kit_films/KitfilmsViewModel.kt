@@ -8,8 +8,8 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.movie_catalog.App.Companion.kitApp
-import com.example.movie_catalog.data.repositary.DataRepository
-import com.example.movie_catalog.data.repositary.api.PagedSourceAPI
+import com.example.movie_catalog.data.DataRepository
+import com.example.movie_catalog.data.api.PagedSourceAPI
 import com.example.movie_catalog.entity.filminfo.Kit
 import com.example.movie_catalog.entity.Film
 import dagger.hilt.android.lifecycle.HiltViewModel

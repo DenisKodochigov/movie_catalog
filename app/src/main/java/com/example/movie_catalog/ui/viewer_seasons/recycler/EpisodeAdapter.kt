@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_catalog.App
 import com.example.movie_catalog.R
-import com.example.movie_catalog.data.repositary.api.home.seasons.EpisodeDTO
+import com.example.movie_catalog.data.api.home.seasons.EpisodeDTO
 import com.example.movie_catalog.databinding.ItemViewerSeasonRecyclerBinding
 import javax.inject.Inject
 

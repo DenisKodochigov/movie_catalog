@@ -21,10 +21,12 @@ import com.example.movie_catalog.databinding.IncludeHomeFilmListBinding
 import com.example.movie_catalog.entity.filminfo.Kit
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.ui.home.recyclerView.FilmListAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null

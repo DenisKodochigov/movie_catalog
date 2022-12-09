@@ -3,8 +3,8 @@ package com.example.movie_catalog.ui.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movie_catalog.data.repositary.DataRepository
-import com.example.movie_catalog.data.repositary.api.home.getKit.SelectedKit
+import com.example.movie_catalog.data.DataRepository
+import com.example.movie_catalog.data.api.home.getKit.SelectedKit
 import com.example.movie_catalog.entity.Film
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

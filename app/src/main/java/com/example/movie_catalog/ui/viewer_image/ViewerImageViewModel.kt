@@ -3,14 +3,13 @@ package com.example.movie_catalog.ui.viewer_image
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.App
-import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
+import com.example.movie_catalog.data.api.film_info.FilmImageUrlDTO
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
 
 @HiltViewModel
 class ViewerImageViewModel @Inject constructor(): ViewModel() {
