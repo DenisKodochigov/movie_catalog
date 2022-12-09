@@ -12,7 +12,6 @@
         android:contentDescription="@string/poster_small"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/name_film"
         android:background="@drawable/gradient_list" />
 
     <ImageView
@@ -38,23 +37,24 @@
         app:layout_constraintVertical_bias="0.07"
         app:layout_constraintHorizontal_bias="0.93"/>
 
-    <TextView
-        android:id="@+id/name_film"
-        style="@style/H4_home"
-        android:layout_width="@dimen/card_film_width"
-        android:hint="@string/name_movie"
-        android:layout_marginTop="@dimen/card_film_name_marTop"
-        app:layout_constraintEnd_toEndOf="@id/poster"
-        app:layout_constraintStart_toStartOf="@id/poster"
-        app:layout_constraintTop_toBottomOf="@id/poster"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/filmography_recycler_text_start"
+        app:layout_constraintTop_toTopOf="@id/poster"
+        app:layout_constraintBottom_toBottomOf="@id/poster"
+        app:layout_constraintStart_toEndOf="@id/poster"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/name_film"
+            style="@style/H4_home"
+            android:hint="@string/name_movie"/>
+        <TextView
+            android:id="@+id/start_year"
+            style="@style/H5_filmography"
+            android:hint="@string/genre_movie"/>
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/genre_film"
-        style="@style/H5_home"
-        android:layout_width="@dimen/card_film_width"
-        android:hint="@string/genre_movie"
-        app:layout_constraintEnd_toEndOf="@id/poster"
-        app:layout_constraintStart_toStartOf="@id/poster"
-        app:layout_constraintTop_toBottomOf="@id/name_film" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

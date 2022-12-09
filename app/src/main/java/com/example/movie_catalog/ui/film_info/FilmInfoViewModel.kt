@@ -34,7 +34,7 @@ class FilmInfoViewModel @Inject constructor(): ViewModel() {
 
     init {
         getFilmInfo()
-//        getPersons()
+        getPersons()
         getGallery()
         getSimilar()
     }

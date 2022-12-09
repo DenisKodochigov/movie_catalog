@@ -127,7 +127,11 @@
         <item name="android:layout_marginTop">@dimen/viewer_season_recycler_data_top</item>
         <item name="android:inputType">textMultiLine</item>
     </style>
-
+    <style name="H5_filmography" parent = "textApp">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/h5</item>
+        <item name="android:layout_marginTop">@dimen/filmography_recycler_top</item>
+    </style>
 
     <style name="H6" parent = "textApp">
         <item name="android:textSize">10sp</item>

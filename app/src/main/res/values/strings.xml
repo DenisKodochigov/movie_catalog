@@ -80,4 +80,16 @@
     <string name="numberSeriaName">Номер серии. Название</string>
     <string name="date">Дата</string>
     <string name="description">Описание</string>
+
+    <string name="ACTOR">Актеры</string>
+    <string name="HERSELF">Ведущая</string>
+    <string name="HIMSELF">Ведущий</string>
+    <string name="PRODUCER">Продюсеры</string>
+    <string name="DIRECTOR">Режиссеры</string>
+    <string name="WRITER">Сценаристы</string>
+    <string name="OPERATOR">Операторы</string>
+    <string name="DESIGN">Художники</string>
+    <string name="EDITOR">Монтажеры</string>
+    <string name="COMPOSER">Композиторы</string>
+
 </resources>

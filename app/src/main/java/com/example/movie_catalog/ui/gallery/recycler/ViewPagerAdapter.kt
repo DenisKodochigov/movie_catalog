@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_catalog.App
 import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
-import com.example.movie_catalog.databinding.ItemViewerImageBinding
+import com.example.movie_catalog.databinding.ItemGalleryViewerBinding
 import com.example.movie_catalog.entity.filminfo.Gallery
 
 class ViewPagerAdapter(val gallery: Gallery, private val onClick: (String) -> Unit ): RecyclerView.Adapter<PagerHV>() {
@@ -16,7 +16,7 @@ class ViewPagerAdapter(val gallery: Gallery, private val onClick: (String) -> Un
     override fun getItemCount() = gallery.tabs.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagerHV {
-        return PagerHV(ItemViewerImageBinding.inflate( LayoutInflater.from(parent.context),
+        return PagerHV(ItemGalleryViewerBinding.inflate( LayoutInflater.from(parent.context),
             parent, false))
     }
     @SuppressLint("SetTextI18n")
@@ -47,4 +47,4 @@ class ViewPagerAdapter(val gallery: Gallery, private val onClick: (String) -> Un
     }
 }
 
-class PagerHV(val binding: ItemViewerImageBinding ): RecyclerView.ViewHolder(binding.root)
+class PagerHV(val binding: ItemGalleryViewerBinding): RecyclerView.ViewHolder(binding.root)

@@ -17,5 +17,20 @@ data class Film(
     val genres:List<Genre> = emptyList(),
     val favorite:Boolean = false,
     val viewed:Boolean = false,
-    val bookmark:Boolean = false
-): Parcelable
+    val bookmark:Boolean = false,
+    val professionKey:String? = null,
+    val startYear: String? = null,
+): Parcelable {
+    fun genresTxt():String{
+        //Set film genres.
+        var genreTxt = ""
+        genres.forEach {
+            genreTxt = if (genreTxt == "") {
+                it.genre.toString()
+            } else {
+                genreTxt + ", " + it.genre.toString()
+            }
+        }
+        return genreTxt
+    }
+}

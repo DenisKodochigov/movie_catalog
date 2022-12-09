@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="season">
+        <item quantity="zero">%d сезон</item>
+        <item quantity="one">%d сезон</item>
+        <item quantity="two">%d сезон</item>
+        <item quantity="few">%d сезона</item> <!--//строка для небольшого количества-->
+        <item quantity="many">%d сезонов</item> <!--//строка для больших количеств-->
+        <item quantity="other">%d сезон</item>
+    </plurals>
+</resources>

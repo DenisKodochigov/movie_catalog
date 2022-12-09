@@ -32,19 +32,11 @@ class FilmListAdapter @Inject constructor(
 
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: FilmViewHolder, position: Int) {
-        var genreTxt = ""
         val film = films.getOrNull(position)
 //Set film name
         holder.binding.nameFilm.text = film?.nameRu ?: ""
 //Set film genres.
-        film?.genres?.forEach {
-            genreTxt = if (genreTxt == "") {
-                it.genre.toString()
-            } else {
-                genreTxt + ", " + it.genre.toString()
-            }
-        }
-        holder.binding.genreFilm.text = genreTxt
+        holder.binding.genreFilm.text = film?.genresTxt()
 //Set viewed flag
         if (film!!.viewed) holder.binding.ivViewed.visibility= View.VISIBLE
 //Set rating

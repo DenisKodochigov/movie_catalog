@@ -98,4 +98,8 @@
     <dimen name="viewer_season_recycler_data_top">4dp</dimen>
     <dimen name="viewer_season_recycler_top">16dp</dimen>
 
+    <dimen name="filmography_recycler_top">4dp</dimen>
+    <dimen name="filmography_recycler_text_start">16dp</dimen>
+    <dimen name="filmography_viewer_top">40dp</dimen>
+
 </resources>

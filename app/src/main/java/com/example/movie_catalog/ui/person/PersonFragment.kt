@@ -14,8 +14,10 @@ import com.example.movie_catalog.App
 import com.example.movie_catalog.Constants
 import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
+import com.example.movie_catalog.data.repositary.api.film_info.PersonDTO
 import com.example.movie_catalog.databinding.FragmentPersonBinding
 import com.example.movie_catalog.entity.Film
+import com.example.movie_catalog.entity.Person
 import com.example.movie_catalog.ui.list_film.recyclerListFilms.ListFilmAdapter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -42,7 +44,8 @@ class PersonFragment : Fragment() {
 
         super.onViewCreated(view, savedInstanceState)
         val animationCard = LoadImageURLShow()
-        var bestFilm:List<Film> = emptyList()
+        var currentPerson = Person()
+
         with(binding.bestFilm){
             filmRecyclerHorizontal.adapter = bestfilmAdapter
             personViewModel.person.onEach {
@@ -53,7 +56,7 @@ class PersonFragment : Fragment() {
                 binding.personNameEn.text = it.nameEn
                 binding.personJob.text = it.profession
 //Refresh list the best film
-                bestFilm = it.films
+                currentPerson = it
                 bestfilmAdapter.setListFilm(it.films)
 //Show or hide icon "all films"
                 if (it.films.size > Constants.PERSON_QTY_FILMCARD-1) showAll.visibility = View.VISIBLE
@@ -61,11 +64,12 @@ class PersonFragment : Fragment() {
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
             showAll.setOnClickListener {
-                App.listFilmApp = bestFilm
+                App.listFilmApp = currentPerson.films
                 findNavController().navigate(R.id.action_nav_person_to_nav_list_films)
             }
-            binding.personFilmography.setOnClickListener {
-//                findNavController().navigate(R.id.action_nav_person_to_nav_list_films)
+            binding.personGotoLink.setOnClickListener {
+                App.personApp = currentPerson
+                findNavController().navigate(R.id.action_nav_person_to_nav_filmography)
             }
         }
     }

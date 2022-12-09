@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
 import com.example.movie_catalog.data.repositary.api.film_info.FilmImageUrlDTO
-import com.example.movie_catalog.databinding.ItemGalleryImageBinding
+import com.example.movie_catalog.databinding.ItemGalleryViewerRecyclerBinding
 import javax.inject.Inject
 
 class ImagesAdapter @Inject constructor(private val onClick: (String) -> Unit ) : RecyclerView.Adapter<ImageViewHolder>() {
@@ -25,7 +25,7 @@ class ImagesAdapter @Inject constructor(private val onClick: (String) -> Unit ) 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
         return ImageViewHolder(
-            ItemGalleryImageBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemGalleryViewerRecyclerBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
     }
 
@@ -62,4 +62,4 @@ class ImagesAdapter @Inject constructor(private val onClick: (String) -> Unit ) 
     }
 }
 
-class ImageViewHolder(val binding: ItemGalleryImageBinding) : RecyclerView.ViewHolder(binding.root)
+class ImageViewHolder(val binding: ItemGalleryViewerRecyclerBinding) : RecyclerView.ViewHolder(binding.root)

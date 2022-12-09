@@ -7,7 +7,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginHorizontal="@dimen/margin_app_hor"
     android:paddingTop="?attr/actionBarSize"
-    tools:context=".ui.gallery.GalleryFragment">
+    tools:context=".ui.filmography.FilmographyFragment">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs"
@@ -22,9 +22,11 @@
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewpager"
+        android:layout_marginTop="@dimen/filmography_viewer_top"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tabs" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

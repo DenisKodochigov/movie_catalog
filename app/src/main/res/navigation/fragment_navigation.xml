@@ -76,6 +76,9 @@
         <action
             android:id="@+id/action_nav_person_to_nav_list_films"
             app:destination="@id/nav_list_films" />
+        <action
+            android:id="@+id/action_nav_person_to_nav_filmography"
+            app:destination="@id/nav_filmography" />
     </fragment>
     <fragment
         android:id="@+id/nav_list_films"
@@ -101,5 +104,14 @@
         android:id="@+id/nav_seasons"
         android:name="com.example.movie_catalog.ui.viewer_seasons.ViewerSeasonsFragment"
         android:label="ViewerSeasonsFragment" >
+    </fragment>
+    <fragment
+        android:id="@+id/nav_filmography"
+        android:name="com.example.movie_catalog.ui.filmography.FilmographyFragment"
+        android:label="fragment_filmography"
+        tools:layout="@layout/fragment_filmography" >
+        <action
+            android:id="@+id/action_nav_filmography_to_nav_filmInfo"
+            app:destination="@id/nav_filmInfo" />
     </fragment>
 </navigation>

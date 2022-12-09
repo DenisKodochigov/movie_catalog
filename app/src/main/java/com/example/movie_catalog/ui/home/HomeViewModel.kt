@@ -41,10 +41,10 @@ class HomeViewModel @Inject constructor() : ViewModel() {
 
     init {
 //        getGenres()
-//        getPremieres()
+        getPremieres()
 //        getPopular()
 //        getTop250()
-        getSerials()
+//        getSerials()
     }
 
     private fun getGenres() {

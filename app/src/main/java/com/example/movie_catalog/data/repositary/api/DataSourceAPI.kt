@@ -18,6 +18,7 @@ import com.example.movie_catalog.data.repositary.api.home.top.TopFilmDTO
 import com.example.movie_catalog.data.repositary.api.person.PersonInfoDTO
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Person
+import com.example.movie_catalog.entity.FilmographyTab
 import com.example.movie_catalog.entity.filminfo.Kit
 import com.example.movie_catalog.entity.filminfo.InfoFilmSeasons
 import java.util.*
@@ -107,7 +108,10 @@ class DataSourceAPI @Inject constructor() {
     }
 
     private suspend fun copyToPerson(personInfoDTO: PersonInfoDTO):Person{
+
+        val tabs = mutableListOf<FilmographyTab>()
         val listFilm: MutableList<Film> = mutableListOf()
+//Fill add information for film
         personInfoDTO.films.forEach {
             val filmInfoDTO = retrofitApi.getFilmInfo(it.filmId!!)
 //            Log.d("KDS start retrofit", "getFilmInfo start")
@@ -120,10 +124,23 @@ class DataSourceAPI @Inject constructor() {
                 countries = emptyList(),
                 genres = filmInfoDTO.genres!!,
                 imdbId = null,
-                viewed = false,
-                favorite = false,
-                bookmark = false
+                viewed = setViewed(it.filmId),
+                favorite = setFavorite(it.filmId),
+                bookmark = setBookMark(it.filmId),
+                professionKey = it.professionKey,
+                startYear = filmInfoDTO.startYear
             ))
+        }
+//Create list used profession key
+        val listProfessionalKey = personInfoDTO.films.distinctBy { it.professionKey }
+//Create tab structure
+        listProfessionalKey.forEach {
+            tabs.add(
+                FilmographyTab(
+                    key = it.professionKey,
+                    nameDisplay = FilmographyTab.profKey[it.professionKey]
+                )
+            )
         }
         listFilm.sortByDescending { it.rating }
         return Person(
@@ -134,7 +151,8 @@ class DataSourceAPI @Inject constructor() {
                 age = personInfoDTO.age,
                 hasAwards = personInfoDTO.hasAwards,
                 profession = personInfoDTO.profession,
-                films = listFilm
+                films = listFilm,
+                tabs = tabs
         )
     }
 
@@ -152,7 +170,7 @@ class DataSourceAPI @Inject constructor() {
                     posterUrlPreview = it.posterUrlPreview,
                     countries = emptyList(),
                     genres = emptyList(),// retrofitApi.getFilmInfo(it.filmId!!).genres!!,
-                    viewed = false,
+                    viewed = setViewed(it.filmId),
                     favorite = setFavorite(it.filmId),
                     bookmark = setBookMark(it.filmId)
                 )
@@ -176,7 +194,7 @@ class DataSourceAPI @Inject constructor() {
                     posterUrlPreview = it.posterUrlPreview,
                     countries = it.countries,
                     genres = it.genres,
-                    viewed = false,
+                    viewed = setViewed(it.kinopoiskId),
                     favorite = setFavorite(it.kinopoiskId),
                     bookmark = setBookMark(it.kinopoiskId)
                 )
@@ -199,7 +217,7 @@ class DataSourceAPI @Inject constructor() {
                     posterUrlPreview = it.posterUrlPreview,
                     countries = it.countries,
                     genres = it.genres,
-                    viewed = false,
+                    viewed = setViewed(it.filmId),
                     favorite = setFavorite(it.filmId!!),
                     bookmark = setBookMark(it.filmId)
                 )
@@ -240,6 +258,9 @@ class DataSourceAPI @Inject constructor() {
         return false
     }
 
+    private fun setViewed(id: Int?):Boolean{
+        return false
+    }
     @SuppressLint("SimpleDateFormat")
     fun selectPremieresTwoWeeks(premieres: PremieresDTO): PremieresDTO {
 
