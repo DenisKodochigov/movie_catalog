@@ -10,7 +10,7 @@ import androidx.room.Update
 interface DataDao {
 
     @Insert(entity = FilmDB::class)
-    fun insertAll(vararg data: FilmDB)
+    fun insert(vararg data: FilmDB)
 
     @Query("DELETE FROM films")
     fun nukeTable()
@@ -22,7 +22,7 @@ interface DataDao {
     fun getAll(): FilmDB
 
     @Query("SELECT * FROM films WHERE filmId = :id")
-    fun getFilm(id: Int): FilmDB
+    fun getFilm(id: Int): FilmDB?
 
     @Update
     fun update(film: FilmDB)

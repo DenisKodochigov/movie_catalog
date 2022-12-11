@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.data.DataRepository
 import com.example.movie_catalog.data.api.home.getKit.SelectedKit
 import com.example.movie_catalog.entity.Film
+import com.example.movie_catalog.entity.filminfo.Kit
+import com.example.movie_catalog.entity.plug.Plug
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +23,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     private var _genreMap = MutableStateFlow(SelectedKit())
     var genreMap = _genreMap.asStateFlow()
 
-    private var _premieres = MutableStateFlow(filmsStart)
+    private var _premieres = MutableStateFlow(Plug().filmPlug)
     var premieres = _premieres.asStateFlow()
 
     private var _popularFilms = MutableStateFlow(filmsStart)
@@ -40,11 +42,11 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     var serials = _serials.asStateFlow()
 
     init {
-//        getGenres()
+        getGenres()
         getPremieres()
-//        getPopular()
-//        getTop250()
-//        getSerials()
+        getPopular()
+        getTop250()
+        getSerials()
     }
 
     private fun getGenres() {
@@ -77,7 +79,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     private fun getPopular() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                dataRepository.getTop(1,"TOP_100_POPULAR_FILMS")
+                dataRepository.getTop(1,Kit.POPULAR)
             }.fold(
                 onSuccess = {_popularFilms.value = it },
                 onFailure = { Log.d("KDS",it.message ?: "")}
@@ -88,7 +90,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     private fun getTop250() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                dataRepository.getTop(1,"TOP_250_BEST_FILMS")
+                dataRepository.getTop(1, Kit.TOP250)
             }.fold(
                 onSuccess = {_pageTop250.value = it },
                 onFailure = { Log.d("KDS",it.message ?: "")}
@@ -99,7 +101,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     private fun getSerials() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                dataRepository.getSerials(1)
+                dataRepository.getSerials(1, Kit.SERIALS)
             }.fold(
                 onSuccess = {_serials.value = it },
                 onFailure = { Log.d("KDS",it.message ?: "")}
@@ -110,7 +112,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     private fun getRandom1(genreId:Int, countryId:Int) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                dataRepository.getFilters(1,genreId,countryId)
+                dataRepository.getFilters(1,genreId,countryId,Kit.RANDOM1)
             }.fold(
                 onSuccess = {_randomKit1.value = it },
                 onFailure = { Log.d("KDS",it.message ?: "")}
@@ -121,7 +123,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     private fun getRandom2(genreId:Int, countryId:Int) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                dataRepository.getFilters(1,genreId,countryId)
+                dataRepository.getFilters(1,genreId,countryId,Kit.RANDOM2)
             }.fold(
                 onSuccess = {_randomKit2.value = it },
                 onFailure = { Log.d("KDS",it.message ?: "")}
@@ -129,6 +131,12 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+    fun putKit(item: Kit){
+        dataRepository.putKit(item)
+    }
+    fun putFilm(item:Film){
+        dataRepository.putFilm(item)
+    }
     companion object {
 
         var filmsStart = listOf( Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(),
@@ -138,12 +146,3 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     }
 }
 
-//    var pageTopFilm: Flow<PagingData<TopFilm>> = Pager(
-//        config = PagingConfig(pageSize = 20),
-//        pagingSourceFactory = { TopFilmsPagedSource("TOP_100_POPULAR_FILM") }
-//    ).flow.cachedIn(viewModelScope)
-//
-//    var pageTop250: Flow<PagingData<TopFilm>> = Pager(
-//        config = PagingConfig(pageSize = 20),
-//        pagingSourceFactory = { TopFilmsPagedSource("TOP_250_BEST_FILMS") }
-//    ).flow.cachedIn(viewModelScope)

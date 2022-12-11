@@ -57,7 +57,7 @@ class ListFilmsFragment : Fragment() {
 
     private fun onItemClick(film: Film) {
         setFragmentResult("requestKey", bundleOf("FILM" to film))
-        App.filmApp = film
+        viewModel.putFilm(film)
         findNavController().navigate(R.id.action_nav_list_films_to_nav_filmInfo)
     }
 

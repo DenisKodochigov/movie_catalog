@@ -27,19 +27,21 @@ class ListfilmsViewModel @Inject constructor(): ViewModel() {
 
     private fun getData() {
         viewModelScope.launch(Dispatchers.IO) {
-            if (App.listFilmApp.isNotEmpty()) {
-                App.listFilmApp.forEach { film ->
+            if (dataRepository.takeListFilm().isNotEmpty()) {
+                dataRepository.takeListFilm().forEach { film ->
                     if ( film.posterUrlPreview == null && film.filmId != null){
                         Log.d("KDS","Order for film: ${film.nameRu}")
                         film.posterUrlPreview =
                             dataRepository.getInfoFilmSeason( film.filmId ).infoFilm?.posterUrlPreview
                     }
                 }
-                _listFilms.value = App.listFilmApp
+                _listFilms.value = dataRepository.takeListFilm()
             }
         }
     }
-
+    fun putFilm(item:Film){
+        dataRepository.putFilm(item)
+    }
     companion object {
         var filmsStart = listOf( Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(),
             Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film()

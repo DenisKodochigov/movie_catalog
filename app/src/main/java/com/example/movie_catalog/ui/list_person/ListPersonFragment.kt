@@ -55,7 +55,7 @@ class ListPersonFragment : Fragment() {
 
     private fun onItemClick(person: PersonDTO) {
 //        setFragmentResult("requestKey", bundleOf("FILM" to film))
-        App.personDTOApp = person
+        viewModel.putPersonDTO(person)
         findNavController().navigate(R.id.action_nav_list_films_to_nav_filmInfo)
     }
 

@@ -11,7 +11,7 @@ import com.example.movie_catalog.data.api.film_info.PersonDTO
 import javax.inject.Inject
 
 class PersonAdapter @Inject constructor(private val onClick: (PersonDTO) -> Unit,
-                                        val sizeGird:Int, val whatRole: Int): RecyclerView.Adapter<PersonViewHolder>()
+               val sizeGird:Int, val whatRole: Int): RecyclerView.Adapter<PersonViewHolder>()
 {
     private var people: List<PersonDTO> = emptyList()
 

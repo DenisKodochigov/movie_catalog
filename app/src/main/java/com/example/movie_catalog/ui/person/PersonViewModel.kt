@@ -20,7 +20,7 @@ class PersonViewModel @Inject constructor() : ViewModel() {
     private val dataRepository = DataRepository()
 
     init {
-        getPerson(App.personDTOApp.staffId!!)
+        getPerson(dataRepository.takePersonDTO().staffId!!)
     }
 
     private var _person = MutableStateFlow( Person(films = filmsStart) )
@@ -38,6 +38,15 @@ class PersonViewModel @Inject constructor() : ViewModel() {
                 onFailure = { Log.d("Error", it.message ?: "") }
             )
         }
+    }
+    fun putListFilm(item:List<Film>){
+        dataRepository.putListFilm(item)
+    }
+    fun putPerson(item: Person){
+        dataRepository.putPerson(item)
+    }
+    fun putFilm(item:Film){
+        dataRepository.putFilm(item)
     }
 
     companion object {

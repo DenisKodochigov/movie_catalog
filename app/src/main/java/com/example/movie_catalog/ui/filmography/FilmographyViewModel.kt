@@ -3,6 +3,8 @@ package com.example.movie_catalog.ui.filmography
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.App
+import com.example.movie_catalog.data.DataRepository
+import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Person
 import com.example.movie_catalog.entity.filminfo.Gallery
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,6 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FilmographyViewModel @Inject constructor(): ViewModel() {
 
+    private val dataRepository = DataRepository()
     private var _person = MutableStateFlow( Person() )
     var person = _person.asStateFlow()
 
@@ -24,7 +27,10 @@ class FilmographyViewModel @Inject constructor(): ViewModel() {
 
     private fun getImages() {
         viewModelScope.launch(Dispatchers.IO) {
-            _person.value = App.personApp
+            _person.value = dataRepository.takePerson()
         }
+    }
+    fun putFilm(item: Film){
+        dataRepository.putFilm(item)
     }
 }

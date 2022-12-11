@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.movie_catalog.App
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentFilmographyBinding
 import com.example.movie_catalog.entity.Film
@@ -19,7 +18,6 @@ import com.example.movie_catalog.entity.FilmographyTab
 import com.example.movie_catalog.entity.Person
 import com.example.movie_catalog.ui.filmography.recycler.FilmographyViewPagerAdapter
 import com.example.movie_catalog.ui.gallery.GalleryFragment
-import com.example.movie_catalog.ui.gallery.recycler.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -93,7 +91,7 @@ class FilmographyFragment : Fragment() {
     }
 
     private fun onClickViewPager(film: Film) {
-        App.filmApp = film
+        viewModel.putFilm(film)
         findNavController().navigate(R.id.action_nav_filmography_to_nav_filmInfo)
     }
 

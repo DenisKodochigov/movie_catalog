@@ -1,8 +1,14 @@
 package com.example.movie_catalog.data.room
 
+import android.util.Log
+import com.example.movie_catalog.App
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class DataSourceDB  @Inject constructor(private val dataDao: DataDao){
+@Singleton
+open class DataSourceDB  @Inject constructor(){
+
+    private val dataDao = ProviderDao().getDataDao(App.context)
 
     fun getViewed(id:Int):Boolean{
         return dataDao.getViewed(id)
@@ -13,11 +19,43 @@ class DataSourceDB  @Inject constructor(private val dataDao: DataDao){
     fun getBookmark(id:Int):Boolean{
         return dataDao.getBookmark(id)
     }
-    fun getFilm(id:Int): FilmDB {
+    fun getFilm(id:Int): FilmDB? {
         return dataDao.getFilm(id)
     }
     fun updateRecord(film: FilmDB){
         dataDao.update(film)
     }
 
+    fun setViewed(id: Int) {
+        val filmDB = dataDao.getFilm(id)
+        if (filmDB == null) {
+            dataDao.insert(FilmDB(filmId = id, msg = "", timestamp = 0,
+                id = 0, viewed = true, bookmark = false, favorite = false))
+        } else {
+            filmDB.viewed = !filmDB.viewed
+            dataDao.update(filmDB)
+        }
+    }
+
+    fun setFavorite(id: Int) {
+        val filmDB = dataDao.getFilm(id)
+        if (filmDB == null) {
+            dataDao.insert(FilmDB(filmId = id, msg = "", timestamp = 0,
+                id = 0, viewed = false, bookmark = false, favorite = true))
+        } else {
+            filmDB.favorite = !filmDB.favorite
+            dataDao.update(filmDB)
+        }
+    }
+
+    fun setBookmark(id: Int) {
+        val filmDB = dataDao.getFilm(id)
+        if (filmDB == null) {
+            dataDao.insert(FilmDB(filmId = id, msg = "", timestamp = 0,
+                id = 0, viewed = false, bookmark = true, favorite = true))
+        } else {
+            filmDB.bookmark = !filmDB.bookmark
+            dataDao.update(filmDB)
+        }
+    }
 }

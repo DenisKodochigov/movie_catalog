@@ -7,7 +7,6 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.movie_catalog.App.Companion.kitApp
 import com.example.movie_catalog.data.DataRepository
 import com.example.movie_catalog.data.api.PagedSourceAPI
 import com.example.movie_catalog.entity.filminfo.Kit
@@ -33,7 +32,7 @@ class KitfilmsViewModel @Inject constructor(): ViewModel() {
     ).flow.cachedIn(viewModelScope)
 
     init {
-        if (kitApp == Kit.PREMIERES) getData()
+        if (dataRepository.takeKit() == Kit.PREMIERES) getData()
     }
 
     private fun getData() {
@@ -46,6 +45,10 @@ class KitfilmsViewModel @Inject constructor(): ViewModel() {
             )
         }
     }
+    fun putFilm(item:Film){
+        dataRepository.putFilm(item)
+    }
+    fun takeKit() = dataRepository.takeKit()
 
     companion object {
         var filmsStart = listOf( Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(),

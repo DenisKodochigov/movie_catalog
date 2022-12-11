@@ -88,9 +88,10 @@ class GalleryFragment : Fragment() {
     }
 
     private fun onClickViewPager(imageURL: String) {
-
-        App.galleryApp?.viewingPosition = App.galleryApp!!.listImageUrl.indices.find {
-                App.galleryApp!!.listImageUrl[it].imageUrl == imageURL }
+        val gallery = viewModel.takeGallery()!!
+        val position = gallery.listImageUrl.indices.find {
+                                gallery.listImageUrl[it].imageUrl == imageURL }
+        viewModel.putGalleryViewingPosition(position!!)
         findNavController().navigate(R.id.action_nav_gallery_to_nav_viewer_image)
     }
 

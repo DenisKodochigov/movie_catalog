@@ -3,7 +3,6 @@ package com.example.movie_catalog.ui.film_info
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movie_catalog.App.Companion.filmApp
 import com.example.movie_catalog.data.DataRepository
 import com.example.movie_catalog.entity.filminfo.InfoFilmSeasons
 import com.example.movie_catalog.data.api.film_info.PersonDTO
@@ -34,15 +33,15 @@ class FilmInfoViewModel @Inject constructor(): ViewModel() {
 
     init {
         getFilmInfo()
-        getPersons()
-        getGallery()
-        getSimilar()
+//        getPersons()
+//        getGallery()
+//        getSimilar()
     }
 
     private fun getFilmInfo() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                dataRepository.getInfoFilmSeason(filmApp.filmId!!)
+                dataRepository.getInfoFilmSeason( dataRepository.takeFilm().filmId!!)
             }.fold(
                 onSuccess = {_filmInfo.value = it },
                 onFailure = { Log.d("KDS",it.message ?: "")}
@@ -52,7 +51,7 @@ class FilmInfoViewModel @Inject constructor(): ViewModel() {
     private fun getPersons() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                dataRepository.getPersons(filmApp.filmId!!)
+                dataRepository.getPersons(dataRepository.takeFilm().filmId!!)
             }.fold(
                 onSuccess = {_personDTO.value = it },
                 onFailure = { Log.d("KDS",it.message ?: "")}
@@ -62,7 +61,7 @@ class FilmInfoViewModel @Inject constructor(): ViewModel() {
     private fun getGallery() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                dataRepository.getGallery(filmApp.filmId!!)
+                dataRepository.getGallery(dataRepository.takeFilm().filmId!!)
             }.fold(
                 onSuccess = {_gallery.value = it },
                 onFailure = { Log.d("KDS",it.message ?: "")}
@@ -72,11 +71,66 @@ class FilmInfoViewModel @Inject constructor(): ViewModel() {
     private fun getSimilar() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                dataRepository.getSimilar(filmApp.filmId!!)
+                dataRepository.getSimilar(dataRepository.takeFilm().filmId!!)
             }.fold(
                 onSuccess = {_similar.value = it },
                 onFailure = { Log.d("KDS",it.message ?: "")}
             )
+        }
+    }
+
+    fun putFilm(item:Film){
+        dataRepository.putFilm(item)
+    }
+    fun putListFilm(item:List<Film>){
+        dataRepository.putListFilm(item)
+    }
+    fun putGallery(item:Gallery){
+        dataRepository.putGallery(item)
+    }
+//    fun putImage(item: MutableList<FilmImageUrlDTO>){
+//        dataRepository.putImage(item)
+//    }
+    fun putListPersonDTO(item:List<PersonDTO> ){
+        dataRepository.putListPersonDTO(item)
+    }
+    fun putFilmInfoSeasons(item:InfoFilmSeasons){
+        dataRepository.putFilmInfoSeasons(item)
+    }
+    fun putPersonDTO(item:PersonDTO){
+        dataRepository.putPersonDTO(item)
+    }
+    fun clickViewed(){
+        val filmId = dataRepository.takeFilm().filmId
+        if ( filmId != null) {
+            viewModelScope.launch(Dispatchers.IO) {
+                kotlin.runCatching { dataRepository.changeViewed(filmId!!) }.fold(
+                    onSuccess = {},
+                    onFailure = { Log.d("KDS", it.message ?: "") }
+                )
+            }
+        }
+    }
+    fun clickFavorite(){
+        val filmId = dataRepository.takeFilm().filmId
+        if ( filmId != null) {
+            viewModelScope.launch(Dispatchers.IO) {
+                kotlin.runCatching { dataRepository.changeFavorite(filmId!!) }.fold(
+                    onSuccess = {},
+                    onFailure = { Log.d("KDS", it.message ?: "") }
+                )
+            }
+        }
+    }
+    fun clickBookmark(){
+        val filmId = dataRepository.takeFilm().filmId
+        if ( filmId != null) {
+            viewModelScope.launch(Dispatchers.IO) {
+                kotlin.runCatching { dataRepository.changeBookmark(filmId) }.fold(
+                    onSuccess = {},
+                    onFailure = { Log.d("KDS", it.message ?: "") }
+                )
+            }
         }
     }
 }

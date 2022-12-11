@@ -39,38 +39,41 @@
         app:layout_constraintStart_toStartOf="parent" >
 
         <ImageView
-            android:id="@+id/icon_favorite"
+            android:id="@+id/iv_favorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/poster_icon_end"
             android:contentDescription="@string/icon_favorite"
-            android:src="@drawable/ic_baseline_favorite_border_24" />
+            android:src="@drawable/icon_lieckly" />
         <ImageView
-            android:id="@+id/ic_bookmark"
+            android:id="@+id/iv_bookmark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/poster_icon_end"
             android:contentDescription="@string/icon_bookmark"
-            android:src="@drawable/ic_baseline_bookmark_border_24" />
+            android:src="@drawable/icon_bookmark" />
         <ImageView
-            android:id="@+id/ic_viewed"
+            android:id="@+id/iv_viewed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/poster_icon_end"
             android:contentDescription="@string/icon_viewed"
-            android:src="@drawable/ic_baseline_visibility_off_24" />
+            android:src="@drawable/icon_unviewed" />
         <ImageView
-            android:id="@+id/ic_share"
+            android:id="@+id/iv_share"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/poster_icon_end"
             android:contentDescription="@string/icon_share"
-            android:src="@drawable/ic_baseline_share_24" />
+            android:src="@drawable/icon_share" />
         <ImageView
-            android:id="@+id/ic_other"
+            android:id="@+id/iv_other"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/icon_other" />
+            android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/poster_icon_end"
+            android:contentDescription="@string/icon_other"
+            android:src="@drawable/icon_extend"/>
     </LinearLayout>
 
     <TextView

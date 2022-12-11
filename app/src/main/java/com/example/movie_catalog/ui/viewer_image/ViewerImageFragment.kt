@@ -47,8 +47,7 @@ class ViewerImageFragment : Fragment() {
 
     private fun processingTabLayout(listImages: List<FilmImageUrlDTO>) {
         binding.viewpager.adapter = ViewerViewPagerAdapter(listImages)
-        binding.viewpager.currentItem = App.galleryApp?.viewingPosition!!
-//        Log.d("KDS","ViewerImageFragment.processingTabLayout currentItem=${App.galleryApp?.viewingPosition!!}")
+        binding.viewpager.currentItem = viewModel.takeGallery()?.viewingPosition!!
         binding.ivButtonLeft.setOnClickListener {
             if (binding.viewpager.currentItem > 0)
                 binding.viewpager.currentItem = binding.viewpager.currentItem - 1

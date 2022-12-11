@@ -65,11 +65,11 @@ class PersonFragment : Fragment() {
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
             showAll.setOnClickListener {
-                App.listFilmApp = currentPerson.films
+                personViewModel.putListFilm(currentPerson.films)
                 findNavController().navigate(R.id.action_nav_person_to_nav_list_films)
             }
             binding.personGotoLink.setOnClickListener {
-                App.personApp = currentPerson
+                personViewModel.putPerson(currentPerson)
                 findNavController().navigate(R.id.action_nav_person_to_nav_filmography)
             }
         }
@@ -78,7 +78,7 @@ class PersonFragment : Fragment() {
     //Show info in select film
     private fun onItemClick(film: Film) { //Show info in select film
 //        setFragmentResult("requestKey", bundleOf("FILM" to film))
-        App.filmApp = film
+        personViewModel.putFilm(film)
         findNavController().navigate(R.id.action_nav_person_to_nav_filmInfo)
     }
 

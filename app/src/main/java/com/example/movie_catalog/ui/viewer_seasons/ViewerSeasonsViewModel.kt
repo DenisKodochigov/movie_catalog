@@ -3,6 +3,7 @@ package com.example.movie_catalog.ui.viewer_seasons
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.App
+import com.example.movie_catalog.data.DataRepository
 import com.example.movie_catalog.entity.filminfo.InfoFilmSeasons
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -14,6 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ViewerSeasonsViewModel @Inject constructor(): ViewModel() {
 
+    private val dataRepository = DataRepository()
     private var _listSeason = MutableStateFlow(InfoFilmSeasons())
     var listSeason = _listSeason.asStateFlow()
 
@@ -23,7 +25,7 @@ class ViewerSeasonsViewModel @Inject constructor(): ViewModel() {
 
     private fun getSerials() {
         viewModelScope.launch(Dispatchers.IO) {
-            _listSeason.value = App.filmInfoSeasonsApp
+            _listSeason.value = dataRepository.takeFilmInfoSeasons()
         }
     }
 }

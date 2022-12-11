@@ -2,6 +2,7 @@ package com.example.movie_catalog.ui.film_info
 
 import android.animation.LayoutTransition
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -72,8 +73,7 @@ class FilmInfoFragment : Fragment() {
         viewModel.similar.onEach {
             similarAdapter.setListFilm(it)
 //#############################################################
-//            Log.d("KDS", "Load list similar film:${App.filmApp.filmId!!} ${it.size}")
-            App.listFilmApp = it
+            viewModel.putListFilm(it)
 //#############################################################
             if (it.size > Constants.HOME_QTY_FILMCARD-1) {
                 binding.similar.tvQuantityMovies.visibility = View.VISIBLE
@@ -100,8 +100,8 @@ class FilmInfoFragment : Fragment() {
                 tab.imagesUrl?.let { imagesUrl -> listImage.addAll( imagesUrl.items) }
             }
 //#############################################################
-            App.galleryApp = it
-            App.imageApp = listImage
+            viewModel.putGallery(it)
+//            viewModel.putImage(listImage)
 //#############################################################
             if (listImage.isNotEmpty()) {
                 galleryAdapter.setList(listImage)
@@ -159,11 +159,11 @@ class FilmInfoFragment : Fragment() {
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         binding.person.tvQuantityActor.setOnClickListener {
-            App.listPersonDTOApp = actorList
+            viewModel.putListPersonDTO(actorList)
             findNavController().navigate(R.id.action_nav_filmInfo_to_nav_list_person)
         }
         binding.staff.tvQuantityActor.setOnClickListener {
-            App.listPersonDTOApp = staffList
+            viewModel.putListPersonDTO(staffList)
             findNavController().navigate(R.id.action_nav_filmInfo_to_nav_list_person)
         }
     }
@@ -268,18 +268,36 @@ class FilmInfoFragment : Fragment() {
             binding.serials.root.visibility = View.INVISIBLE
             binding.serials.root.layoutParams.height = 0
         }
+
+// Observe clickable
         binding.serials.tvAll.setOnClickListener {
 //#############################################################
-//            Log.d("KDS", "Load list similar film:${App.filmApp.filmId!!} ${it.size}")
-            App.filmInfoSeasonsApp = filmInfoSeasons
+            viewModel.putFilmInfoSeasons(filmInfoSeasons)
 //#############################################################
             findNavController().navigate(R.id.action_nav_filmInfo_to_nav_seasons)
+        }
+        binding.posterBig.ivViewed.setOnClickListener {
+            viewModel.clickViewed()
+        }
+        binding.posterBig.ivFavorite.setOnClickListener {
+            viewModel.clickFavorite()
+        }
+        binding.posterBig.ivBookmark.setOnClickListener {
+            viewModel.clickBookmark()
+        }
+        binding.posterBig.ivShare.setOnClickListener {
+            val share = Intent.createChooser(Intent().apply {
+                action = Intent.ACTION_SEND
+                type = "text/html"
+                putExtra(Intent.EXTRA_TEXT, filmInfo.posterUrl)
+            }, null)
+            startActivity(share)
         }
     }
 
     private fun onPersonClick(personDTO: PersonDTO) {
 //        setFragmentResult("requestKey", bundleOf("PERSON" to personDTO))
-        App.personDTOApp = personDTO
+        viewModel.putPersonDTO(personDTO)
         findNavController().navigate(R.id.action_nav_filmInfo_to_nav_person)
     }
 

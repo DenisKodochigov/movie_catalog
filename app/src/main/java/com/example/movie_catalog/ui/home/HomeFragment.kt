@@ -12,8 +12,6 @@ import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.movie_catalog.App.Companion.filmApp
-import com.example.movie_catalog.App.Companion.kitApp
 import com.example.movie_catalog.Constants
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentHomeBinding
@@ -91,7 +89,7 @@ class HomeFragment : Fragment() {
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
             showAll.setOnClickListener {
-                kitApp = kit
+                homeViewModel.putKit(kit)
                 findNavController().navigate(R.id.action_nav_home_to_nav_kitfilms)
             }
         }
@@ -104,7 +102,7 @@ class HomeFragment : Fragment() {
 
     private fun onItemClick(film: Film) {
         setFragmentResult("requestKey", bundleOf("FILM" to film))
-        filmApp = film
+        homeViewModel.putFilm(film)
         findNavController().navigate(R.id.action_nav_home_to_nav_filmInfo)
     }
 

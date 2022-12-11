@@ -15,8 +15,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movie_catalog.App
-import com.example.movie_catalog.App.Companion.kitApp
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentKitFilmsBinding
 import com.example.movie_catalog.entity.filminfo.Kit
@@ -46,7 +44,7 @@ class KitFilmsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentKitFilmsBinding.inflate(inflater, container, false)
         (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text =
-            kitApp?.nameKit ?: ""
+            viewModel.takeKit()?.nameKit ?: ""
         return binding.root
     }
 
@@ -55,7 +53,7 @@ class KitFilmsFragment : Fragment() {
         binding.filmRecyclerVertical.layoutManager =
             GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
 
-        if (kitApp == Kit.PREMIERES) processingPremieres()
+        if (viewModel.takeKit() == Kit.PREMIERES) processingPremieres()
         else processingPagingListFilm()
 
         binding.swipeRefresh.setOnRefreshListener {
@@ -87,7 +85,7 @@ class KitFilmsFragment : Fragment() {
 
     private fun onItemClick(film: Film) {
         setFragmentResult("requestKey", bundleOf("FILM" to film))
-        App.filmApp = film
+        viewModel.putFilm(film)
         findNavController().navigate(R.id.action_nav_kitFilms_to_nav_filmInfo)
     }
 

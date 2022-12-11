@@ -12,29 +12,33 @@ import com.example.movie_catalog.data.api.home.filter.FilterFilmDTO
 import com.example.movie_catalog.data.api.home.getKit.CountryIdDTO
 import com.example.movie_catalog.data.api.home.getKit.GenreIdDTO
 import com.example.movie_catalog.data.api.home.getKit.SelectedKit
-import com.example.movie_catalog.data.api.home.premieres.FilmDTO
 import com.example.movie_catalog.data.api.home.premieres.PremieresDTO
 import com.example.movie_catalog.data.api.home.top.TopFilmDTO
 import com.example.movie_catalog.data.api.person.PersonInfoDTO
+import com.example.movie_catalog.entity.DataCentre
 import com.example.movie_catalog.entity.Film
-import com.example.movie_catalog.entity.Person
 import com.example.movie_catalog.entity.FilmographyTab
-import com.example.movie_catalog.entity.filminfo.Kit
+import com.example.movie_catalog.entity.Person
 import com.example.movie_catalog.entity.filminfo.InfoFilmSeasons
+import com.example.movie_catalog.entity.filminfo.Kit
 import java.util.*
 import javax.inject.Inject
 
 class DataSourceAPI @Inject constructor() {
 
-    suspend fun routerGetApi(page:Int):List<Film>{
-        return when (App.kitApp){
+//    private val dataRepository = DataRepository()
+
+    suspend fun routerGetApi(page:Int){
+        when (App.kitApp){
             Kit.PREMIERES -> getPremieres()
-            Kit.POPULAR -> getTop(page, "TOP_100_POPULAR_FILMS")
-            Kit.TOP250 -> getTop(page, "TOP_250_BEST_FILMS")
-            Kit.SERIALS -> getSerials(page)
-            Kit.RANDOM1 -> getFilters(page, App.kitApp!!.countryID, App.kitApp!!.genreID)
-            Kit.RANDOM2 -> getFilters(page, App.kitApp!!.countryID, App.kitApp!!.genreID)
-            else -> emptyList()
+            Kit.POPULAR -> getTop(page, Kit.POPULAR)
+            Kit.TOP250 -> getTop(page, Kit.TOP250)
+            Kit.SERIALS -> getSerials(page,Kit.SERIALS)
+//            Kit.RANDOM1 -> getFilters(page, dataRepository.takeKit()!!.countryID,
+//                dataRepository.takeKit()!!.genreID)
+//            Kit.RANDOM2 -> getFilters(page, dataRepository.takeKit()!!.countryID,
+//                dataRepository.takeKit()!!.genreID)
+            else -> null
         }
     }
 
@@ -45,6 +49,7 @@ class DataSourceAPI @Inject constructor() {
 //            country1 = genreList.countries!!.random(),
 //            genre2 = genreList.genres.random(),
 //            country2 = genreList.countries.random()
+
         return SelectedKit(
             GenreIdDTO(id = 11, genre = "боевик"), CountryIdDTO(id = 1, country = "США"),
             GenreIdDTO(id = 4, genre = "мелодрама"), CountryIdDTO(id = 1, country = "Франция")
@@ -62,39 +67,60 @@ class DataSourceAPI @Inject constructor() {
         return filmInfoSeasons
     }
 
-    suspend fun getPremieres(): List<Film> {
+    suspend fun getPremieres() {
         val calendar = Calendar.getInstance()
         val currentYear = calendar.get(Calendar.YEAR)
         val currentMonth = MonthKinopoisk.values()[calendar.get(Calendar.MONTH)].toString()
 //        Log.d("KDS start retrofit", "getPremieres start")
         val premieres = retrofitApi.getPremieres(currentYear, currentMonth)
 //        Log.d("KDS", "year=$currentYear, month=$currentMonth")
-        return copyToFilm(selectPremieresTwoWeeks(premieres).items)
+        DataCentre.addFilms(selectPremieresTwoWeeks(premieres).items)
+    }
+    @SuppressLint("SimpleDateFormat")
+    fun selectPremieresTwoWeeks(premieres: PremieresDTO): PremieresDTO {
+
+        //Calculate date next two weeks in milliseconds
+        val currentTime= Calendar.getInstance()
+        currentTime.add(Calendar.WEEK_OF_YEAR, Constants.PREMIERES_WEEKS)
+        val twoWeeksNext = currentTime.timeInMillis
+
+        //Edit list films. We leave the films that will premiere in the next two weeks.
+        val itemsIterator = premieres.items.iterator()
+        while (itemsIterator.hasNext()) {
+            val item = itemsIterator.next()
+            val premierTime = SimpleDateFormat("yyyy-MM-dd").parse(item.premiereRu).time
+            if (premierTime >= twoWeeksNext) {
+                itemsIterator.remove()
+            }
+        }
+        //Mixing the films
+        premieres.items.shuffle()
+        return premieres
     }
 
-    suspend fun getTop(page:Int, type: String): List<Film> {
+    suspend fun getTop(page:Int, kit: Kit) {
 //        Log.d("KDS start retrofit", "getTop start")
-        return copyTopToFilm(retrofitApi.getTop(page, type).films)
+        DataCentre.addFilms(retrofitApi.getTop(page, kit.query), kit)
     }
 
-    suspend fun getFilters(page:Int, genre:Int, country:Int): List<Film> {
+    suspend fun getFilters(page:Int, genre:Int, country:Int, kit:Kit) {
 //        Log.d("KDS start retrofit", "getFilters start")
-        return copyFilterToFilm(retrofitApi.getFilters(page, country,genre).items!!)
+        DataCentre.addFilms(retrofitApi.getFilters(page, country,genre), kit)
     }
 
-    suspend fun getSerials(page:Int): List<Film> {
+    suspend fun getSerials(page:Int, kit:Kit){
 //        Log.d("KDS start retrofit", "getSerials start")
-        return copyFilterToFilm(retrofitApi.getSerials(page).items!!)
+        DataCentre.addFilms(retrofitApi.getSerials(page), kit)
+    }
+
+    suspend fun getSimilar(id:Int) {
+//        Log.d("KDS start retrofit", "getSimilar start")
+        DataCentre.addFilms(retrofitApi.getSimilar(id), id)
     }
 
     suspend fun getGallery(id:Int, type:String, page: Int): FilmImageDTO {
 //        Log.d("KDS start retrofit", "getGallery start")
         return retrofitApi.getGallery(id, type, page)
-    }
-
-    suspend fun getSimilar(id:Int): List<Film> {
-//        Log.d("KDS start retrofit", "getSimilar start")
-        return copySimilarToFilm(retrofitApi.getSimilar(id).items!!)
     }
 
     suspend fun getPersons(id: Int): List<PersonDTO> {
@@ -156,100 +182,6 @@ class DataSourceAPI @Inject constructor() {
         )
     }
 
-    private suspend fun copySimilarToFilm(filmList: List<SimilarItemDTO>): List<Film>{
-        val films = mutableListOf<Film>()
-        filmList.forEach {
-//            Log.d("KDS start retrofit", "getFilmInfo start")
-            films.add(
-                Film(
-                    filmId = it.filmId,
-                    imdbId = null,
-                    nameRu = it.nameRu,
-                    nameEn = it.nameEn,
-                    rating = null,
-                    posterUrlPreview = it.posterUrlPreview,
-                    countries = emptyList(),
-                    genres = emptyList(),// retrofitApi.getFilmInfo(it.filmId!!).genres!!,
-                    viewed = setViewed(it.filmId),
-                    favorite = setFavorite(it.filmId),
-                    bookmark = setBookMark(it.filmId)
-                )
-            )
-        }
-//        Log.d("KDS", "size list=${films.size}")
-        films.shuffle()
-        return films
-    }
-
-    private fun copyToFilm(filmList: List<FilmDTO>): List<Film>{
-        val films = mutableListOf<Film>()
-        filmList.forEach {
-            films.add(
-                Film(
-                    filmId = it.kinopoiskId,
-                    imdbId = null,
-                    nameRu = it.nameRu,
-                    nameEn = it.nameEn,
-                    rating = null,
-                    posterUrlPreview = it.posterUrlPreview,
-                    countries = it.countries,
-                    genres = it.genres,
-                    viewed = setViewed(it.kinopoiskId),
-                    favorite = setFavorite(it.kinopoiskId),
-                    bookmark = setBookMark(it.kinopoiskId)
-                )
-            )
-        }
-//        films.shuffle()
-        return films
-    }
-
-    private fun copyTopToFilm(filmList: List<TopFilmDTO>): List<Film>{
-        val films = mutableListOf<Film>()
-        filmList.forEach {
-            films.add(
-                Film(
-                    filmId = it.filmId,
-                    imdbId = null,
-                    nameRu = it.nameRu,
-                    nameEn = it.nameEn,
-                    rating = it.rating,
-                    posterUrlPreview = it.posterUrlPreview,
-                    countries = it.countries,
-                    genres = it.genres,
-                    viewed = setViewed(it.filmId),
-                    favorite = setFavorite(it.filmId!!),
-                    bookmark = setBookMark(it.filmId)
-                )
-            )
-        }
-        films.shuffle()
-        return films
-    }
-
-    private fun copyFilterToFilm(filmList: List<FilterFilmDTO>): List<Film>{
-        val films = mutableListOf<Film>()
-        filmList.forEach {
-            films.add(
-                Film(
-                    filmId = it.kinopoiskId,
-                    imdbId = it.imdbId,
-                    nameRu = it.nameRu,
-                    nameEn = it.nameEn,
-                    rating = it.ratingKinopoisk.toString(),
-                    posterUrlPreview = it.posterUrlPreview,
-                    countries = it.countries,
-                    genres = it.genres,
-                    viewed = false,
-                    favorite = setFavorite(it.kinopoiskId!!),
-                    bookmark = setBookMark(it.kinopoiskId)
-                )
-            )
-        }
-        films.shuffle()
-        return films
-    }
-
     private fun setFavorite(id: Int?):Boolean{
         return false
     }
@@ -261,28 +193,5 @@ class DataSourceAPI @Inject constructor() {
     private fun setViewed(id: Int?):Boolean{
         return false
     }
-    @SuppressLint("SimpleDateFormat")
-    fun selectPremieresTwoWeeks(premieres: PremieresDTO): PremieresDTO {
 
-        //Calculate date next two weeks in milliseconds
-        val currentTime= Calendar.getInstance()
-        currentTime.add(Calendar.WEEK_OF_YEAR, Constants.PREMIERES_WEEKS)
-        val twoWeeksNext = currentTime.timeInMillis
-
-//        Log.d("KDS","size=${premieres.items.size}, premieres to date=${currentTime.time}")
-        //Edit list films. We leave the films that will premiere in the next two weeks.
-        val itemsIterator = premieres.items.iterator()
-        while (itemsIterator.hasNext()) {
-            val item = itemsIterator.next()
-            val premierTime = SimpleDateFormat("yyyy-MM-dd").parse(item.premiereRu).time
-//            Log.d("KDS","datePremier=${item.premiereRu}, ${item.nameRu}")
-            if (premierTime >= twoWeeksNext) {
-//                Log.d("KDS","Deleted ${item.nameRu}")
-                itemsIterator.remove()
-            }
-        }
-        //Mixing the films
-        premieres.items.shuffle()
-        return premieres
-    }
 }
