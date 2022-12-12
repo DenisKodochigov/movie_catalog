@@ -19,28 +19,11 @@ import com.example.movie_catalog.entity.DataCentre
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.FilmographyTab
 import com.example.movie_catalog.entity.Person
-import com.example.movie_catalog.entity.filminfo.InfoFilmSeasons
-import com.example.movie_catalog.entity.filminfo.Kit
+import com.example.movie_catalog.entity.filminfo.*
 import java.util.*
 import javax.inject.Inject
 
 class DataSourceAPI @Inject constructor() {
-
-//    private val dataRepository = DataRepository()
-
-    suspend fun routerGetApi(page:Int){
-        when (App.kitApp){
-            Kit.PREMIERES -> getPremieres()
-            Kit.POPULAR -> getTop(page, Kit.POPULAR)
-            Kit.TOP250 -> getTop(page, Kit.TOP250)
-            Kit.SERIALS -> getSerials(page,Kit.SERIALS)
-//            Kit.RANDOM1 -> getFilters(page, dataRepository.takeKit()!!.countryID,
-//                dataRepository.takeKit()!!.genreID)
-//            Kit.RANDOM2 -> getFilters(page, dataRepository.takeKit()!!.countryID,
-//                dataRepository.takeKit()!!.genreID)
-            else -> null
-        }
-    }
 
     suspend fun getGenres(): SelectedKit {
 //        val genreList = retrofitApi.getGenres()
@@ -103,9 +86,9 @@ class DataSourceAPI @Inject constructor() {
         DataCentre.addFilms(retrofitApi.getTop(page, kit.query), kit)
     }
 
-    suspend fun getFilters(page:Int, genre:Int, country:Int, kit:Kit) {
+    suspend fun getFilters(page:Int, kit:Kit) {
 //        Log.d("KDS start retrofit", "getFilters start")
-        DataCentre.addFilms(retrofitApi.getFilters(page, country,genre), kit)
+        DataCentre.addFilms(retrofitApi.getFilters(page, kit.countryID,kit.genreID), kit)
     }
 
     suspend fun getSerials(page:Int, kit:Kit){
@@ -118,11 +101,46 @@ class DataSourceAPI @Inject constructor() {
         DataCentre.addFilms(retrofitApi.getSimilar(id), id)
     }
 
-    suspend fun getGallery(id:Int, type:String, page: Int): FilmImageDTO {
+    suspend fun getGallery(id:Int) {
 //        Log.d("KDS start retrofit", "getGallery start")
-        return retrofitApi.getGallery(id, type, page)
+        val film = DataCentre.films.find { it.filmId == id }
+        if (film != null) {
+            if (film.images.isEmpty()){
+                TabImage.values().forEach { tab ->
+                    var page = 1
+                    val filmImageDTO = retrofitApi.getGallery(id,tab.toString(), page)
+                    if ( filmImageDTO.total!! > 0){
+                        DataCentre.addImage(id, tab, filmImageDTO)
+                        while (filmImageDTO.totalPages!! >= page){
+                            DataCentre.addImage(id, tab, retrofitApi.getGallery(id,tab.toString(), page ++))
+                        }
+                    }
+                }
+            }
+        }
     }
 
+    suspend fun getImages(id:Int): List<Images>? {
+//        Log.d("KDS start retrofit", "getGallery start")
+        val film = DataCentre.films.find { it.filmId == id }
+        if (film != null) {
+            if (film.images.isEmpty()){
+                TabImage.values().forEach { tab ->
+                    var page = 1
+                    val filmImageDTO = retrofitApi.getGallery(id,tab.toString(), page)
+                    if ( filmImageDTO.total!! > 0){
+                        DataCentre.addImage(id, tab, filmImageDTO)
+                        while (filmImageDTO.totalPages!! >= page){
+                            DataCentre.addImage(id, tab, retrofitApi.getGallery(id,tab.toString(), page ++))
+                        }
+                    }
+                }
+            }
+            return film.images
+        } else {
+            return null
+        }
+    }
     suspend fun getPersons(id: Int): List<PersonDTO> {
 //        Log.d("KDS start retrofit", "getPersons start")
         return retrofitApi.getPersons(id)
@@ -150,9 +168,9 @@ class DataSourceAPI @Inject constructor() {
                 countries = emptyList(),
                 genres = filmInfoDTO.genres!!,
                 imdbId = null,
-                viewed = setViewed(it.filmId),
-                favorite = setFavorite(it.filmId),
-                bookmark = setBookMark(it.filmId),
+                viewed = false,
+                favorite = false,
+                bookmark = false,
                 professionKey = it.professionKey,
                 startYear = filmInfoDTO.startYear
             ))
@@ -181,17 +199,4 @@ class DataSourceAPI @Inject constructor() {
                 tabs = tabs
         )
     }
-
-    private fun setFavorite(id: Int?):Boolean{
-        return false
-    }
-
-    private fun setBookMark(id: Int?):Boolean{
-        return false
-    }
-
-    private fun setViewed(id: Int?):Boolean{
-        return false
-    }
-
 }

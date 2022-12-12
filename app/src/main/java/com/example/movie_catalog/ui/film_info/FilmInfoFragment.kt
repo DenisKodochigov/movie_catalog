@@ -94,15 +94,8 @@ class FilmInfoFragment : Fragment() {
             RecyclerView.HORIZONTAL,false)
         binding.gallery.imageRecycler.adapter = galleryAdapter
 
-        viewModel.gallery.onEach {
-            val listImage = mutableListOf<FilmImageUrlDTO>()
-            it.tabs.forEach { tab ->
-                tab.imagesUrl?.let { imagesUrl -> listImage.addAll( imagesUrl.items) }
-            }
-//#############################################################
-            viewModel.putGallery(it)
-//            viewModel.putImage(listImage)
-//#############################################################
+        viewModel.images.onEach { listImage ->
+
             if (listImage.isNotEmpty()) {
                 galleryAdapter.setList(listImage)
                 if (listImage.size > Constants.HOME_QTY_FILMCARD-15) { //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

@@ -8,16 +8,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
-import com.example.movie_catalog.data.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.databinding.ItemGalleryViewerRecyclerBinding
+import com.example.movie_catalog.entity.filminfo.Images
 import javax.inject.Inject
 
 class ImagesAdapter @Inject constructor(private val onClick: (String) -> Unit ) : RecyclerView.Adapter<ImageViewHolder>() {
 
-    private var images: List<FilmImageUrlDTO> = emptyList()
+    private var images: List<Images> = emptyList()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setList(listImages: List<FilmImageUrlDTO>) {
+    fun setList(listImages: List<Images>) {
         images = listImages
         notifyDataSetChanged()
 //        Log.d("KDS", "ImagesAdapter, set new list. Size list=${images.size} ")

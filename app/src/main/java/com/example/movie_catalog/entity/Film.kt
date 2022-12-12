@@ -1,12 +1,10 @@
 package com.example.movie_catalog.entity
 
-import android.os.Parcelable
+import com.example.movie_catalog.entity.filminfo.Images
 import com.example.movie_catalog.entity.filminfo.Kit
 import com.example.movie_catalog.entity.home.Country
 import com.example.movie_catalog.entity.home.Genre
-import kotlinx.parcelize.Parcelize
 
-@Parcelize
 data class Film(
     val filmId: Int? = null,
     val imdbId: String? = null,
@@ -23,7 +21,9 @@ data class Film(
     val startYear: String? = null,
     val kit: Kit? = null,
     var similar: Int? = null,
-) : Parcelable {
+    var images: MutableList<Images> = mutableListOf(),
+
+) {
 
     fun genresTxt(): String {
         //Set film genres.

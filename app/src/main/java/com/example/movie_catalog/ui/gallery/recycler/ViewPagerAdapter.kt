@@ -1,7 +1,6 @@
 package com.example.movie_catalog.ui.gallery.recycler
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
@@ -10,6 +9,7 @@ import com.example.movie_catalog.App
 import com.example.movie_catalog.data.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.databinding.ItemGalleryViewerBinding
 import com.example.movie_catalog.entity.filminfo.Gallery
+import com.example.movie_catalog.entity.filminfo.Images
 
 class ViewPagerAdapter(val gallery: Gallery, private val onClick: (String) -> Unit ): RecyclerView.Adapter<PagerHV>() {
 
@@ -34,11 +34,13 @@ class ViewPagerAdapter(val gallery: Gallery, private val onClick: (String) -> Un
         }
 
         holder.binding.recyclerImage.adapter = imageAdapter
-        Log.d("KDS", "ViewPagerAdapter, load image tab[position]=$position ")
-        if (gallery.tabs[position].imagesUrl!!.items.isEmpty()){
-            imageAdapter.setList(listOf(FilmImageUrlDTO("",""), FilmImageUrlDTO("","")))
+//        Log.d("KDS", "ViewPagerAdapter, load image tab[position]=$position ")
+        val listImage = gallery.listImage.filter { it.tab == gallery.tabs[position] }
+        if (listImage.isEmpty()){
+            imageAdapter.setList(listOf(Images("","", null),
+                                        Images("","", null)))
         }else{
-            imageAdapter.setList(gallery.tabs[position].imagesUrl!!.items)
+            imageAdapter.setList(listImage)
         }
     }
 

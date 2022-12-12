@@ -17,6 +17,20 @@ class DataRepository @Inject constructor() {
 
     private val dataSourceDB = DataSourceDB()
 
+    suspend fun routerGetApi(page:Int): List<Film>{
+        return when (App.kitApp){
+            Kit.PREMIERES -> getPremieres()
+            Kit.POPULAR -> getTop(page, Kit.POPULAR)
+            Kit.TOP250 -> getTop(page, Kit.TOP250)
+            Kit.SERIALS -> getSerials(page,Kit.SERIALS)
+//            Kit.RANDOM1 -> getFilters(page, dataRepository.takeKit()!!.countryID,
+//                dataRepository.takeKit()!!.genreID)
+//            Kit.RANDOM2 -> getFilters(page, dataRepository.takeKit()!!.countryID,
+//                dataRepository.takeKit()!!.genreID)
+            else -> emptyList()
+        }
+    }
+
     suspend fun getPremieres(): List<Film>{
 //        dataSourceAPI.getPremieres()
         DataCentre.addFilms(Plug().filmPlug)
@@ -28,8 +42,8 @@ class DataRepository @Inject constructor() {
         return DataCentre.films.filter { it.kit == kit }
     }
 
-    suspend fun getFilters(page:Int, genre:Int, country:Int, kit:Kit): List<Film>{
-        dataSourceAPI.getFilters(page, genre, country, kit)
+    suspend fun getFilters(page:Int, kit:Kit): List<Film>{
+        dataSourceAPI.getFilters(page, kit)
         return DataCentre.films.filter { it.kit == kit }
     }
 
@@ -42,6 +56,7 @@ class DataRepository @Inject constructor() {
         dataSourceAPI.getSimilar(id)
         return DataCentre.films.filter { it.similar == id }
     }
+
     suspend fun getGenres() = dataSourceAPI.getGenres()
 
     suspend fun getPersons(id: Int) = dataSourceAPI.getPersons(id)
@@ -53,27 +68,29 @@ class DataRepository @Inject constructor() {
 //        return dataSourceAPI.getInfoFilmSeason(id)
     }
 
+    fun getGallery(): Gallery {
 
-    suspend fun getGallery(id: Int): Gallery {
         val gallery = Gallery()
-
-        Tab.values().forEach { tab ->
-            var page = 1
-            val filmImageDTO = dataSourceAPI.getGallery(id,tab.toString(), page)
-            if ( filmImageDTO.total!! > 0){
-                while (filmImageDTO.totalPages!! >= page){
-                    page ++
-                    filmImageDTO.items.addAll(dataSourceAPI.getGallery(id,tab.toString(), page).items)
+        if (DataCentre.currentFilmId != null){
+            val film = DataCentre.films.find { it.filmId == DataCentre.currentFilmId }
+            if (film != null){
+                gallery.listImage = film.images
+                gallery.listImage.forEach { image ->
+                    if (gallery.tabs.find { it == image.tab } == null){
+                        gallery.tabs.add(image.tab!!)
+                    }
                 }
-                gallery.tabs.add(TabImage(imagesUrl = filmImageDTO, tab = tab))
-                gallery.listImageUrl.addAll(filmImageDTO.items)
             }
         }
         return gallery
     }
 
+    suspend fun getImages(): List<Images>{
+        return DataCentre.films.find { it.filmId == DataCentre.currentFilmId }!!.images
+    }
+
     fun putFilm(item:Film){
-        App.filmApp = item
+        DataCentre.currentFilmId = item.filmId
     }
     fun putPersonDTO(item:PersonDTO){
         App.personDTOApp = item
@@ -87,9 +104,9 @@ class DataRepository @Inject constructor() {
     fun putGallery(item:Gallery){
         App.galleryApp = item
     }
-    fun putGalleryViewingPosition(item:Int){
-        App.galleryApp!!.viewingPosition = item
-    }
+//    fun putGalleryViewingPosition(item:Int){
+//        App.galleryApp!!.viewingPosition = item
+//    }
 //    fun putImage(item: MutableList<FilmImageUrlDTO>){
 //        App.imageApp = item
 //    }
@@ -102,7 +119,6 @@ class DataRepository @Inject constructor() {
     fun putFilmInfoSeasons(item:InfoFilmSeasons){
         App.filmInfoSeasonsApp = item
     }
-
     fun takeFilm() = App.filmApp
     fun takePersonDTO() = App.personDTOApp
     fun takePerson() = App.personApp

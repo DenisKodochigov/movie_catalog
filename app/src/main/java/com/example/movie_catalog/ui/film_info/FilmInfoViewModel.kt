@@ -8,6 +8,7 @@ import com.example.movie_catalog.entity.filminfo.InfoFilmSeasons
 import com.example.movie_catalog.data.api.film_info.PersonDTO
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.filminfo.Gallery
+import com.example.movie_catalog.entity.filminfo.Images
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,6 +28,9 @@ class FilmInfoViewModel @Inject constructor(): ViewModel() {
 
     private var _gallery = MutableStateFlow(Gallery())
     var gallery = _gallery.asStateFlow()
+
+    private var _images = MutableStateFlow<List<Images>>(emptyList())
+    var images = _images.asStateFlow()
 
     private var _similar = MutableStateFlow(listOf<Film>())
     var similar = _similar.asStateFlow()
@@ -61,9 +65,9 @@ class FilmInfoViewModel @Inject constructor(): ViewModel() {
     private fun getGallery() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                dataRepository.getGallery(dataRepository.takeFilm().filmId!!)
+                dataRepository.getImages()
             }.fold(
-                onSuccess = {_gallery.value = it },
+                onSuccess = {_images.value = it },
                 onFailure = { Log.d("KDS",it.message ?: "")}
             )
         }

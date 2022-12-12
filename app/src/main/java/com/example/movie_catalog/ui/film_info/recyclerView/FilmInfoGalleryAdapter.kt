@@ -9,15 +9,16 @@ import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
 import com.example.movie_catalog.data.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.databinding.ItemFilmInfoGalleryBinding
+import com.example.movie_catalog.entity.filminfo.Images
 import javax.inject.Inject
 
 class FilmInfoGalleryAdapter @Inject constructor(private val onClick: (String) -> Unit):
     RecyclerView.Adapter<FilmInfoGalleryViewHolder>() {
 
-    private var listImage: List<FilmImageUrlDTO> = emptyList()
+    private var listImage: List<Images> = emptyList()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setList(imageList:List<FilmImageUrlDTO>){
+    fun setList(imageList:List<Images>){
         listImage = imageList
         notifyDataSetChanged()
     }

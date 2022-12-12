@@ -42,11 +42,11 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     var serials = _serials.asStateFlow()
 
     init {
-        getGenres()
+//        getGenres()
         getPremieres()
-        getPopular()
-        getTop250()
-        getSerials()
+//        getPopular()
+//        getTop250()
+//        getSerials()
     }
 
     private fun getGenres() {
@@ -57,8 +57,12 @@ class HomeViewModel @Inject constructor() : ViewModel() {
             }.fold(
                 onSuccess = {
                                 _genreMap.value = it
-                                getRandom1(it.genre1.id!!, it.country1.id!!)
-                                getRandom2(it.genre2.id!!, it.country2.id!!)
+                                Kit.RANDOM1.genreID = it.genre1.id ?: 0
+                                Kit.RANDOM1.countryID = it.country1.id ?: 0
+                                Kit.RANDOM2.genreID = it.genre2.id ?: 0
+                                Kit.RANDOM2.countryID = it.country2.id ?: 0
+                                getRandom( Kit.RANDOM1)
+                                getRandom( Kit.RANDOM2)
                             },
                 onFailure = { Log.d("KDS",it.message ?: "")}
             )
@@ -109,23 +113,12 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    private fun getRandom1(genreId:Int, countryId:Int) {
+    private fun getRandom(kit:Kit) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                dataRepository.getFilters(1,genreId,countryId,Kit.RANDOM1)
+                dataRepository.getFilters(1, kit)
             }.fold(
                 onSuccess = {_randomKit1.value = it },
-                onFailure = { Log.d("KDS",it.message ?: "")}
-            )
-        }
-    }
-
-    private fun getRandom2(genreId:Int, countryId:Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                dataRepository.getFilters(1,genreId,countryId,Kit.RANDOM2)
-            }.fold(
-                onSuccess = {_randomKit2.value = it },
                 onFailure = { Log.d("KDS",it.message ?: "")}
             )
         }
@@ -134,9 +127,11 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     fun putKit(item: Kit){
         dataRepository.putKit(item)
     }
+
     fun putFilm(item:Film){
         dataRepository.putFilm(item)
     }
+
     companion object {
 
         var filmsStart = listOf( Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(),

@@ -8,7 +8,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.movie_catalog.data.DataRepository
-import com.example.movie_catalog.data.api.PagedSourceAPI
+import com.example.movie_catalog.data.PagedSourceData
 import com.example.movie_catalog.entity.filminfo.Kit
 import com.example.movie_catalog.entity.Film
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,7 +28,7 @@ class KitfilmsViewModel @Inject constructor(): ViewModel() {
 
     var pagedFilms: Flow<PagingData<Film>> = Pager(
         config = PagingConfig(pageSize = 20),
-        pagingSourceFactory = { PagedSourceAPI() }
+        pagingSourceFactory = { PagedSourceData() }
     ).flow.cachedIn(viewModelScope)
 
     init {

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.App
 import com.example.movie_catalog.data.DataRepository
+import com.example.movie_catalog.entity.filminfo.Galery
 import com.example.movie_catalog.entity.filminfo.Gallery
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -16,9 +17,9 @@ import javax.inject.Inject
 class GalleryViewModel @Inject constructor(): ViewModel() {
 
     private val dataRepository = DataRepository()
-    private var _gallery = MutableStateFlow(Gallery(tabs = mutableListOf(),
-                listImageUrl = mutableListOf(),
-                viewingPosition = null))
+    private var _gallery = MutableStateFlow(
+        Gallery(tabs = mutableListOf(), listImage = mutableListOf())
+    )
     var galleryFlow = _gallery.asStateFlow()
 
     init {
@@ -27,11 +28,7 @@ class GalleryViewModel @Inject constructor(): ViewModel() {
 
     private fun getImages() {
         viewModelScope.launch(Dispatchers.IO) {
-            _gallery.value = dataRepository.takeGallery()!!
+            _gallery.value = dataRepository.getGallery()
         }
     }
-    fun putGalleryViewingPosition(item:Int){
-        dataRepository.putGalleryViewingPosition(item)
-    }
-    fun takeGallery() = dataRepository.takeGallery()
 }

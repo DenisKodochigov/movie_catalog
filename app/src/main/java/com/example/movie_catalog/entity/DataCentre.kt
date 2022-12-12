@@ -1,17 +1,23 @@
 package com.example.movie_catalog.entity
 
+import com.example.movie_catalog.data.api.film_info.FilmImageDTO
+import com.example.movie_catalog.data.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.data.api.film_info.SimilarDTO
 import com.example.movie_catalog.data.api.home.filter.FilterDTO
 import com.example.movie_catalog.data.api.home.premieres.PremieresDTO
 import com.example.movie_catalog.data.api.home.top.TopFilmsDTO
 import com.example.movie_catalog.entity.filminfo.Gallery
+import com.example.movie_catalog.entity.filminfo.Images
 import com.example.movie_catalog.entity.filminfo.Kit
+import com.example.movie_catalog.entity.filminfo.TabImage
 
 object DataCentre {
-    var films: MutableList<Film> = mutableListOf()
-    var persons: MutableList<Person> = mutableListOf()
+    var films = mutableListOf<Film>()
+    var persons = mutableListOf<Person>()
     var galleryes = Gallery()
     var tabFilmography = FilmographyTab()
+    var imageUrl = mutableListOf<FilmImageUrlDTO>()
+    var currentFilmId: Int? = null
 
 
     fun addFilms(listFilm: PremieresDTO) {
@@ -130,6 +136,18 @@ object DataCentre {
     }
 
     fun getBookmark(id: Int) = films.find { it.filmId == id }?.viewed ?: false
+
+    fun addImage(id: Int, tab: TabImage, filmImageDTO: FilmImageDTO) {
+        val film = films.find { it.filmId == id }
+        if (film != null){
+            filmImageDTO.items.forEach {
+                film.images.add(
+                    Images(imageUrl = it.imageUrl, previewUrl = it.previewUrl, tab = tab)
+                )
+            }
+        }
+
+    }
 
 
 }

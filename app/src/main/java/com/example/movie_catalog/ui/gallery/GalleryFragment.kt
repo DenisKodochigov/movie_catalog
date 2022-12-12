@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.movie_catalog.App
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentGalleryBinding
+import com.example.movie_catalog.entity.filminfo.Galery
 import com.example.movie_catalog.entity.filminfo.Gallery
 import com.example.movie_catalog.ui.gallery.recycler.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayout
@@ -57,9 +58,9 @@ class GalleryFragment : Fragment() {
         TabLayoutMediator(binding.tabs, binding.viewpager) { tab, position ->
             tab.setCustomView(R.layout.item_gallery_tab)
             tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)?.text =
-                gallery.tabs[position].tab!!.nameDisplay
+                gallery.tabs[position].nameDisplay
             tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_quantity)?.text =
-                gallery.tabs[position].imagesUrl?.total.toString()
+                gallery.listImage.filter { it.tab == gallery.tabs[position] }.size.toString()
             tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)
                 ?.setTextColor(resources.getColor(R.color.black, null))
         }.attach()
@@ -88,10 +89,10 @@ class GalleryFragment : Fragment() {
     }
 
     private fun onClickViewPager(imageURL: String) {
-        val gallery = viewModel.takeGallery()!!
-        val position = gallery.listImageUrl.indices.find {
-                                gallery.listImageUrl[it].imageUrl == imageURL }
-        viewModel.putGalleryViewingPosition(position!!)
+//        val gallery = viewModel.takeGallery()!!
+//        val position = gallery.listImageUrl.indices.find {
+//                                gallery.listImageUrl[it].imageUrl == imageURL }
+//        viewModel.putGalleryViewingPosition(position!!)
         findNavController().navigate(R.id.action_nav_gallery_to_nav_viewer_image)
     }
 
