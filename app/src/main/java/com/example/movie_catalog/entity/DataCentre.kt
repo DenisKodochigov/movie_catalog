@@ -2,7 +2,6 @@ package com.example.movie_catalog.entity
 
 import com.example.movie_catalog.data.api.film_info.SimilarDTO
 import com.example.movie_catalog.data.api.home.filter.FilterDTO
-import com.example.movie_catalog.data.api.home.premieres.FilmDTO
 import com.example.movie_catalog.data.api.home.premieres.PremieresDTO
 import com.example.movie_catalog.data.api.home.top.TopFilmsDTO
 import com.example.movie_catalog.entity.filminfo.Gallery
@@ -37,7 +36,6 @@ object DataCentre {
             }
         }
     }
-
     fun addFilms(item: TopFilmsDTO, kit:Kit) {
         item.films.forEach { topfilmDTO ->
             if (films.find { it.filmId == topfilmDTO.filmId } == null) {
@@ -61,33 +59,8 @@ object DataCentre {
         }
         films.shuffle()
     }
-
-    @JvmName("addFilms1")
     fun addFilms(filmPlug: List<Film>) {
         films.addAll(filmPlug)
-    }
-
-    fun addFilms(items: MutableList<FilmDTO>) {
-        items.forEach { filmDTO ->
-            if (films.find { it.filmId == filmDTO.kinopoiskId } == null) {
-                films.add(
-                    Film(
-                        filmId = filmDTO.kinopoiskId,
-                        imdbId = null,
-                        nameRu = filmDTO.nameRu,
-                        nameEn = filmDTO.nameEn,
-                        rating = null,
-                        posterUrlPreview = filmDTO.posterUrlPreview,
-                        countries = filmDTO.countries,
-                        genres = filmDTO.genres,
-                        viewed = false,
-                        favorite = false,
-                        bookmark = false,
-                        kit = Kit.PREMIERES
-                    )
-                )
-            }
-        }
     }
     fun addFilms(filterDTO: FilterDTO, kit:Kit) {
         if (filterDTO.items != null){
@@ -114,25 +87,6 @@ object DataCentre {
         }
         films.shuffle()
     }
-
-    fun setViewed(id: Int) {
-        films.find { it.filmId == id }.let { if (it != null) it.viewed = !it.viewed }
-    }
-
-    fun getViewed(id: Int) = films.find { it.filmId == id }?.viewed ?: false
-
-    fun setFavorite(id: Int) {
-        films.find { it.filmId == id }.let { if (it != null) it.favorite = !it.favorite }
-    }
-
-    fun getFavorite(id: Int) = films.find { it.filmId == id }?.favorite ?: false
-
-    fun setBookmark(id: Int) {
-        films.find { it.filmId == id }.let { if (it != null) it.bookmark = !it.bookmark }
-    }
-
-    fun getBookmark(id: Int) = films.find { it.filmId == id }?.viewed ?: false
-
     fun addFilms(similar: SimilarDTO, idPerson:Int) {
         if (similar.items != null){
             similar.items.forEach { film ->
@@ -158,4 +112,24 @@ object DataCentre {
             }
         }
     }
+
+    fun setViewed(id: Int) {
+        films.find { it.filmId == id }.let { if (it != null) it.viewed = !it.viewed }
+    }
+
+    fun getViewed(id: Int) = films.find { it.filmId == id }?.viewed ?: false
+
+    fun setFavorite(id: Int) {
+        films.find { it.filmId == id }.let { if (it != null) it.favorite = !it.favorite }
+    }
+
+    fun getFavorite(id: Int) = films.find { it.filmId == id }?.favorite ?: false
+
+    fun setBookmark(id: Int) {
+        films.find { it.filmId == id }.let { if (it != null) it.bookmark = !it.bookmark }
+    }
+
+    fun getBookmark(id: Int) = films.find { it.filmId == id }?.viewed ?: false
+
+
 }

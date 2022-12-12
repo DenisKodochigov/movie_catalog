@@ -74,7 +74,7 @@ class DataSourceAPI @Inject constructor() {
 //        Log.d("KDS start retrofit", "getPremieres start")
         val premieres = retrofitApi.getPremieres(currentYear, currentMonth)
 //        Log.d("KDS", "year=$currentYear, month=$currentMonth")
-        DataCentre.addFilms(selectPremieresTwoWeeks(premieres).items)
+        DataCentre.addFilms(selectPremieresTwoWeeks(premieres))
     }
     @SuppressLint("SimpleDateFormat")
     fun selectPremieresTwoWeeks(premieres: PremieresDTO): PremieresDTO {
