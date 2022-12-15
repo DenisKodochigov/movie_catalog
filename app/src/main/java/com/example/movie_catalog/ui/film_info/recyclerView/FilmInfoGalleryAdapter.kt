@@ -12,7 +12,7 @@ import com.example.movie_catalog.databinding.ItemFilmInfoGalleryBinding
 import com.example.movie_catalog.entity.filminfo.Images
 import javax.inject.Inject
 
-class FilmInfoGalleryAdapter @Inject constructor(private val onClick: (String) -> Unit):
+class FilmInfoGalleryAdapter @Inject constructor(private val onClick: () -> Unit):
     RecyclerView.Adapter<FilmInfoGalleryViewHolder>() {
 
     private var listImage: List<Images> = emptyList()
@@ -37,7 +37,7 @@ class FilmInfoGalleryAdapter @Inject constructor(private val onClick: (String) -
 
         //Set action on click item recyclerView
         holder.binding.root.setOnClickListener {
-            onClick(imageFilm.imageUrl!!)
+            onClick()
         }
     }
 

@@ -6,15 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movie_catalog.App
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentListFilmsBinding
 import com.example.movie_catalog.entity.Film
@@ -33,7 +30,7 @@ class ListFilmsFragment : Fragment() {
 
     private var _binding: FragmentListFilmsBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: ListfilmsViewModel by viewModels()
+    private val viewModel: ListFilmsViewModel by viewModels()
     private val listAdapter = ListFilmAdapter{film -> onItemClick(film)}
 
     override fun onCreateView(
@@ -56,8 +53,7 @@ class ListFilmsFragment : Fragment() {
     }
 
     private fun onItemClick(film: Film) {
-        setFragmentResult("requestKey", bundleOf("FILM" to film))
-        viewModel.putFilm(film)
+        viewModel.putFilmId(film.filmId!!)
         findNavController().navigate(R.id.action_nav_list_films_to_nav_filmInfo)
     }
 

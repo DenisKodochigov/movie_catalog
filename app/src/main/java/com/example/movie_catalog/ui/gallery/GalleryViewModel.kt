@@ -2,9 +2,7 @@ package com.example.movie_catalog.ui.gallery
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movie_catalog.App
 import com.example.movie_catalog.data.DataRepository
-import com.example.movie_catalog.entity.filminfo.Galery
 import com.example.movie_catalog.entity.filminfo.Gallery
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -17,18 +15,25 @@ import javax.inject.Inject
 class GalleryViewModel @Inject constructor(): ViewModel() {
 
     private val dataRepository = DataRepository()
+    private var currentFilmId: Int? = null
+
     private var _gallery = MutableStateFlow(
         Gallery(tabs = mutableListOf(), listImage = mutableListOf())
     )
     var galleryFlow = _gallery.asStateFlow()
 
     init {
+        takeFilmId()
         getImages()
     }
 
     private fun getImages() {
         viewModelScope.launch(Dispatchers.IO) {
-            _gallery.value = dataRepository.getGallery()
+            if (currentFilmId != null) _gallery.value = dataRepository.getGallery(currentFilmId!!)
         }
+    }
+    fun takeFilmId() {
+        val filmId = dataRepository.takeFilmId()
+        if (filmId != null) currentFilmId = filmId
     }
 }

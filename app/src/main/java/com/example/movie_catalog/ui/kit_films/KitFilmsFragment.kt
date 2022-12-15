@@ -44,7 +44,7 @@ class KitFilmsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentKitFilmsBinding.inflate(inflater, container, false)
         (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text =
-            viewModel.takeKit()?.nameKit ?: ""
+            viewModel.currentKit?.nameKit ?: ""
         return binding.root
     }
 
@@ -53,7 +53,7 @@ class KitFilmsFragment : Fragment() {
         binding.filmRecyclerVertical.layoutManager =
             GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
 
-        if (viewModel.takeKit() == Kit.PREMIERES) processingPremieres()
+        if (viewModel.currentKit == Kit.PREMIERES) processingPremieres()
         else processingPagingListFilm()
 
         binding.swipeRefresh.setOnRefreshListener {
@@ -84,8 +84,7 @@ class KitFilmsFragment : Fragment() {
     }
 
     private fun onItemClick(film: Film) {
-        setFragmentResult("requestKey", bundleOf("FILM" to film))
-        viewModel.putFilm(film)
+        viewModel.putFilmId(film.filmId!!)
         findNavController().navigate(R.id.action_nav_kitFilms_to_nav_filmInfo)
     }
 

@@ -15,7 +15,6 @@ import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
 import com.example.movie_catalog.databinding.FragmentPersonBinding
 import com.example.movie_catalog.entity.Film
-import com.example.movie_catalog.entity.Person
 import com.example.movie_catalog.ui.list_film.recyclerListFilms.ListFilmAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -30,8 +29,8 @@ class PersonFragment : Fragment() {
 
     private var _binding: FragmentPersonBinding? = null
     private val binding get() = _binding!!
-    private val personViewModel: PersonViewModel by viewModels()
-    private val bestfilmAdapter = ListFilmAdapter { film -> onItemClick(film) }
+    private val viewModel: PersonViewModel by viewModels()
+    private val filmAdapter = ListFilmAdapter { film -> onItemClick(film) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -44,31 +43,33 @@ class PersonFragment : Fragment() {
 
         super.onViewCreated(view, savedInstanceState)
         val animationCard = LoadImageURLShow()
-        var currentPerson = Person()
 
         with(binding.bestFilm){
-            filmRecyclerHorizontal.adapter = bestfilmAdapter
-            personViewModel.person.onEach {
+            filmRecyclerHorizontal.adapter = filmAdapter
+            viewModel.person.onEach { person ->
 //                Log.d("KDS", "onViewCreated getPerson, get class Person")
 //Show photo person. Before load image, show waiting animation.
-                animationCard.setAnimation(binding.ivPhoto, it.posterUrl,R.dimen.card_people_radius)
-                binding.personNameRu.text = it.nameRu
-                binding.personNameEn.text = it.nameEn
-                binding.personJob.text = it.profession
+                animationCard.setAnimation(binding.ivPhoto, person.posterUrl,R.dimen.card_people_radius)
+                binding.personNameRu.text = person.nameRu
+                binding.personNameEn.text = person.nameEn
+                binding.personJob.text = person.profession
 //Refresh list the best film
-                currentPerson = it
-                bestfilmAdapter.setListFilm(it.films)
-//Show or hide icon "all films"
-                if (it.films.size > Constants.PERSON_QTY_FILMCARD-1) showAll.visibility = View.VISIBLE
-                else showAll.visibility = View.INVISIBLE
+                person.films.let { listFilm ->
+                    filmAdapter.setListFilm(listFilm)
+            //Show or hide icon "all films"
+                    if (listFilm.size > Constants.PERSON_QTY_FILMCARD-1) {
+                        showAll.visibility = View.VISIBLE
+                    } else showAll.visibility = View.INVISIBLE
+                }
+
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
             showAll.setOnClickListener {
-                personViewModel.putListFilm(currentPerson.films)
+                viewModel.putPersonFilmsForListFilmFragment()
                 findNavController().navigate(R.id.action_nav_person_to_nav_list_films)
             }
             binding.personGotoLink.setOnClickListener {
-                personViewModel.putPerson(currentPerson)
+                viewModel.putPersonId()
                 findNavController().navigate(R.id.action_nav_person_to_nav_filmography)
             }
         }
@@ -77,7 +78,7 @@ class PersonFragment : Fragment() {
     //Show info in select film
     private fun onItemClick(film: Film) { //Show info in select film
 //        setFragmentResult("requestKey", bundleOf("FILM" to film))
-        personViewModel.putFilm(film)
+        viewModel.putFilmId(film.filmId!!)
         findNavController().navigate(R.id.action_nav_person_to_nav_filmInfo)
     }
 

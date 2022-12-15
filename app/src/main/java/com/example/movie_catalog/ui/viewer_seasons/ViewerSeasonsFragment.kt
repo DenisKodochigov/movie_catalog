@@ -41,8 +41,8 @@ class ViewerSeasonsFragment : Fragment() {
 
         viewModel.listSeason.onEach {
             (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text =
-                it.infoFilm?.nameRu
-            if (it.infoSeasons != null) processingTabLayout(it.infoSeasons?.items!!)
+                it.nameRu
+            it.listSeasons?.let { listSeasons -> processingTabLayout(listSeasons) }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 

@@ -6,10 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
-import com.example.movie_catalog.data.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.databinding.ItemViewerImageRecyclerBinding
+import com.example.movie_catalog.entity.filminfo.Images
 
-class ViewerViewPagerAdapter(private val listImages: List<FilmImageUrlDTO>): RecyclerView.Adapter<PagerHV>() {
+class ViewerViewPagerAdapter(private val listImages: List<Images>): RecyclerView.Adapter<PagerHV>() {
 
     override fun getItemCount() = listImages.size
 

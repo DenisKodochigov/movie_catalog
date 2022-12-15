@@ -21,18 +21,21 @@ import javax.inject.Inject
 
 @HiltViewModel
 class KitfilmsViewModel @Inject constructor(): ViewModel() {
-    private val dataRepository = DataRepository()
 
-    private var _premieres = MutableStateFlow(filmsStart)
+    private val dataRepository = DataRepository()
+    var currentKit: Kit? = null
+
+    private var _premieres = MutableStateFlow(plugFilm)
     var premieres = _premieres.asStateFlow()
 
     var pagedFilms: Flow<PagingData<Film>> = Pager(
         config = PagingConfig(pageSize = 20),
-        pagingSourceFactory = { PagedSourceData() }
+        pagingSourceFactory = { PagedSourceData(currentKit!!) }
     ).flow.cachedIn(viewModelScope)
 
     init {
-        if (dataRepository.takeKit() == Kit.PREMIERES) getData()
+        takeKit()
+        if (currentKit == Kit.PREMIERES) getData()
     }
 
     private fun getData() {
@@ -45,13 +48,16 @@ class KitfilmsViewModel @Inject constructor(): ViewModel() {
             )
         }
     }
-    fun putFilm(item:Film){
-        dataRepository.putFilm(item)
+    fun putFilmId(item:Int){
+        dataRepository.putFilmId(item)
     }
-    fun takeKit() = dataRepository.takeKit()
+    private fun takeKit(){
+        val kit = dataRepository.takeKit()
+        if (kit != null) currentKit = kit
+    }
 
     companion object {
-        var filmsStart = listOf( Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(),
+        var plugFilm = listOf( Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(),
             Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film()
         )
     }

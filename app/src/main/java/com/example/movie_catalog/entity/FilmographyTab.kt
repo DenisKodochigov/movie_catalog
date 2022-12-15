@@ -6,6 +6,7 @@ import com.example.movie_catalog.R
 data class FilmographyTab (
     val key: String? = null,
     val nameDisplay: String? = null,
+    var filmsID: MutableList<Int> = mutableListOf()
 ){
 
     companion object {

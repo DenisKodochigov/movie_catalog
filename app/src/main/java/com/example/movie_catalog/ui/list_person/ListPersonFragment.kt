@@ -12,11 +12,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movie_catalog.App
 import com.example.movie_catalog.R
 import com.example.movie_catalog.data.api.film_info.PersonDTO
 import com.example.movie_catalog.databinding.FragmentListPersonBinding
-import com.example.movie_catalog.ui.list_film.ListPersonViewModel
+import com.example.movie_catalog.entity.Person
 import com.example.movie_catalog.ui.list_person.recyclerListPerson.ListPersonAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -53,10 +52,9 @@ class ListPersonFragment : Fragment() {
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
-    private fun onItemClick(person: PersonDTO) {
-//        setFragmentResult("requestKey", bundleOf("FILM" to film))
-        viewModel.putPersonDTO(person)
-        findNavController().navigate(R.id.action_nav_list_films_to_nav_filmInfo)
+    private fun onItemClick(person: Person) {
+        viewModel.putPersonId(person.personId!!)
+        findNavController().navigate(R.id.action_nav_list_person_to_nav_person)
     }
 
     override fun onDestroyView() {

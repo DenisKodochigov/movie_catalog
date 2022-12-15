@@ -22,5 +22,4 @@ data class PersonInfoDTO (
     @Json(name = "profession") val profession:String? = null,
     @Json(name = "facts") val facts:List<String> = emptyList(),
     @Json(name = "films") val films:List<PersonFilmDTO> = emptyList(),
-
-    )
+)

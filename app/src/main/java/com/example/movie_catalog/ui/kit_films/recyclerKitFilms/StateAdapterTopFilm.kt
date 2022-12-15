@@ -11,11 +11,8 @@ class StateAdapterTopFilm : LoadStateAdapter<LoadStateViewHolder>() {
     override fun onBindViewHolder(holder: LoadStateViewHolder, loadState: LoadState) = Unit
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): LoadStateViewHolder {
-        val binding = IncludeFilmInfoStateLoadBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
+        val binding = IncludeFilmInfoStateLoadBinding.inflate(LayoutInflater.from(parent.context),
+            parent, false)
         return LoadStateViewHolder(binding)
     }
 }

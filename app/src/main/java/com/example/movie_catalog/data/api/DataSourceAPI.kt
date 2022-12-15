@@ -1,31 +1,28 @@
 package com.example.movie_catalog.data.api
 
-import android.annotation.SuppressLint
 import android.icu.text.SimpleDateFormat
-import com.example.movie_catalog.App
 import com.example.movie_catalog.Constants
-import com.example.movie_catalog.data.api.film_info.FilmImageDTO
 import com.example.movie_catalog.data.api.film_info.PersonDTO
-import com.example.movie_catalog.data.api.film_info.SimilarItemDTO
 import com.example.movie_catalog.data.api.home.MonthKinopoisk
-import com.example.movie_catalog.data.api.home.filter.FilterFilmDTO
 import com.example.movie_catalog.data.api.home.getKit.CountryIdDTO
 import com.example.movie_catalog.data.api.home.getKit.GenreIdDTO
 import com.example.movie_catalog.data.api.home.getKit.SelectedKit
-import com.example.movie_catalog.data.api.home.premieres.PremieresDTO
-import com.example.movie_catalog.data.api.home.top.TopFilmDTO
 import com.example.movie_catalog.data.api.person.PersonInfoDTO
 import com.example.movie_catalog.entity.DataCentre
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.FilmographyTab
 import com.example.movie_catalog.entity.Person
-import com.example.movie_catalog.entity.filminfo.*
+import com.example.movie_catalog.entity.filminfo.Images
+import com.example.movie_catalog.entity.filminfo.InfoFilmSeasons
+import com.example.movie_catalog.entity.filminfo.Kit
+import com.example.movie_catalog.entity.filminfo.TabImage
 import java.util.*
 import javax.inject.Inject
 
 class DataSourceAPI @Inject constructor() {
 
     suspend fun getGenres(): SelectedKit {
+
 //        val genreList = retrofitApi.getGenres()
 
 //        return SelectedKit( genre1 = genreList.genres!!.random(),
@@ -56,12 +53,6 @@ class DataSourceAPI @Inject constructor() {
         val currentMonth = MonthKinopoisk.values()[calendar.get(Calendar.MONTH)].toString()
 //        Log.d("KDS start retrofit", "getPremieres start")
         val premieres = retrofitApi.getPremieres(currentYear, currentMonth)
-//        Log.d("KDS", "year=$currentYear, month=$currentMonth")
-        DataCentre.addFilms(selectPremieresTwoWeeks(premieres))
-    }
-    @SuppressLint("SimpleDateFormat")
-    fun selectPremieresTwoWeeks(premieres: PremieresDTO): PremieresDTO {
-
         //Calculate date next two weeks in milliseconds
         val currentTime= Calendar.getInstance()
         currentTime.add(Calendar.WEEK_OF_YEAR, Constants.PREMIERES_WEEKS)
@@ -76,13 +67,12 @@ class DataSourceAPI @Inject constructor() {
                 itemsIterator.remove()
             }
         }
-        //Mixing the films
-        premieres.items.shuffle()
-        return premieres
+        premieres.items.shuffle()    //Mixing the films
+        DataCentre.addFilms(premieres)
+//        DataCentre.addFilms(Plug().filmPlug)
     }
 
     suspend fun getTop(page:Int, kit: Kit) {
-//        Log.d("KDS start retrofit", "getTop start")
         DataCentre.addFilms(retrofitApi.getTop(page, kit.query), kit)
     }
 
@@ -97,56 +87,30 @@ class DataSourceAPI @Inject constructor() {
     }
 
     suspend fun getSimilar(id:Int) {
-//        Log.d("KDS start retrofit", "getSimilar start")
         DataCentre.addFilms(retrofitApi.getSimilar(id), id)
     }
 
-    suspend fun getGallery(id:Int) {
+    suspend fun getImages(id:Int){
 //        Log.d("KDS start retrofit", "getGallery start")
-        val film = DataCentre.films.find { it.filmId == id }
-        if (film != null) {
-            if (film.images.isEmpty()){
-                TabImage.values().forEach { tab ->
-                    var page = 1
-                    val filmImageDTO = retrofitApi.getGallery(id,tab.toString(), page)
-                    if ( filmImageDTO.total!! > 0){
-                        DataCentre.addImage(id, tab, filmImageDTO)
-                        while (filmImageDTO.totalPages!! >= page){
-                            DataCentre.addImage(id, tab, retrofitApi.getGallery(id,tab.toString(), page ++))
-                        }
-                    }
+        TabImage.values().forEach { tab ->
+            var page = 1
+            val filmImageDTO = retrofitApi.getGallery(id,tab.toString(), page)
+            if ( filmImageDTO.total!! > 0){
+                DataCentre.addImage(id, tab, filmImageDTO)
+                while (filmImageDTO.totalPages!! >= page){
+                    DataCentre.addImage(id, tab, retrofitApi.getGallery(id,tab.toString(), page ++))
                 }
             }
         }
     }
 
-    suspend fun getImages(id:Int): List<Images>? {
-//        Log.d("KDS start retrofit", "getGallery start")
-        val film = DataCentre.films.find { it.filmId == id }
-        if (film != null) {
-            if (film.images.isEmpty()){
-                TabImage.values().forEach { tab ->
-                    var page = 1
-                    val filmImageDTO = retrofitApi.getGallery(id,tab.toString(), page)
-                    if ( filmImageDTO.total!! > 0){
-                        DataCentre.addImage(id, tab, filmImageDTO)
-                        while (filmImageDTO.totalPages!! >= page){
-                            DataCentre.addImage(id, tab, retrofitApi.getGallery(id,tab.toString(), page ++))
-                        }
-                    }
-                }
-            }
-            return film.images
-        } else {
-            return null
-        }
-    }
     suspend fun getPersons(id: Int): List<PersonDTO> {
 //        Log.d("KDS start retrofit", "getPersons start")
         return retrofitApi.getPersons(id)
     }
 
     suspend fun getPersonInfo(id:Int): Person {
+        DataCentre.addPersonInfo( retrofitApi.getPersonInfo(id))
 //        Log.d("KDS start retrofit", "getPersonInfo start")
         return copyToPerson(retrofitApi.getPersonInfo(id))
     }
@@ -195,7 +159,7 @@ class DataSourceAPI @Inject constructor() {
                 age = personInfoDTO.age,
                 hasAwards = personInfoDTO.hasAwards,
                 profession = personInfoDTO.profession,
-                films = listFilm,
+//                filmsID = listFilm,
                 tabs = tabs
         )
     }

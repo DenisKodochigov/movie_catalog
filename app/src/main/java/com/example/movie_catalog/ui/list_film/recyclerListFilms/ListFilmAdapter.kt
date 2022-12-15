@@ -12,7 +12,7 @@ import com.example.movie_catalog.entity.Film
 import javax.inject.Inject
 
 class ListFilmAdapter @Inject constructor(
-    private val onClick: (Film) -> Unit
+    private val onClick: (film: Film) -> Unit
 ) : RecyclerView.Adapter<ListFilmViewHolder>() {
 
     private var listFilm: List<Film> = emptyList()

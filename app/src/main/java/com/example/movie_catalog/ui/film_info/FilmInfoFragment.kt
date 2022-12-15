@@ -21,11 +21,10 @@ import com.example.movie_catalog.App
 import com.example.movie_catalog.Constants
 import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
-import com.example.movie_catalog.data.api.film_info.FilmImageUrlDTO
-import com.example.movie_catalog.data.api.film_info.PersonDTO
 import com.example.movie_catalog.databinding.FragmentFilmInfoBinding
 import com.example.movie_catalog.entity.Film
-import com.example.movie_catalog.entity.filminfo.InfoFilmSeasons
+import com.example.movie_catalog.entity.FilmographyTab
+import com.example.movie_catalog.entity.Person
 import com.example.movie_catalog.ui.film_info.recyclerView.FilmInfoGalleryAdapter
 import com.example.movie_catalog.ui.film_info.recyclerView.PersonAdapter
 import com.example.movie_catalog.ui.list_film.recyclerListFilms.ListFilmAdapter
@@ -40,8 +39,8 @@ class FilmInfoFragment : Fragment() {
     private val binding get() = _binding!!
     private val personAdapter = PersonAdapter({ person -> onPersonClick(person)}, sizeGird = 20, whatRole = 1)
     private val staffAdapter = PersonAdapter({person -> onPersonClick(person)}, sizeGird = 6, whatRole = 2)
-    private val galleryAdapter = FilmInfoGalleryAdapter { image ->onImageClick(image) }
-    private val similarAdapter = ListFilmAdapter{ film -> onSimilarClick(film) }
+    private val galleryAdapter = FilmInfoGalleryAdapter { onImageClick() }
+    private val similarAdapter = ListFilmAdapter{ onSimilarClick() }
     private val viewModel: FilmInfoViewModel by viewModels()
     private var isCollapsed = false
 
@@ -56,7 +55,7 @@ class FilmInfoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.filmInfo.onEach {
-            if (it.infoFilm != null) fillPage(it)
+            fillPage(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         processingPerson()
@@ -72,9 +71,6 @@ class FilmInfoFragment : Fragment() {
 
         viewModel.similar.onEach {
             similarAdapter.setListFilm(it)
-//#############################################################
-            viewModel.putListFilm(it)
-//#############################################################
             if (it.size > Constants.HOME_QTY_FILMCARD-1) {
                 binding.similar.tvQuantityMovies.visibility = View.VISIBLE
                 binding.similar.tvQuantityMovies.text = it.size.toString()  + " >"
@@ -84,6 +80,7 @@ class FilmInfoFragment : Fragment() {
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         binding.similar.tvQuantityMovies.setOnClickListener {
+            viewModel.putFilmsSimilar()
             findNavController().navigate(R.id.action_nav_filmInfo_to_nav_list_films)
         }
     }
@@ -111,28 +108,25 @@ class FilmInfoFragment : Fragment() {
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         binding.gallery.tvQuantityImages.setOnClickListener {
+            viewModel.putFilmId()
             findNavController().navigate(R.id.action_nav_filmInfo_to_nav_gallery)
         }
     }
 
     @SuppressLint("SetTextI18n")
     private fun processingPerson(){
-
-        var actorList: List<PersonDTO> = emptyList()
-        var staffList : List<PersonDTO> = emptyList()
-        binding.person.personRecycler.layoutManager= GridLayoutManager(context,5,
-                                                                RecyclerView.HORIZONTAL,false)
         binding.person.tvHeader.text = getText(R.string.header_actor)
         binding.person.personRecycler.adapter = personAdapter
-
-        binding.staff.personRecycler.layoutManager= GridLayoutManager(context,2,
+        binding.person.personRecycler.layoutManager= GridLayoutManager(context,5,
                                                                 RecyclerView.HORIZONTAL,false)
         binding.staff.tvHeader.text = getText(R.string.header_staff)
         binding.staff.personRecycler.adapter = staffAdapter
+        binding.staff.personRecycler.layoutManager= GridLayoutManager(context,2,
+                                                                RecyclerView.HORIZONTAL,false)
 
         viewModel.person.onEach {
-            actorList = it.filter { person -> person.professionKey == "ACTOR" }
-            personAdapter.setListFilm(actorList)
+            val actorList = it.filter { person -> person.professionKey == Constants.ACTOR }
+            personAdapter.setListPerson(actorList)
             if (actorList.size > Constants.HOME_QTY_FILMCARD) {
                 binding.person.tvQuantityActor.visibility = View.VISIBLE
                 binding.person.tvQuantityActor.text = "${actorList.size} >"
@@ -140,8 +134,8 @@ class FilmInfoFragment : Fragment() {
                 binding.person.tvQuantityActor.visibility = View.INVISIBLE
             }
 
-            staffList = it.filter { person -> person.professionKey != "ACTOR" }
-            staffAdapter.setListFilm(staffList)
+            val staffList = it.filter { person -> person.professionKey != Constants.ACTOR }
+            staffAdapter.setListPerson(staffList)
             if (staffList.size > Constants.HOME_QTY_FILMCARD) {
                 binding.staff.tvQuantityActor.visibility = View.VISIBLE
                 binding.staff.tvQuantityActor.text = "${staffList.size} >"
@@ -152,23 +146,23 @@ class FilmInfoFragment : Fragment() {
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         binding.person.tvQuantityActor.setOnClickListener {
-            viewModel.putListPersonDTO(actorList)
+            viewModel.putJobPerson(Constants.ACTOR)
+            viewModel.putFilmId()
             findNavController().navigate(R.id.action_nav_filmInfo_to_nav_list_person)
         }
         binding.staff.tvQuantityActor.setOnClickListener {
-            viewModel.putListPersonDTO(staffList)
+            viewModel.putJobPerson(Constants.OTHER)
+            viewModel.putFilmId()
             findNavController().navigate(R.id.action_nav_filmInfo_to_nav_list_person)
         }
     }
 
     @SuppressLint("SetTextI18n")
-    private fun fillPage(filmInfoSeasons: InfoFilmSeasons){
+    private fun fillPage(filmInfo: Film){
 
-        val filmInfo = filmInfoSeasons.infoFilm!!
 //Show poster film. Before load image, show waiting animation.
         val animationCard = LoadImageURLShow()
-        animationCard.setAnimation(binding.posterBig.poster, filmInfo.posterUrl,
-                                                                R.dimen.film_info_poster_radius)
+        animationCard.setAnimation(binding.posterBig.poster, filmInfo.posterUrl, R.dimen.film_info_poster_radius)
 //Show logotype or name russia or name original
         if (filmInfo.logoUrl == null) {
             binding.posterBig.logotype.visibility=View.INVISIBLE
@@ -188,7 +182,7 @@ class FilmInfoFragment : Fragment() {
         }
 //Show rating and other name
         var stringForTextView = ""
-        if (filmInfo.ratingKinopoisk == null) {
+        if (filmInfo.rating == null) {
             if (filmInfo.ratingAwait == null){
                 if (filmInfo.ratingGoodReview == null){
                     if (filmInfo.ratingImdb != null){
@@ -196,7 +190,7 @@ class FilmInfoFragment : Fragment() {
                     }
                 }else { stringForTextView = filmInfo.ratingGoodReview.toString().trim()}
             }else { stringForTextView = filmInfo.ratingAwait.toString().trim()}
-        }else { stringForTextView = filmInfo.ratingKinopoisk.toString().trim()}
+        }else { stringForTextView = filmInfo.rating.toString().trim()}
 
         if (filmInfo.nameOriginal != null){
             stringForTextView = stringForTextView + " " + filmInfo.nameOriginal.toString().trim()
@@ -210,14 +204,14 @@ class FilmInfoFragment : Fragment() {
         //Add year
         if (filmInfo.year != null) stringForTextView = filmInfo.year.toString().trim()
         //Add genres
-        filmInfo.genres?.forEach {
+        filmInfo.genres.forEach {
             stringForTextView = if (stringForTextView == "") { it.genre.toString().trim()}
             else { stringForTextView + ", " + it.genre.toString().trim()}
         }
         //Add seasons film_info_poster_seasons
-        if (filmInfoSeasons.infoSeasons?.total != null) {
+        if (filmInfo.totalSeasons != null) {
             stringForTextView += ", " + context?.getString(R.string.film_info_poster_seasons) +
-                                        filmInfoSeasons.infoSeasons?.total.toString().trim()
+                    filmInfo.totalSeasons.toString().trim()
         }
         binding.posterBig.yearGenreOther.text = stringForTextView
 
@@ -246,14 +240,14 @@ class FilmInfoFragment : Fragment() {
             }
         }
 //Show info serial
-        if (filmInfoSeasons.infoSeasons != null ){
+        if (filmInfo.totalSeasons != null ){
             binding.serials.root.visibility = View.VISIBLE
 
             var text = context?.getString(R.string.first_season)+ " "
 //            text += if (filmInfoSeasons.seasonsDTO!!.total == null) ""
 //                    else filmInfoSeasons.seasonsDTO!!.total.toString() + " "
-            text += if (filmInfoSeasons.infoSeasons!!.items == null) "0"
-                    else filmInfoSeasons.infoSeasons!!.items?.get(0)!!.episodes!!.size.toString() + " "
+            text += if (filmInfo.listSeasons == null) "0"
+                    else filmInfo.listSeasons?.get(0)!!.episodes!!.size.toString() + " "
             text += App.context.getString(R.string.quantity_series)
 
             binding.serials.tvHeaderDown.text = text
@@ -264,9 +258,6 @@ class FilmInfoFragment : Fragment() {
 
 // Observe clickable
         binding.serials.tvAll.setOnClickListener {
-//#############################################################
-            viewModel.putFilmInfoSeasons(filmInfoSeasons)
-//#############################################################
             findNavController().navigate(R.id.action_nav_filmInfo_to_nav_seasons)
         }
         binding.posterBig.ivViewed.setOnClickListener {
@@ -288,19 +279,17 @@ class FilmInfoFragment : Fragment() {
         }
     }
 
-    private fun onPersonClick(personDTO: PersonDTO) {
-//        setFragmentResult("requestKey", bundleOf("PERSON" to personDTO))
-        viewModel.putPersonDTO(personDTO)
+    private fun onPersonClick(person: Person) {
+        viewModel.putPersonId(person.personId!!)
         findNavController().navigate(R.id.action_nav_filmInfo_to_nav_person)
     }
 
-    private fun onImageClick(imageURL: String) {
-//        setFragmentResult("requestKey", bundleOf("IMAGE" to image))
+    private fun onImageClick() {
+        viewModel.putFilmId()
         findNavController().navigate(R.id.action_nav_filmInfo_to_nav_gallery)
     }
 
-    private fun onSimilarClick(film: Film) {
-//        setFragmentResult("requestKey", bundleOf("FILM" to film))
+    private fun onSimilarClick() {
         findNavController().navigate(R.id.action_nav_filmInfo_to_nav_list_films)
     }
 

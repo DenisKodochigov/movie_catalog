@@ -5,16 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.example.movie_catalog.App
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentFilmographyBinding
 import com.example.movie_catalog.entity.Film
-import com.example.movie_catalog.entity.FilmographyTab
 import com.example.movie_catalog.entity.Person
 import com.example.movie_catalog.ui.filmography.recycler.FilmographyViewPagerAdapter
 import com.example.movie_catalog.ui.gallery.GalleryFragment
@@ -58,10 +59,9 @@ class FilmographyFragment : Fragment() {
         TabLayoutMediator(binding.tabs, binding.viewpager) { tab, position ->
             tab.setCustomView(R.layout.item_filmography_tab)
             tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)?.text =
-                    FilmographyTab.profKey[person.tabs[position].key]
+                    person.tabs[position].nameDisplay
             tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_quantity)?.text =
-                person.films.filter {
-                        film -> film.professionKey == person.tabs[position].key }.size.toString()
+                person.films.filter{ it.professionKey == person.tabs[position].key }.size.toString()
             tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)
                 ?.setTextColor(resources.getColor(R.color.black, null))
         }.attach()
@@ -91,8 +91,13 @@ class FilmographyFragment : Fragment() {
     }
 
     private fun onClickViewPager(film: Film) {
-        viewModel.putFilm(film)
-        findNavController().navigate(R.id.action_nav_filmography_to_nav_filmInfo)
+        if (film.filmId != null) {
+            viewModel.putFilmId(film.filmId)
+            findNavController().navigate(R.id.action_nav_filmography_to_nav_filmInfo)
+        } else {
+            Toast.makeText(App.context, "Film has index = null", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     override fun onDestroyView() {

@@ -30,8 +30,7 @@ class FilmographyViewPagerAdapter (val person: Person, private val onClick: (Fil
         holder.binding.recyclerImage.adapter = filmAdapter
 
         Log.d("KDS", "ViewPagerAdapter, load image tab[position]=$position ")
-        filmAdapter.setList(person.films.filter {
-                film -> film.professionKey == person.tabs[position].key })
+        filmAdapter.setList(person.films.filter{ it.professionKey == person.tabs[position].key })
     }
 
     private fun onClickImagesAdapter(film: Film) {

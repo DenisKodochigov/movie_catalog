@@ -1,8 +1,10 @@
 package com.example.movie_catalog.ui.person
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.movie_catalog.App
 import com.example.movie_catalog.data.DataRepository
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Person
@@ -17,13 +19,17 @@ import javax.inject.Inject
 class PersonViewModel @Inject constructor() : ViewModel() {
 
     private val dataRepository = DataRepository()
+    private var localPersonId:Int? = null
+
+    private var _person = MutableStateFlow( Person() )
+    var person = _person.asStateFlow()
 
     init {
-        getPerson(dataRepository.takePersonDTO().staffId!!)
+        takePersonId()
+        if (localPersonId != null) {
+            getPerson(localPersonId!!)
+        }
     }
-
-    private var _person = MutableStateFlow( Person(films = filmsStart) )
-    var person = _person.asStateFlow()
 
     private fun getPerson(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -34,20 +40,28 @@ class PersonViewModel @Inject constructor() : ViewModel() {
                 onSuccess = {
                     Log.d("KDS", "View model getPerson, send data to fragment")
                     _person.value = it },
-                onFailure = { Log.d("Error", it.message ?: "") }
+                onFailure = {
+                    Log.d("Error", it.message ?: "")
+                    Toast.makeText(App.context, "Ошибка загрузки данных", Toast.LENGTH_SHORT).show()
+                }
             )
         }
     }
-    fun putListFilm(item:List<Film>){
-        dataRepository.putListFilm(item)
+    private fun takePersonId(){
+        val item = dataRepository.takePersonId()
+        if (item != null) localPersonId = item
     }
-    fun putPerson(item: Person){
-        dataRepository.putPerson(item)
-    }
-    fun putFilm(item:Film){
-        dataRepository.putFilm(item)
+    fun putPersonId(){
+        dataRepository.putPersonId(localPersonId!!)
     }
 
+    fun putFilmId(id: Int){
+        dataRepository.putFilmId(id)
+    }
+
+    fun putPersonFilmsForListFilmFragment(){
+        dataRepository.putPersonFilmsForListFilmFragment(localPersonId!!)
+    }
     companion object {
 
         var filmsStart = listOf(

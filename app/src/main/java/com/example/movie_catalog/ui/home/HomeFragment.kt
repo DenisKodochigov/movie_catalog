@@ -49,23 +49,10 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //Get data for two random kit cinema
-        homeViewModel.genreMap.onEach {
-            if (it.genre1.id != null) Kit.RANDOM1.genreID = it.genre1.id!!
-            if (it.country1.id != null) Kit.RANDOM1.countryID = it.country1.id!!
-            Kit.RANDOM1.nameKit  = if (it.genre1.genre != null || it.country1.country != null) {
-                (it.genre1.genre.toString() + " " + it.country1.country.toString()).trim()
-            } else getText(R.string.random1).toString()
-            processingView(binding.random1Kit, random1Adapter, homeViewModel.randomKit1, Kit.RANDOM1)
-
-            if (it.genre2.id != null) Kit.RANDOM2.genreID = it.genre2.id!!
-            if (it.country2.id != null) Kit.RANDOM2.countryID = it.country2.id!!
-            Kit.RANDOM2.nameKit = if (it.genre2.genre != null || it.country2.country != null) {
-                (it.genre2.genre.toString() + " " + it.country2.country.toString()).trim()
-            } else getText(R.string.random2).toString()
-            processingView(binding.random2Kit, random2Adapter, homeViewModel.randomKit2, Kit.RANDOM2)
-
-        }.launchIn(viewLifecycleOwner.lifecycleScope)
+        //Get list random 1 films
+        processingView(binding.random1Kit, random1Adapter, homeViewModel.randomKit1, Kit.RANDOM1)
+        //Get list random 2 films
+        processingView(binding.random2Kit, random2Adapter, homeViewModel.randomKit2, Kit.RANDOM2)
         //Get list premier films
         processingView(binding.premierKit, premieresAdapter, homeViewModel.premieres, Kit.PREMIERES)
         //Get list popular films
@@ -77,8 +64,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun processingView(view: IncludeHomeFilmListBinding, adapter: FilmListAdapter,
-                               flowFilms: StateFlow<List<Film>>, kit : Kit
-    ){
+                               flowFilms: StateFlow<List<Film>>, kit : Kit){
         with(view){
             kitName.text = kit.nameKit
             filmRecyclerHorizontal.adapter = adapter
@@ -101,8 +87,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun onItemClick(film: Film) {
-        setFragmentResult("requestKey", bundleOf("FILM" to film))
-        homeViewModel.putFilm(film)
+        film.filmId?.let { homeViewModel.putFilmId(it) }
         findNavController().navigate(R.id.action_nav_home_to_nav_filmInfo)
     }
 

@@ -3,6 +3,7 @@ package com.example.movie_catalog.ui.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.movie_catalog.R
 import com.example.movie_catalog.data.DataRepository
 import com.example.movie_catalog.data.api.home.getKit.SelectedKit
 import com.example.movie_catalog.entity.Film
@@ -19,9 +20,6 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor() : ViewModel() {
 
     private val dataRepository = DataRepository()
-
-    private var _genreMap = MutableStateFlow(SelectedKit())
-    var genreMap = _genreMap.asStateFlow()
 
     private var _premieres = MutableStateFlow(Plug().filmPlug)
     var premieres = _premieres.asStateFlow()
@@ -42,28 +40,36 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     var serials = _serials.asStateFlow()
 
     init {
-//        getGenres()
+        getGenres()
         getPremieres()
-//        getPopular()
-//        getTop250()
-//        getSerials()
+        getPopular()
+        getTop250()
+        getSerials()
     }
 
     private fun getGenres() {
 
         viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                dataRepository.getGenres()
-            }.fold(
-                onSuccess = {
-                                _genreMap.value = it
-                                Kit.RANDOM1.genreID = it.genre1.id ?: 0
-                                Kit.RANDOM1.countryID = it.country1.id ?: 0
-                                Kit.RANDOM2.genreID = it.genre2.id ?: 0
-                                Kit.RANDOM2.countryID = it.country2.id ?: 0
-                                getRandom( Kit.RANDOM1)
-                                getRandom( Kit.RANDOM2)
-                            },
+            kotlin.runCatching { dataRepository.getGenres() }.fold(
+                onSuccess = { kit ->
+                    Kit.RANDOM1.genreID = kit.genre1.id ?: 0
+                    Kit.RANDOM1.countryID = kit.country1.id ?: 0
+                    Kit.RANDOM2.genreID = kit.genre2.id ?: 0
+                    Kit.RANDOM2.countryID = kit.country2.id ?: 0
+                    if (kit.genre1.genre != null || kit.country1.country != null) {
+                        Kit.RANDOM1.nameKit  =
+                            kit.genre1.genre.toString().replaceFirstChar{it.uppercase()}.trim() + " " +
+                            kit.country1.country.toString().replaceFirstChar{it.uppercase()}.trim()
+                    }
+
+                    if (kit.genre2.genre != null || kit.country2.country != null) {
+                        Kit.RANDOM2.nameKit =
+                            kit.genre2.genre.toString().replaceFirstChar{it.uppercase()}.trim() + " " +
+                            kit.country2.country.toString().replaceFirstChar{it.uppercase()}.trim()
+                    }
+                    getRandom1()
+                    getRandom2()
+                },
                 onFailure = { Log.d("KDS",it.message ?: "")}
             )
         }
@@ -113,12 +119,19 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    private fun getRandom(kit:Kit) {
+    private fun getRandom1() {
         viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                dataRepository.getFilters(1, kit)
-            }.fold(
+            kotlin.runCatching { dataRepository.getFilters(1, Kit.RANDOM1) }.fold(
                 onSuccess = {_randomKit1.value = it },
+                onFailure = { Log.d("KDS",it.message ?: "")}
+            )
+        }
+    }
+
+    private fun getRandom2() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching { dataRepository.getFilters(1, Kit.RANDOM2) }.fold(
+                onSuccess = {_randomKit2.value = it },
                 onFailure = { Log.d("KDS",it.message ?: "")}
             )
         }
@@ -128,8 +141,8 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         dataRepository.putKit(item)
     }
 
-    fun putFilm(item:Film){
-        dataRepository.putFilm(item)
+    fun putFilmId(item:Int){
+        dataRepository.putFilmId(item)
     }
 
     companion object {

@@ -11,8 +11,7 @@ import com.example.movie_catalog.databinding.ItemHomeFilmListBinding
 import com.example.movie_catalog.entity.Film
 import javax.inject.Inject
 
-class FullListFilmAdapter @Inject constructor(
-    private val onClick: (Film) -> Unit
+class FullListFilmAdapter @Inject constructor( private val onClick: (Film) -> Unit
 ) : RecyclerView.Adapter<FullListFilmViewHolder>() {
 
     private var listFilm: List<Film> = emptyList()

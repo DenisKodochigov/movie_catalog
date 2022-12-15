@@ -8,16 +8,18 @@ import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
 import com.example.movie_catalog.databinding.ItemFilmInfoPersonBinding
 import com.example.movie_catalog.data.api.film_info.PersonDTO
+import com.example.movie_catalog.entity.Person
 import javax.inject.Inject
 
-class PersonAdapter @Inject constructor(private val onClick: (PersonDTO) -> Unit,
+class PersonAdapter @Inject constructor(private val onClick: (Person) -> Unit,
                val sizeGird:Int, val whatRole: Int): RecyclerView.Adapter<PersonViewHolder>()
 {
-    private var people: List<PersonDTO> = emptyList()
+    private var persons: List<Person> = emptyList()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setListFilm(people: List<PersonDTO>) {
-        this.people = people
+    fun setListPerson(listPerson: List<Person>) {
+        persons = listPerson
+
         notifyDataSetChanged()
     }
 
@@ -29,7 +31,7 @@ class PersonAdapter @Inject constructor(private val onClick: (PersonDTO) -> Unit
 
     override fun onBindViewHolder(holder: PersonViewHolder, position: Int) {
 
-        val person = people.getOrNull(position)
+        val person = persons.getOrNull(position)
         //Set actor name
         holder.binding.tvActor.text = person?.nameRu ?: ""
         //Set actor role.
@@ -49,8 +51,8 @@ class PersonAdapter @Inject constructor(private val onClick: (PersonDTO) -> Unit
     }
 
     override fun getItemCount(): Int{
-        return if (people.size > sizeGird -1)  sizeGird
-                else people.size
+        return if (persons.size > sizeGird -1)  sizeGird
+                else persons.size
     }
 }
 

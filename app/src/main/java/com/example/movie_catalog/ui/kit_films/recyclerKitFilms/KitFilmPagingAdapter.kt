@@ -11,8 +11,7 @@ import com.example.movie_catalog.databinding.ItemHomeFilmListBinding
 import com.example.movie_catalog.entity.Film
 import javax.inject.Inject
 
-class FullListFilmPagingAdapter @Inject constructor(
-    private val onClick: (Film) -> Unit
+class FullListFilmPagingAdapter @Inject constructor( private val onClick: (Film) -> Unit
 ) : PagingDataAdapter<Film, FullListFilmPagingViewHolder>(DiffUtilCallback()) {
 
     override fun onCreateViewHolder(
@@ -43,8 +42,7 @@ class FullListFilmPagingAdapter @Inject constructor(
 
         //Load small poster. Before load image, show waiting animation.
         val animationCard = LoadImageURLShow()
-        animationCard.setAnimation(holder.binding.poster, film?.posterUrlPreview,
-                    R.dimen.card_film_radius )
+        animationCard.setAnimation(holder.binding.poster, film?.posterUrlPreview, R.dimen.card_film_radius )
 
         //Set action on click item recyclerView
         holder.binding.root.setOnClickListener {
@@ -55,12 +53,11 @@ class FullListFilmPagingAdapter @Inject constructor(
     }
 }
 
-class FullListFilmPagingViewHolder(val binding: ItemHomeFilmListBinding) :
+class FullListFilmPagingViewHolder(val binding: ItemHomeFilmListBinding):
     RecyclerView.ViewHolder(binding.root)
 
 class DiffUtilCallback : DiffUtil.ItemCallback<Film>() {
     override fun areItemsTheSame(oldItem: Film, newItem: Film): Boolean =
-        oldItem.filmId == newItem.filmId
-
+                                                                oldItem.filmId == newItem.filmId
     override fun areContentsTheSame(oldItem: Film, newItem: Film): Boolean = oldItem == newItem
 }

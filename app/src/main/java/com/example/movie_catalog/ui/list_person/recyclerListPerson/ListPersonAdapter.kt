@@ -8,16 +8,17 @@ import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
 import com.example.movie_catalog.data.api.film_info.PersonDTO
 import com.example.movie_catalog.databinding.ItemPersonListBinding
+import com.example.movie_catalog.entity.Person
 import javax.inject.Inject
 
 class ListPersonAdapter @Inject constructor(
-    private val onClick: (PersonDTO) -> Unit
+    private val onClick: (Person) -> Unit
 ) : RecyclerView.Adapter<ListPersonViewHolder>() {
 
-    private var listPerson: List<PersonDTO> = emptyList()
+    private var listPerson: List<Person> = emptyList()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setListPerson(listPerson: List<PersonDTO>) {
+    fun setListPerson(listPerson: List<Person>) {
         this.listPerson = listPerson
         notifyDataSetChanged()
     }
