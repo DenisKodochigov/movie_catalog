@@ -6,19 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.movie_catalog.Constants
+import com.example.movie_catalog.entity.Constants
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentHomeBinding
-import com.example.movie_catalog.databinding.IncludeHomeFilmListBinding
-import com.example.movie_catalog.entity.filminfo.Kit
+import com.example.movie_catalog.databinding.IncludeListFilmBinding
+import com.example.movie_catalog.entity.Linker
 import com.example.movie_catalog.entity.Film
-import com.example.movie_catalog.ui.home.recyclerView.FilmListAdapter
+import com.example.movie_catalog.entity.enumApp.Kit
+import com.example.movie_catalog.ui.recycler.ListFilmAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -30,16 +29,15 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val homeViewModel: HomeViewModel by viewModels()
-    private val premieresAdapter = FilmListAdapter(Constants.HOME_QTY_FILMCARD) { film -> onItemClick(film) }
-    private val popularAdapter = FilmListAdapter(Constants.HOME_QTY_FILMCARD) { film -> onItemClick(film) }
-    private val top250Adapter = FilmListAdapter(Constants.HOME_QTY_FILMCARD) { film -> onItemClick(film) }
-    private val random1Adapter = FilmListAdapter(Constants.HOME_QTY_FILMCARD) { film -> onItemClick(film) }
-    private val random2Adapter = FilmListAdapter(Constants.HOME_QTY_FILMCARD) { film -> onItemClick(film) }
-    private val serialAdapter = FilmListAdapter(Constants.HOME_QTY_FILMCARD) { film -> onItemClick(film) }
+    private val premieresAdapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD) { film -> onItemClick(film) }
+    private val popularAdapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD) { film -> onItemClick(film) }
+    private val top250Adapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD) { film -> onItemClick(film) }
+    private val random1Adapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD) { film -> onItemClick(film) }
+    private val random2Adapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD) { film -> onItemClick(film) }
+    private val serialAdapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD) { film -> onItemClick(film) }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text = ""
@@ -59,12 +57,13 @@ class HomeFragment : Fragment() {
         processingView(binding.popularKit, popularAdapter, homeViewModel.popularFilms, Kit.POPULAR)
         //Get list top250 films
         processingView(binding.top250Kit, top250Adapter, homeViewModel.pageTop250, Kit.TOP250)
-        //Get list top250 films
+        //Get list serials films
         processingView(binding.serialKit, serialAdapter, homeViewModel.serials, Kit.SERIALS)
     }
 
-    private fun processingView(view: IncludeHomeFilmListBinding, adapter: FilmListAdapter,
-                               flowFilms: StateFlow<List<Film>>, kit : Kit){
+    private fun processingView(view: IncludeListFilmBinding, adapter: ListFilmAdapter,
+                               flowFilms: StateFlow<List<Linker>>, kit : Kit
+    ){
         with(view){
             kitName.text = kit.nameKit
             filmRecyclerHorizontal.adapter = adapter
@@ -87,7 +86,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun onItemClick(film: Film) {
-        film.filmId?.let { homeViewModel.putFilmId(it) }
+        homeViewModel.putFilm(film)
         findNavController().navigate(R.id.action_nav_home_to_nav_filmInfo)
     }
 

@@ -21,13 +21,13 @@
     <dimen name="margin_top_h5_home">2dp</dimen>
     <dimen name="margin_top_display">0dp</dimen>
 
-    <dimen name="film_info_margin_top_h5">4dp</dimen>
-    <dimen name="film_info_margin_top_h2">40dp</dimen>
-    <dimen name="film_info_margin_bottom_h2">32dp</dimen>
-    <dimen name="film_info_card_person_radius">4dp</dimen>
-    <dimen name="film_info_gallery_margin_hor">4dp</dimen>
-    <dimen name="film_info_gallery_radius">6dp</dimen>
-    <dimen name="film_info_poster_radius">1dp</dimen>
+    <dimen name="film_page_margin_top_h5">4dp</dimen>
+    <dimen name="film_page_margin_top_h2">40dp</dimen>
+    <dimen name="film_page_margin_bottom_h2">32dp</dimen>
+    <dimen name="film_page_card_person_radius">4dp</dimen>
+    <dimen name="film_page_gallery_margin_hor">4dp</dimen>
+    <dimen name="film_page_gallery_radius">6dp</dimen>
+    <dimen name="film_page_poster_radius">1dp</dimen>
 
     <dimen name="card_film_width">111dp</dimen>
     <dimen name="card_film_height">157dp</dimen>

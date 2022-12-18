@@ -39,7 +39,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_filmInfo"
-        android:name="com.example.movie_catalog.ui.film_info.FilmInfoFragment"
+        android:name="com.example.movie_catalog.ui.film_info.FilmPageFragment"
         android:label="FilmInfoFragment" >
         <action
             android:id="@+id/action_nav_filmInfo_to_nav_gallery"

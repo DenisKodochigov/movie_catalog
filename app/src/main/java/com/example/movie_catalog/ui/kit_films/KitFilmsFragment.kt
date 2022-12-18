@@ -6,9 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -17,17 +15,17 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentKitFilmsBinding
-import com.example.movie_catalog.entity.filminfo.Kit
 import com.example.movie_catalog.entity.Film
-import com.example.movie_catalog.ui.kit_films.recyclerKitFilms.FullListFilmAdapter
-import com.example.movie_catalog.ui.kit_films.recyclerKitFilms.FullListFilmPagingAdapter
-import com.example.movie_catalog.ui.kit_films.recyclerKitFilms.StateAdapterTopFilm
+import com.example.movie_catalog.entity.enumApp.Kit
+import com.example.movie_catalog.ui.recycler.ListFilmPagingAdapter
+import com.example.movie_catalog.ui.recycler.ListFilmAdapter
+import com.example.movie_catalog.ui.recycler.StateAdapterTopFilm
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
-class KitFilmsFragment : Fragment() {
+class KitFilmsFragment: Fragment() {
 
     companion object {
         fun newInstance() = KitFilmsFragment()
@@ -36,15 +34,15 @@ class KitFilmsFragment : Fragment() {
     private var _binding: FragmentKitFilmsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: KitfilmsViewModel by viewModels()
-    private val listAdapter = FullListFilmAdapter{film -> onItemClick(film)}
-    private val pagingAdapter = FullListFilmPagingAdapter { film -> onItemClick(film) }
+    private val listAdapter = ListFilmAdapter{film -> onItemClick(film)}
+    private val pagingAdapter = ListFilmPagingAdapter { film -> onItemClick(film) }
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentKitFilmsBinding.inflate(inflater, container, false)
         (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text =
-            viewModel.currentKit?.nameKit ?: ""
+            viewModel.localKit?.nameKit ?: ""
         return binding.root
     }
 
@@ -53,7 +51,7 @@ class KitFilmsFragment : Fragment() {
         binding.filmRecyclerVertical.layoutManager =
             GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
 
-        if (viewModel.currentKit == Kit.PREMIERES) processingPremieres()
+        if (viewModel.localKit == Kit.PREMIERES) processingPremieres()
         else processingPagingListFilm()
 
         binding.swipeRefresh.setOnRefreshListener {
@@ -62,18 +60,14 @@ class KitFilmsFragment : Fragment() {
     }
 
     private fun processingPremieres(){
-
         binding.filmRecyclerVertical.adapter = listAdapter
-
         viewModel.premieres.onEach {
             listAdapter.setListFilm(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun processingPagingListFilm(){
-
         binding.filmRecyclerVertical.adapter = pagingAdapter.withLoadStateFooter(StateAdapterTopFilm())
-
         viewModel.pagedFilms.onEach {
             pagingAdapter.submitData(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -84,7 +78,7 @@ class KitFilmsFragment : Fragment() {
     }
 
     private fun onItemClick(film: Film) {
-        viewModel.putFilmId(film.filmId!!)
+        viewModel.putFilm(film)
         findNavController().navigate(R.id.action_nav_kitFilms_to_nav_filmInfo)
     }
 

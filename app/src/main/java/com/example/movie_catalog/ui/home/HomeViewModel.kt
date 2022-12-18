@@ -3,11 +3,9 @@ package com.example.movie_catalog.ui.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movie_catalog.R
 import com.example.movie_catalog.data.DataRepository
-import com.example.movie_catalog.data.api.home.getKit.SelectedKit
 import com.example.movie_catalog.entity.Film
-import com.example.movie_catalog.entity.filminfo.Kit
+import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.plug.Plug
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -21,34 +19,33 @@ class HomeViewModel @Inject constructor() : ViewModel() {
 
     private val dataRepository = DataRepository()
 
-    private var _premieres = MutableStateFlow(Plug().filmPlug)
+    private var _premieres = MutableStateFlow(Plug.listLinks)
     var premieres = _premieres.asStateFlow()
 
-    private var _popularFilms = MutableStateFlow(filmsStart)
+    private var _popularFilms = MutableStateFlow(Plug.listLinks)
     var popularFilms = _popularFilms.asStateFlow()
 
-    private var _pageTop250 = MutableStateFlow(filmsStart)
+    private var _pageTop250 = MutableStateFlow(Plug.listLinks)
     var pageTop250 = _pageTop250.asStateFlow()
 
-    private var _randomKit1 = MutableStateFlow(filmsStart)
+    private var _randomKit1 = MutableStateFlow(Plug.listLinks)
     var randomKit1 = _randomKit1.asStateFlow()
 
-    private var _randomKit2 = MutableStateFlow(filmsStart)
+    private var _randomKit2 = MutableStateFlow(Plug.listLinks)
     var randomKit2 = _randomKit2.asStateFlow()
 
-    private var _serials = MutableStateFlow(filmsStart)
+    private var _serials = MutableStateFlow(Plug.listLinks)
     var serials = _serials.asStateFlow()
 
     init {
-        getGenres()
-        getPremieres()
-        getPopular()
-        getTop250()
+//        getGenres()
+//        getPremieres()
+//        getPopular()
+//        getTop250()
         getSerials()
     }
 
     private fun getGenres() {
-
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching { dataRepository.getGenres() }.fold(
                 onSuccess = { kit ->
@@ -70,7 +67,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                     getRandom1()
                     getRandom2()
                 },
-                onFailure = { Log.d("KDS",it.message ?: "")}
+                onFailure = { Log.d("KDS",it.message ?: "getGenres")}
             )
         }
     }
@@ -81,7 +78,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                 dataRepository.getPremieres()
             }.fold(
                 onSuccess = {_premieres.value = it },
-                onFailure = { Log.d("KDS",it.message ?: "")}
+                onFailure = { Log.d("KDS",it.message ?: "getPremieres")}
             )
         }
     }
@@ -89,10 +86,10 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     private fun getPopular() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                dataRepository.getTop(1,Kit.POPULAR)
+                dataRepository.getTop(1, Kit.POPULAR)
             }.fold(
                 onSuccess = {_popularFilms.value = it },
-                onFailure = { Log.d("KDS",it.message ?: "")}
+                onFailure = { Log.d("KDS",it.message ?: "getPopular")}
             )
         }
     }
@@ -103,7 +100,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                 dataRepository.getTop(1, Kit.TOP250)
             }.fold(
                 onSuccess = {_pageTop250.value = it },
-                onFailure = { Log.d("KDS",it.message ?: "")}
+                onFailure = { Log.d("KDS",it.message ?: "getTop250")}
             )
         }
     }
@@ -114,7 +111,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                 dataRepository.getSerials(1, Kit.SERIALS)
             }.fold(
                 onSuccess = {_serials.value = it },
-                onFailure = { Log.d("KDS",it.message ?: "")}
+                onFailure = { Log.d("KDS",it.message ?: "getSerials")}
             )
         }
     }
@@ -123,7 +120,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching { dataRepository.getFilters(1, Kit.RANDOM1) }.fold(
                 onSuccess = {_randomKit1.value = it },
-                onFailure = { Log.d("KDS",it.message ?: "")}
+                onFailure = { Log.d("KDS",it.message ?: "getRandom1")}
             )
         }
     }
@@ -132,25 +129,18 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching { dataRepository.getFilters(1, Kit.RANDOM2) }.fold(
                 onSuccess = {_randomKit2.value = it },
-                onFailure = { Log.d("KDS",it.message ?: "")}
+                onFailure = { Log.d("KDS",it.message ?: "getRandom2")}
             )
         }
     }
 
-    fun putKit(item: Kit){
-        dataRepository.putKit(item)
+    fun putKit(kit: Kit){
+        dataRepository.putKit(kit)
     }
 
-    fun putFilmId(item:Int){
-        dataRepository.putFilmId(item)
+    fun putFilm(film: Film){
+        dataRepository.putFilm(film)
     }
 
-    companion object {
-
-        var filmsStart = listOf( Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(),
-            Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(),
-            Film(),
-        )
-    }
 }
 

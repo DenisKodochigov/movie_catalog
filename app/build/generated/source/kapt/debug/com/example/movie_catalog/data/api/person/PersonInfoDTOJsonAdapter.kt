@@ -35,9 +35,13 @@ public class PersonInfoDTOJsonAdapter(
   private val nullableStringAdapter: JsonAdapter<String?> = moshi.adapter(String::class.java,
       emptySet(), "webUrl")
 
+  private val listOfSpousesAdapter: JsonAdapter<List<Spouses>> =
+      moshi.adapter(Types.newParameterizedType(List::class.java, Spouses::class.java), emptySet(),
+      "spouses")
+
   private val listOfStringAdapter: JsonAdapter<List<String>> =
       moshi.adapter(Types.newParameterizedType(List::class.java, String::class.java), emptySet(),
-      "spouses")
+      "facts")
 
   private val listOfPersonFilmDTOAdapter: JsonAdapter<List<PersonFilmDTO>> =
       moshi.adapter(Types.newParameterizedType(List::class.java, PersonFilmDTO::class.java),
@@ -62,7 +66,7 @@ public class PersonInfoDTOJsonAdapter(
     var age: String? = null
     var birthplace: String? = null
     var deathplace: String? = null
-    var spouses: List<String>? = null
+    var spouses: List<Spouses>? = null
     var hasAwards: Int? = null
     var profession: String? = null
     var facts: List<String>? = null
@@ -132,7 +136,7 @@ public class PersonInfoDTOJsonAdapter(
           mask0 = mask0 and 0xfffff7ff.toInt()
         }
         12 -> {
-          spouses = listOfStringAdapter.fromJson(reader) ?: throw Util.unexpectedNull("spouses",
+          spouses = listOfSpousesAdapter.fromJson(reader) ?: throw Util.unexpectedNull("spouses",
               "spouses", reader)
           // $mask = $mask and (1 shl 12).inv()
           mask0 = mask0 and 0xffffefff.toInt()
@@ -182,7 +186,7 @@ public class PersonInfoDTOJsonAdapter(
           age = age,
           birthplace = birthplace,
           deathplace = deathplace,
-          spouses = spouses as List<String>,
+          spouses = spouses as List<Spouses>,
           hasAwards = hasAwards,
           profession = profession,
           facts = facts as List<String>,
@@ -253,7 +257,7 @@ public class PersonInfoDTOJsonAdapter(
     writer.name("deathplace")
     nullableStringAdapter.toJson(writer, value_.deathplace)
     writer.name("spouses")
-    listOfStringAdapter.toJson(writer, value_.spouses)
+    listOfSpousesAdapter.toJson(writer, value_.spouses)
     writer.name("hasAwards")
     nullableIntAdapter.toJson(writer, value_.hasAwards)
     writer.name("profession")

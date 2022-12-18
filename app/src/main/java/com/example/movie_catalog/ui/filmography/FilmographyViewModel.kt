@@ -3,6 +3,8 @@ package com.example.movie_catalog.ui.filmography
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.data.DataRepository
+import com.example.movie_catalog.entity.Film
+import com.example.movie_catalog.entity.FilmographyData
 import com.example.movie_catalog.entity.Person
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -15,27 +17,27 @@ import javax.inject.Inject
 class FilmographyViewModel @Inject constructor(): ViewModel() {
 
     private val dataRepository = DataRepository()
-    private var localPersonId: Int? = null
+    private var localPerson: Person? = null
 
-    private var _person = MutableStateFlow( Person() )
+    private var _person = MutableStateFlow(FilmographyData())
     var person = _person.asStateFlow()
 
     init {
-        takePersonId()
-        if (localPersonId != null) getImages()
+        takePerson()
+        localPerson?.let { getImages(it) }
     }
 
-    private fun getImages() {
+    private fun getImages(localPerson: Person) {
         viewModelScope.launch(Dispatchers.IO) {
-            _person.value = dataRepository.takePersonFilmography(localPersonId!!)
+            _person.value = dataRepository.getFilmographyData(localPerson)
         }
     }
-    fun putFilmId(item: Int){
-        dataRepository.putFilmId(item)
+    fun putFilm(film: Film){
+        dataRepository.putFilm(film)
     }
-    private fun takePersonId(){
-        val item = dataRepository.takePersonId()
-        if (item != null) localPersonId = item
+    private fun takePerson(){
+        val item = dataRepository.takePerson()
+        if (item != null) localPerson = item
     }
 
 }

@@ -1,5 +1,7 @@
 package com.example.movie_catalog.entity
 
+import com.example.movie_catalog.entity.enumApp.ProfKey
+
 data class Person(
     var personId:Int? = null,
     var nameRu:String? = null,
@@ -11,6 +13,6 @@ data class Person(
     val professionKey:String? = null,
     val professionText:String? = null,
     val description:String? = null,
-    var tabs: MutableList<FilmographyTab> = mutableListOf(),
+    var tabs: MutableList<ProfKey> = mutableListOf(),
     var films: MutableList<Film> = mutableListOf()
 )

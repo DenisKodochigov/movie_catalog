@@ -10,12 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.movie_catalog.Constants
+import com.example.movie_catalog.entity.Constants
 import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
 import com.example.movie_catalog.databinding.FragmentPersonBinding
 import com.example.movie_catalog.entity.Film
-import com.example.movie_catalog.ui.list_film.recyclerListFilms.ListFilmAdapter
+import com.example.movie_catalog.ui.recycler.ListFilmAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -46,30 +46,32 @@ class PersonFragment : Fragment() {
 
         with(binding.bestFilm){
             filmRecyclerHorizontal.adapter = filmAdapter
-            viewModel.person.onEach { person ->
-//                Log.d("KDS", "onViewCreated getPerson, get class Person")
-//Show photo person. Before load image, show waiting animation.
-                animationCard.setAnimation(binding.ivPhoto, person.posterUrl,R.dimen.card_people_radius)
-                binding.personNameRu.text = person.nameRu
-                binding.personNameEn.text = person.nameEn
-                binding.personJob.text = person.profession
-//Refresh list the best film
-                person.films.let { listFilm ->
-                    filmAdapter.setListFilm(listFilm)
-            //Show or hide icon "all films"
-                    if (listFilm.size > Constants.PERSON_QTY_FILMCARD-1) {
-                        showAll.visibility = View.VISIBLE
-                    } else showAll.visibility = View.INVISIBLE
+            viewModel.linkrers.onEach { linker ->
+                if (linker.isNotEmpty()){
+                    if (linker[0].person != null) {
+    //                Log.d("KDS", "onViewCreated getPerson, get class Person")
+    //Show photo person. Before load image, show waiting animation.
+                        animationCard.setAnimation(binding.ivPhoto, linker[0].person?.posterUrl,
+                            R.dimen.card_people_radius)
+                        binding.personNameRu.text = linker[0].person?.nameRu
+                        binding.personNameEn.text = linker[0].person?.nameEn
+                        binding.personJob.text = linker[0].person?.profession
+    //Refresh list the best film
+                        filmAdapter.setListFilm(linker)
+                        //Show or hide icon "all films"
+                        if (linker.size > Constants.PERSON_QTY_FILMCARD-1) {
+                            showAll.visibility = View.VISIBLE
+                        } else showAll.visibility = View.INVISIBLE
+                    }
                 }
-
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
             showAll.setOnClickListener {
-                viewModel.putPersonFilmsForListFilmFragment()
+                viewModel.putPerson()
                 findNavController().navigate(R.id.action_nav_person_to_nav_list_films)
             }
             binding.personGotoLink.setOnClickListener {
-                viewModel.putPersonId()
+                viewModel.putPerson()
                 findNavController().navigate(R.id.action_nav_person_to_nav_filmography)
             }
         }
@@ -78,7 +80,7 @@ class PersonFragment : Fragment() {
     //Show info in select film
     private fun onItemClick(film: Film) { //Show info in select film
 //        setFragmentResult("requestKey", bundleOf("FILM" to film))
-        viewModel.putFilmId(film.filmId!!)
+        viewModel.putFilm(film)
         findNavController().navigate(R.id.action_nav_person_to_nav_filmInfo)
     }
 

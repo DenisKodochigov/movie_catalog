@@ -3,7 +3,8 @@ package com.example.movie_catalog.ui.viewer_image
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.data.DataRepository
-import com.example.movie_catalog.entity.filminfo.Images
+import com.example.movie_catalog.entity.Film
+import com.example.movie_catalog.entity.filminfo.ImageFilm
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,23 +16,22 @@ import javax.inject.Inject
 class ViewerImageViewModel @Inject constructor(): ViewModel() {
 
     private val dataRepository = DataRepository()
-    private var localFilmId: Int? = null
-    private var _listImage = MutableStateFlow<List<Images>>(mutableListOf())
+    private var localFilm: Film? = null
+    private var _listImage = MutableStateFlow<List<ImageFilm>>(mutableListOf())
     var listImage = _listImage.asStateFlow()
 
     init {
-        takeFilmId()
-        localFilmId?.let{ getImages(it) }
+        takeFilm()
+        localFilm?.let{ getImages(it) }
     }
 
-    private fun getImages(filmId: Int) {
+    private fun getImages(film: Film) {
         viewModelScope.launch(Dispatchers.IO) {
-            _listImage.value = dataRepository.getImages(filmId)
+            _listImage.value = dataRepository.getImages(film)
         }
     }
-    private fun takeFilmId() {
-        val filmId = dataRepository.takeFilmId()
-        if (filmId != null) localFilmId = filmId
+    private fun takeFilm() {
+        val film = dataRepository.takeFilm()
+        if (film != null) localFilm = film
     }
-//    fun takeGallery() = dataRepository.takeGallery()
 }

@@ -1,50 +1,44 @@
 package com.example.movie_catalog.data.api
 
 import android.icu.text.SimpleDateFormat
-import com.example.movie_catalog.Constants
-import com.example.movie_catalog.data.api.film_info.PersonDTO
+import com.example.movie_catalog.entity.Constants
 import com.example.movie_catalog.data.api.home.MonthKinopoisk
 import com.example.movie_catalog.data.api.home.getKit.CountryIdDTO
 import com.example.movie_catalog.data.api.home.getKit.GenreIdDTO
 import com.example.movie_catalog.data.api.home.getKit.SelectedKit
-import com.example.movie_catalog.data.api.person.PersonInfoDTO
 import com.example.movie_catalog.entity.DataCentre
 import com.example.movie_catalog.entity.Film
-import com.example.movie_catalog.entity.FilmographyTab
 import com.example.movie_catalog.entity.Person
-import com.example.movie_catalog.entity.filminfo.Images
 import com.example.movie_catalog.entity.filminfo.InfoFilmSeasons
-import com.example.movie_catalog.entity.filminfo.Kit
-import com.example.movie_catalog.entity.filminfo.TabImage
+import com.example.movie_catalog.entity.enumApp.Kit
+import com.example.movie_catalog.entity.enumApp.ImageGroup
 import java.util.*
 import javax.inject.Inject
 
 class DataSourceAPI @Inject constructor() {
 
     suspend fun getGenres(): SelectedKit {
+        val genreList = retrofitApi.getGenres()
+        return SelectedKit( genre1 = genreList.genres!!.random(),
+            country1 = genreList.countries!!.random(),
+            genre2 = genreList.genres.random(),
+            country2 = genreList.countries.random())
 
-//        val genreList = retrofitApi.getGenres()
-
-//        return SelectedKit( genre1 = genreList.genres!!.random(),
-//            country1 = genreList.countries!!.random(),
-//            genre2 = genreList.genres.random(),
-//            country2 = genreList.countries.random()
-
-        return SelectedKit(
-            GenreIdDTO(id = 11, genre = "боевик"), CountryIdDTO(id = 1, country = "США"),
-            GenreIdDTO(id = 4, genre = "мелодрама"), CountryIdDTO(id = 1, country = "Франция")
-        )
+//        return SelectedKit(
+//            GenreIdDTO(id = 11, genre = "боевик"), CountryIdDTO(id = 1, country = "США"),
+//            GenreIdDTO(id = 4, genre = "мелодрама"), CountryIdDTO(id = 1, country = "Франция")
+//        )
     }
 
-    suspend fun getInfoFilmSeason(id: Int): InfoFilmSeasons {
+    suspend fun getInfoFilmSeason(film: Film) {
         val filmInfoSeasons = InfoFilmSeasons()
-        filmInfoSeasons.infoFilm = retrofitApi.getFilmInfo(id)
-//        Log.d("KDS start retrofit", "getFilmInfo start")
-        if (filmInfoSeasons.infoFilm!!.serial!!) {
-            filmInfoSeasons.infoSeasons = retrofitApi.getSeasons(id)
-//            Log.d("KDS start retrofit", "getSeasons start id=$id")
-        }
-        return filmInfoSeasons
+            filmInfoSeasons.infoFilm = film.filmId?.let { retrofitApi.getFilmInfo(it) }
+    //        Log.d("KDS start retrofit", "getFilmInfo start")
+            if (filmInfoSeasons.infoFilm!!.serial!!) {
+                filmInfoSeasons.infoSeasons = film.filmId?.let { retrofitApi.getSeasons(it) }
+    //            Log.d("KDS start retrofit", "getSeasons start id=$id")
+            }
+            DataCentre.addFilm(filmInfoSeasons, film)
     }
 
     suspend fun getPremieres() {
@@ -76,91 +70,41 @@ class DataSourceAPI @Inject constructor() {
         DataCentre.addFilms(retrofitApi.getTop(page, kit.query), kit)
     }
 
-    suspend fun getFilters(page:Int, kit:Kit) {
+    suspend fun getFilters(page:Int, kit: Kit) {
 //        Log.d("KDS start retrofit", "getFilters start")
         DataCentre.addFilms(retrofitApi.getFilters(page, kit.countryID,kit.genreID), kit)
     }
 
-    suspend fun getSerials(page:Int, kit:Kit){
+    suspend fun getSerials(page:Int, kit: Kit){
 //        Log.d("KDS start retrofit", "getSerials start")
         DataCentre.addFilms(retrofitApi.getSerials(page), kit)
     }
 
-    suspend fun getSimilar(id:Int) {
-        DataCentre.addFilms(retrofitApi.getSimilar(id), id)
+    suspend fun getSimilar(film: Film) {
+        DataCentre.addFilms(retrofitApi.getSimilar(film.filmId!!), film)
     }
 
-    suspend fun getImages(id:Int){
+    suspend fun getImages(film: Film){
 //        Log.d("KDS start retrofit", "getGallery start")
-        TabImage.values().forEach { tab ->
+        ImageGroup.values().forEach { tab ->
             var page = 1
-            val filmImageDTO = retrofitApi.getGallery(id,tab.toString(), page)
+            val filmImageDTO = retrofitApi.getGallery(film.filmId!!,tab.toString(), page)
             if ( filmImageDTO.total!! > 0){
-                DataCentre.addImage(id, tab, filmImageDTO)
+                DataCentre.addImage(film, tab, filmImageDTO)
                 while (filmImageDTO.totalPages!! >= page){
-                    DataCentre.addImage(id, tab, retrofitApi.getGallery(id,tab.toString(), page ++))
+                    DataCentre.addImage(film, tab, retrofitApi.getGallery(film.filmId,tab.toString(), page ++))
                 }
             }
         }
     }
 
-    suspend fun getPersons(id: Int): List<PersonDTO> {
+    suspend fun getPersons(film: Film){
 //        Log.d("KDS start retrofit", "getPersons start")
-        return retrofitApi.getPersons(id)
+        DataCentre.addPerson( retrofitApi.getPersons(film.filmId!!), film)
     }
 
-    suspend fun getPersonInfo(id:Int): Person {
-        DataCentre.addPersonInfo( retrofitApi.getPersonInfo(id))
+    suspend fun getPersonInfo(person: Person) {
+        person.personId?.let { retrofitApi.getPersonInfo(it) }?.let { DataCentre.addPersonInfo(it) }
 //        Log.d("KDS start retrofit", "getPersonInfo start")
-        return copyToPerson(retrofitApi.getPersonInfo(id))
-    }
-
-    private suspend fun copyToPerson(personInfoDTO: PersonInfoDTO):Person{
-
-        val tabs = mutableListOf<FilmographyTab>()
-        val listFilm: MutableList<Film> = mutableListOf()
-//Fill add information for film
-        personInfoDTO.films.forEach {
-            val filmInfoDTO = retrofitApi.getFilmInfo(it.filmId!!)
-//            Log.d("KDS start retrofit", "getFilmInfo start")
-            listFilm.add(Film(
-                filmId =it.filmId,
-                nameRu = it.nameRu,
-                nameEn = it.nameEn,
-                rating = it.rating,
-                posterUrlPreview = filmInfoDTO.posterUrlPreview,
-                countries = emptyList(),
-                genres = filmInfoDTO.genres!!,
-                imdbId = null,
-                viewed = false,
-                favorite = false,
-                bookmark = false,
-                professionKey = it.professionKey,
-                startYear = filmInfoDTO.startYear
-            ))
-        }
-//Create list used profession key
-        val listProfessionalKey = personInfoDTO.films.distinctBy { it.professionKey }
-//Create tab structure
-        listProfessionalKey.forEach {
-            tabs.add(
-                FilmographyTab(
-                    key = it.professionKey,
-                    nameDisplay = FilmographyTab.profKey[it.professionKey]
-                )
-            )
-        }
-        listFilm.sortByDescending { it.rating }
-        return Person(
-                personId = personInfoDTO.personId,
-                nameRu = personInfoDTO.nameRu,
-                nameEn = personInfoDTO.nameEn,
-                posterUrl = personInfoDTO.posterUrl,
-                age = personInfoDTO.age,
-                hasAwards = personInfoDTO.hasAwards,
-                profession = personInfoDTO.profession,
-//                filmsID = listFilm,
-                tabs = tabs
-        )
     }
 }

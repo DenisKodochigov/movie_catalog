@@ -13,8 +13,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentGalleryBinding
-import com.example.movie_catalog.entity.filminfo.Gallery
-import com.example.movie_catalog.ui.gallery.recycler.ViewPagerAdapter
+import com.example.movie_catalog.entity.Gallery
+import com.example.movie_catalog.ui.recycler.GalleryViewPagerAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,14 +51,14 @@ class GalleryFragment : Fragment() {
 
     private fun processingTabLayout(gallery: Gallery) {
         binding.viewpager.adapter =
-            ViewPagerAdapter(gallery) { position -> onClickViewPager(position) }
+            GalleryViewPagerAdapter(gallery) { position -> onClickViewPager(position) }
         binding.viewpager.currentItem = 0
         TabLayoutMediator(binding.tabs, binding.viewpager) { tab, position ->
             tab.setCustomView(R.layout.item_gallery_tab)
             tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)?.text =
-                gallery.tabs[position].nameDisplay
+                gallery.tabs[position].first?.nameDisplay
             tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_quantity)?.text =
-                gallery.listImage.filter { it.tab == gallery.tabs[position] }.size.toString()
+                gallery.tabs[position].second.toString()
             tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)
                 ?.setTextColor(resources.getColor(R.color.black, null))
         }.attach()

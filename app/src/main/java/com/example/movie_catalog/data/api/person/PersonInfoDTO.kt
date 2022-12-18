@@ -17,7 +17,7 @@ data class PersonInfoDTO (
     @Json(name = "age") val age:String? = null,
     @Json(name = "birthplace") val birthplace:String? = null,
     @Json(name = "deathplace") val deathplace:String? = null,
-    @Json(name = "spouses") val spouses:List<String> = emptyList(),
+    @Json(name = "spouses") val spouses:List<Spouses> = emptyList(),
     @Json(name = "hasAwards") val hasAwards:Int? = null,
     @Json(name = "profession") val profession:String? = null,
     @Json(name = "facts") val facts:List<String> = emptyList(),

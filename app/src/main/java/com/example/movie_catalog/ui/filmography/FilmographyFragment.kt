@@ -5,20 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.movie_catalog.App
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentFilmographyBinding
 import com.example.movie_catalog.entity.Film
-import com.example.movie_catalog.entity.Person
-import com.example.movie_catalog.ui.filmography.recycler.FilmographyViewPagerAdapter
+import com.example.movie_catalog.entity.FilmographyData
 import com.example.movie_catalog.ui.gallery.GalleryFragment
+import com.example.movie_catalog.ui.recycler.FilmographyViewPagerAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,16 +50,17 @@ class FilmographyFragment : Fragment() {
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
-    private fun processingTabLayout(person: Person) {
+    private fun processingTabLayout(person: FilmographyData) {
+
         binding.viewpager.adapter =
             FilmographyViewPagerAdapter(person) { film -> onClickViewPager(film) }
         binding.viewpager.currentItem = 0
         TabLayoutMediator(binding.tabs, binding.viewpager) { tab, position ->
             tab.setCustomView(R.layout.item_filmography_tab)
             tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)?.text =
-                    person.tabs[position].nameDisplay
+                person.tabsKey[position].first?.name
             tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_quantity)?.text =
-                person.films.filter{ it.professionKey == person.tabs[position].key }.size.toString()
+                person.tabsKey[position].second.toString()
             tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)
                 ?.setTextColor(resources.getColor(R.color.black, null))
         }.attach()
@@ -78,26 +77,19 @@ class FilmographyFragment : Fragment() {
                 tab?.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)
                     ?.setTextColor(resources.getColor(R.color.white, null))
             }
-
             override fun onTabUnselected(tab: TabLayout.Tab?) {
                 tab?.customView?.findViewById<ConstraintLayout>(R.id.linearlayout)
                     ?.setBackgroundResource(R.drawable.gallery_tab_unselected_rectangle)
                 tab?.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)
                     ?.setTextColor(resources.getColor(R.color.black, null))
             }
-
             override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
     }
 
     private fun onClickViewPager(film: Film) {
-        if (film.filmId != null) {
-            viewModel.putFilmId(film.filmId)
-            findNavController().navigate(R.id.action_nav_filmography_to_nav_filmInfo)
-        } else {
-            Toast.makeText(App.context, "Film has index = null", Toast.LENGTH_SHORT).show()
-        }
-
+        viewModel.putFilm(film)
+        findNavController().navigate(R.id.action_nav_filmography_to_nav_filmInfo)
     }
 
     override fun onDestroyView() {

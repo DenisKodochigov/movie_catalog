@@ -36,8 +36,8 @@
         <item name="android:layout_marginTop">@dimen/margin_app_top</item>
     </style>
     <style name="H2_film_info" parent = "H2">
-        <item name="android:layout_marginTop">@dimen/film_info_margin_top_h2</item>
-        <item name="android:layout_marginBottom">@dimen/film_info_margin_bottom_h2</item>
+        <item name="android:layout_marginTop">@dimen/film_page_margin_top_h2</item>
+        <item name="android:layout_marginBottom">@dimen/film_page_margin_bottom_h2</item>
     </style>
 
     <style name="H3" parent = "textApp">
@@ -109,7 +109,7 @@
         <item name="android:layout_marginEnd">@dimen/margin_top_display</item>
     </style>
     <style name="H5_poster" parent = "H5">
-        <item name="android:layout_marginTop">@dimen/film_info_margin_top_h5</item>
+        <item name="android:layout_marginTop">@dimen/film_page_margin_top_h5</item>
         <item name="android:layout_marginEnd">@dimen/dp0</item>
         <item name="android:gravity">center_horizontal</item>
     </style>
@@ -160,7 +160,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/fon_app</item>
-        <item name="android:layout_marginTop">@dimen/film_info_margin_bottom_h2</item>
+        <item name="android:layout_marginTop">@dimen/film_page_margin_bottom_h2</item>
     </style>
     <style name="gallery_tabs_name" parent = "H2">
         <item name="android:textColor">@color/ic_rating_text</item>

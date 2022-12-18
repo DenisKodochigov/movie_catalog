@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.movie_catalog.R
 import com.example.movie_catalog.data.api.home.seasons.SeasonDTO
 import com.example.movie_catalog.databinding.FragmentViewerSeasonsBinding
-import com.example.movie_catalog.ui.viewer_seasons.recycler.ViewerSerialViewPagerAdapter
+import com.example.movie_catalog.ui.recycler.ViewerSerialViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

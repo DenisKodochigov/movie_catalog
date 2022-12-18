@@ -1,13 +1,17 @@
 package com.example.movie_catalog.entity.plug
 
 import com.example.movie_catalog.data.api.film_info.FilmInfoDTO
+import com.example.movie_catalog.entity.Linker
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.filminfo.InfoFilmSeasons
-import com.example.movie_catalog.entity.filminfo.Kit
+import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.home.Country
 import com.example.movie_catalog.entity.home.Genre
 
-class Plug {
+object Plug {
+    val listLinks = listOf(Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),
+        Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),
+        Linker(),Linker(),Linker(),Linker())
     val filmPlug = listOf(
         Film( filmId =  1115454,
             nameRu= "Портрет незнакомца",
@@ -15,7 +19,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1115454.jpg",
             countries = listOf(Country("Россия")),
             genres = listOf(Genre("мелодрама")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  4661024,
             nameRu= "Золушка",
@@ -23,7 +27,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/4661024.jpg",
             countries = listOf(Country("США")),
             genres = listOf(Genre("музыка")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  4765774,
             nameRu= "Щенячий патруль: Миссия «Рождество»",
@@ -31,7 +35,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/4765774.jpg",
             countries = listOf(Country("США")),
             genres = listOf(Genre("мультфильм")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  968618,
             nameRu= "Звёздный разум",
@@ -39,7 +43,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/968618.jpg",
             countries = listOf(Country("Россия")),
             genres = listOf(Genre("фантастика"), Genre("триллер")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1368311,
             nameRu= "Черный ящик",
@@ -47,7 +51,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1368311.jpg",
             countries = listOf(Country("Франция")),
             genres = listOf(Genre("детектив"), Genre("триллер")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  4449009,
             nameRu= "Свингеры",
@@ -55,7 +59,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/4449009.jpg",
             countries = listOf(Country("Россия"), Country("Латвия")),
             genres = listOf(Genre("комедия"), Genre("мелодрама")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1304236,
             nameRu= "Мой волк",
@@ -63,7 +67,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1304236.jpg",
             countries = listOf(Country("Франция")),
             genres = listOf(Genre("семейный"), Genre("приключения")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1354084,
             nameRu= "Джигалоу",
@@ -71,7 +75,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1354084.jpg",
             countries = listOf(Country("Россия")),
             genres = listOf(Genre("комедия")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1411096,
             nameRu= "Самый лучший босс",
@@ -79,7 +83,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1411096.jpg",
             countries = listOf(Country("Испания")),
             genres = listOf(Genre("драма"), Genre("комедия")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1332599,
             nameRu= "Проклятие монахинь",
@@ -87,7 +91,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1332599.jpg",
             countries = listOf(Country("США")),
             genres = listOf(Genre("ужасы"), Genre("драма")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1404110,
             nameRu= "(Не)идеальные парочки",
@@ -95,7 +99,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1404110.jpg",
             countries = listOf(Country("Италия")),
             genres = listOf(Genre("комедия"), Genre("мелодрама")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1327545,
             nameRu= "Однажды в кино",
@@ -103,7 +107,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1327545.jpg",
             countries = listOf(Country("Индия"), Country("Франция"), Country("США")),
             genres = listOf(Genre("драма")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1336599,
             nameRu= "Звериные бои",
@@ -111,7 +115,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1336599.jpg",
             countries = listOf(Country("Австралия"), Country("США")),
             genres = listOf(Genre("мультфильм"), Genre("семейный")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  4716610,
             nameRu= "Наш двор. 25 лет спустя",
@@ -119,7 +123,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/4716610.jpg",
             countries = listOf(Country("Армения")),
             genres = listOf(Genre("комедия")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1320005,
             nameRu= "Лекарство для Веры",
@@ -127,7 +131,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1320005.jpg",
             countries = listOf(Country("Беларусь")),
             genres = listOf(Genre("драма")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  979148,
             nameRu= "Назови меня своим именем",
@@ -135,7 +139,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/979148.jpg",
             countries = listOf(Country("Италия"), Country("Франция"), Country("США")),
             genres = listOf(Genre("драма"), Genre("мелодрама")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1045056,
             nameRu= "King’s Man: Начало",
@@ -143,7 +147,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1045056.jpg",
             countries = listOf(Country("Великобритания"), Country("США")),
             genres = listOf(Genre("боевик"), Genre("триллер"), Genre("приключения")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1328422,
             nameRu= "Крик",
@@ -151,7 +155,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1328422.jpg",
             countries = listOf(Country("США")),
             genres = listOf(Genre("ужасы"), Genre("детектив")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1320623,
             nameRu= "Лакричная пицца",
@@ -159,7 +163,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1320623.jpg",
             countries = listOf(Country("США"), Country("Канада")),
             genres = listOf(Genre("драма"), Genre("мелодрама"), Genre("комедия")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1033686,
             nameRu= "Одни дома",
@@ -167,7 +171,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1033686.jpg",
             countries = listOf(Country("США")),
             genres = listOf(Genre("комедия"), Genre("семейный")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  673726,
             nameRu= "Фальшивомонетчик",
@@ -175,7 +179,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/673726.jpg",
             countries = listOf(Country("США"), Country("Великобритания"), Country("Канада")),
             genres = listOf(Genre("драма"), Genre("криминал")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1256427,
             nameRu= "Робот Ари",
@@ -183,7 +187,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1256427.jpg",
             countries = listOf(Country("Франция")),
             genres = listOf(Genre("семейный"), Genre("фантастика"), Genre("приключения")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1183602,
             nameRu= "Убить босса",
@@ -191,7 +195,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1183602.jpg",
             countries = listOf(Country("Россия")),
             genres = listOf(Genre("комедия")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  993076,
             nameRu= "Даже мыши попадают в рай",
@@ -199,7 +203,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/993076.jpg",
             countries = listOf(Country("Чехия"), Country("Франция"), Country("Словакия")),
             genres = listOf(Genre("мультфильм"), Genre("фэнтези"), Genre("комедия")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  4819446,
             nameRu= "Тартюф, или Обманщик",
@@ -207,7 +211,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/4819446.jpg",
             countries = listOf(Country("Франция")),
             genres = listOf(Genre("комедия")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1435858,
             nameRu= "На краю",
@@ -215,7 +219,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1435858.jpg",
             countries = listOf(Country("Великобритания")),
             genres = listOf(Genre("триллер")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  49684,
             nameRu= "Ходячий замок",
@@ -223,7 +227,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/49684.jpg",
             countries = listOf(Country("Япония")),
             genres = listOf(Genre("аниме"), Genre("мультфильм"), Genre("фэнтези")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  7715,
             nameRu= "Фотоувеличение",
@@ -231,7 +235,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/7715.jpg",
             countries = listOf(Country("Великобритания"), Country("Италия"), Country("США")),
             genres = listOf(Genre("триллер"), Genre("драма"), Genre("детектив")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1125892,
             nameRu= "Аллея кошмаров",
@@ -239,7 +243,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1125892.jpg",
             countries = listOf(Country("США"), Country("Мексика"), Country("Канада")),
             genres = listOf(Genre("триллер"), Genre("драма"), Genre("криминал")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1118222,
             nameRu= "Код 355",
@@ -247,7 +251,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1118222.jpg",
             countries = listOf(Country("США"), Country("Китай")),
             genres = listOf(Genre("триллер"), Genre("боевик")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1113006,
             nameRu= "Тайна",
@@ -255,7 +259,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1113006.jpg",
             countries = listOf(Country("Россия")),
             genres = listOf(Genre("семейный"), Genre("приключения")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1345777,
             nameRu= "Тихая ночь",
@@ -263,7 +267,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1345777.jpg",
             countries = listOf(Country("Великобритания")),
             genres = listOf(Genre("драма"), Genre("комедия"), Genre("фантастика")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  4308828,
             nameRu= "Антитела",
@@ -271,7 +275,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/4308828.jpg",
             countries = listOf(Country("США")),
             genres = listOf(Genre("фантастика"), Genre("боевик"), Genre("триллер")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1246017,
             nameRu= "Камелот: Возвращение короля",
@@ -279,7 +283,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1246017.jpg",
             countries = listOf(Country("Франция"), Country("Бельгия")),
             genres = listOf(Genre("фэнтези"), Genre("комедия"), Genre("приключения")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  4368677,
             nameRu= "Событие",
@@ -287,7 +291,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/4368677.jpg",
             countries = listOf(Country("Франция")),
             genres = listOf(Genre("драма")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1338595,
             nameRu= "Проклятый дом 5",
@@ -295,7 +299,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1338595.jpg",
             countries = listOf(Country("США")),
             genres = listOf(Genre("ужасы")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1403122,
             nameRu= "Всё прошло хорошо",
@@ -303,7 +307,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1403122.jpg",
             countries = listOf(Country("Франция"), Country("Бельгия")),
             genres = listOf(Genre("драма")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1165082,
             nameRu= "Команда котиков",
@@ -311,7 +315,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1165082.jpg",
             countries = listOf(Country("ЮАР"), Country("США")),
             genres = listOf(Genre("мультфильм"), Genre("комедия"), Genre("семейный")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1236740,
             nameRu= "Голос любви",
@@ -319,7 +323,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1236740.jpg",
             countries = listOf(Country("Франция"),Country ("Канада"), Country("Бельгия")),
             genres = listOf(Genre("музыка"), Genre("мелодрама"), Genre("комедия")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  635243,
             nameRu= "Руки прочь!",
@@ -327,7 +331,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/635243.jpg",
             countries = listOf(Country("США")),
             genres = listOf(Genre("комедия")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1041775,
             nameRu= "Она — океан",
@@ -335,7 +339,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1041775.jpg",
             countries = listOf(Country("США"), Country("Германия"), Country("Индонезия")),
             genres = listOf(Genre("документальный")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1341041,
             nameRu= "9 причин, чтобы жить",
@@ -343,7 +347,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1341041.jpg",
             countries = listOf(Country("Франция"), Country("Италия")),
             genres = listOf(Genre("драма"), Genre("комедия")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1334748,
             nameRu= "Драгоценности",
@@ -351,7 +355,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1334748.jpg",
             countries = listOf(Country("Россия")),
             genres = listOf(Genre("драма")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  4822214,
             nameRu= "Мадам Баттерфляй",
@@ -359,7 +363,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/4822214.jpg",
             countries = listOf(Country("Италия")),
             genres = listOf(Genre("музыка")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1236433,
             nameRu= "Вальдо",
@@ -367,7 +371,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1236433.jpg",
             countries = listOf(Country("США")),
             genres = listOf(Genre("триллер"), Genre("детектив"), Genre("комедия")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1323108,
             nameRu= "Агент 117: Из Африки с любовью",
@@ -375,7 +379,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1323108.jpg",
             countries = listOf(Country("Франция"), Country("Бельгия")),
             genres = listOf(Genre("боевик"), Genre("комедия")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  4517646,
             nameRu= "Мы — монстры 2",
@@ -383,7 +387,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/4517646.jpg",
             countries = listOf(Country("Германия"), Country("Великобритания")),
             genres = listOf(Genre("мультфильм"), Genre("фэнтези"), Genre("комедия")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1328678,
             nameRu= "Чемпион из Освенцима",
@@ -391,7 +395,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1328678.jpg",
             countries = listOf(Country("Польша")),
             genres = listOf(Genre("биография"), Genre("военный"), Genre("спорт")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1436035,
             nameRu= "Я — Златан",
@@ -399,7 +403,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1436035.jpg",
             countries = listOf(Country("Швеция"), Country("Дания"), Country("Нидерланды")),
             genres = listOf(Genre("драма"), Genre("биография"), Genre("спорт")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1325039,
             nameRu= "Один на один",
@@ -407,7 +411,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1325039.jpg",
             countries = listOf(Country("Великобритания"), Country("Италия"), Country("Румыния")),
             genres = listOf(Genre("драма")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  4491071,
             nameRu= "Мария. Спасти Москву",
@@ -415,7 +419,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/4491071.jpg",
             countries = listOf(Country("Россия")),
             genres = listOf(Genre("драма"), Genre("военный"), Genre("история")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1222038,
             nameRu= "Мой легионер",
@@ -423,7 +427,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1222038.jpg",
             countries = listOf(Country("Бельгия"), Country("Франция")),
             genres = listOf(Genre("драма")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  4421230,
             nameRu= "Любовь как бестселлер",
@@ -431,7 +435,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/4421230.jpg",
             countries = listOf(Country("Великобритания"), Country("США"), Country("Мексика")),
             genres = listOf(Genre("мелодрама"), Genre("комедия")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1311545,
             nameRu= "Сдохнуть нужно, чтоб вы приехали",
@@ -439,7 +443,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1311545.jpg",
             countries = listOf(Country("Россия")),
             genres = listOf(Genre("комедия"), Genre("драма")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  4552644,
             nameRu= "Обходные пути",
@@ -447,7 +451,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/4552644.jpg",
             countries = listOf(Country("Россия"), Country("Нидерланды")),
             genres = listOf(Genre("документальный"), Genre("драма")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1411901,
             nameRu= "Спасти планету",
@@ -455,7 +459,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1411901.jpg",
             countries = listOf(Country("США")),
             genres = listOf(Genre("документальный")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  1146119,
             nameRu= "Исправь меня, если сможешь",
@@ -463,7 +467,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1146119.jpg",
             countries = listOf(Country("Италия"),Country("Австрия")),
             genres = listOf(Genre("комедия")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  4742508,
             nameRu= "Леопольдштадт",
@@ -471,7 +475,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/4742508.jpg",
             countries = listOf(Country("Великобритания")),
             genres = listOf(Genre("драма")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  4833814,
             nameRu= "МУЛЬТ в кино 135. Улыбка до ушей",
@@ -479,7 +483,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/4833814.jpg",
             countries = listOf(Country("Россия")),
             genres = listOf(Genre("мультфильм"),Genre("детский")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         ),
         Film( filmId =  4661022,
             nameRu= "Риголетто",
@@ -487,7 +491,7 @@ class Plug {
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/4661022.jpg",
             countries = listOf(Country("США")),
             genres = listOf(Genre("музыка")),
-            kit = Kit.PREMIERES
+            // kit = Kit.PREMIERES
         )
     )
     val infoFilmSeasonPlug = InfoFilmSeasons(

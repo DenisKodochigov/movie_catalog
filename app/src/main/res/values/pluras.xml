@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="season">
+        <item quantity="one">%d сезон</item>
+
+        <item quantity="two">%d сезона</item> <!--//строка для небольшого количества-->
+        <item quantity="many">%d сезонов</item> <!--//строка для больших количеств-->
+        <item quantity="other">%d сезонов</item>
+    </plurals>
+    <plurals name="series">
+        <item quantity="one">%d серия</item>
+
+        <item quantity="two">%d серий</item> <!--//строка для небольшого количества-->
+        <item quantity="many">%d серий</item> <!--//строка для больших количеств-->
+        <item quantity="other">%d серий</item>
+    </plurals>
+</resources>

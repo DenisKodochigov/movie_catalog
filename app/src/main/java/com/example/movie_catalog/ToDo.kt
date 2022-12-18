@@ -14,6 +14,12 @@ class ToDo {
                 val item = dataRepository.takeJobPerson()
                 if (item != null) localJob = item
             }
-     2.5 Error LoadImageURLShow 54 строка.
-     2.6 Нет информации по сезонам.
+    2. Показывать ID фильма
+
+     2.9 Оптимизировать загрузку картинок. Для FilmInfo, только необходимое количество,
+        для галереи все скачать.
+3. Не дочеты
+    3.1 В filmPage указывать количество сезонов и серий.
+    3.2 Вставка о сериях появляется не сразу.
+    3.3 Error LoadImageURLShow 54 строка.
  */

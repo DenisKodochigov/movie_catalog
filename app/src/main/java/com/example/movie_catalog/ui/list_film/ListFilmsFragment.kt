@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentListFilmsBinding
 import com.example.movie_catalog.entity.Film
-import com.example.movie_catalog.ui.list_film.recyclerListFilms.ListFilmAdapter
+import com.example.movie_catalog.ui.recycler.ListFilmAdapter
 import com.example.movie_catalog.ui.list_person.ListPersonFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -47,13 +47,13 @@ class ListFilmsFragment : Fragment() {
 
         binding.filmRecyclerVertical.adapter = listAdapter
 
-        viewModel.listFilms.onEach {
+        viewModel.listLink.onEach {
             listAdapter.setListFilm(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     private fun onItemClick(film: Film) {
-        viewModel.putFilmId(film.filmId!!)
+        viewModel.putFilm(film)
         findNavController().navigate(R.id.action_nav_list_films_to_nav_filmInfo)
     }
 

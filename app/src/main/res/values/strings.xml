@@ -91,5 +91,7 @@
     <string name="DESIGN">Художники</string>
     <string name="EDITOR">Монтажеры</string>
     <string name="COMPOSER">Композиторы</string>
-
+    <string name="VOICE_DIRECTOR">Звукорежисер</string>
+    <string name="HRONO_TITR_MALE">HRONO_TITR_MALE</string>
+    <string name="VOICE_MALE">VOICE_MALE</string>
 </resources>

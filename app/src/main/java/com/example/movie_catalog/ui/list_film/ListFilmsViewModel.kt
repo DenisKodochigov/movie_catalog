@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.data.DataRepository
 import com.example.movie_catalog.entity.Film
+import com.example.movie_catalog.entity.Person
+import com.example.movie_catalog.entity.plug.Plug
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,25 +17,32 @@ import javax.inject.Inject
 class ListFilmsViewModel @Inject constructor(): ViewModel() {
 
     private val dataRepository = DataRepository()
+    private var localPerson: Person? = null
+    private var localFilm:Film? = null
 
-    private var _listFilms = MutableStateFlow(filmsStart)
-    var listFilms = _listFilms.asStateFlow()
+    private var _listLink = MutableStateFlow(Plug.listLinks)
+    var listLink = _listLink.asStateFlow()
 
     init {
-        getData()
+        takeFilm()
+        takePerson()
+        if (localFilm != null || localPerson != null) getData(localFilm, localPerson)
     }
 
-    private fun getData() {
+    private fun getData(film: Film?, person: Person?) {
         viewModelScope.launch(Dispatchers.IO) {
-              _listFilms.value = dataRepository.takeFilmsForListFilmFragment()
+            _listLink.value = dataRepository.getFilmsForFilter(film, person)
         }
     }
-    fun putFilmId(item:Int){
-        dataRepository.putFilmId(item)
+    fun putFilm(film: Film){
+        dataRepository.putFilm(film)
     }
-    companion object {
-        var filmsStart = listOf( Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(),
-            Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film()
-        )
+    private fun takeFilm() {
+        val film = dataRepository.takeFilm()
+        if (film != null) localFilm = film
+    }
+    private fun takePerson(){
+        val item = dataRepository.takePerson()
+        if (item != null) localPerson = item
     }
 }

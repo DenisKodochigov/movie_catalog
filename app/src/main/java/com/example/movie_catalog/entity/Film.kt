@@ -1,11 +1,10 @@
 package com.example.movie_catalog.entity
 
 import com.example.movie_catalog.data.api.home.seasons.SeasonDTO
-import com.example.movie_catalog.entity.filminfo.Images
-import com.example.movie_catalog.entity.filminfo.Kit
+import com.example.movie_catalog.entity.enumApp.Kit
+import com.example.movie_catalog.entity.filminfo.ImageFilm
 import com.example.movie_catalog.entity.home.Country
 import com.example.movie_catalog.entity.home.Genre
-import com.squareup.moshi.Json
 
 data class Film(
     val filmId: Int? = null,
@@ -21,9 +20,9 @@ data class Film(
     var bookmark: Boolean = false,
     var professionKey: String? = null,
     var startYear: String? = null,
-    var kit: Kit? = null,
-    var similar: MutableList<Int> = mutableListOf(),
-    var images: MutableList<Images> = mutableListOf(),
+//    var kit: Kit? = null,
+//    var similar: MutableList<Int> = mutableListOf(),
+    var images: MutableList<ImageFilm> = mutableListOf(),
     var posterUrl:String? = null,
     var logoUrl:String? = null,
     var nameOriginal:String? = null,

@@ -15,22 +15,22 @@ import javax.inject.Inject
 class ViewerSeasonsViewModel @Inject constructor(): ViewModel() {
 
     private val dataRepository = DataRepository()
-    private var localFilmId: Int? = null
+    private var localFilm: Film? = null
     private var _listSeason = MutableStateFlow(Film())
     var listSeason = _listSeason.asStateFlow()
 
     init {
-        takeFilmId()
-        localFilmId?.let{ getSerials(it) }
+        takeFilm()
+        localFilm?.let{ getSerials(it) }
     }
 
-    private fun getSerials(filmId:Int) {
+    private fun getSerials(film: Film) {
         viewModelScope.launch(Dispatchers.IO) {
-            _listSeason.value = dataRepository.getInfoFilmSeason(filmId)!!
+            _listSeason.value = dataRepository.getInfoFilmSeason(film)!!
         }
     }
-    private fun takeFilmId() {
-        val filmId = dataRepository.takeFilmId()
-        if (filmId != null) localFilmId = filmId
+    private fun takeFilm() {
+        val film = dataRepository.takeFilm()
+        if (film != null) localFilm = film
     }
 }

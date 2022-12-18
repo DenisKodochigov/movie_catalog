@@ -9,12 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.example.movie_catalog.App
 import com.example.movie_catalog.R
-import com.example.movie_catalog.data.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.databinding.FragmentViewerImageBinding
-import com.example.movie_catalog.entity.filminfo.Images
-import com.example.movie_catalog.ui.viewer_image.recycler.ViewerViewPagerAdapter
+import com.example.movie_catalog.entity.filminfo.ImageFilm
+import com.example.movie_catalog.ui.recycler.ViewerViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -46,7 +44,7 @@ class ViewerImageFragment : Fragment() {
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
-    private fun processingTabLayout(listImages: List<Images>) {
+    private fun processingTabLayout(listImages: List<ImageFilm>) {
         binding.viewpager.adapter = ViewerViewPagerAdapter(listImages)
 //        binding.viewpager.currentItem = viewModel.takeGallery()?.viewingPosition!!
         binding.ivButtonLeft.setOnClickListener {

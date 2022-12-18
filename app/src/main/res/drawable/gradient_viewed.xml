@@ -4,5 +4,5 @@
         android:startColor="@color/h5_poster"
         android:endColor="@color/blue_arrow"
         android:angle="270"/>
-    <corners android:radius="@dimen/film_info_card_person_radius"/>
+    <corners android:radius="@dimen/film_page_card_person_radius"/>
 </shape>

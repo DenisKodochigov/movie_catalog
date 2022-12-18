@@ -9,8 +9,10 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.movie_catalog.data.DataRepository
 import com.example.movie_catalog.data.PagedSourceData
-import com.example.movie_catalog.entity.filminfo.Kit
+import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.Film
+import com.example.movie_catalog.entity.Linker
+import com.example.movie_catalog.entity.plug.Plug
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -23,19 +25,19 @@ import javax.inject.Inject
 class KitfilmsViewModel @Inject constructor(): ViewModel() {
 
     private val dataRepository = DataRepository()
-    var currentKit: Kit? = null
+    var localKit: Kit? = null
 
-    private var _premieres = MutableStateFlow(plugFilm)
+    private var _premieres = MutableStateFlow(Plug.listLinks)
     var premieres = _premieres.asStateFlow()
 
-    var pagedFilms: Flow<PagingData<Film>> = Pager(
+    var pagedFilms: Flow<PagingData<Linker>> = Pager(
         config = PagingConfig(pageSize = 20),
-        pagingSourceFactory = { PagedSourceData(currentKit!!) }
+        pagingSourceFactory = { PagedSourceData(localKit!!) }
     ).flow.cachedIn(viewModelScope)
 
     init {
         takeKit()
-        if (currentKit == Kit.PREMIERES) getData()
+        if (localKit == Kit.PREMIERES) getData()
     }
 
     private fun getData() {
@@ -48,17 +50,11 @@ class KitfilmsViewModel @Inject constructor(): ViewModel() {
             )
         }
     }
-    fun putFilmId(item:Int){
-        dataRepository.putFilmId(item)
+    fun putFilm(film: Film){
+        dataRepository.putFilm(film)
     }
     private fun takeKit(){
         val kit = dataRepository.takeKit()
-        if (kit != null) currentKit = kit
-    }
-
-    companion object {
-        var plugFilm = listOf( Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(),
-            Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film(), Film()
-        )
+        if (kit != null) localKit = kit
     }
 }
