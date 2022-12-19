@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.data.DataRepository
+import com.example.movie_catalog.data.api.home.getKit.SelectedKit
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.plug.Plug
@@ -19,29 +20,32 @@ class HomeViewModel @Inject constructor() : ViewModel() {
 
     private val dataRepository = DataRepository()
 
-    private var _premieres = MutableStateFlow(Plug.listLinks)
+    private var _namekit = MutableStateFlow(SelectedKit())
+    var namekit = _namekit.asStateFlow()
+
+    private var _premieres = MutableStateFlow(Plug.plugLinkers)
     var premieres = _premieres.asStateFlow()
 
-    private var _popularFilms = MutableStateFlow(Plug.listLinks)
+    private var _popularFilms = MutableStateFlow(Plug.plugLinkers)
     var popularFilms = _popularFilms.asStateFlow()
 
-    private var _pageTop250 = MutableStateFlow(Plug.listLinks)
+    private var _pageTop250 = MutableStateFlow(Plug.plugLinkers)
     var pageTop250 = _pageTop250.asStateFlow()
 
-    private var _randomKit1 = MutableStateFlow(Plug.listLinks)
+    private var _randomKit1 = MutableStateFlow(Plug.plugLinkers)
     var randomKit1 = _randomKit1.asStateFlow()
 
-    private var _randomKit2 = MutableStateFlow(Plug.listLinks)
+    private var _randomKit2 = MutableStateFlow(Plug.plugLinkers)
     var randomKit2 = _randomKit2.asStateFlow()
 
-    private var _serials = MutableStateFlow(Plug.listLinks)
+    private var _serials = MutableStateFlow(Plug.plugLinkers)
     var serials = _serials.asStateFlow()
 
     init {
-//        getGenres()
-//        getPremieres()
-//        getPopular()
-//        getTop250()
+        getGenres()
+        getPremieres()
+        getPopular()
+        getTop250()
         getSerials()
     }
 
@@ -49,6 +53,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching { dataRepository.getGenres() }.fold(
                 onSuccess = { kit ->
+                    _namekit.value = kit
                     Kit.RANDOM1.genreID = kit.genre1.id ?: 0
                     Kit.RANDOM1.countryID = kit.country1.id ?: 0
                     Kit.RANDOM2.genreID = kit.genre2.id ?: 0
@@ -66,6 +71,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                     }
                     getRandom1()
                     getRandom2()
+
                 },
                 onFailure = { Log.d("KDS",it.message ?: "getGenres")}
             )

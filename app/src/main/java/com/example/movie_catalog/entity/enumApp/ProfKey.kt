@@ -17,4 +17,6 @@ enum class ProfKey( var nameView: String) {
     VOICE_DIRECTOR (App.context.getString(R.string.VOICE_DIRECTOR)),
     HRONO_TITR_MALE (App.context.getString(R.string.HRONO_TITR_MALE)),
     VOICE_MALE (App.context.getString(R.string.VOICE_MALE)),
+    VOICE_FEMALE(App.context.getString(R.string.VOICE_FEMALE)),
+    HRONO_TITR_FEMALE(App.context.getString(R.string.HRONO_TITR_FEMALE)),
 }

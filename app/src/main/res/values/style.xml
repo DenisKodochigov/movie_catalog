@@ -132,7 +132,10 @@
         <item name="android:textColor">@color/h5</item>
         <item name="android:layout_marginTop">@dimen/filmography_recycler_top</item>
     </style>
-
+    <style name="H5_show_all" parent = "textApp">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/general</item>
+    </style>
     <style name="H6" parent = "textApp">
         <item name="android:textSize">10sp</item>
         <item name="android:textColor">@color/h5</item>

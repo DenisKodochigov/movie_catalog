@@ -2,7 +2,6 @@ package com.example.movie_catalog.entity
 
 import android.util.Log
 import com.example.movie_catalog.data.api.film_info.FilmImageDTO
-import com.example.movie_catalog.data.api.film_info.FilmImageUrlDTO
 import com.example.movie_catalog.data.api.film_info.PersonDTO
 import com.example.movie_catalog.data.api.film_info.SimilarDTO
 import com.example.movie_catalog.data.api.home.filter.FilterDTO
@@ -17,8 +16,7 @@ import com.example.movie_catalog.entity.filminfo.InfoFilmSeasons
 
 object DataCentre {
     var films = mutableListOf<Film>()
-    var persons = mutableListOf<Person>()
-    var imageUrl = mutableListOf<FilmImageUrlDTO>()
+    private var persons = mutableListOf<Person>()
     var linkers = mutableListOf<Linker>()
 
     private var currentJobPerson: String? = null
@@ -49,6 +47,7 @@ object DataCentre {
             addLinker(film, Kit.PREMIERES)
         }
     }
+
     fun addFilms(item: TopFilmsDTO, kit: Kit) {
         item.films.forEach { topfilmDTO ->
             var film = films.find { it.filmId == topfilmDTO.filmId }
@@ -72,6 +71,7 @@ object DataCentre {
         }
         films.shuffle()
     }
+
     fun addFilms(filterDTO: FilterDTO, kit: Kit) {
         if (filterDTO.items != null) {
             filterDTO.items!!.forEach { filmDTO ->
@@ -97,6 +97,7 @@ object DataCentre {
         }
         films.shuffle()
     }
+
     fun addFilms(similar: SimilarDTO, film: Film) {
         if (similar.items != null) {
             similar.items.forEach { filmSimilar ->
@@ -119,10 +120,11 @@ object DataCentre {
                     )
                     films.add(filmBase)
                 }
-                addLinker(film,filmBase)
+                addLinker(film, filmBase)
             }
         }
     }
+
     fun addFilm(filmInfo: InfoFilmSeasons, film: Film) {
         if (filmInfo.infoFilm != null) {
             with(film) {
@@ -161,6 +163,7 @@ object DataCentre {
             }
         }
     }
+
     fun addPerson(personsDTO: List<PersonDTO>, film: Film) {
         personsDTO.forEach { item ->
             if (persons.find { it.personId == item.staffId } == null) {
@@ -179,6 +182,7 @@ object DataCentre {
             }
         }
     }
+
     fun addImage(film: Film, tab: ImageGroup, filmImageDTO: FilmImageDTO) {
         filmImageDTO.items.forEach {
             film.images.add(
@@ -186,6 +190,7 @@ object DataCentre {
             )
         }
     }
+
     fun addPersonInfo(personInfo: PersonInfoDTO) {
         //Проверяем наличие персоны в базе. Если нет создаем ее, если есть обновляем.
         var person: Person? = persons.find { it.personId == personInfo.personId }
@@ -227,24 +232,28 @@ object DataCentre {
         }
     }
 
-    private fun addLinker(film:Film, kit: Kit){
-        if (linkers.find {(it.film == film) && (it.kit == kit)} == null ) {
+    private fun addLinker(film: Film, kit: Kit) {
+        if (linkers.find { (it.film == film) && (it.kit == kit) } == null) {
             linkers.add(Linker(film = film, kit = kit))
         }
     }
-    private fun addLinker(film:Film, similar: Film){
-        if (linkers.find {(it.film == film) && (it.similarFilm == similar)} == null ) {
+
+    private fun addLinker(film: Film, similar: Film) {
+        if (linkers.find { (it.film == film) && (it.similarFilm == similar) } == null) {
             linkers.add(Linker(film = film, similarFilm = similar))
         }
     }
-    private fun addLinker(film:Film, person: Person, profKey: String){
-        if (linkers.find {(it.film == film) && (it.person == person)  &&
-                    (it.profKey!!.name == profKey) } == null ) {
+
+    private fun addLinker(film: Film, person: Person, profKey: String) {
+        if (linkers.find {
+                (it.film == film) && (it.person == person) &&
+                        (it.profKey!!.name == profKey)
+            } == null) {
             person.professionKey?.let {
                 try {
                     val itemProfKey = ProfKey.valueOf(profKey)
                     linkers.add(Linker(film = film, person = person, profKey = itemProfKey))
-                } catch (e: IllegalAccessException){
+                } catch (e: IllegalAccessException) {
                     Log.d("KDS", "Don't find ${person.professionKey}. Error $e")
                 }
             }
@@ -256,197 +265,39 @@ object DataCentre {
         currentFilm = null
         return it
     }
+
     fun putFilm(film: Film) {
         currentFilm = film
     }
+
     fun takePerson(): Person? {
         val it = currentPerson
         currentPerson = null
         return it
     }
+
     fun putPerson(person: Person) {
         currentPerson = person
     }
+
     fun takeKit(): Kit? {
         val it = currentKit
         currentKit = null
         return it
     }
+
     fun putKit(id: Kit) {
         currentKit = id
     }
-    fun takeKeyListFragment(): String? {
-        val it = currentKeyListFragment
-        currentKeyListFragment = null
-        return it
-    }
-    fun putKeyListFragment(item: String) {
-        currentKeyListFragment = item
-    }
+
     //###############################################################################################
     fun takeJobPerson(): String? {
         val it = currentJobPerson
         currentJobPerson = null
         return it
     }
+
     fun putJobPerson(id: String) {
         currentJobPerson = id
     }
-
-
-//    private fun addLinker(film:Film, person: Person){
-//        if (linkers.find {(it.film == film) && (it.person == person)} == null ) {
-//            person.professionKey?.let {
-//                try {
-//                    linkers.add(Linker(film = film, person = person))
-//                } catch (e: IllegalAccessException){
-//                    Log.d("KDS", "Don't find ${person.professionKey}. Error $e")
-//                }
-//            }
-//        }
-//    }
-//    fun takeListForListFragment(key:String): List<Linker> {
-//        val listFilm = mutableListOf<Linker>()
-////        listFilm.addAll(films.filter { it.filmId in listForListFragment })
-////        listForListFragment = mutableListOf()
-//        return listFilm
-//    }
-//    fun putListForListFragment(item: List<Int>) {
-//        listForListFragment.clear()
-//        listForListFragment.addAll(item)
-//    }
-//    fun addImageOld(id: Int, tab: TabImage, filmImageDTO: FilmImageDTO) {
-//        val film = films.find { it.filmId == id }
-//        if (film != null) {
-//            filmImageDTO.items.forEach {
-//                film.images.add(
-//                    ImageFilm(imageUrl = it.imageUrl, previewUrl = it.previewUrl, tab = tab)
-//                )
-//            }
-//        }
-//    }
-//    fun addPersonOld(personsDTO: List<PersonDTO>, id: Int) {
-//
-//        personsDTO.forEach { item ->
-//            if (persons.find { it.personId == item.staffId } == null) {
-//                val personNew = Person(
-//                    personId = item.staffId,
-//                    nameRu = item.nameRu,
-//                    nameEn = item.nameEn,
-//                    posterUrl = item.posterUrl,
-//                    professionKey = item.professionKey,
-//                    description = item.description,
-//                    professionText = item.professionText,
-//                    tabs = mutableListOf(),
-//                )
-//                personNew.tabs.add( FilmographyTab( key = item.professionKey,
-//                    nameDisplay = FilmographyTab.profKey[item.professionKey] ))
-//                personNew.tabs[0].filmsID.add(id)
-//                persons.add(personNew)
-//            }
-//        }
-//    }
-//    fun addPersonInfoOld(personInfo: PersonInfoDTO) {
-//
-//        val tabsProfKey = mutableListOf<FilmographyTab>()
-//
-//        personInfo.films.forEach { filmPerson ->
-//            //Check in massiv profissional key
-//            val tabProfKey = tabsProfKey.find { it.key == filmPerson.professionKey }
-//            if (tabProfKey != null) {
-//                tabProfKey.filmsID.add(filmPerson.filmId!!)
-//            } else {
-//                val tab = FilmographyTab( key = filmPerson.professionKey,
-//                    nameDisplay = FilmographyTab.profKey[filmPerson.professionKey])
-//                tab.filmsID.add(filmPerson.filmId!!)
-//                tabsProfKey.add(tab)
-//            }
-//            if (this.films.find { it.filmId == filmPerson.filmId } == null) {
-//                this.films.add(
-//                    Film(
-//                        filmId = filmPerson.filmId, nameRu = filmPerson.nameRu,
-//                        nameEn = filmPerson.nameEn, rating = filmPerson.rating,
-//                        professionKey = filmPerson.professionKey
-//                    )
-//                )
-//            }
-//        }
-//
-//        var person = persons.find { it.personId == personInfo.personId }
-//        if (person != null) {
-//            with(person) {
-//                personInfo.nameRu?.let { nameRu = personInfo.nameRu }
-//                personInfo.nameEn?.let { nameEn = personInfo.nameEn }
-//                personInfo.posterUrl?.let { posterUrl = personInfo.posterUrl }
-//                personInfo.age?.let { personInfo.age }
-//                personInfo.hasAwards?.let { hasAwards = personInfo.hasAwards }
-//                personInfo.profession?.let { profession = personInfo.profession }
-//                tabsProfKey.let {
-//                    // Если список табов в персоне пустой, просто все коппируем
-//                    if (tabs.isEmpty()){
-//                        tabs.addAll(tabsProfKey)
-//                    } else {
-//                        // Перебираем все ProfessionalKey из сформированного ранее списка табов
-//                        tabsProfKey.forEach { itTabsProfKey ->
-//                            //Если в табе персоны нет ProfessionalKey, то копируем данную табу
-//                            if (tabs.find { it.key == itTabsProfKey.key } == null){
-//                                tabs.add(itTabsProfKey)
-//                            }else{
-//                                //Если есть обновляем спиок фильмов
-//                                tabs.forEach { itTabs ->
-//                                    itTabsProfKey.filmsID.forEach { itTabsProfKeyfilmsID ->
-//                                        if ( itTabs.filmsID.find { it == itTabsProfKeyfilmsID } == null){
-//                                            itTabs.filmsID.add(itTabsProfKeyfilmsID)
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        } else {
-//            person = Person(
-//                personId = personInfo.personId,
-//                nameRu = personInfo.nameRu,
-//                nameEn = personInfo.nameEn,
-//                posterUrl = personInfo.posterUrl,
-//                age = personInfo.age,
-//                hasAwards = personInfo.hasAwards,
-//                profession = personInfo.profession,
-//            )
-//            person.tabs.addAll(tabsProfKey)
-//            persons.add(person)
-//        }
-//    }
-
-//    fun setViewed(id: Int) {
-//        films.find { it.filmId == id }.let { if (it != null) it.viewed = !it.viewed }
-//    }
-//
-//    fun getViewed(id: Int) = films.find { it.filmId == id }?.viewed ?: false
-//
-//    fun setFavorite(id: Int) {
-//        films.find { it.filmId == id }.let { if (it != null) it.favorite = !it.favorite }
-//    }
-//
-//    fun getFavorite(id: Int) = films.find { it.filmId == id }?.favorite ?: false
-//
-//    fun setBookmark(id: Int) {
-//        films.find { it.filmId == id }.let { if (it != null) it.bookmark = !it.bookmark }
-//    }
-//
-//    fun getBookmark(id: Int) = films.find { it.filmId == id }?.viewed ?: false
-
-
-    //
-//    fun takeFilmId(): Int? {
-//        val it = currentFilmId
-//        currentFilmId = null
-//        return it
-//    }
-//
-//    fun putFilmId(id: Int) {
-//        currentFilmId = id
-//    }
 }

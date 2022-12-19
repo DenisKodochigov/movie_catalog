@@ -58,7 +58,7 @@ class FilmographyFragment : Fragment() {
         TabLayoutMediator(binding.tabs, binding.viewpager) { tab, position ->
             tab.setCustomView(R.layout.item_filmography_tab)
             tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)?.text =
-                person.tabsKey[position].first?.name
+                person.tabsKey[position].first?.nameView
             tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_quantity)?.text =
                 person.tabsKey[position].second.toString()
             tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)

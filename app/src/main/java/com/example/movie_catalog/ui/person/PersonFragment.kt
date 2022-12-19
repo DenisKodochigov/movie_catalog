@@ -15,6 +15,7 @@ import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
 import com.example.movie_catalog.databinding.FragmentPersonBinding
 import com.example.movie_catalog.entity.Film
+import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.ui.recycler.ListFilmAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -30,8 +31,8 @@ class PersonFragment : Fragment() {
     private var _binding: FragmentPersonBinding? = null
     private val binding get() = _binding!!
     private val viewModel: PersonViewModel by viewModels()
-    private val filmAdapter = ListFilmAdapter { film -> onItemClick(film) }
-
+    private val filmAdapter = ListFilmAdapter(0, Constants.FILM,
+        { film -> onItemClick(film)}, {kit -> onClickAll(kit)})
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentPersonBinding.inflate(inflater, container, false)
@@ -51,8 +52,6 @@ class PersonFragment : Fragment() {
                     if (linker[0].person != null) {
     //                Log.d("KDS", "onViewCreated getPerson, get class Person")
     //Show photo person. Before load image, show waiting animation.
-                        animationCard.setAnimation(binding.ivPhoto, linker[0].person?.posterUrl,
-                            R.dimen.card_people_radius)
                         binding.personNameRu.text = linker[0].person?.nameRu
                         binding.personNameEn.text = linker[0].person?.nameEn
                         binding.personJob.text = linker[0].person?.profession
@@ -64,6 +63,7 @@ class PersonFragment : Fragment() {
                         } else showAll.visibility = View.INVISIBLE
                     }
                 }
+                animationCard.setAnimation(binding.ivPhoto, linker[0].person?.posterUrl, R.dimen.card_people_radius)
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
             showAll.setOnClickListener {
@@ -83,7 +83,10 @@ class PersonFragment : Fragment() {
         viewModel.putFilm(film)
         findNavController().navigate(R.id.action_nav_person_to_nav_filmInfo)
     }
-
+    private fun onClickAll(kit: Kit) {
+//        homeViewModel.putKit(kit)
+//        findNavController().navigate(R.id.action_nav_home_to_nav_kitfilms)
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

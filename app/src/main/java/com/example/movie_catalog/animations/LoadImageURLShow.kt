@@ -41,17 +41,17 @@ class LoadImageURLShow {
 
             val option = if (!centerCrop) RequestOptions().transform(RoundedCorners(radius))
                         else RequestOptions().transform(CenterCrop(), RoundedCorners(radius))
-
             Glide
                 .with(view)
                 .load(imageURL)
+                .fallback(R.drawable.ic_baseline_image_not_supported_24)
                 .apply(option)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .listener(object: RequestListener<Drawable> {
                     override fun onLoadFailed( resource: GlideException?, model: Any?,
                         target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
                         Toast.makeText(App.context,"Error load image",Toast.LENGTH_SHORT).show()
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                        return false
                     }
 
                     override fun onResourceReady(resource: Drawable?, model: Any?,

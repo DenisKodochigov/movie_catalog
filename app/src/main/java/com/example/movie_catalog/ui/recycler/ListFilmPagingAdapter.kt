@@ -1,13 +1,16 @@
 package com.example.movie_catalog.ui.recycler
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.movie_catalog.App
 import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
 import com.example.movie_catalog.databinding.ItemListFilmBinding
+import com.example.movie_catalog.entity.Constants
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Linker
 import javax.inject.Inject
@@ -21,17 +24,33 @@ class ListFilmPagingAdapter @Inject constructor(private val onClick: (Film) -> U
     }
 
     override fun onBindViewHolder(holder: PagingViewHolder, position: Int) {
-        val film = getItem(position)?.film
-        //Set film name
-        film?.let{
-            holder.binding.nameFilm.text = film.nameRu ?: ""
-            //Set film genres.
-            holder.binding.genreFilm.text = film.genresTxt()
+        if (position > Constants.HOME_QTY_FILMCARD-1){
+            holder.binding.inclFilm.root.visibility = View.INVISIBLE
+            holder.binding.inclShowAll.root.visibility = View.VISIBLE
+        }else {
+            holder.binding.inclFilm.root.visibility = View.VISIBLE
+            holder.binding.inclShowAll.root.visibility = View.INVISIBLE
+            val film = getItem(position)?.film
+            //Set film name
+            film?.let {
+                holder.binding.inclFilm.nameFilm.text = film.nameRu ?: ""
+                //Set film genres.
+                holder.binding.inclFilm.genreFilm.text = film.genresTxt()
+                //Set viewed flag
+                if (film.viewed) {
+                    holder.binding.inclFilm.ivViewed.visibility = View.VISIBLE
+                    holder.binding.root.background = App.context.getDrawable(R.drawable.gradient_viewed)
+                }
+                //Set action on click item recyclerView
+                holder.binding.root.setOnClickListener { onClick(film) }
+            }
             //Load small poster. Before load image, show waiting animation.
             val animationCard = LoadImageURLShow()
-            animationCard.setAnimation(holder.binding.poster, film.posterUrlPreview, R.dimen.card_film_radius )
-            //Set action on click item recyclerView
-            holder.binding.root.setOnClickListener { onClick(film) }
+            animationCard.setAnimation(
+                holder.binding.inclFilm.poster,
+                film?.posterUrlPreview,
+                R.dimen.card_film_radius
+            )
         }
     }
 }

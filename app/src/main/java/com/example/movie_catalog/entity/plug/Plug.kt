@@ -9,9 +9,11 @@ import com.example.movie_catalog.entity.home.Country
 import com.example.movie_catalog.entity.home.Genre
 
 object Plug {
-    val listLinks = listOf(Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),
+
+    val plugLinkers = listOf(Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),
         Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),
-        Linker(),Linker(),Linker(),Linker())
+        Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),Linker())
+
     val filmPlug = listOf(
         Film( filmId =  1115454,
             nameRu= "Портрет незнакомца",
@@ -494,6 +496,33 @@ object Plug {
             // kit = Kit.PREMIERES
         )
     )
+
+    val listLinkers = listOf(
+        Linker(film = filmPlug[0], similarFilm = null, person = null, profKey = null, kit = Kit.PREMIERES),
+        Linker(film = filmPlug[1], similarFilm = null, person = null, profKey = null, kit = Kit.PREMIERES),
+        Linker(film = filmPlug[2], similarFilm = null, person = null, profKey = null, kit = Kit.PREMIERES),
+        Linker(film = filmPlug[3], similarFilm = null, person = null, profKey = null, kit = Kit.PREMIERES),
+        Linker(film = filmPlug[4], similarFilm = null, person = null, profKey = null, kit = Kit.PREMIERES),
+        Linker(film = filmPlug[5], similarFilm = null, person = null, profKey = null, kit = Kit.PREMIERES),
+        Linker(film = filmPlug[6], similarFilm = null, person = null, profKey = null, kit = Kit.PREMIERES),
+        Linker(film = filmPlug[7], similarFilm = null, person = null, profKey = null, kit = Kit.PREMIERES),
+        Linker(film = filmPlug[8], similarFilm = null, person = null, profKey = null, kit = Kit.PREMIERES),
+        Linker(film = filmPlug[9], similarFilm = null, person = null, profKey = null, kit = Kit.PREMIERES),
+        Linker(film = filmPlug[10], similarFilm = null, person = null, profKey = null, kit = Kit.PREMIERES),
+        Linker(film = filmPlug[11], similarFilm = null, person = null, profKey = null, kit = Kit.PREMIERES),
+        Linker(film = filmPlug[12], similarFilm = null, person = null, profKey = null, kit = Kit.PREMIERES),
+        Linker(film = filmPlug[13], similarFilm = null, person = null, profKey = null, kit = Kit.PREMIERES),
+        Linker(film = filmPlug[14], similarFilm = null, person = null, profKey = null, kit = Kit.PREMIERES),
+        Linker(film = filmPlug[15], similarFilm = null, person = null, profKey = null, kit = Kit.PREMIERES),
+        Linker(film = filmPlug[16], similarFilm = null, person = null, profKey = null, kit = Kit.PREMIERES),
+        Linker(film = filmPlug[17], similarFilm = null, person = null, profKey = null, kit = Kit.PREMIERES),
+        Linker(film = filmPlug[18], similarFilm = null, person = null, profKey = null, kit = Kit.PREMIERES),
+        Linker(film = filmPlug[19], similarFilm = null, person = null, profKey = null, kit = Kit.PREMIERES),
+        Linker(film = filmPlug[20], similarFilm = null, person = null, profKey = null, kit = Kit.PREMIERES),
+        Linker(film = filmPlug[21], similarFilm = null, person = null, profKey = null, kit = Kit.PREMIERES),
+        Linker(film = filmPlug[22], similarFilm = null, person = null, profKey = null, kit = Kit.PREMIERES),
+
+        )
     val infoFilmSeasonPlug = InfoFilmSeasons(
         infoFilm = FilmInfoDTO(
             kinopoiskId = 1115454,

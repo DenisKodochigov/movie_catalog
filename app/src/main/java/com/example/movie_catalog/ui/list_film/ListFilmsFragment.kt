@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentListFilmsBinding
+import com.example.movie_catalog.entity.Constants
 import com.example.movie_catalog.entity.Film
+import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.ui.recycler.ListFilmAdapter
 import com.example.movie_catalog.ui.list_person.ListPersonFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,7 +33,8 @@ class ListFilmsFragment : Fragment() {
     private var _binding: FragmentListFilmsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ListFilmsViewModel by viewModels()
-    private val listAdapter = ListFilmAdapter{film -> onItemClick(film)}
+    private val listAdapter = ListFilmAdapter(0, Constants.FILM,
+        { film -> onItemClick(film)}, {kit -> onClickAll(kit)})
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -55,6 +58,10 @@ class ListFilmsFragment : Fragment() {
     private fun onItemClick(film: Film) {
         viewModel.putFilm(film)
         findNavController().navigate(R.id.action_nav_list_films_to_nav_filmInfo)
+    }
+    private fun onClickAll(kit: Kit) {
+//        homeViewModel.putKit(kit)
+//        findNavController().navigate(R.id.action_nav_home_to_nav_kitfilms)
     }
 
     override fun onDestroyView() {

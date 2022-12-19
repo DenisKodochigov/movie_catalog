@@ -20,8 +20,6 @@ data class Film(
     var bookmark: Boolean = false,
     var professionKey: String? = null,
     var startYear: String? = null,
-//    var kit: Kit? = null,
-//    var similar: MutableList<Int> = mutableListOf(),
     var images: MutableList<ImageFilm> = mutableListOf(),
     var posterUrl:String? = null,
     var logoUrl:String? = null,

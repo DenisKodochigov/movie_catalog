@@ -1,13 +1,10 @@
 package com.example.movie_catalog.ui.person
 
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movie_catalog.App
 import com.example.movie_catalog.data.DataRepository
 import com.example.movie_catalog.entity.Film
-import com.example.movie_catalog.entity.Linker
 import com.example.movie_catalog.entity.Person
 import com.example.movie_catalog.entity.plug.Plug
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,7 +23,7 @@ class PersonViewModel @Inject constructor() : ViewModel() {
 //    private var _person = MutableStateFlow(Plug.listLinks )
 //    var person = _person.asStateFlow()
 
-    private var _linkrers = MutableStateFlow(emptyList<Linker>() )
+    private var _linkrers = MutableStateFlow(Plug.plugLinkers)
     var linkrers = _linkrers.asStateFlow()
 
     init {

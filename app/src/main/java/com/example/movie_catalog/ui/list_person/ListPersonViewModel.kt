@@ -22,7 +22,7 @@ class ListPersonViewModel @Inject constructor() : ViewModel() {
     private var localFilm: Film? = null
     private var localJob: String? = null
 
-    private var _listPerson = MutableStateFlow(Plug.listLinks)
+    private var _listPerson = MutableStateFlow(Plug.plugLinkers)
     var listPerson = _listPerson.asStateFlow()
 
     init {

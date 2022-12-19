@@ -8,6 +8,7 @@
 
     <string name="kit_name">KIT NAME</string>
     <string name="show_all">Все</string>
+    <string name="show_all1">Показать все</string>
     <string name="quantity_starred">Всего</string>
 
     <string name="premieres">Премьеры</string>
@@ -94,4 +95,6 @@
     <string name="VOICE_DIRECTOR">Звукорежисер</string>
     <string name="HRONO_TITR_MALE">HRONO_TITR_MALE</string>
     <string name="VOICE_MALE">VOICE_MALE</string>
+    <string name="VOICE_FEMALE">VOICE_FEMALE</string>
+    <string name="HRONO_TITR_FEMALE">HRONO_TITR_FEMALE</string>
 </resources>

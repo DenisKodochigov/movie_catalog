@@ -27,7 +27,7 @@ class KitfilmsViewModel @Inject constructor(): ViewModel() {
     private val dataRepository = DataRepository()
     var localKit: Kit? = null
 
-    private var _premieres = MutableStateFlow(Plug.listLinks)
+    private var _premieres = MutableStateFlow(Plug.plugLinkers)
     var premieres = _premieres.asStateFlow()
 
     var pagedFilms: Flow<PagingData<Linker>> = Pager(

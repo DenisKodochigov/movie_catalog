@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentKitFilmsBinding
+import com.example.movie_catalog.entity.Constants
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.ui.recycler.ListFilmPagingAdapter
@@ -34,7 +35,8 @@ class KitFilmsFragment: Fragment() {
     private var _binding: FragmentKitFilmsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: KitfilmsViewModel by viewModels()
-    private val listAdapter = ListFilmAdapter{film -> onItemClick(film)}
+    private val listAdapter = ListFilmAdapter(0, Constants.FILM,
+        { film -> onItemClick(film)}, {kit -> onClickAll(kit)})
     private val pagingAdapter = ListFilmPagingAdapter { film -> onItemClick(film) }
 
 
@@ -53,10 +55,6 @@ class KitFilmsFragment: Fragment() {
 
         if (viewModel.localKit == Kit.PREMIERES) processingPremieres()
         else processingPagingListFilm()
-
-        binding.swipeRefresh.setOnRefreshListener {
-            pagingAdapter.refresh()
-        }
     }
 
     private fun processingPremieres(){
@@ -64,6 +62,7 @@ class KitFilmsFragment: Fragment() {
         viewModel.premieres.onEach {
             listAdapter.setListFilm(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
+        binding.swipeRefresh.isEnabled = false
     }
 
     private fun processingPagingListFilm(){
@@ -71,7 +70,9 @@ class KitFilmsFragment: Fragment() {
         viewModel.pagedFilms.onEach {
             pagingAdapter.submitData(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
-
+        binding.swipeRefresh.setOnRefreshListener {
+            pagingAdapter.refresh()
+        }
         pagingAdapter.loadStateFlow.onEach {
             binding.swipeRefresh.isRefreshing = it.refresh == LoadState.Loading
         }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -81,7 +82,7 @@ class KitFilmsFragment: Fragment() {
         viewModel.putFilm(film)
         findNavController().navigate(R.id.action_nav_kitFilms_to_nav_filmInfo)
     }
-
+    private fun onClickAll(kit: Kit) {}
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

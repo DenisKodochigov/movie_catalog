@@ -7,6 +7,7 @@ import com.example.movie_catalog.entity.*
 import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.enumApp.ProfKey
 import com.example.movie_catalog.entity.filminfo.ImageFilm
+import com.example.movie_catalog.entity.plug.Plug
 import javax.inject.Inject
 
 class DataRepository @Inject constructor() {
@@ -16,6 +17,7 @@ class DataRepository @Inject constructor() {
 
     // home  fragment
     suspend fun getGenres() = dataSourceAPI.getGenres()
+
     suspend fun getPremieres(): List<Linker> {
         var linkers = DataCentre.linkers.filter { it.kit == Kit.PREMIERES }
         if (linkers.isEmpty()) {
@@ -23,8 +25,10 @@ class DataRepository @Inject constructor() {
             linkers = DataCentre.linkers.filter { it.kit == Kit.PREMIERES }
         }
         Log.d("KDS", "${linkers[0].kit}")
+//        linkers = Plug.listLinkers
         return linkers
     }
+
     suspend fun getTop(page: Int, kit: Kit): List<Linker> {
         var listBinder = DataCentre.linkers.filter { it.kit == kit }
         if (listBinder.isEmpty()) {
@@ -33,6 +37,7 @@ class DataRepository @Inject constructor() {
         }
         return listBinder
     }
+
     suspend fun getSerials(page: Int, kit: Kit): List<Linker> {
         var listBinder = DataCentre.linkers.filter { it.kit == kit }
         if (listBinder.isEmpty()) {
@@ -41,6 +46,7 @@ class DataRepository @Inject constructor() {
         }
         return listBinder
     }
+
     suspend fun getFilters(page: Int, kit: Kit): List<Linker> {
         var listBinder = DataCentre.linkers.filter { it.kit == kit }
         if (listBinder.isEmpty()) {
@@ -49,6 +55,7 @@ class DataRepository @Inject constructor() {
         }
         return listBinder
     }
+
     // film info fragment
     suspend fun getSimilar(film: Film): List<Linker> {
         var listFilm = DataCentre.linkers.filter { it.film == film && it.similarFilm != null }
@@ -58,10 +65,12 @@ class DataRepository @Inject constructor() {
         }
         return listFilm
     }
+
     suspend fun getInfoFilmSeason(film: Film): Film? {                 //InfoFilmSeasons
         if (film.posterUrl == null) dataSourceAPI.getInfoFilmSeason(film)
         return DataCentre.films.find { it.filmId == film.filmId }
     }
+
     suspend fun getPersons(film: Film, job: String? = null): List<Linker> {
         if (DataCentre.linkers.count { it.person != null && it.film == film } <= 1) {
             dataSourceAPI.getPersons(film)
@@ -83,12 +92,14 @@ class DataRepository @Inject constructor() {
         }
         return listPerson
     }
+
     suspend fun getImages(film: Film): List<ImageFilm> {
         if (film.images.isEmpty()) {
             dataSourceAPI.getImages(film)
         }
         return DataCentre.films.find { it == film }!!.images
     }
+
     //Person fragment
     suspend fun getPersonInfo(person: Person): List<Linker> {
         if (DataCentre.linkers.count { it.person == person } <= 1) {
@@ -102,11 +113,13 @@ class DataRepository @Inject constructor() {
         }
         return DataCentre.linkers.filter { it.person == person }
     }
+
     fun getFilmographyData(person: Person): FilmographyData {
         val linkers = DataCentre.linkers.filter { it.person == person && it.film != null }
         val tabsKey = linkers.groupingBy { it.profKey }.eachCount().toList()
         return FilmographyData(linkers, tabsKey)
     }
+
     //Kit fragment
     suspend fun routerGetApi(page: Int, kit: Kit): List<Linker> {
         return when (kit) {
@@ -118,6 +131,7 @@ class DataRepository @Inject constructor() {
             else -> emptyList()
         }
     }
+
     //List film fragment
     fun getFilmsForFilter(film: Film?, person: Person?): List<Linker> {
         var linkers = listOf<Linker>()
@@ -130,25 +144,35 @@ class DataRepository @Inject constructor() {
         }
         return linkers
     }  // film info fragment
+
     //List person fragment
     fun getGallery(film: Film): Gallery {
-        return Gallery(images = film.images,
+        return Gallery(
+            images = film.images,
             tabs = film.images.groupingBy { it.imageGroup }.eachCount().toList()
         )
     }
+
     fun takeFilm() = DataCentre.takeFilm()
+
     fun putFilm(film: Film) {
         DataCentre.putFilm(film)
     }
+
     fun putPerson(person: Person) {
         DataCentre.putPerson(person)
     }                                   // film info, list person fragment
+
     fun takePerson() = DataCentre.takePerson()
+
     fun takeKit() = DataCentre.takeKit()
+
     fun putKit(item: Kit) {
         DataCentre.putKit(item)
     }
+
     fun takeJobPerson() = DataCentre.takeJobPerson()
+
     fun putJobPerson(item: String) {
         DataCentre.putJobPerson(item)
     }
@@ -156,12 +180,17 @@ class DataRepository @Inject constructor() {
     // FUNCTION DB #################################################
     fun changeViewed(film: Film) {
         dataSourceDB.setViewed(film.filmId!!)
+        film.viewed = !film.viewed
     }
+
     fun changeFavorite(film: Film) {
         dataSourceDB.setFavorite(film.filmId!!)
+        film.favorite = !film.favorite
     }
+
     fun changeBookmark(film: Film) {
         dataSourceDB.setBookmark(film.filmId!!)
+        film.bookmark = !film.bookmark
     }
 }
 //################################################################################################################

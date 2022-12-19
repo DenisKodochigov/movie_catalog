@@ -1,4 +1,4 @@
-package com.example.movie_catalog.ui.film_info
+package com.example.movie_catalog.ui.film_page
 
 import android.animation.LayoutTransition
 import android.annotation.SuppressLint
@@ -18,13 +18,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.movie_catalog.App
 import com.example.movie_catalog.entity.Constants
 import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
 import com.example.movie_catalog.databinding.FragmentFilmPageBinding
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Person
+import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.ui.recycler.FilmInfoGalleryAdapter
 import com.example.movie_catalog.ui.recycler.PersonAdapter
 import com.example.movie_catalog.ui.recycler.ListFilmAdapter
@@ -40,24 +40,26 @@ class FilmPageFragment : Fragment() {
     private val personAdapter = PersonAdapter({ person -> onPersonClick(person)}, sizeGird = 20, whatRole = 1)
     private val staffAdapter = PersonAdapter({person -> onPersonClick(person)}, sizeGird = 6, whatRole = 2)
     private val galleryAdapter = FilmInfoGalleryAdapter { onImageClick() }
-    private val similarAdapter = ListFilmAdapter(0, Constants.SIMILAR){ onSimilarClick() }
+    private val similarAdapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD, Constants.SIMILAR,
+        { onSimilarClick()}, { kit -> onClickAll(kit)})
     private val viewModel: FilmPageViewModel by viewModels()
     private var isCollapsed = false
 
+    @SuppressLint("CutPasteId", "UseCompatLoadingForDrawables")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentFilmPageBinding.inflate(inflater, container,false)
+        (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).background =
+            resources.getDrawable(R.drawable.gradient_toolbar, context?.theme)
         (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text = ""
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel.filmInfo.onEach {
             if (it != Film()) fillPage(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
-
         processingPerson()
         processingGallery()
         processingSimilar()
@@ -290,6 +292,11 @@ class FilmPageFragment : Fragment() {
     private fun onSimilarClick() {
         viewModel.putFilm()
         findNavController().navigate(R.id.action_nav_filmInfo_to_nav_list_films)
+    }
+
+    private fun onClickAll(kit: Kit) {
+//        homeViewModel.putKit(kit)
+        findNavController().navigate(R.id.action_nav_home_to_nav_kitfilms)
     }
 
     override fun onDestroyView() {
