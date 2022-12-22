@@ -206,6 +206,7 @@ class DataRepository @Inject constructor() {
 
     fun newCollection(nameCollection: String, filmId:Int): List<CollectionFilmDB>{
         dataSourceDB.newCollection(CollectionFilmDB(name = nameCollection))
+        addRemoveFilmToCollection(nameCollection,filmId)
         return getCollections(filmId)
     }
 
