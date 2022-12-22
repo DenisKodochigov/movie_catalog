@@ -21,8 +21,8 @@ class GalleryViewPagerAdapter(val gallery: Gallery, private val onClick: (String
     }
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: GalleryPagerVH, position: Int) {
-
-        val imageAdapter = ImagesAdapter { image -> onClickImagesAdapter(image)}
+        val imageAdapter = ImagesAdapter ({ onClickImagesAdapter()},1)
+//        val imageAdapter = GalleryImagesAdapter { image -> onClickImagesAdapter(image)}
 //        Log.d("KDS", "ViewPagerAdapter, onBindViewHolder start. Position=$position")
         holder.binding.recyclerImage.layoutManager = GridLayoutManager(App.context, 2).also {
             it.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
@@ -43,10 +43,12 @@ class GalleryViewPagerAdapter(val gallery: Gallery, private val onClick: (String
             imageAdapter.setList(listImage)
         }
     }
-
-    private fun onClickImagesAdapter(imageURL: String) {
-        onClick(imageURL)
+    private fun onClickImagesAdapter() {
+        onClick("")
     }
+//    private fun onClickImagesAdapter(imageURL: String) {
+//        onClick(imageURL)
+//    }
 }
 
 class GalleryPagerVH(val binding: ItemGalleryViewerBinding): RecyclerView.ViewHolder(binding.root)

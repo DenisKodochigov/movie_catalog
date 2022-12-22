@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.data.DataRepository
+import com.example.movie_catalog.data.room.CollectionFilmDB
 import com.example.movie_catalog.entity.Linker
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Person
@@ -33,6 +34,10 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
     private var _similar = MutableStateFlow(listOf<Linker>())
     var similar = _similar.asStateFlow()
 
+    private var _collections = MutableStateFlow(listOf<CollectionFilmDB>())
+    var collections = _collections.asStateFlow()
+
+
     init {
         takeFilm()
         localFilm?.let {
@@ -40,8 +45,51 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
             getImages(it)
             getSimilar(it)
             getPersons(it)
+            getCollections()
         }
     }
+
+    private fun getCollections() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                localFilm?.let { film ->
+                    film.filmId?.let {
+                        dataRepository.getCollections(it)
+                    }}
+            }.fold(
+                onSuccess = { if (it != null) _collections.value = it },
+                onFailure = { Log.d("KDS", it.message ?: "getFilmInfo") }
+            )
+        }
+    }
+
+    fun newCollection(nameCollection: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                localFilm?.let { film ->
+                    film.filmId?.let {
+                        dataRepository.newCollection(nameCollection, it)
+                    }}
+            }.fold(
+                onSuccess = { if (it != null) _collections.value = it },
+                onFailure = { Log.d("KDS", it.message ?: "getFilmInfo") } )
+        }
+    }
+    fun addRemoveFilmToCollection(nameCollection: String){
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                localFilm?.let { film ->
+                    film.filmId?.let {
+                        dataRepository.addRemoveFilmToCollection(nameCollection, it)
+                    }
+                }
+            }.fold(
+                onSuccess = { if (it != null) _collections.value = it },
+                onFailure = { Log.d("KDS", it.message ?: "getFilmInfo") }
+            )
+        }
+    }
+
 
     private fun getFilmInfo(film: Film) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -53,7 +101,6 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
             )
         }
     }
-
     private fun getPersons(film: Film) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {

@@ -2,12 +2,12 @@ package com.example.movie_catalog.data
 
 import android.util.Log
 import com.example.movie_catalog.data.api.DataSourceAPI
+import com.example.movie_catalog.data.room.CollectionFilmDB
 import com.example.movie_catalog.data.room.DataSourceDB
 import com.example.movie_catalog.entity.*
 import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.enumApp.ProfKey
 import com.example.movie_catalog.entity.filminfo.ImageFilm
-import com.example.movie_catalog.entity.plug.Plug
 import javax.inject.Inject
 
 class DataRepository @Inject constructor() {
@@ -191,6 +191,27 @@ class DataRepository @Inject constructor() {
     fun changeBookmark(film: Film) {
         dataSourceDB.setBookmark(film.filmId!!)
         film.bookmark = !film.bookmark
+    }
+    fun getCollections(filmId:Int): List<CollectionFilmDB>{
+        val listCollectionFilmDB = dataSourceDB.getCollections()
+        if (listCollectionFilmDB.isNotEmpty()) {
+            listCollectionFilmDB.forEach {
+                it.count = dataSourceDB.getCountFilmCollection(it.name).size
+                it.included = dataSourceDB.getFilmInCollection(it.name, filmId)?.included == 1
+                Log.d("KDS", " count = ${it.count}")
+            }
+        }
+        return listCollectionFilmDB
+    }
+
+    fun newCollection(nameCollection: String, filmId:Int): List<CollectionFilmDB>{
+        dataSourceDB.newCollection(CollectionFilmDB(name = nameCollection))
+        return getCollections(filmId)
+    }
+
+    fun addRemoveFilmToCollection(nameCollection: String, filmId: Int): List<CollectionFilmDB>{
+        dataSourceDB.addRemoveFilmToCollection(nameCollection, filmId)
+        return getCollections(filmId)
     }
 }
 //################################################################################################################

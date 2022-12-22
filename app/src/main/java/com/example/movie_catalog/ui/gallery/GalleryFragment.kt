@@ -50,8 +50,7 @@ class GalleryFragment : Fragment() {
     }
 
     private fun processingTabLayout(gallery: Gallery) {
-        binding.viewpager.adapter =
-            GalleryViewPagerAdapter(gallery) { position -> onClickViewPager(position) }
+        binding.viewpager.adapter = GalleryViewPagerAdapter(gallery) { onClickViewPager() }
         binding.viewpager.currentItem = 0
         TabLayoutMediator(binding.tabs, binding.viewpager) { tab, position ->
             tab.setCustomView(R.layout.item_gallery_tab)
@@ -86,11 +85,8 @@ class GalleryFragment : Fragment() {
         })
     }
 
-    private fun onClickViewPager(imageURL: String) {
-//        val gallery = viewModel.takeGallery()!!
-//        val position = gallery.listImageUrl.indices.find {
-//                                gallery.listImageUrl[it].imageUrl == imageURL }
-//        viewModel.putGalleryViewingPosition(position!!)
+    private fun onClickViewPager() {
+        viewModel.putFilm()
         findNavController().navigate(R.id.action_nav_gallery_to_nav_viewer_image)
     }
 

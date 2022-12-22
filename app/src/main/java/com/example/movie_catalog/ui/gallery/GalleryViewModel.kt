@@ -35,4 +35,7 @@ class GalleryViewModel @Inject constructor(): ViewModel() {
         val film = dataRepository.takeFilm()
         if (film != null) localFilm = film
     }
+    fun putFilm(){
+        localFilm?.let { dataRepository.putFilm(it)}
+    }
 }

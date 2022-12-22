@@ -39,7 +39,7 @@ class ListFilmPagingAdapter @Inject constructor(private val onClick: (Film) -> U
                 //Set viewed flag
                 if (film.viewed) {
                     holder.binding.inclFilm.ivViewed.visibility = View.VISIBLE
-                    holder.binding.root.background = App.context.getDrawable(R.drawable.gradient_viewed)
+                    holder.binding.root.background = App.context.getDrawable(R.drawable.gradientviewed)
                 }
                 //Set action on click item recyclerView
                 holder.binding.root.setOnClickListener { onClick(film) }

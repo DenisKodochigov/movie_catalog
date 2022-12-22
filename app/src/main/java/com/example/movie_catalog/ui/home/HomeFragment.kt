@@ -41,11 +41,6 @@ class HomeFragment : Fragment() {
         { film -> onItemClick(film)}, { kit -> onClickAll(kit)})
     private val serialAdapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD, Constants.FILM,
         { film -> onItemClick(film)}, { kit -> onClickAll(kit)})
-//    private val popularAdapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD) { film -> onItemClick(film) }
-//    private val top250Adapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD) { film -> onItemClick(film) }
-//    private val random1Adapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD) { film -> onItemClick(film) }
-//    private val random2Adapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD) { film -> onItemClick(film) }
-//    private val serialAdapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD) { film -> onItemClick(film) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -117,6 +112,7 @@ class HomeFragment : Fragment() {
         homeViewModel.putKit(kit)
         findNavController().navigate(R.id.action_nav_home_to_nav_kitfilms)
     }
+
     companion object {
         fun newInstance() = HomeFragment()
     }

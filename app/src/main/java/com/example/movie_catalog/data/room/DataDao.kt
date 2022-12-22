@@ -15,9 +15,6 @@ interface DataDao {
     @Query("DELETE FROM films")
     fun nukeTable()
 
-//    @Query("SELECT * FROM films WHERE filmId = :id")
-//    fun selectLogById(id: Long): Cursor?
-
     @Query("SELECT * FROM films ORDER BY filmId DESC")
     fun getAll(): FilmDB
 
@@ -44,4 +41,21 @@ interface DataDao {
 
     @Query("SELECT bookmark FROM films WHERE filmId = :id")
     fun setBookmark(id: Int): Boolean
+
+    @Query("SELECT * FROM collections ")
+    fun getCollection(): List<CollectionFilmDB>
+
+    @Insert(entity = CollectionFilmDB::class)
+    fun insert(vararg data: CollectionFilmDB)
+
+    @Query("SELECT * FROM crossFC WHERE idCollection = :id AND included = :included")
+    fun getCountFilmCollection(id: String, included:Int): List<CrossFileCollection>
+
+    @Query("SELECT * FROM crossFC WHERE idCollection = :collectionId AND idFilm = :filmId")
+    fun getFilmInCollection(collectionId: String, filmId: Int): CrossFileCollection?
+
+    @Update
+    fun update(crossFileCollection: CrossFileCollection)
+    @Insert(entity = CrossFileCollection::class)
+    fun insert(vararg data: CrossFileCollection)
 }

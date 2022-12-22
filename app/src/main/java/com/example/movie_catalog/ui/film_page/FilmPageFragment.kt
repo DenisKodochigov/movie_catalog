@@ -2,13 +2,14 @@ package com.example.movie_catalog.ui.film_page
 
 import android.animation.LayoutTransition
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -21,13 +22,16 @@ import com.bumptech.glide.Glide
 import com.example.movie_catalog.entity.Constants
 import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
+import com.example.movie_catalog.data.room.CollectionFilmDB
 import com.example.movie_catalog.databinding.FragmentFilmPageBinding
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Person
 import com.example.movie_catalog.entity.enumApp.Kit
-import com.example.movie_catalog.ui.recycler.FilmInfoGalleryAdapter
-import com.example.movie_catalog.ui.recycler.PersonAdapter
+import com.example.movie_catalog.ui.recycler.BottomAdapter
+import com.example.movie_catalog.ui.recycler.ImagesAdapter
 import com.example.movie_catalog.ui.recycler.ListFilmAdapter
+import com.example.movie_catalog.ui.recycler.PersonsAdapter
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -37,9 +41,9 @@ class FilmPageFragment : Fragment() {
 
     private var _binding: FragmentFilmPageBinding? = null
     private val binding get() = _binding!!
-    private val personAdapter = PersonAdapter({ person -> onPersonClick(person)}, sizeGird = 20, whatRole = 1)
-    private val staffAdapter = PersonAdapter({person -> onPersonClick(person)}, sizeGird = 6, whatRole = 2)
-    private val galleryAdapter = FilmInfoGalleryAdapter { onImageClick() }
+    private val personAdapter = PersonsAdapter({ person -> onPersonClick(person)}, sizeGird = 20, whatRole = 1)
+    private val staffAdapter = PersonsAdapter({person -> onPersonClick(person)}, sizeGird = 6, whatRole = 2)
+    private val galleryAdapter = ImagesAdapter ({ onImageClick() })
     private val similarAdapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD, Constants.SIMILAR,
         { onSimilarClick()}, { kit -> onClickAll(kit)})
     private val viewModel: FilmPageViewModel by viewModels()
@@ -183,6 +187,9 @@ class FilmPageFragment : Fragment() {
             }, null)
             startActivity(share)
         }
+        binding.posterBig.ivOther.setOnClickListener {
+            showBottomSheetDialog()
+        }
     }
 
     @SuppressLint("SetTextI18n")
@@ -299,6 +306,43 @@ class FilmPageFragment : Fragment() {
         findNavController().navigate(R.id.action_nav_home_to_nav_kitfilms)
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun showBottomSheetDialog(){
+        val  bottomSheetDialog = context?.let{ BottomSheetDialog(it, R.style.AppBottomSheetDialogTheme) }
+        bottomSheetDialog?.setContentView(R.layout.include_bottom_sheet)
+        val poster = bottomSheetDialog?.findViewById<ImageView>(R.id.poster)
+        val newCollection = bottomSheetDialog?.findViewById<LinearLayout>(R.id.ll_add_collection)
+        poster?.background = context?.getDrawable(R.drawable.ic_baseline_image_not_supported_24)
+        val adapterBottom = BottomAdapter {collection -> onClickChecked(collection) }
+        val recyclerView = bottomSheetDialog?.findViewById<RecyclerView>(R.id.rv_collections)
+        recyclerView?.adapter = adapterBottom
+        viewModel.collections.onEach {
+            adapterBottom.setListFilm(it)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+//        adapterBottom.setListFilm(Plug.listCollection)
+        bottomSheetDialog?.show()
+        newCollection?.setOnClickListener {
+            //Запустить диалоговое окно, с запросом на новое название коллекции.
+             val dialogView = requireActivity().layoutInflater.inflate(R.layout.dialog_layout, null)
+//            val dialogView = LayoutInflater.from(activity).inflate(R.layout.dialog_layout, null)
+            val dialogAlert = activity?.let {
+                AlertDialog.Builder(it,R.style.Style_Dialog_Rounded_Corner).setView(dialogView).create() } ?:
+            throw IllegalStateException("Activity cannot be null")
+            val dialogButton = dialogView.findViewById<TextView>(R.id.tv_button)
+            dialogAlert.show()
+            dialogButton.setOnClickListener{
+                val nameCollection = dialogView.findViewById<EditText>(R.id.username).text
+                viewModel.newCollection(nameCollection.toString())
+                Toast.makeText(context,"New collection $nameCollection сreated", Toast.LENGTH_SHORT).show()
+                dialogAlert.dismiss()
+            }
+        }
+    }
+
+    private fun onClickChecked(collection: CollectionFilmDB){
+        viewModel.addRemoveFilmToCollection(collection.name)
+        Toast.makeText(context,"Selected collection: ${collection.name}",Toast.LENGTH_SHORT).show()
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

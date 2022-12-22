@@ -58,8 +58,8 @@ class ListFilmAdapter @Inject constructor(
 //Set viewed flag
                 if (film.viewed) {
                     holder.binding.inclFilm.ivViewed.visibility = View.VISIBLE
-                    holder.binding.inclFilm.poster.background =
-                        App.context.getDrawable(R.drawable.gradient_viewed)
+                    holder.binding.inclFilm.poster.foreground =
+                        App.context.getDrawable(R.drawable.gradientviewed)
                 }
 //Set rating
                 if (film.rating != null) holder.binding.inclFilm.tvRating.text = film.rating.toString()
@@ -71,8 +71,7 @@ class ListFilmAdapter @Inject constructor(
             }
             //Load small poster. Before load image, show waiting animation.
             val animationCard = LoadImageURLShow()
-            animationCard.setAnimation(holder.binding.inclFilm.poster, film?.posterUrlPreview,
-                R.dimen.card_film_radius)
+            animationCard.setAnimation(holder.binding.inclFilm.poster, film?.posterUrlPreview, R.dimen.card_film_radius)
         }
     }
 

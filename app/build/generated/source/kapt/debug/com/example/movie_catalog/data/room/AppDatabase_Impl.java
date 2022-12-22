@@ -38,13 +38,17 @@ public final class AppDatabase_Impl extends AppDatabase {
       @Override
       public void createAllTables(SupportSQLiteDatabase _db) {
         _db.execSQL("CREATE TABLE IF NOT EXISTS `films` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `filmId` INTEGER NOT NULL, `msg` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, `viewed` INTEGER NOT NULL, `bookmark` INTEGER NOT NULL, `favorite` INTEGER NOT NULL)");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `collections` (`name` TEXT NOT NULL, `included` INTEGER NOT NULL, `count` INTEGER NOT NULL, `filmId` INTEGER NOT NULL, PRIMARY KEY(`name`))");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `crossFC` (`idFilm` INTEGER NOT NULL, `idCollection` TEXT NOT NULL, `included` INTEGER NOT NULL, PRIMARY KEY(`idFilm`, `idCollection`))");
         _db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4111a67c9d0ca99d90fbf853b82f94df')");
+        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '481f9d6f4a7578d997dfb3fe7823d7e2')");
       }
 
       @Override
       public void dropAllTables(SupportSQLiteDatabase _db) {
         _db.execSQL("DROP TABLE IF EXISTS `films`");
+        _db.execSQL("DROP TABLE IF EXISTS `collections`");
+        _db.execSQL("DROP TABLE IF EXISTS `crossFC`");
         if (mCallbacks != null) {
           for (int _i = 0, _size = mCallbacks.size(); _i < _size; _i++) {
             mCallbacks.get(_i).onDestructiveMigration(_db);
@@ -100,9 +104,36 @@ public final class AppDatabase_Impl extends AppDatabase {
                   + " Expected:\n" + _infoFilms + "\n"
                   + " Found:\n" + _existingFilms);
         }
+        final HashMap<String, TableInfo.Column> _columnsCollections = new HashMap<String, TableInfo.Column>(4);
+        _columnsCollections.put("name", new TableInfo.Column("name", "TEXT", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCollections.put("included", new TableInfo.Column("included", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCollections.put("count", new TableInfo.Column("count", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCollections.put("filmId", new TableInfo.Column("filmId", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        final HashSet<TableInfo.ForeignKey> _foreignKeysCollections = new HashSet<TableInfo.ForeignKey>(0);
+        final HashSet<TableInfo.Index> _indicesCollections = new HashSet<TableInfo.Index>(0);
+        final TableInfo _infoCollections = new TableInfo("collections", _columnsCollections, _foreignKeysCollections, _indicesCollections);
+        final TableInfo _existingCollections = TableInfo.read(_db, "collections");
+        if (! _infoCollections.equals(_existingCollections)) {
+          return new RoomOpenHelper.ValidationResult(false, "collections(com.example.movie_catalog.data.room.CollectionFilmDB).\n"
+                  + " Expected:\n" + _infoCollections + "\n"
+                  + " Found:\n" + _existingCollections);
+        }
+        final HashMap<String, TableInfo.Column> _columnsCrossFC = new HashMap<String, TableInfo.Column>(3);
+        _columnsCrossFC.put("idFilm", new TableInfo.Column("idFilm", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCrossFC.put("idCollection", new TableInfo.Column("idCollection", "TEXT", true, 2, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCrossFC.put("included", new TableInfo.Column("included", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        final HashSet<TableInfo.ForeignKey> _foreignKeysCrossFC = new HashSet<TableInfo.ForeignKey>(0);
+        final HashSet<TableInfo.Index> _indicesCrossFC = new HashSet<TableInfo.Index>(0);
+        final TableInfo _infoCrossFC = new TableInfo("crossFC", _columnsCrossFC, _foreignKeysCrossFC, _indicesCrossFC);
+        final TableInfo _existingCrossFC = TableInfo.read(_db, "crossFC");
+        if (! _infoCrossFC.equals(_existingCrossFC)) {
+          return new RoomOpenHelper.ValidationResult(false, "crossFC(com.example.movie_catalog.data.room.CrossFileCollection).\n"
+                  + " Expected:\n" + _infoCrossFC + "\n"
+                  + " Found:\n" + _existingCrossFC);
+        }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "4111a67c9d0ca99d90fbf853b82f94df", "7912896d35f8cee5c61c428c4a780b26");
+    }, "481f9d6f4a7578d997dfb3fe7823d7e2", "450b53292e222e4b4b665a469bf85fa6");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(configuration.context)
         .name(configuration.name)
         .callback(_openCallback)
@@ -115,7 +146,7 @@ public final class AppDatabase_Impl extends AppDatabase {
   protected InvalidationTracker createInvalidationTracker() {
     final HashMap<String, String> _shadowTablesMap = new HashMap<String, String>(0);
     HashMap<String, Set<String>> _viewTables = new HashMap<String, Set<String>>(0);
-    return new InvalidationTracker(this, _shadowTablesMap, _viewTables, "films");
+    return new InvalidationTracker(this, _shadowTablesMap, _viewTables, "films","collections","crossFC");
   }
 
   @Override
@@ -125,6 +156,8 @@ public final class AppDatabase_Impl extends AppDatabase {
     try {
       super.beginTransaction();
       _db.execSQL("DELETE FROM `films`");
+      _db.execSQL("DELETE FROM `collections`");
+      _db.execSQL("DELETE FROM `crossFC`");
       super.setTransactionSuccessful();
     } finally {
       super.endTransaction();

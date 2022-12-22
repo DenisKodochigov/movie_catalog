@@ -39,36 +39,43 @@
         <item name="android:layout_marginTop">@dimen/film_page_margin_top_h2</item>
         <item name="android:layout_marginBottom">@dimen/film_page_margin_bottom_h2</item>
     </style>
-
     <style name="H3" parent = "textApp">
         <item name="android:textSize">16sp</item>
+        <item name="android:gravity">start</item>
+    </style>
+    <style name="H3.1" parent = "H3">
         <item name="android:layout_marginTop">@dimen/margin_app_top</item>
         <item name="android:layout_marginEnd">@dimen/margin_app_hor</item>
         <item name="android:layout_marginStart">@dimen/margin_app_hor</item>
-        <item name="android:gravity">start</item>
     </style>
-    <style name="H3_description" parent="H3">
+    <style name="H3_description" parent="H3.1">
         <item name="android:maxLines">20</item>
         <item name="android:ellipsize">end</item>
         <item name="android:inputType">textMultiLine</item>
     </style>
-    <style name="H3_short_description" parent="H3">
+    <style name="H3_short_description" parent="H3.1">
         <item name="android:inputType">textMultiLine</item>
         <item name="android:textStyle">bold</item>
         <item name="android:maxLines">5</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
     </style>
-    <style name="H3_person_name" parent="H3">
+    <style name="H3_person_name" parent="H3.1">
         <item name="android:textStyle">bold</item>
         <item name="android:layout_marginTop">@dimen/dp0</item>
         <item name="android:layout_marginStart">@dimen/person_name_margin_start</item>
         <item name="android:gravity">left</item>
     </style>
+    <style name="H3_bottom_sheet_add_collection" parent="H3">
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
 
     <style name="H4" parent = "textApp">
         <item name="android:textSize">14sp</item>
         <item name="android:gravity">start</item>
+    </style>
+    <style name="H4_bold" parent = "textApp">
+        <item name="android:textStyle">bold</item>
     </style>
     <style name="H4_" parent = "H4">
         <item name="android:layout_marginTop">@dimen/margin_top_display</item>
@@ -91,49 +98,47 @@
         <item name="android:textStyle">bold</item>
         <item name="android:layout_marginTop">@dimen/viewer_season_header_top</item>
     </style>
-
     <style name="H5" parent = "textApp">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/h5</item>
+        <item name="android:gravity">start</item>
+    </style>
+    <style name="H5.1" parent = "H5">
         <item name="android:layout_marginTop">@dimen/margin_app_top</item>
         <item name="android:layout_marginEnd">@dimen/margin_app_hor</item>
         <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:gravity">start</item>
     </style>
-    <style name="H5_actor" parent = "H5">
+    <style name="H5_actor" parent = "H5.1">
         <item name="android:layout_marginTop">@dimen/margin_top_display</item>
         <item name="android:layout_marginEnd">@dimen/margin_top_display</item>
     </style>
-    <style name="H5_home" parent = "H5">
+    <style name="H5_home" parent = "H5.1">
         <item name="android:layout_marginTop">@dimen/margin_top_h5_home</item>
         <item name="android:layout_marginEnd">@dimen/margin_top_display</item>
     </style>
-    <style name="H5_poster" parent = "H5">
+    <style name="H5_poster" parent = "H5.1">
         <item name="android:layout_marginTop">@dimen/film_page_margin_top_h5</item>
         <item name="android:layout_marginEnd">@dimen/dp0</item>
         <item name="android:gravity">center_horizontal</item>
     </style>
-    <style name="H5_toolbar" parent = "H5">
+    <style name="H5_toolbar" parent = "H5.1">
         <item name="android:layout_marginTop">@dimen/toolbar_margin_top</item>
         <item name="android:gravity">center_horizontal</item>
         <item name="android:textColor">@color/general</item>
     </style>
-    <style name="H5_person_job" parent = "H5">
+    <style name="H5_person_job" parent = "H5.1">
         <item name="android:textStyle">bold</item>
         <item name="android:layout_marginTop">@dimen/person_job_margin_top</item>
         <item name="android:gravity">left</item>
     </style>
-    <style name="H5_description" parent = "H5">
+    <style name="H5_description" parent = "H5.1">
         <item name="android:layout_marginTop">@dimen/viewer_season_recycler_data_top</item>
         <item name="android:inputType">textMultiLine</item>
     </style>
-    <style name="H5_filmography" parent = "textApp">
-        <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/h5</item>
+    <style name="H5_filmography" parent = "H5">
         <item name="android:layout_marginTop">@dimen/filmography_recycler_top</item>
     </style>
-    <style name="H5_show_all" parent = "textApp">
-        <item name="android:textSize">12sp</item>
+    <style name="H5_show_all" parent = "H5">
         <item name="android:textColor">@color/general</item>
     </style>
     <style name="H6" parent = "textApp">
@@ -178,4 +183,30 @@
         <item name="android:paddingEnd">@dimen/gallery_tab_margin_hor</item>
         <item name="android:paddingVertical">8dp</item>
     </style>
+
+    <style name="AppBottomSheetDialogTheme"
+        parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bottom_sheet</item>
+    </style>
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/material_dynamic_neutral95</item>
+    </style>
+
+    <style name="H4_checkbox_collection" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textSize">16sp</item>
+        <item name="marginHorizontal">26dp</item>
+        <item name="paddingStart">16dp</item>
+    </style>
+    <style name="Style_Dialog_Rounded_Corner" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/dialog_corner</item>
+        <item name="android:windowMinWidthMinor">85%</item>
+    </style>
+
 </resources>

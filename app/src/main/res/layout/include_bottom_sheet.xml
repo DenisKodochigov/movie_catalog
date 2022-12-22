@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/bottom_height"
+    android:layout_margin="@dimen/bottom_margin">
+
+    <ImageView
+        android:id="@+id/poster"
+        android:layout_width="@dimen/bottom_image_width"
+        android:layout_height="@dimen/bottom_image_height"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/bottom_margin"
+        app:layout_constraintTop_toTopOf="@id/poster"
+        app:layout_constraintBottom_toBottomOf="@id/poster"
+        app:layout_constraintStart_toEndOf="@id/poster"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/name_film"
+            style="@style/H4_bold"
+            android:hint="@string/name_film"/>
+        <TextView
+            android:id="@+id/start_year"
+            style="@style/H5"
+            android:hint="@string/genre_film"/>
+    </LinearLayout>
+    <View
+        style="@style/Divider"
+        app:layout_constraintTop_toBottomOf="@+id/poster"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/ll_add_in_collection"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_line_height"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/poster">
+        <ImageView
+            style="@style/H3_bottom_sheet_add_collection"
+            android:src="@drawable/icon_add_in_collection"
+            android:layout_marginHorizontal="@dimen/bottom_add_collection_margin_hor"/>
+        <TextView
+            android:id="@+id/tv_add_in_collection"
+            style="@style/H3_bottom_sheet_add_collection"
+            android:text="@string/add_collection" />
+    </LinearLayout>
+    <View
+        style="@style/Divider"
+        app:layout_constraintTop_toBottomOf="@+id/ll_add_in_collection"
+        app:layout_constraintStart_toStartOf="parent"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_collections"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_recycler_height"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@id/ll_add_in_collection"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/ll_add_collection"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_line_height"
+        android:orientation="horizontal"
+        android:layout_marginStart="@dimen/bottom_button_new_collection"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rv_collections">
+        <ImageView
+            style="@style/H3_bottom_sheet_add_collection"
+            android:src="@drawable/ic_baseline_add_24"/>
+        <TextView
+            android:id="@+id/tv_add_collection"
+            style="@style/H3_bottom_sheet_add_collection"
+            android:text="@string/create_collection" />
+    </LinearLayout>
+    <View
+        style="@style/Divider"
+        app:layout_constraintTop_toBottomOf="@+id/ll_add_collection"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

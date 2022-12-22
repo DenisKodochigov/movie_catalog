@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_dialog"
+    android:layout_width="308dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_corner"
+    android:orientation="vertical"
+    android:textAlignment="center">
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="26dp"
+        android:layout_marginTop="24dp"
+        android:hint="@string/dialog_message"
+        android:textColorHint="#757575"
+        android:autofillHints=""/>
+
+    <TextView
+        android:id="@+id/tv_button"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/gallery_tab_selected_rectangle"
+        android:clickable="true"
+        android:gravity="center"
+        android:paddingHorizontal="24dp"
+        android:text="@string/ok"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        tools:ignore="TouchTargetSizeCheck"
+        android:focusable="true" />
+
+</LinearLayout>

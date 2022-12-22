@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <gradient
-        android:startColor="@color/h5_poster"
-        android:endColor="@color/blue_arrow"
+        android:startColor="@color/gradient_viewed1"
+        android:endColor="@color/gradient_viewed2"
         android:angle="270"/>
     <corners android:radius="@dimen/film_page_card_person_radius"/>
 </shape>

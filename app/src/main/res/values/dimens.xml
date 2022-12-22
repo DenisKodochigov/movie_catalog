@@ -102,4 +102,15 @@
     <dimen name="filmography_recycler_text_start">16dp</dimen>
     <dimen name="filmography_viewer_top">40dp</dimen>
 
+    <dimen name="bottom_height">492dp</dimen>
+    <dimen name="bottom_margin">8dp</dimen>
+    <dimen name="bottom_image_width">96dp</dimen>
+    <dimen name="bottom_image_height">132dp</dimen>
+    <dimen name="bottom_add_collection_margin_hor">35dp</dimen>
+    <dimen name="bottom_line_height">40dp</dimen>
+    <dimen name="bottom_recycler_height">120dp</dimen>
+    <dimen name="bottom_button_new_collection">64dp</dimen>
+
+    <dimen name="bottom_rv_item_height">39dp</dimen>
+    <dimen name="bottom_rv_item_checkbox_paddingStart">25dp</dimen>
 </resources>

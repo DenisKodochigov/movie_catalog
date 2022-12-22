@@ -97,4 +97,14 @@
     <string name="VOICE_MALE">VOICE_MALE</string>
     <string name="VOICE_FEMALE">VOICE_FEMALE</string>
     <string name="HRONO_TITR_FEMALE">HRONO_TITR_FEMALE</string>
+    <string name="name_film">Название фильма</string>
+    <string name="genre_film">Жанр фильма</string>
+    <string name="add_collection">Добавить коллекцию.</string>
+    <string name="create_collection">Создать свою коллекцию.</string>
+    <string name="dialog_message">Придумайте название для вашей новой коллекции.</string>
+    <string name="dialog_title">Title</string>
+    <string name="ok">ГОТОВО</string>
+    <string name="name_new_collection">Название коллекции</string>
+    <string name="want_look">Хочу посмотреть</string>
+    <string name="_0">0</string>
 </resources>

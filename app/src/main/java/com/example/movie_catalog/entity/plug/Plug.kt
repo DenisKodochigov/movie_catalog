@@ -1,6 +1,7 @@
 package com.example.movie_catalog.entity.plug
 
 import com.example.movie_catalog.data.api.film_info.FilmInfoDTO
+import com.example.movie_catalog.data.room.CollectionFilmDB
 import com.example.movie_catalog.entity.Linker
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.filminfo.InfoFilmSeasons
@@ -496,6 +497,11 @@ object Plug {
             // kit = Kit.PREMIERES
         )
     )
+    val listCollection = listOf(
+        CollectionFilmDB(name = "Хочу посмотреть", included = false, count = 2, filmId = 0),
+        CollectionFilmDB(name = "Любимые", included = true, count = 3, filmId = 0),
+        CollectionFilmDB(name = "Другие", included = false, count = 4, filmId = 0),
+        CollectionFilmDB(name = "Не хочу посмотреть", included = false, count = 5, filmId = 0))
 
     val listLinkers = listOf(
         Linker(film = filmPlug[0], similarFilm = null, person = null, profKey = null, kit = Kit.PREMIERES),
