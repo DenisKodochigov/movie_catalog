@@ -1,6 +1,8 @@
 package com.example.movie_catalog.data
 
 import android.util.Log
+import com.example.movie_catalog.App
+import com.example.movie_catalog.R
 import com.example.movie_catalog.data.api.DataSourceAPI
 import com.example.movie_catalog.data.room.CollectionFilmDB
 import com.example.movie_catalog.data.room.DataSourceDB
@@ -66,7 +68,7 @@ class DataRepository @Inject constructor() {
         return listFilm
     }
 
-    suspend fun getInfoFilmSeason(film: Film): Film? {                 //InfoFilmSeasons
+    suspend fun getInfoFilmSeason(film: Film): Film? {
         if (film.posterUrl == null) dataSourceAPI.getInfoFilmSeason(film)
         return DataCentre.films.find { it.filmId == film.filmId }
     }
@@ -178,6 +180,7 @@ class DataRepository @Inject constructor() {
     }
 
     // FUNCTION DB #################################################
+
     fun changeViewed(film: Film) {
         dataSourceDB.setViewed(film.filmId!!)
         film.viewed = !film.viewed
@@ -192,6 +195,7 @@ class DataRepository @Inject constructor() {
         dataSourceDB.setBookmark(film.filmId!!)
         film.bookmark = !film.bookmark
     }
+
     fun getCollections(filmId:Int): List<CollectionFilmDB>{
         val listCollectionFilmDB = dataSourceDB.getCollections()
         if (listCollectionFilmDB.isNotEmpty()) {

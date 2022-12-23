@@ -14,7 +14,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentGalleryBinding
 import com.example.movie_catalog.entity.Gallery
+import com.example.movie_catalog.entity.enumApp.ModeViewer
 import com.example.movie_catalog.ui.recycler.GalleryViewPagerAdapter
+import com.example.movie_catalog.ui.recycler.ViewerPageAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,7 +52,10 @@ class GalleryFragment : Fragment() {
     }
 
     private fun processingTabLayout(gallery: Gallery) {
-        binding.viewpager.adapter = GalleryViewPagerAdapter(gallery) { onClickViewPager() }
+        val adapter = ViewerPageAdapter(ModeViewer.GALLERY) { onClickViewPager() }
+        adapter.setList(gallery)
+        binding.viewpager.adapter = adapter
+//        binding.viewpager.adapter = GalleryViewPagerAdapter(gallery) { onClickViewPager() }
         binding.viewpager.currentItem = 0
         TabLayoutMediator(binding.tabs, binding.viewpager) { tab, position ->
             tab.setCustomView(R.layout.item_gallery_tab)

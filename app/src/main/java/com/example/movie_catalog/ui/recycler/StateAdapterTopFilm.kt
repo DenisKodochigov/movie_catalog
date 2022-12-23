@@ -7,7 +7,7 @@ import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_catalog.databinding.IncludeFilmPageStateLoadBinding
 
-class StateAdapterTopFilm : LoadStateAdapter<LoadStateViewHolder>() {
+class  StateAdapterTopFilm : LoadStateAdapter<LoadStateViewHolder>() {
     override fun onBindViewHolder(holder: LoadStateViewHolder, loadState: LoadState) = Unit
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): LoadStateViewHolder {

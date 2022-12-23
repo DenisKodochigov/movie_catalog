@@ -49,7 +49,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    private fun getCollections() {
+    fun getCollections() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 localFilm?.let { film ->

@@ -3,8 +3,6 @@ package com.example.movie_catalog.data.api
 import android.icu.text.SimpleDateFormat
 import com.example.movie_catalog.entity.Constants
 import com.example.movie_catalog.data.api.home.MonthKinopoisk
-import com.example.movie_catalog.data.api.home.getKit.CountryIdDTO
-import com.example.movie_catalog.data.api.home.getKit.GenreIdDTO
 import com.example.movie_catalog.data.api.home.getKit.SelectedKit
 import com.example.movie_catalog.entity.DataCentre
 import com.example.movie_catalog.entity.Film

@@ -15,8 +15,10 @@ import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentFilmographyBinding
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.FilmographyData
+import com.example.movie_catalog.entity.enumApp.ModeViewer
 import com.example.movie_catalog.ui.gallery.GalleryFragment
 import com.example.movie_catalog.ui.recycler.FilmographyViewPagerAdapter
+import com.example.movie_catalog.ui.recycler.ViewerPageAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,8 +54,10 @@ class FilmographyFragment : Fragment() {
 
     private fun processingTabLayout(person: FilmographyData) {
 
-        binding.viewpager.adapter =
-            FilmographyViewPagerAdapter(person) { film -> onClickViewPager(film) }
+        val adapter = ViewerPageAdapter(ModeViewer.FILMOGRAPHY) { film -> onClickViewPager(film as Film) }
+        adapter.setList(person)
+        binding.viewpager.adapter = adapter
+
         binding.viewpager.currentItem = 0
         TabLayoutMediator(binding.tabs, binding.viewpager) { tab, position ->
             tab.setCustomView(R.layout.item_filmography_tab)

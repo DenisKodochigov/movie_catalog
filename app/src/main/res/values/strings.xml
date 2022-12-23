@@ -106,5 +106,6 @@
     <string name="ok">ГОТОВО</string>
     <string name="name_new_collection">Название коллекции</string>
     <string name="want_look">Хочу посмотреть</string>
+    <string name="favourite">Любимые</string>
     <string name="_0">0</string>
 </resources>

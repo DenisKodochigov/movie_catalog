@@ -64,12 +64,12 @@ open class DataSourceDB  @Inject constructor(){
 
     fun newCollection(collection: CollectionFilmDB){
         dataDao.insert(collection)
-
     }
 
     fun getCountFilmCollection(collectionId: String): List<CrossFileCollection>{
         return dataDao.getCountFilmCollection(collectionId,1)
     }
+
     fun addRemoveFilmToCollection(collectionId: String, filmId: Int){
         val crossFilmCollection = dataDao.getFilmInCollection(collectionId, filmId)
         if (crossFilmCollection != null){

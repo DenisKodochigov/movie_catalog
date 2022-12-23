@@ -188,7 +188,8 @@ class FilmPageFragment : Fragment() {
             startActivity(share)
         }
         binding.posterBig.ivOther.setOnClickListener {
-            showBottomSheetDialog()
+            viewModel.getCollections()
+            showBottomSheetDialog(filmInfo)
         }
     }
 
@@ -307,10 +308,12 @@ class FilmPageFragment : Fragment() {
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    private fun showBottomSheetDialog(){
+    private fun showBottomSheetDialog(film:Film){
         val  bottomSheetDialog = context?.let{ BottomSheetDialog(it, R.style.AppBottomSheetDialogTheme) }
         bottomSheetDialog?.setContentView(R.layout.include_bottom_sheet)
         val poster = bottomSheetDialog?.findViewById<ImageView>(R.id.poster)
+        bottomSheetDialog?.findViewById<TextView>(R.id.bottom_name_film)?.text = film.nameRu
+        bottomSheetDialog?.findViewById<TextView>(R.id.bottom_genre_film)?.text = film.genresTxt()
         val newCollection = bottomSheetDialog?.findViewById<LinearLayout>(R.id.ll_add_collection)
         poster?.background = context?.getDrawable(R.drawable.ic_baseline_image_not_supported_24)
         val adapterBottom = BottomAdapter {collection -> onClickChecked(collection) }
