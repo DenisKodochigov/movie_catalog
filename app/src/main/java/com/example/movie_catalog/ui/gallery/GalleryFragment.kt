@@ -15,7 +15,6 @@ import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentGalleryBinding
 import com.example.movie_catalog.entity.Gallery
 import com.example.movie_catalog.entity.enumApp.ModeViewer
-import com.example.movie_catalog.ui.recycler.GalleryViewPagerAdapter
 import com.example.movie_catalog.ui.recycler.ViewerPageAdapter
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
