@@ -17,6 +17,7 @@ import com.example.movie_catalog.entity.Constants
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Linker
 import com.example.movie_catalog.entity.enumApp.Kit
+import com.example.movie_catalog.entity.enumApp.ModeViewer
 import com.example.movie_catalog.ui.recycler.ListFilmAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.StateFlow
@@ -29,17 +30,17 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val homeViewModel: HomeViewModel by viewModels()
-    private val premieresAdapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD, Constants.FILM,
+    private val premieresAdapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD, ModeViewer.FILM,
         { film -> onItemClick(film)}, { kit -> onClickAll(kit)})
-    private val popularAdapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD, Constants.FILM,
+    private val popularAdapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD, ModeViewer.FILM,
         { film -> onItemClick(film)}, { kit -> onClickAll(kit)})
-    private val top250Adapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD, Constants.FILM,
+    private val top250Adapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD, ModeViewer.FILM,
         { film -> onItemClick(film)}, { kit -> onClickAll(kit)})
-    private val random1Adapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD, Constants.FILM,
+    private val random1Adapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD, ModeViewer.FILM,
         { film -> onItemClick(film)}, { kit -> onClickAll(kit)})
-    private val random2Adapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD, Constants.FILM,
+    private val random2Adapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD, ModeViewer.FILM,
         { film -> onItemClick(film)}, { kit -> onClickAll(kit)})
-    private val serialAdapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD, Constants.FILM,
+    private val serialAdapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD, ModeViewer.FILM,
         { film -> onItemClick(film)}, { kit -> onClickAll(kit)})
 
     override fun onCreateView(

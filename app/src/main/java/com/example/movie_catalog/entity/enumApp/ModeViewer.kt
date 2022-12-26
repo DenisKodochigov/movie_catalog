@@ -4,5 +4,7 @@ enum class ModeViewer {
     FILMOGRAPHY,
     GALLERY,
     IMAGE,
-    SEASON
+    SEASON,
+    FILM,
+    SIMILAR,
 }

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_catalog.App
 import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
-import com.example.movie_catalog.databinding.ItemListFilmBinding
+import com.example.movie_catalog.databinding.ItemListFilmBotBinding
 import com.example.movie_catalog.entity.Constants
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Linker
@@ -19,7 +19,7 @@ class ListFilmPagingAdapter @Inject constructor(private val onClick: (Film) -> U
 ) : PagingDataAdapter<Linker, PagingViewHolder>(DiffUtilCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagingViewHolder {
-        return PagingViewHolder(ItemListFilmBinding.inflate(
+        return PagingViewHolder(ItemListFilmBotBinding.inflate(
             LayoutInflater.from(parent.context), parent, false))
     }
 
@@ -55,7 +55,7 @@ class ListFilmPagingAdapter @Inject constructor(private val onClick: (Film) -> U
     }
 }
 
-class PagingViewHolder(val binding: ItemListFilmBinding): RecyclerView.ViewHolder(binding.root)
+class PagingViewHolder(val binding: ItemListFilmBotBinding): RecyclerView.ViewHolder(binding.root)
 
 class DiffUtilCallback : DiffUtil.ItemCallback<Linker>() {
     override fun areItemsTheSame(oldItem: Linker, newItem: Linker): Boolean =

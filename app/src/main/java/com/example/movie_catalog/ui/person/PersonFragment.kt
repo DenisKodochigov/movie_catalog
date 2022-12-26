@@ -16,6 +16,7 @@ import com.example.movie_catalog.animations.LoadImageURLShow
 import com.example.movie_catalog.databinding.FragmentPersonBinding
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.enumApp.Kit
+import com.example.movie_catalog.entity.enumApp.ModeViewer
 import com.example.movie_catalog.ui.recycler.ListFilmAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -31,7 +32,7 @@ class PersonFragment : Fragment() {
     private var _binding: FragmentPersonBinding? = null
     private val binding get() = _binding!!
     private val viewModel: PersonViewModel by viewModels()
-    private val filmAdapter = ListFilmAdapter(0, Constants.FILM,
+    private val filmAdapter = ListFilmAdapter(0, ModeViewer.FILM,
         { film -> onItemClick(film)}, {kit -> onClickAll(kit)})
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

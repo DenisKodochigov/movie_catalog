@@ -17,8 +17,7 @@ import com.example.movie_catalog.entity.Gallery
 import com.example.movie_catalog.entity.enumApp.ModeViewer
 import com.example.movie_catalog.entity.filminfo.ImageFilm
 
-
-class ViewerPageAdapter (val mode: ModeViewer, private val onClick: (Any?) -> Unit ):
+class ViewerPageAdapter (private val mode: ModeViewer, private val onClick: (Any?) -> Unit ):
     RecyclerView.Adapter<RecyclerView.ViewHolder>(){
     private var items: Any? = null
 
@@ -32,7 +31,7 @@ class ViewerPageAdapter (val mode: ModeViewer, private val onClick: (Any?) -> Un
         when (items) {
             is Gallery -> {
                 size = (items as Gallery).tabs.size
-                if (size == 0) size = (items as Gallery).images.size
+                if (size == 0 || mode == ModeViewer.IMAGE) size = (items as Gallery).images.size
             }
             is FilmographyData -> size = (items as FilmographyData).tabsKey.size
             is Film -> size = (items as Film).listSeasons!!.size
@@ -42,24 +41,23 @@ class ViewerPageAdapter (val mode: ModeViewer, private val onClick: (Any?) -> Un
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            R.layout.item_filmography_viewer -> FilmogrVH(
-                ItemFilmographyViewerBinding.inflate(LayoutInflater.from(parent.context), parent, false))
-            R.layout.item_viewer_image -> ImageHV(
+            R.layout.item_viewer_image_recycler -> ImageHV(
                 ItemViewerImageRecyclerBinding.inflate(LayoutInflater.from(parent.context), parent, false))
             R.layout.item_viewer_season -> SeasonVH(
                 ItemViewerSeasonBinding.inflate(LayoutInflater.from(parent.context), parent, false))
-            R.layout.item_gallery_viewer -> GalleryVH(
-                ItemGalleryViewerBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+            R.layout.item_viewer -> GalleryVH(
+                ItemViewerBinding.inflate(LayoutInflater.from(parent.context), parent, false))
             else -> throw IllegalArgumentException("Unsupported layout") // in case populated with a model we don't know how to display.
         }
     }
 
     override fun getItemViewType(position: Int): Int {
         return when (mode) {
-            ModeViewer.FILMOGRAPHY -> R.layout.item_filmography_viewer
-            ModeViewer.GALLERY -> R.layout.item_gallery_viewer
-            ModeViewer.IMAGE -> R.layout.item_viewer_image
+            ModeViewer.GALLERY -> R.layout.item_viewer
+            ModeViewer.FILMOGRAPHY -> R.layout.item_viewer
+            ModeViewer.IMAGE -> R.layout.item_viewer_image_recycler
             ModeViewer.SEASON -> R.layout.item_viewer_season
+            else -> 0
         }
     }
 
@@ -67,16 +65,49 @@ class ViewerPageAdapter (val mode: ModeViewer, private val onClick: (Any?) -> Un
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         when (holder) {
-            is FilmogrVH -> {
-                val person = items as FilmographyData
-                val filmAdapter = FilmographyRecyclerAdapter { film -> onClickImagesAdapter(film)}
+            is GalleryVH -> {
+                when (mode){
+                    ModeViewer.GALLERY -> {
+                        val gallery = items as Gallery
+                        val imageAdapter = ImagesAdapter ({ onClickImagesAdapter(null)},1)
+//        val imageAdapter = GalleryImagesAdapter { image -> onClickImagesAdapter(image)}
 //        Log.d("KDS", "ViewPagerAdapter, onBindViewHolder start. Position=$position")
-                holder.binding.recyclerImage.layoutManager = LinearLayoutManager(App.context,
-                    RecyclerView.VERTICAL, false)
-                holder.binding.recyclerImage.adapter = filmAdapter
+                        holder.binding.recyclerImage.layoutManager = GridLayoutManager(App.context, 2).also {
+                            it.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                                override fun getSpanSize(position: Int): Int {
+                                    return if (position % 3 == 2) 2
+                                    else 1
+                                }
+                            }
+                        }
 
-                Log.d("KDS", "ViewPagerAdapter, load image tab[position]=$position ")
-                filmAdapter.setList(person.linkers.filter{ it.profKey == person.tabsKey[position].first})
+                        holder.binding.recyclerImage.adapter = imageAdapter
+                        Log.d("KDS", "ViewPagerAdapter, load image tab[position]=$position ")
+                        val listImage = gallery.images.filter { it.imageGroup == gallery.tabs[position].first }
+                        if (listImage.isEmpty()){
+                            imageAdapter.setList(listOf(
+                                ImageFilm("","", null),
+                                ImageFilm("","", null)
+                            ))
+                        }else{
+                            imageAdapter.setList(listImage)
+                        }
+                    }
+                    ModeViewer.FILMOGRAPHY -> {
+                        val person = items as FilmographyData
+                        val filmAdapter = ListFilmAdapter (0, ModeViewer.FILMOGRAPHY,
+                            { film -> onClickImagesAdapter(film)},{})
+//        Log.d("KDS", "ViewPagerAdapter, onBindViewHolder start. Position=$position")
+                        holder.binding.recyclerImage.layoutManager = LinearLayoutManager(App.context,
+                            RecyclerView.VERTICAL, false)
+                        holder.binding.recyclerImage.adapter = filmAdapter
+
+                        Log.d("KDS", "ViewPagerAdapter, load image tab[position]=$position ")
+                        filmAdapter.setListFilm(person.linkers.filter{ it.profKey == person.tabsKey[position].first})
+                    }
+
+                    else -> {}
+                }
             }
 
             is ImageHV -> {
@@ -93,34 +124,7 @@ class ViewerPageAdapter (val mode: ModeViewer, private val onClick: (Any?) -> Un
                 film.listSeasons?.get(position)?.let {
                     episodeAdapter.setList(it.episodes!!)
                     holder.binding.tvHeader.text = it.number.toString() + " " + App.context.getString(R.string.viewer_seasons_season) + ", " +
-                            it.episodes?.size.toString() + " " + App.context.getString(R.string.quantity_series)
-                }
-            }
-
-            is GalleryVH -> {
-                val gallery = items as Gallery
-                val imageAdapter = ImagesAdapter ({ onClickImagesAdapter(null)},1)
-//        val imageAdapter = GalleryImagesAdapter { image -> onClickImagesAdapter(image)}
-//        Log.d("KDS", "ViewPagerAdapter, onBindViewHolder start. Position=$position")
-                holder.binding.recyclerImage.layoutManager = GridLayoutManager(App.context, 2).also {
-                    it.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-                        override fun getSpanSize(position: Int): Int {
-                            return if (position % 3 == 2) 2
-                            else 1
-                        }
-                    }
-                }
-
-                holder.binding.recyclerImage.adapter = imageAdapter
-                Log.d("KDS", "ViewPagerAdapter, load image tab[position]=$position ")
-                val listImage = gallery.images.filter { it.imageGroup == gallery.tabs[position].first }
-                if (listImage.isEmpty()){
-                    imageAdapter.setList(listOf(
-                        ImageFilm("","", null),
-                        ImageFilm("","", null)
-                    ))
-                }else{
-                    imageAdapter.setList(listImage)
+                            it.episodes.size.toString() + " " + App.context.getString(R.string.quantity_series)
                 }
             }
             else -> {}
@@ -131,7 +135,6 @@ class ViewerPageAdapter (val mode: ModeViewer, private val onClick: (Any?) -> Un
         onClick(film)
     }
 }
-class FilmogrVH(val binding: ItemFilmographyViewerBinding): RecyclerView.ViewHolder(binding.root)
 class ImageHV(val binding: ItemViewerImageRecyclerBinding): RecyclerView.ViewHolder(binding.root)
 class SeasonVH(val binding: ItemViewerSeasonBinding): RecyclerView.ViewHolder(binding.root)
-class GalleryVH(val binding: ItemGalleryViewerBinding): RecyclerView.ViewHolder(binding.root)
+class GalleryVH(val binding: ItemViewerBinding): RecyclerView.ViewHolder(binding.root)

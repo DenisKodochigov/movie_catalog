@@ -27,6 +27,7 @@ import com.example.movie_catalog.databinding.FragmentFilmPageBinding
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Person
 import com.example.movie_catalog.entity.enumApp.Kit
+import com.example.movie_catalog.entity.enumApp.ModeViewer
 import com.example.movie_catalog.ui.recycler.BottomAdapter
 import com.example.movie_catalog.ui.recycler.ImagesAdapter
 import com.example.movie_catalog.ui.recycler.ListFilmAdapter
@@ -44,7 +45,7 @@ class FilmPageFragment : Fragment() {
     private val personAdapter = PersonsAdapter({ person -> onPersonClick(person)}, sizeGird = 20, whatRole = 1)
     private val staffAdapter = PersonsAdapter({person -> onPersonClick(person)}, sizeGird = 6, whatRole = 2)
     private val galleryAdapter = ImagesAdapter ({ onImageClick() })
-    private val similarAdapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD, Constants.SIMILAR,
+    private val similarAdapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD, ModeViewer.SIMILAR,
         { onSimilarClick()}, { kit -> onClickAll(kit)})
     private val viewModel: FilmPageViewModel by viewModels()
     private var isCollapsed = false

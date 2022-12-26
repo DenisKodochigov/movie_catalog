@@ -75,6 +75,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
                 onFailure = { Log.d("KDS", it.message ?: "getFilmInfo") } )
         }
     }
+
     fun addRemoveFilmToCollection(nameCollection: String){
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
@@ -90,7 +91,6 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-
     private fun getFilmInfo(film: Film) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
@@ -101,6 +101,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
             )
         }
     }
+
     private fun getPersons(film: Film) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {

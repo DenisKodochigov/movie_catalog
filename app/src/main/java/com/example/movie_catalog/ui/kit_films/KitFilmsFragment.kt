@@ -15,11 +15,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentKitFilmsBinding
-import com.example.movie_catalog.entity.Constants
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.enumApp.Kit
-import com.example.movie_catalog.ui.recycler.ListFilmPagingAdapter
+import com.example.movie_catalog.entity.enumApp.ModeViewer
 import com.example.movie_catalog.ui.recycler.ListFilmAdapter
+import com.example.movie_catalog.ui.recycler.ListFilmPagingAdapter
 import com.example.movie_catalog.ui.recycler.StateAdapterTopFilm
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -35,7 +35,7 @@ class KitFilmsFragment: Fragment() {
     private var _binding: FragmentKitFilmsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: KitfilmsViewModel by viewModels()
-    private val listAdapter = ListFilmAdapter(0, Constants.FILM,
+    private val listAdapter = ListFilmAdapter(0, ModeViewer.FILM,
         { film -> onItemClick(film)}, {kit -> onClickAll(kit)})
     private val pagingAdapter = ListFilmPagingAdapter { film -> onItemClick(film) }
 

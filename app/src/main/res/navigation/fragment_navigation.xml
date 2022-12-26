@@ -90,8 +90,8 @@
     </fragment>
     <fragment
         android:id="@+id/nav_viewer_image"
-        android:name="com.example.movie_catalog.ui.viewer_image.ViewerImageFragment"
-        android:label="ViewerImageFragment" />
+        android:name="com.example.movie_catalog.ui.images.ImagesFragment"
+        android:label="ImagesFragment" />
     <fragment
         android:id="@+id/nav_list_person"
         android:name="com.example.movie_catalog.ui.list_person.ListPersonFragment"
@@ -102,8 +102,8 @@
     </fragment>
     <fragment
         android:id="@+id/nav_seasons"
-        android:name="com.example.movie_catalog.ui.viewer_seasons.ViewerSeasonsFragment"
-        android:label="ViewerSeasonsFragment" >
+        android:name="com.example.movie_catalog.ui.season.SeasonsFragment"
+        android:label="SeasonsFragment" >
     </fragment>
     <fragment
         android:id="@+id/nav_filmography"

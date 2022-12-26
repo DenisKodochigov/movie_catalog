@@ -7,13 +7,13 @@
 
     <include
         android:id="@+id/incl_film"
-        layout="@layout/item_list_film_include_film"
+        layout="@layout/item_list_film_recycler1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <include
         android:id="@+id/incl_show_all"
-        layout="@layout/item_list_film_include_show_all"
+        layout="@layout/item_list_film_show_all"
         android:layout_width="@dimen/card_film_width"
         android:layout_height="@dimen/card_film_height" />
 

@@ -1,7 +1,6 @@
 package com.example.movie_catalog.ui.recycler
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,13 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_catalog.App
 import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
-import com.example.movie_catalog.databinding.ItemFilmographyViewerRecyclerBinding
+import com.example.movie_catalog.databinding.ItemListFilmRightBinding
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Linker
 import javax.inject.Inject
 
 class FilmographyRecyclerAdapter @Inject constructor(private val onClick: (Film) -> Unit) :
-    RecyclerView.Adapter<FilmographyListVH>() {
+    RecyclerView.Adapter<FilmographyVH>() {
 
     private var linkers: List<Linker> = emptyList()
 
@@ -26,15 +25,15 @@ class FilmographyRecyclerAdapter @Inject constructor(private val onClick: (Film)
 //        Log.d("KDS", "ImagesAdapter, set new list. Size list=${images.size} ")
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmographyListVH {
-        return FilmographyListVH( ItemFilmographyViewerRecyclerBinding.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmographyVH {
+        return FilmographyVH( ItemListFilmRightBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun getItemCount() = linkers.size
 
     @SuppressLint("SetTextI18n", "UseCompatLoadingForDrawables")
-    override fun onBindViewHolder(holder: FilmographyListVH, position: Int) {
+    override fun onBindViewHolder(holder: FilmographyVH, position: Int) {
 
         val filmF = linkers[position].film
 //        Log.d("KDS", "ImagesAdapter, onBindViewHolder start. position=$position")
@@ -68,5 +67,5 @@ class FilmographyRecyclerAdapter @Inject constructor(private val onClick: (Film)
     }
 }
 
-class FilmographyListVH(val binding: ItemFilmographyViewerRecyclerBinding):
-    RecyclerView.ViewHolder(binding.root)
+//class FilmographyListVH(val binding: ItemListFilmRecycler2Binding):
+//    RecyclerView.ViewHolder(binding.root)

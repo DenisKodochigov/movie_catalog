@@ -17,6 +17,7 @@ import com.example.movie_catalog.databinding.FragmentListFilmsBinding
 import com.example.movie_catalog.entity.Constants
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.enumApp.Kit
+import com.example.movie_catalog.entity.enumApp.ModeViewer
 import com.example.movie_catalog.ui.recycler.ListFilmAdapter
 import com.example.movie_catalog.ui.list_person.ListPersonFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,7 +34,7 @@ class ListFilmsFragment : Fragment() {
     private var _binding: FragmentListFilmsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ListFilmsViewModel by viewModels()
-    private val listAdapter = ListFilmAdapter(0, Constants.FILM,
+    private val listAdapter = ListFilmAdapter(0, ModeViewer.FILM,
         { film -> onItemClick(film)}, {kit -> onClickAll(kit)})
 
     override fun onCreateView(
