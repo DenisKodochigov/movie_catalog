@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.movie_catalog.R
-import com.example.movie_catalog.databinding.FragmentViewerImageBinding
+import com.example.movie_catalog.databinding.FragmentImagesBinding
 import com.example.movie_catalog.entity.Gallery
 import com.example.movie_catalog.entity.enumApp.ModeViewer
 import com.example.movie_catalog.ui.recycler.ViewerPageAdapter
@@ -25,14 +25,14 @@ class ImagesFragment : Fragment() {
         fun newInstance() = ImagesFragment()
     }
 
-    private var _binding: FragmentViewerImageBinding? = null
+    private var _binding: FragmentImagesBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ImagesViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
-        _binding = FragmentViewerImageBinding.inflate(inflater, container, false)
+        _binding = FragmentImagesBinding.inflate(inflater, container, false)
         (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text = ""
         return binding.root
     }

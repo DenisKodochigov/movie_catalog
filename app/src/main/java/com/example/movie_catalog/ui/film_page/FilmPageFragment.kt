@@ -347,6 +347,7 @@ class FilmPageFragment : Fragment() {
         viewModel.addRemoveFilmToCollection(collection.name)
         Toast.makeText(context,"Selected collection: ${collection.name}",Toast.LENGTH_SHORT).show()
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

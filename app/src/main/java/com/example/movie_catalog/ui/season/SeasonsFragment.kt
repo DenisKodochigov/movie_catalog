@@ -10,8 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.movie_catalog.R
-import com.example.movie_catalog.data.api.home.seasons.SeasonDTO
-import com.example.movie_catalog.databinding.FragmentViewerSeasonsBinding
+import com.example.movie_catalog.databinding.FragmentSeasonsBinding
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.enumApp.ModeViewer
 import com.example.movie_catalog.ui.recycler.ViewerPageAdapter
@@ -26,14 +25,14 @@ class SeasonsFragment : Fragment() {
         fun newInstance() = SeasonsFragment()
     }
 
-    private var _binding: FragmentViewerSeasonsBinding? = null
+    private var _binding: FragmentSeasonsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SeasonsViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
-        _binding = FragmentViewerSeasonsBinding.inflate(inflater, container, false)
+        _binding = FragmentSeasonsBinding.inflate(inflater, container, false)
         (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text = ""
         return binding.root
     }

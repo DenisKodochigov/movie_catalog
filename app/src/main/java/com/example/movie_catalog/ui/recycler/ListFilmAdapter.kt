@@ -8,12 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_catalog.App
 import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
-import com.example.movie_catalog.databinding.ItemFilmPagePersonBinding
 import com.example.movie_catalog.databinding.ItemListFilmBotBinding
 import com.example.movie_catalog.databinding.ItemListFilmRightBinding
-import com.example.movie_catalog.databinding.ItemPersonListBinding
 import com.example.movie_catalog.entity.Constants
-import com.example.movie_catalog.entity.Constants.FILM
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Linker
 import com.example.movie_catalog.entity.enumApp.Kit
@@ -45,7 +42,7 @@ class ListFilmAdapter @Inject constructor(
         }
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
+    @SuppressLint("UseCompatLoadingForDrawables", "SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is ListVH -> {
