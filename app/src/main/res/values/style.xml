@@ -208,5 +208,64 @@
         <item name="android:windowBackground">@drawable/dialog_corner</item>
         <item name="android:windowMinWidthMinor">85%</item>
     </style>
-
+    <style name="dialog_tv" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/dialog_tv_height</item>
+        <item name="android:layout_gravity">end</item>
+        <item name="android:layout_marginTop">@dimen/dialog_tv_margin_top</item>
+        <item name="android:layout_marginEnd">@dimen/dialog_tv_margin_end</item>
+        <item name="android:layout_marginBottom">@dimen/dialog_tv_margin_bottom</item>
+        <item name="android:background">@drawable/gallery_tab_selected_rectangle</item>
+        <item name="android:clickable">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingHorizontal">@dimen/dialog_tv_padding_hor</item>
+        <item name="android:text">@string/ok</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:focusable">true</item>
+    </style>
+    <style name = "dialog_et" parent = "Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginHorizontal">@dimen/dialog_et_marginHor</item>
+        <item name="android:layout_marginTop">@dimen/dialog_et_marginTop</item>
+        <item name="android:hint">@string/dialog_message</item>
+        <item name="android:textColorHint">@color/hint_color</item>
+    </style>
+    <style name="search_lupa">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">18dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:contentDescription">@string/todo</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+    <style name="search_settings">
+        <item name="android:layout_width">@dimen/search_size_icon</item>
+        <item name="android:layout_height">@dimen/search_size_icon</item>
+        <item name="android:layout_marginEnd">18dp</item>
+        <item name="android:contentDescription">@string/todo</item>
+        <item name="android:layout_gravity">end|center_vertical</item>
+    </style>
+    <style name="search_edit_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:hint">@string/this_search</item>
+        <item name="android:gravity">start</item>
+    </style>
+    <style name="search_separator">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/h5</item>
+        <item name="android:paddingHorizontal">@dimen/search_separator_padding_hor</item>
+    </style>
+    <style name="settings_search_group_start">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:paddingHorizontal">26dp</item>
+    </style>
 </resources>

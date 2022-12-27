@@ -108,4 +108,6 @@
     <string name="want_look">Хочу посмотреть</string>
     <string name="favourite">Любимые</string>
     <string name="_0">0</string>
+    <string name="todo">TODO</string>
+    <string name="this_search">Фильмы, актеры, режисеры</string>
 </resources>
