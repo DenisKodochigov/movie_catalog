@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginHorizontal="@dimen/margin_app_hor"
-    tools:context=".ui.search.SearchFragment">
+    android:paddingTop="?attr/actionBarSize"
+    android:layout_marginHorizontal="@dimen/margin_app_hor">
 
     <LinearLayout
         android:id="@+id/pole_search"
@@ -24,24 +24,14 @@
             tools:ignore="RtlSymmetry" />
         <EditText
             android:id="@+id/et_search"
-            android:hint="@string/this_search"
+            android:hint="@string/enter_genres"
             style="@style/search_edit_text"/>
-        <TextView
-            style = "@style/search_separator"
-            android:text="|"/>
-
-        <ImageView
-            android:id="@+id/iv_config"
-            style = "@style/search_settings"
-            android:src="@drawable/icon_settings_search"/>
-
     </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_search"
+        android:id="@+id/recycler_country_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/search_recycler_top"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/pole_search"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

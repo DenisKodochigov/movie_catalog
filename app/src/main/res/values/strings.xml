@@ -110,4 +110,21 @@
     <string name="_0">0</string>
     <string name="todo">TODO</string>
     <string name="this_search">Фильмы, актеры, режисеры</string>
+    <string name="films">Фильмы</string>
+    <string name="country">Страна</string>
+    <string name="genre">Жанр</string>
+    <string name="year">Год</string>
+    <string name="rating">Рейтинг</string>
+    <string name="_1">1</string>
+    <string name="_10">10</string>
+    <string name="sorting">Сортировка</string>
+    <string name="dont_show_viewed">Не показывать просмотренные фильмы</string>
+    <string name="popularis">Популярность</string>
+    <string name="viewing">Показывать</string>
+    <string name="enter_country">Введите страну</string>
+    <string name="enter_genres">Введите жанр</string>
+    <string name="search_from">Искать в период с</string>
+    <string name="search_to">Искать в период до</string>
+    <string name="year_from">1998 - 2022</string>
+    <string name="selected">Выбрать</string>
 </resources>

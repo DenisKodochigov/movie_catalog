@@ -23,4 +23,12 @@ class ToDo {
     3.5 Карточка актера неимеет скролинга. Не видна фильмография.
 
 
+
+Раздельная линия в recyclerView
+recyclerview.addItemDecoration(DividerItemDecoration(this@YourActivity, LinearLayoutManager.VERTICAL))
+или
+val divider = DividerItemDecoration(this@MainActivity,DividerItemDecoration.VERTICAL)
+divider.setDrawable(ContextCompat.getDrawable(this@MainActivity,R.drawable.item_separator)!!)
+recyclerview.addItemDecoration(divider)
+
  */

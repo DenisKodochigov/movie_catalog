@@ -70,6 +70,9 @@
         <item name="android:layout_gravity">center_vertical</item>
     </style>
 
+    <style name="H3_search_settings_text1" parent="H3">
+        <item name="android:paddingVertical">16dp</item>
+    </style>
     <style name="H4" parent = "textApp">
         <item name="android:textSize">14sp</item>
         <item name="android:gravity">start</item>
@@ -98,6 +101,10 @@
         <item name="android:textStyle">bold</item>
         <item name="android:layout_marginTop">@dimen/viewer_season_header_top</item>
     </style>
+    <style name="H4_search_settings_text2" parent="H4">
+        <item name="android:textColor">@color/h5</item>
+    </style>
+
     <style name="H5" parent = "textApp">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/h5</item>
@@ -193,7 +200,7 @@
         parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bottom_sheet</item>
     </style>
-    <style name="Divider">
+    <style name="divider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
         <item name="android:background">@color/material_dynamic_neutral95</item>
@@ -252,7 +259,6 @@
     <style name="search_edit_text">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:hint">@string/this_search</item>
         <item name="android:gravity">start</item>
     </style>
     <style name="search_separator">
@@ -268,4 +274,18 @@
         <item name="android:textSize">14sp</item>
         <item name="android:paddingHorizontal">26dp</item>
     </style>
+    <style name="settings_year_text" parent = "H3">
+        <item name="android:width">0dp</item>
+        <item name="android:paddingTop">@dimen/settings_padding_vert</item>
+        <item name="android:paddingStart">@dimen/settings_padding_hor</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/blue_arrow</item>
+        <item name="android:layout_gravity">start</item>
+    </style>
+    <style name="settings_iv_arrow">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/settings_padding_vert</item>
+    </style>
+
 </resources>

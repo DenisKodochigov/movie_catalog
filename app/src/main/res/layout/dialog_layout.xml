@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_dialog"
     android:layout_width="@dimen/dialog_root_width"
     android:layout_height="wrap_content"
@@ -10,7 +9,8 @@
 
     <EditText
         android:id="@+id/username"
-        style="@style/dialog_et"/>
+        style="@style/dialog_et"
+        android:autofillHints="" />
 
     <TextView
         android:id="@+id/tv_button"
