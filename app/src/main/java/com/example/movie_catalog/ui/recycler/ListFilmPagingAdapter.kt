@@ -1,5 +1,6 @@
 package com.example.movie_catalog.ui.recycler
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +14,11 @@ import com.example.movie_catalog.databinding.ItemListFilmBotBinding
 import com.example.movie_catalog.entity.Constants
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Linker
+import com.example.movie_catalog.entity.enumApp.ModeViewer
 import javax.inject.Inject
 
-class ListFilmPagingAdapter @Inject constructor(private val onClick: (Film) -> Unit
+class ListFilmPagingAdapter @Inject constructor(private val mode: ModeViewer,
+                                                private val onClick: (Film) -> Unit
 ) : PagingDataAdapter<Linker, PagingViewHolder>(DiffUtilCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PagingViewHolder {
@@ -23,6 +26,7 @@ class ListFilmPagingAdapter @Inject constructor(private val onClick: (Film) -> U
             LayoutInflater.from(parent.context), parent, false))
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onBindViewHolder(holder: PagingViewHolder, position: Int) {
         if (position > Constants.HOME_QTY_FILMCARD-1){
             holder.binding.inclFilm.root.visibility = View.INVISIBLE
@@ -46,11 +50,7 @@ class ListFilmPagingAdapter @Inject constructor(private val onClick: (Film) -> U
             }
             //Load small poster. Before load image, show waiting animation.
             val animationCard = LoadImageURLShow()
-            animationCard.setAnimation(
-                holder.binding.inclFilm.poster,
-                film?.posterUrlPreview,
-                R.dimen.card_film_radius
-            )
+            animationCard.setAnimation(holder.binding.inclFilm.poster, film?.posterUrlPreview, R.dimen.card_film_radius)
         }
     }
 }

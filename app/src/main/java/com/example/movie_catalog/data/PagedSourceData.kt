@@ -10,7 +10,7 @@ class PagedSourceData  @Inject constructor(val kit: Kit): PagingSource<Int, Link
 
     private val dataRepository = DataRepository()
 
-    override fun getRefreshKey(state: PagingState<Int, Linker>): Int? = FIRST_PAGE
+    override fun getRefreshKey(state: PagingState<Int, Linker>): Int = FIRST_PAGE
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Linker> {
         val page = params.key ?: FIRST_PAGE

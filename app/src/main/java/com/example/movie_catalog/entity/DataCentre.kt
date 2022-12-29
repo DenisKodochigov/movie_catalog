@@ -5,6 +5,9 @@ import com.example.movie_catalog.data.api.film_info.FilmImageDTO
 import com.example.movie_catalog.data.api.film_info.PersonDTO
 import com.example.movie_catalog.data.api.film_info.SimilarDTO
 import com.example.movie_catalog.data.api.home.filter.FilterDTO
+import com.example.movie_catalog.data.api.home.getKit.CountryIdDTO
+import com.example.movie_catalog.data.api.home.getKit.GenreIdDTO
+import com.example.movie_catalog.data.api.home.getKit.ListGenresDTO
 import com.example.movie_catalog.data.api.home.premieres.PremieresDTO
 import com.example.movie_catalog.data.api.home.top.TopFilmsDTO
 import com.example.movie_catalog.data.api.person.PersonInfoDTO
@@ -18,12 +21,14 @@ object DataCentre {
     var films = mutableListOf<Film>()
     private var persons = mutableListOf<Person>()
     var linkers = mutableListOf<Linker>()
+    var countries = mutableListOf<CountryIdDTO>()
+    var genres = mutableListOf<GenreIdDTO>()
 
     private var currentJobPerson: String? = null
     private var currentKit: Kit? = null
     private var currentFilm: Film? = null
     private var currentPerson: Person? = null
-    private var currentKeyListFragment: String? = null
+    private var searchFilter: SearchFilter? = null
 
     fun addFilms(listFilm: PremieresDTO) {
         listFilm.items.forEach { filmDTO ->
@@ -260,6 +265,19 @@ object DataCentre {
         }
     }
 
+    fun addCountryGenres(listDTO: ListGenresDTO){
+        listDTO.genres?.forEach { dto ->
+            if (genres.find { it.id == dto.id } == null) {
+                genres.add(GenreIdDTO(dto.id, dto.genre))
+            }
+        }
+        listDTO.countries?.forEach {dto ->
+            if (countries.find { it.id == dto.id } == null) {
+                countries.add(CountryIdDTO(dto.id, dto.country))
+            }
+        }
+    }
+
     fun takeFilm(): Film? {
         val it = currentFilm
         currentFilm = null
@@ -286,10 +304,19 @@ object DataCentre {
         return it
     }
 
-    fun putKit(id: Kit) {
-        currentKit = id
+    fun putKit(kit: Kit) {
+        currentKit = kit
     }
 
+    fun putSearchFilter(searchFilterA: SearchFilter){
+        searchFilter = searchFilterA
+    }
+
+    fun takeSearchFilter(): SearchFilter? {
+        val it = searchFilter
+        searchFilter = null
+        return it
+    }
     //###############################################################################################
     fun takeJobPerson(): String? {
         val it = currentJobPerson

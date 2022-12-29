@@ -37,9 +37,12 @@ interface KinopoiskAPI {
     suspend fun getSerials(@Query("page") page: Int): FilterDTO
 
     @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
-    @GET("/api/v2.2/films?order=RATING&type=FILM&ratingFrom=0&ratingTo=10&yearFrom=1000&yearTo=3000")
+    @GET("/api/v2.2/films")
     suspend fun getFilters(@Query("page") page: Int,
-                      @Query("countries") countries: Int, @Query("genres") genres: Int): FilterDTO
+                    @Query("order") order: String, @Query("type") type: String,
+                    @Query("ratingFrom") ratingFrom: Int, @Query("ratingTo") ratingTo: Int,
+                    @Query("yearFrom") yearFrom: Int, @Query("yearTo") yearTo: Int,
+                    @Query("countries") countries: Int?, @Query("genres") genres: Int?): FilterDTO
 
     @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
     @GET("/api/v2.2/films/filters")

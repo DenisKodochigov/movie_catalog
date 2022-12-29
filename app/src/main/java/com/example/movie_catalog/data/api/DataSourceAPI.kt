@@ -1,5 +1,6 @@
 package com.example.movie_catalog.data.api
 
+import android.annotation.SuppressLint
 import android.icu.text.SimpleDateFormat
 import com.example.movie_catalog.entity.Constants
 import com.example.movie_catalog.data.api.home.MonthKinopoisk
@@ -10,13 +11,16 @@ import com.example.movie_catalog.entity.Person
 import com.example.movie_catalog.entity.filminfo.InfoFilmSeasons
 import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.enumApp.ImageGroup
+import com.example.movie_catalog.entity.enumApp.SortingField
+import com.example.movie_catalog.entity.enumApp.TypeFilm
 import java.util.*
 import javax.inject.Inject
 
 class DataSourceAPI @Inject constructor() {
 
-    suspend fun getGenres(): SelectedKit {
+    suspend fun getRandomKitName(): SelectedKit {
         val genreList = retrofitApi.getGenres()
+        DataCentre.addCountryGenres(genreList)
         return SelectedKit( genre1 = genreList.genres!!.random(),
             country1 = genreList.countries!!.random(),
             genre2 = genreList.genres.random(),
@@ -39,6 +43,7 @@ class DataSourceAPI @Inject constructor() {
             DataCentre.addFilm(filmInfoSeasons, film)
     }
 
+    @SuppressLint("SimpleDateFormat")
     suspend fun getPremieres() {
         val calendar = Calendar.getInstance()
         val currentYear = calendar.get(Calendar.YEAR)
@@ -68,9 +73,13 @@ class DataSourceAPI @Inject constructor() {
         DataCentre.addFilms(retrofitApi.getTop(page, kit.query), kit)
     }
 
-    suspend fun getFilters(page:Int, kit: Kit) {
+    //        order=RATING&type=FILM&ratingFrom=0&ratingTo=10&yearFrom=1000&yearTo=3000"
+    suspend fun getFilters(page:Int, kit: Kit, countryID: Int?, genreID: Int?,
+        sorting: String = SortingField.RATING.toString(), type: String = TypeFilm.FILM.toString(),
+        ratingFrom: Int = 0, ratingTo: Int = 10, yearFrom: Int = 1900, yearTo: Int = 2023) {
 //        Log.d("KDS start retrofit", "getFilters start")
-        DataCentre.addFilms(retrofitApi.getFilters(page, kit.countryID,kit.genreID), kit)
+        DataCentre.addFilms(retrofitApi.getFilters(page, sorting, type, ratingFrom, ratingTo,
+                         yearFrom, yearTo, countryID, genreID), kit)
     }
 
     suspend fun getSerials(page:Int, kit: Kit){

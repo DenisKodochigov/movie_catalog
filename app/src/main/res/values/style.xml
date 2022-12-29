@@ -69,7 +69,10 @@
     <style name="H3_bottom_sheet_add_collection" parent="H3">
         <item name="android:layout_gravity">center_vertical</item>
     </style>
-
+    <style name="H3_collection" parent="H3">
+        <item name="android:layout_marginTop">27dp</item>
+        <item name="android:layout_marginStart">23dp</item>
+    </style>
     <style name="H3_search_settings_text1" parent="H3">
         <item name="android:paddingVertical">16dp</item>
     </style>
@@ -93,6 +96,11 @@
     <style name="H4_et" parent = "H4">
         <item name="android:textColor">@color/blue_arrow</item>
         <item name="android:gravity">end|top</item>
+    </style>
+    <style name="H4_show_all" parent = "H4">
+        <item name="android:textColor">@color/blue_arrow</item>
+        <item name="android:gravity">end|center_vertical</item>
+        <item name="android:layout_marginEnd">10dp</item>
     </style>
     <style name="H4_viewer_serial" parent = "H4">
         <item name="android:textColor">@color/h5</item>
@@ -230,6 +238,20 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">18sp</item>
         <item name="android:focusable">true</item>
+    </style>
+    <style name="tvProfileCount" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_marginTop">@dimen/profile_count_margin_top</item>
+        <item name="android:background">@drawable/gallery_tab_selected_rectangle</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingHorizontal">@dimen/profile_count_padding_hor</item>
+        <item name="android:paddingVertical">@dimen/profile_count_padding_ver</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">8sp</item>
     </style>
     <style name = "dialog_et" parent = "Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:layout_width">match_parent</item>

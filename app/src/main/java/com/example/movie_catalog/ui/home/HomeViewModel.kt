@@ -51,7 +51,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
 
     private fun getGenres() {
         viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching { dataRepository.getGenres() }.fold(
+            kotlin.runCatching { dataRepository.getRandomKitName() }.fold(
                 onSuccess = { kit ->
                     _namekit.value = kit
                     Kit.RANDOM1.genreID = kit.genre1.id ?: 0

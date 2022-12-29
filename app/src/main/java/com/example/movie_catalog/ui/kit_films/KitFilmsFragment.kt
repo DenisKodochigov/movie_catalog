@@ -37,7 +37,7 @@ class KitFilmsFragment: Fragment() {
     private val viewModel: KitfilmsViewModel by viewModels()
     private val listAdapter = ListFilmAdapter(0, ModeViewer.FILM,
         { film -> onItemClick(film)}, {kit -> onClickAll(kit)})
-    private val pagingAdapter = ListFilmPagingAdapter { film -> onItemClick(film) }
+    private val pagingAdapter = ListFilmPagingAdapter( ModeViewer.FILM) { film -> onItemClick(film) }
 
 
     override fun onCreateView(

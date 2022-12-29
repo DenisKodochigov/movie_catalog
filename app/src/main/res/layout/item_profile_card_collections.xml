@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/profile_card_height"
+    android:layout_height="@dimen/profile_card_height"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/round_rect_year">
+
+    <ImageView
+        android:id="@+id/iv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/profile_card_iv_margin_top"
+        android:src="@drawable/icon_lieckly"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/todo" />
+    <TextView
+        android:id="@+id/tvNameCollection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/profile_card_tv_margin_top"
+        android:hint="@string/name_collection"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv1"/>
+
+    <TextView
+        android:id="@+id/tvCount"
+        style = "@style/tvProfileCount"
+        android:hint="@string/_0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvNameCollection"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_head"
+        style="@style/H2_app"
+        android:text="@string/collections"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_plus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_add_24"
+        android:layout_marginStart="7dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_create"
+        app:layout_constraintBottom_toBottomOf="@id/tv_create" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_create"
+        style="@style/H3_collection"
+        android:text="@string/create_collection"
+        app:layout_constraintStart_toEndOf="@id/iv_plus"
+        app:layout_constraintTop_toBottomOf="@id/tv_head" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/film_recycler_horizontal"
+        android:layout_marginTop="@dimen/profile_cards_margin_ver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/tv_create"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -139,5 +139,12 @@
     <dimen name="settings_recycler_height">160dp</dimen>
     <dimen name="settings_recycler_padding">24dp</dimen>
 
-
+    <dimen name="profile_recycler_margin_ver">24dp</dimen>
+    <dimen name="profile_cards_margin_ver">27dp</dimen>
+    <dimen name="profile_card_height">146dp</dimen>
+    <dimen name="profile_card_tv_margin_top">8dp</dimen>
+    <dimen name="profile_card_iv_margin_top">55dp</dimen>
+    <dimen name="profile_count_margin_top">12dp</dimen>
+    <dimen name="profile_count_padding_hor">8dp</dimen>
+    <dimen name="profile_count_padding_ver">2dp</dimen>
 </resources>

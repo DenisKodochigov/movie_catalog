@@ -1,14 +1,14 @@
 package com.example.movie_catalog.data
 
 import android.util.Log
-import com.example.movie_catalog.App
-import com.example.movie_catalog.R
 import com.example.movie_catalog.data.api.DataSourceAPI
 import com.example.movie_catalog.data.room.CollectionFilmDB
 import com.example.movie_catalog.data.room.DataSourceDB
 import com.example.movie_catalog.entity.*
 import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.enumApp.ProfKey
+import com.example.movie_catalog.entity.enumApp.SortingField
+import com.example.movie_catalog.entity.enumApp.TypeFilm
 import com.example.movie_catalog.entity.filminfo.ImageFilm
 import javax.inject.Inject
 
@@ -18,7 +18,7 @@ class DataRepository @Inject constructor() {
     private val dataSourceDB = DataSourceDB()
 
     // home  fragment
-    suspend fun getGenres() = dataSourceAPI.getGenres()
+    suspend fun getRandomKitName() = dataSourceAPI.getRandomKitName()
 
     suspend fun getPremieres(): List<Linker> {
         var linkers = DataCentre.linkers.filter { it.kit == Kit.PREMIERES }
@@ -52,7 +52,7 @@ class DataRepository @Inject constructor() {
     suspend fun getFilters(page: Int, kit: Kit): List<Linker> {
         var listBinder = DataCentre.linkers.filter { it.kit == kit }
         if (listBinder.isEmpty()) {
-            dataSourceAPI.getFilters(page, kit)
+            dataSourceAPI.getFilters(page, kit, kit.countryID, kit.genreID)
             listBinder = DataCentre.linkers.filter { it.kit == kit }
         }
         return listBinder
@@ -130,6 +130,7 @@ class DataRepository @Inject constructor() {
             Kit.SERIALS -> getSerials(page, Kit.SERIALS)
             Kit.RANDOM1 -> getFilters(page, Kit.RANDOM1)
             Kit.RANDOM2 -> getFilters(page, Kit.RANDOM2)
+            Kit.ALL -> getSearchFilter(page)
             else -> emptyList()
         }
     }
@@ -154,6 +155,60 @@ class DataRepository @Inject constructor() {
             tabs = film.images.groupingBy { it.imageGroup }.eachCount().toList()
         )
     }
+    
+    // Search fragment
+    private suspend fun getSearchFilter(page: Int): List<Linker>{
+        val filter = DataCentre.takeSearchFilter()
+        filter?.let { item ->
+            dataSourceAPI.getFilters(page, Kit.ALL, item.country?.id,item.genre?.id,
+                item.sorting.toString(), item.typeFilm.toString(), item.rating!!.first.toInt(),
+                item.rating!!.second.toInt(), item.year!!.first, item.year!!.second)
+        }
+        var linkers = emptyList<Linker>()
+
+        if (filter != null) {
+            linkers = DataCentre.linkers.filter { linker ->
+                if (filter.country?.country == null) true
+                else {
+                    linker.film?.countries?.any { it.country == filter.country?.country } ?: false
+                } &&
+                if (filter.genre?.genre == null) true
+                else {
+                    linker.film?.genres?.any { it.genre == filter.genre?.genre } ?: false
+                } &&
+                if (filter.year == null && linker.film?.startYear == null) true
+                else {
+                    linker.film?.startYear!! >= filter.year!!.first.toString() &&
+                        linker.film?.startYear!! <= filter.year!!.second.toString()
+                } &&
+                if (filter.rating == null && linker.film?.rating == null) true
+                else {
+                    linker.film?.rating!! >= filter.rating!!.first.toString() &&
+                            linker.film?.rating!! <= filter.rating!!.second.toString()
+                } &&
+                if (filter.viewed == null && linker.film?.viewed == null) true
+                else {
+                    linker.film?.viewed!! >= filter.viewed!!
+                } &&
+                if (filter.typeFilm == null || filter.typeFilm == TypeFilm.ALL) true
+                else {
+                    linker.film?.totalSeasons == null && filter.typeFilm!! == TypeFilm.FILM ||
+                    linker.film?.totalSeasons != null && filter.typeFilm!! == TypeFilm.SERIALS
+                }
+            }
+        }
+        when (DataCentre.takeSearchFilter()!!.sorting){
+            SortingField.DATE -> linkers.sortedBy { it.film!!.startYear }
+            SortingField.POPULAR -> linkers.sortedBy { it.film!!.startYear }
+            SortingField.RATING -> linkers.sortedBy { it.film!!.rating }
+            else -> {}
+        }
+        return linkers
+    }
+
+    fun getGenres() = DataCentre.genres
+
+    fun getCountries() = DataCentre.countries
 
     fun takeFilm() = DataCentre.takeFilm()
 
@@ -173,12 +228,18 @@ class DataRepository @Inject constructor() {
         DataCentre.putKit(item)
     }
 
+    fun takeSearchFilter() = DataCentre.takeSearchFilter()
+
+    fun putSearchFilter(searchFilter: SearchFilter){
+        DataCentre.putSearchFilter(searchFilter)
+    }
+
     fun takeJobPerson() = DataCentre.takeJobPerson()
 
     fun putJobPerson(item: String) {
         DataCentre.putJobPerson(item)
     }
-
+    
     // FUNCTION DB #################################################
 
     fun changeViewed(film: Film) {
@@ -218,5 +279,6 @@ class DataRepository @Inject constructor() {
         dataSourceDB.addRemoveFilmToCollection(nameCollection, filmId)
         return getCollections(filmId)
     }
+
 }
 //################################################################################################################
