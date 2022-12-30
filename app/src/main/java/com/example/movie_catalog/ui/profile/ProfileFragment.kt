@@ -27,10 +27,10 @@ class ProfileFragment : Fragment() {
         (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text = "Profile"
         val root: View = binding.root
 
-        val textView: TextView = binding.textNotifications
-        profileViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+//        val textView: TextView = binding.textNotifications
+//        profileViewModel.text.observe(viewLifecycleOwner) {
+//            textView.text = it
+//        }
         return root
     }
 

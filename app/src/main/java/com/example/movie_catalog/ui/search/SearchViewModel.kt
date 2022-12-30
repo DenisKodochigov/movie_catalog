@@ -15,6 +15,7 @@ import com.example.movie_catalog.entity.Linker
 import com.example.movie_catalog.entity.SearchFilter
 import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.enumApp.SortingField
+import com.example.movie_catalog.entity.enumApp.TypeFilm
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -34,10 +35,11 @@ class SearchViewModel @Inject constructor(): ViewModel() {
             SearchFilter(
                 country = CountryIdDTO(id = 1, country = "США"),
                 genre = GenreIdDTO(id = 11, genre = "боевик"),
+                typeFilm = TypeFilm.FILM,
                 year = Pair(1999,2020),
                 rating = Pair(1.0, 10.0),
                 viewed = false,
-                sorting = SortingField.DATE
+                sorting = SortingField.YEAR
             )
         )
         pagedFilms = Pager(

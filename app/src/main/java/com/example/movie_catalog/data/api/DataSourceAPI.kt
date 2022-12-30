@@ -78,8 +78,11 @@ class DataSourceAPI @Inject constructor() {
         sorting: String = SortingField.RATING.toString(), type: String = TypeFilm.FILM.toString(),
         ratingFrom: Int = 0, ratingTo: Int = 10, yearFrom: Int = 1900, yearTo: Int = 2023) {
 //        Log.d("KDS start retrofit", "getFilters start")
-        DataCentre.addFilms(retrofitApi.getFilters(page, sorting, type, ratingFrom, ratingTo,
-                         yearFrom, yearTo, countryID, genreID), kit)
+//        DataCentre.addFilms(retrofitApi.getFilters(page, sorting, type, ratingFrom, ratingTo,
+//                         yearFrom, yearTo, countryID, genreID), kit)
+        val result = retrofitApi.getFilters(page, sorting, type, ratingFrom, ratingTo,
+            yearFrom, yearTo, countryID, genreID)
+        DataCentre.addFilms(result, kit)
     }
 
     suspend fun getSerials(page:Int, kit: Kit){

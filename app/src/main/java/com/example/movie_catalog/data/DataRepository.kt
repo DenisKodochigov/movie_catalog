@@ -49,15 +49,6 @@ class DataRepository @Inject constructor() {
         return listBinder
     }
 
-    suspend fun getFilters(page: Int, kit: Kit): List<Linker> {
-        var listBinder = DataCentre.linkers.filter { it.kit == kit }
-        if (listBinder.isEmpty()) {
-            dataSourceAPI.getFilters(page, kit, kit.countryID, kit.genreID)
-            listBinder = DataCentre.linkers.filter { it.kit == kit }
-        }
-        return listBinder
-    }
-
     // film info fragment
     suspend fun getSimilar(film: Film): List<Linker> {
         var listFilm = DataCentre.linkers.filter { it.film == film && it.similarFilm != null }
@@ -155,54 +146,62 @@ class DataRepository @Inject constructor() {
             tabs = film.images.groupingBy { it.imageGroup }.eachCount().toList()
         )
     }
-    
+
+    suspend fun getFilters(page: Int, kit: Kit): List<Linker> {
+        var listBinder = DataCentre.linkers.filter { it.kit == kit }
+        if (listBinder.isEmpty()) {
+            dataSourceAPI.getFilters(page, kit, kit.countryID, kit.genreID)
+            listBinder = DataCentre.linkers.filter { it.kit == kit }
+        }
+        return listBinder
+    }
     // Search fragment
     private suspend fun getSearchFilter(page: Int): List<Linker>{
         val filter = DataCentre.takeSearchFilter()
         filter?.let { item ->
             dataSourceAPI.getFilters(page, Kit.ALL, item.country?.id,item.genre?.id,
-                item.sorting.toString(), item.typeFilm.toString(), item.rating!!.first.toInt(),
+                item.sorting!!.name, item.typeFilm!!.name, item.rating!!.first.toInt(),
                 item.rating!!.second.toInt(), item.year!!.first, item.year!!.second)
         }
         var linkers = emptyList<Linker>()
-
-        if (filter != null) {
-            linkers = DataCentre.linkers.filter { linker ->
-                if (filter.country?.country == null) true
-                else {
-                    linker.film?.countries?.any { it.country == filter.country?.country } ?: false
-                } &&
-                if (filter.genre?.genre == null) true
-                else {
-                    linker.film?.genres?.any { it.genre == filter.genre?.genre } ?: false
-                } &&
-                if (filter.year == null && linker.film?.startYear == null) true
-                else {
-                    linker.film?.startYear!! >= filter.year!!.first.toString() &&
-                        linker.film?.startYear!! <= filter.year!!.second.toString()
-                } &&
-                if (filter.rating == null && linker.film?.rating == null) true
-                else {
-                    linker.film?.rating!! >= filter.rating!!.first.toString() &&
-                            linker.film?.rating!! <= filter.rating!!.second.toString()
-                } &&
-                if (filter.viewed == null && linker.film?.viewed == null) true
-                else {
-                    linker.film?.viewed!! >= filter.viewed!!
-                } &&
-                if (filter.typeFilm == null || filter.typeFilm == TypeFilm.ALL) true
-                else {
-                    linker.film?.totalSeasons == null && filter.typeFilm!! == TypeFilm.FILM ||
-                    linker.film?.totalSeasons != null && filter.typeFilm!! == TypeFilm.SERIALS
-                }
-            }
-        }
-        when (DataCentre.takeSearchFilter()!!.sorting){
-            SortingField.DATE -> linkers.sortedBy { it.film!!.startYear }
-            SortingField.POPULAR -> linkers.sortedBy { it.film!!.startYear }
-            SortingField.RATING -> linkers.sortedBy { it.film!!.rating }
-            else -> {}
-        }
+        linkers = DataCentre.linkers
+//        if (filter != null) {
+//            linkers = DataCentre.linkers.filter { linker ->
+//                if (filter.country?.country == null) true
+//                else {
+//                    linker.film?.countries?.any { it.country == filter.country?.country } ?: false
+//                } &&
+//                if (filter.genre?.genre == null) true
+//                else {
+//                    linker.film?.genres?.any { it.genre == filter.genre?.genre } ?: false
+//                } &&
+//                if (filter.year == null && linker.film?.startYear == null) true
+//                else {
+//                    linker.film?.startYear!! >= filter.year!!.first.toString() &&
+//                        linker.film?.startYear!! <= filter.year!!.second.toString()
+//                } &&
+//                if (filter.rating == null && linker.film?.rating == null) true
+//                else {
+//                    linker.film?.rating!! >= filter.rating!!.first.toString() &&
+//                            linker.film?.rating!! <= filter.rating!!.second.toString()
+//                } &&
+//                if (filter.viewed == null && linker.film?.viewed == null) true
+//                else {
+//                    linker.film?.viewed!! >= filter.viewed!!
+//                } &&
+//                if (filter.typeFilm == null || filter.typeFilm == TypeFilm.ALL) true
+//                else {
+//                    linker.film?.totalSeasons == null && filter.typeFilm!! == TypeFilm.FILM ||
+//                    linker.film?.totalSeasons != null && filter.typeFilm!! == TypeFilm.SERIALS
+//                }
+//            }
+//        }
+//       when (DataCentre.takeSearchFilter()!!.sorting){
+//            SortingField.YEAR -> linkers.sortedBy { it.film!!.startYear }
+//            SortingField.NUM_VOTE -> linkers.sortedBy { it.film!!.startYear }
+//            SortingField.RATING -> linkers.sortedBy { it.film!!.rating }
+//            else -> {}
+//        }
         return linkers
     }
 
