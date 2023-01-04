@@ -22,13 +22,15 @@
             style = "@style/search_lupa"
             android:src="@drawable/icon_lupa"
             tools:ignore="RtlSymmetry" />
+
         <EditText
             android:id="@+id/et_search"
-            android:hint="@string/enter_genres"
-            style="@style/search_edit_text"/>
+            style="@style/search_edit_text"
+            android:hint="@string/enter_country"
+            tools:ignore="TouchTargetSizeCheck" />
     </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_country_search"
+        android:id="@+id/recycler_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/search_recycler_top"

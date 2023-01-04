@@ -44,9 +44,9 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     init {
         getGenres()
         getPremieres()
-        getPopular()
-        getTop250()
-        getSerials()
+//        getPopular()
+//        getTop250()
+//        getSerials()
     }
 
     private fun getGenres() {
@@ -71,7 +71,6 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                     }
                     getRandom1()
                     getRandom2()
-
                 },
                 onFailure = { Log.d("KDS",it.message ?: "getGenres")}
             )

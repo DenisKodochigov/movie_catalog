@@ -121,7 +121,7 @@
     <string name="dont_show_viewed">Не показывать просмотренные фильмы</string>
     <string name="popularis">Популярность</string>
     <string name="viewing">Показывать</string>
-    <string name="enter_country">Введите страну</string>
+    <string name="enter_country">Введите название</string>
     <string name="enter_genres">Введите жанр</string>
     <string name="search_from">Искать в период с</string>
     <string name="search_to">Искать в период до</string>

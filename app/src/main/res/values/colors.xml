@@ -20,4 +20,5 @@
     <color name="gradient_viewed1">#B3B5B5C9</color>
     <color name="gradient_viewed2">#B33D3BFF</color>
     <color name="hint_color">#757575</color>
+    <color name="transparent">#00000000</color>
 </resources>

@@ -109,7 +109,7 @@ class ListFilmAdapter @Inject constructor(
                         if (film.nameRu != null) nameFilm.text = film.nameRu
                         else if (film.nameEn != null) nameFilm.text = film.nameEn
 //Set film date
-                        if (film.startYear != null) startYear.text = film.startYear + " " + film.genresTxt()
+                        if (film.startYear != null) startYear.text = film.startYear.toString() + " " + film.genresTxt()
 //Set action on click item recyclerView
                         poster.setOnClickListener {
                             onClick(film)

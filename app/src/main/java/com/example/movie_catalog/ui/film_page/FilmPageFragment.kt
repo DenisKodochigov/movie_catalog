@@ -28,10 +28,7 @@ import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Person
 import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.enumApp.ModeViewer
-import com.example.movie_catalog.ui.recycler.BottomAdapter
-import com.example.movie_catalog.ui.recycler.ImagesAdapter
-import com.example.movie_catalog.ui.recycler.ListFilmAdapter
-import com.example.movie_catalog.ui.recycler.PersonsAdapter
+import com.example.movie_catalog.ui.recycler.*
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -310,21 +307,24 @@ class FilmPageFragment : Fragment() {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun showBottomSheetDialog(film:Film){
-        val  bottomSheetDialog = context?.let{ BottomSheetDialog(it, R.style.AppBottomSheetDialogTheme) }
-        bottomSheetDialog?.setContentView(R.layout.include_bottom_sheet)
-        val poster = bottomSheetDialog?.findViewById<ImageView>(R.id.poster)
-        bottomSheetDialog?.findViewById<TextView>(R.id.bottom_name_film)?.text = film.nameRu
-        bottomSheetDialog?.findViewById<TextView>(R.id.bottom_genre_film)?.text = film.genresTxt()
-        val newCollection = bottomSheetDialog?.findViewById<LinearLayout>(R.id.ll_add_collection)
-        poster?.background = context?.getDrawable(R.drawable.ic_baseline_image_not_supported_24)
-        val adapterBottom = BottomAdapter {collection -> onClickChecked(collection) }
-        val recyclerView = bottomSheetDialog?.findViewById<RecyclerView>(R.id.rv_collections)
+        val adapterBottom = BottomAdapterAny {collection -> onClickChecked(collection as CollectionFilmDB) }
+        val bottomSheetDialog = context?.let{ BottomSheetDialog(it, R.style.AppBottomSheetDialogTheme)}!!
+        bottomSheetDialog.setContentView(R.layout.include_bottom_sheet)
+
+        bottomSheetDialog.findViewById<ImageView>(R.id.poster)!!.background =
+            context?.getDrawable(R.drawable.ic_baseline_image_not_supported_24)
+        bottomSheetDialog.findViewById<TextView>(R.id.bottom_name_film)?.text = film.nameRu
+        bottomSheetDialog.findViewById<TextView>(R.id.bottom_genre_film)?.text = film.genresTxt()
+
+        val recyclerView = bottomSheetDialog.findViewById<RecyclerView>(R.id.rv_collections)
         recyclerView?.adapter = adapterBottom
+
         viewModel.collections.onEach {
-            adapterBottom.setListFilm(it)
+            adapterBottom.setList(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 //        adapterBottom.setListFilm(Plug.listCollection)
-        bottomSheetDialog?.show()
+        val newCollection = bottomSheetDialog.findViewById<LinearLayout>(R.id.ll_add_collection)
+        bottomSheetDialog.show()
         newCollection?.setOnClickListener {
             //Запустить диалоговое окно, с запросом на новое название коллекции.
              val dialogView = requireActivity().layoutInflater.inflate(R.layout.dialog_layout, null)

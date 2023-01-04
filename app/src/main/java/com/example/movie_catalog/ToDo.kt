@@ -21,6 +21,7 @@ class ToDo {
 3. Недочеты
     3.4 Нет анимации при открытии Person
     3.5 Карточка актера неимеет скролинга. Не видна фильмография.
+    3.6 Проверить и передалать передачу значений для paginAdapter.
 
 
 
@@ -31,4 +32,36 @@ val divider = DividerItemDecoration(this@MainActivity,DividerItemDecoration.VERT
 divider.setDrawable(ContextCompat.getDrawable(this@MainActivity,R.drawable.item_separator)!!)
 recyclerview.addItemDecoration(divider)
 
+ */
+
+/*
+  <LinearLayout
+            android:id="@+id/pole_sorting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/settings_padding_bottom"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_sorting">
+
+            <TextView
+                android:id="@+id/tv_data"
+                style="@style/settings_search_group_start"
+                android:background="@drawable/round_rect_shape_start"
+                android:hint="@string/date" />
+
+            <TextView
+                android:id="@+id/tv_popular"
+                style="@style/settings_search_group_start"
+                android:background="@drawable/round_rect_shape_center"
+                android:hint="@string/popularis" />
+
+            <TextView
+                android:id="@+id/tv_rating_sort"
+                style="@style/settings_search_group_start"
+                android:background="@drawable/round_rect_shape_end"
+                android:hint="@string/rating" />
+        </LinearLayout>
  */

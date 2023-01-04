@@ -138,6 +138,7 @@
     <dimen name="settings_margin_end">26dp</dimen>
     <dimen name="settings_recycler_height">160dp</dimen>
     <dimen name="settings_recycler_padding">24dp</dimen>
+    <dimen name="settings_recycler_padding_year">20dp</dimen>
 
     <dimen name="profile_recycler_margin_ver">24dp</dimen>
     <dimen name="profile_cards_margin_ver">27dp</dimen>

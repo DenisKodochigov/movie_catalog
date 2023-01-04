@@ -11,9 +11,7 @@ import com.example.movie_catalog.data.api.home.getKit.ListGenresDTO
 import com.example.movie_catalog.data.api.home.premieres.PremieresDTO
 import com.example.movie_catalog.data.api.home.top.TopFilmsDTO
 import com.example.movie_catalog.data.api.person.PersonInfoDTO
-import com.example.movie_catalog.entity.enumApp.ImageGroup
-import com.example.movie_catalog.entity.enumApp.Kit
-import com.example.movie_catalog.entity.enumApp.ProfKey
+import com.example.movie_catalog.entity.enumApp.*
 import com.example.movie_catalog.entity.filminfo.ImageFilm
 import com.example.movie_catalog.entity.filminfo.InfoFilmSeasons
 
@@ -28,7 +26,15 @@ object DataCentre {
     private var currentKit: Kit? = null
     private var currentFilm: Film? = null
     private var currentPerson: Person? = null
-    private var searchFilter: SearchFilter? = null
+    private var searchFilter = SearchFilter(
+        country = CountryIdDTO(id = 1, country = "США"),
+        genre = GenreIdDTO(id = 11, genre = "боевик"),
+        typeFilm = TypeFilm.FILM,
+        year = Pair(1999,2020),
+        rating = Pair(3.0, 10.0),
+        viewed = false,
+        sorting = SortingField.YEAR
+    )
 
     fun addFilms(listFilm: PremieresDTO) {
         listFilm.items.forEach { filmDTO ->
@@ -62,7 +68,7 @@ object DataCentre {
                     imdbId = null,
                     nameRu = topfilmDTO.nameRu,
                     nameEn = topfilmDTO.nameEn,
-                    rating = topfilmDTO.rating,
+                    rating = topfilmDTO.rating?.toDouble(),
                     posterUrlPreview = topfilmDTO.posterUrlPreview,
                     countries = topfilmDTO.countries,
                     genres = topfilmDTO.genres,
@@ -87,7 +93,7 @@ object DataCentre {
                         imdbId = filmDTO.imdbId,
                         nameRu = filmDTO.nameRu,
                         nameEn = filmDTO.nameEn,
-                        rating = filmDTO.ratingKinopoisk.toString(),
+                        rating = filmDTO.ratingKinopoisk,
                         posterUrlPreview = filmDTO.posterUrlPreview,
                         countries = filmDTO.countries,
                         genres = filmDTO.genres,
@@ -137,14 +143,14 @@ object DataCentre {
                 if (filmInfo.infoFilm!!.nameRu != null) nameRu = filmInfo.infoFilm!!.nameRu
                 if (filmInfo.infoFilm!!.nameEn != null) nameEn = filmInfo.infoFilm!!.nameEn
                 if (filmInfo.infoFilm!!.ratingKinopoisk != null) rating =
-                    filmInfo.infoFilm!!.ratingKinopoisk.toString()
+                    filmInfo.infoFilm!!.ratingKinopoisk
                 if (filmInfo.infoFilm!!.posterUrlPreview != null) posterUrlPreview =
                     filmInfo.infoFilm!!.posterUrlPreview
                 if (filmInfo.infoFilm!!.countries != null) countries =
                     filmInfo.infoFilm!!.countries
                 if (filmInfo.infoFilm!!.genres != null) genres = filmInfo.infoFilm!!.genres!!
                 if (filmInfo.infoFilm!!.startYear != null) startYear =
-                    filmInfo.infoFilm!!.startYear
+                    filmInfo.infoFilm!!.startYear?.toInt()
                 if (filmInfo.infoFilm!!.posterUrl != null) posterUrl =
                     filmInfo.infoFilm!!.posterUrl
                 if (filmInfo.infoFilm!!.logoUrl != null) logoUrl = filmInfo.infoFilm!!.logoUrl
@@ -228,7 +234,7 @@ object DataCentre {
             if (film == null) { //Если нет, то создаем новый фильм
                 film = Film(
                     filmId = filmPerson.filmId, nameRu = filmPerson.nameRu,
-                    nameEn = filmPerson.nameEn, rating = filmPerson.rating,
+                    nameEn = filmPerson.nameEn, rating = filmPerson.rating?.toDouble(),
                     professionKey = filmPerson.professionKey
                 )
                 films.add(film)  //Добавляем новый фильм к базе.
@@ -308,14 +314,28 @@ object DataCentre {
         currentKit = kit
     }
 
-    fun putSearchFilter(searchFilterA: SearchFilter){
-        searchFilter = searchFilterA
+    fun putSearchFilter(it: SearchFilter){
+        searchFilter.typeFilm = it.typeFilm
+        searchFilter.country = it.country
+        searchFilter.genre = it.genre
+        searchFilter.year = it.year
+        searchFilter.rating = it.rating
+        searchFilter.viewed = it.viewed
+        searchFilter.sorting = it.sorting
+        searchFilter.keyWord = it.keyWord
     }
 
-    fun takeSearchFilter(): SearchFilter? {
-        val it = searchFilter
-        searchFilter = null
-        return it
+    fun takeSearchFilter(): SearchFilter {
+        return SearchFilter(
+            typeFilm = searchFilter.typeFilm,
+            country = searchFilter.country,
+            genre = searchFilter.genre,
+            year = searchFilter.year,
+            rating = searchFilter.rating,
+            viewed = searchFilter.viewed,
+            sorting = searchFilter.sorting,
+            keyWord = searchFilter.keyWord
+        )
     }
     //###############################################################################################
     fun takeJobPerson(): String? {

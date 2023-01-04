@@ -22,12 +22,23 @@
         android:id="@+id/nav_search"
         android:name="com.example.movie_catalog.ui.search.SearchFragment"
         android:label="SearchFragment"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_nav_search_to_nav_filmInfo"
+            app:destination="@id/nav_filmInfo" />
+        <action
+            android:id="@+id/action_nav_search_to_nav_setting"
+            app:destination="@id/nav_setting" />
+    </fragment>
     <fragment
         android:id="@+id/nav_profile"
         android:name="com.example.movie_catalog.ui.profile.ProfileFragment"
         android:label="ProfileFragment"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_nav_profile_to_nav_filmInfo"
+            app:destination="@id/nav_filmInfo" />
+    </fragment>
     <fragment
         android:id="@+id/nav_kitFilms"
         android:name="com.example.movie_catalog.ui.kit_films.KitFilmsFragment"
@@ -114,4 +125,8 @@
             android:id="@+id/action_nav_filmography_to_nav_filmInfo"
             app:destination="@id/nav_filmInfo" />
     </fragment>
+    <fragment
+        android:id="@+id/nav_setting"
+        android:name="com.example.movie_catalog.ui.settings.SettingFragment"
+        android:label="SettingFragment" />
 </navigation>

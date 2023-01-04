@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_catalog.data.room.CollectionFilmDB
-import com.example.movie_catalog.databinding.ItemBottomCollectionBinding
+import com.example.movie_catalog.databinding.ItemBottomRecyclerBinding
 import javax.inject.Inject
 
 
@@ -21,7 +21,7 @@ class BottomAdapter @Inject constructor(private val onClick: (collection: Collec
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BottomVH {
-        return BottomVH( ItemBottomCollectionBinding.inflate(
+        return BottomVH( ItemBottomRecyclerBinding.inflate(
             LayoutInflater.from(parent.context), parent, false))
     }
 
@@ -40,4 +40,4 @@ class BottomAdapter @Inject constructor(private val onClick: (collection: Collec
     override fun getItemCount() = collections.size
 }
 
-class BottomVH(val binding: ItemBottomCollectionBinding): RecyclerView.ViewHolder(binding.root)
+class BottomVH(val binding: ItemBottomRecyclerBinding): RecyclerView.ViewHolder(binding.root)

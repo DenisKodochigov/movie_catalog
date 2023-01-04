@@ -7,7 +7,6 @@ import com.example.movie_catalog.data.room.DataSourceDB
 import com.example.movie_catalog.entity.*
 import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.enumApp.ProfKey
-import com.example.movie_catalog.entity.enumApp.SortingField
 import com.example.movie_catalog.entity.enumApp.TypeFilm
 import com.example.movie_catalog.entity.filminfo.ImageFilm
 import javax.inject.Inject
@@ -163,39 +162,38 @@ class DataRepository @Inject constructor() {
                 item.sorting!!.name, item.typeFilm!!.name, item.rating!!.first.toInt(),
                 item.rating!!.second.toInt(), item.year!!.first, item.year!!.second)
         }
-        var linkers = emptyList<Linker>()
-        linkers = DataCentre.linkers
-//        if (filter != null) {
-//            linkers = DataCentre.linkers.filter { linker ->
-//                if (filter.country?.country == null) true
-//                else {
-//                    linker.film?.countries?.any { it.country == filter.country?.country } ?: false
-//                } &&
-//                if (filter.genre?.genre == null) true
-//                else {
-//                    linker.film?.genres?.any { it.genre == filter.genre?.genre } ?: false
-//                } &&
-//                if (filter.year == null && linker.film?.startYear == null) true
-//                else {
-//                    linker.film?.startYear!! >= filter.year!!.first.toString() &&
-//                        linker.film?.startYear!! <= filter.year!!.second.toString()
-//                } &&
-//                if (filter.rating == null && linker.film?.rating == null) true
-//                else {
-//                    linker.film?.rating!! >= filter.rating!!.first.toString() &&
-//                            linker.film?.rating!! <= filter.rating!!.second.toString()
-//                } &&
-//                if (filter.viewed == null && linker.film?.viewed == null) true
-//                else {
-//                    linker.film?.viewed!! >= filter.viewed!!
-//                } &&
-//                if (filter.typeFilm == null || filter.typeFilm == TypeFilm.ALL) true
-//                else {
-//                    linker.film?.totalSeasons == null && filter.typeFilm!! == TypeFilm.FILM ||
-//                    linker.film?.totalSeasons != null && filter.typeFilm!! == TypeFilm.SERIALS
-//                }
-//            }
-//        }
+        var linkers: List<Linker> = DataCentre.linkers
+        if (filter != null) {
+            linkers = DataCentre.linkers.filter { linker ->
+                if (filter.country?.country == null) true
+                else {
+                    linker.film?.countries?.any { it.country == filter.country?.country } ?: false
+                } &&
+                if (filter.genre?.genre == null) true
+                else {
+                    linker.film?.genres?.any { it.genre == filter.genre?.genre } ?: false
+                } &&
+                if (linker.film?.startYear == null) true
+                else {
+                    linker.film?.startYear!! >= filter.year!!.first &&
+                        linker.film?.startYear!! <= filter.year!!.second
+                } &&
+                if (filter.rating == null || linker.film?.rating == null) true
+                else {
+                    linker.film?.rating!! >= filter.rating!!.first &&
+                            linker.film?.rating!! <= filter.rating!!.second
+                } &&
+                if (filter.viewed == null && linker.film?.viewed == null) true
+                else {
+                    linker.film?.viewed!! >= filter.viewed!!
+                } &&
+                if (filter.typeFilm == null || filter.typeFilm == TypeFilm.ALL) true
+                else {
+                    linker.film?.totalSeasons == null && filter.typeFilm!! == TypeFilm.FILM ||
+                    linker.film?.totalSeasons != null && filter.typeFilm!! == TypeFilm.SERIALS
+                }
+            }
+        }
 //       when (DataCentre.takeSearchFilter()!!.sorting){
 //            SortingField.YEAR -> linkers.sortedBy { it.film!!.startYear }
 //            SortingField.NUM_VOTE -> linkers.sortedBy { it.film!!.startYear }

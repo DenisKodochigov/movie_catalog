@@ -109,10 +109,30 @@
         <item name="android:textStyle">bold</item>
         <item name="android:layout_marginTop">@dimen/viewer_season_header_top</item>
     </style>
-    <style name="H4_search_settings_text2" parent="H4">
+    <style name="H4_search_settings_rating_from" parent="H4">
         <item name="android:textColor">@color/h5</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:gravity">center_vertical|start</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:layout_marginStart">8dp</item>
     </style>
-
+    <style name="H4_search_settings_rating_to" parent="H4_search_settings_rating_from">
+        <item name="android:gravity">end|center_vertical</item>
+        <item name="android:layout_marginEnd">8dp</item>
+    </style>
+    <style name="H4_search_settings_text1" parent="H4">
+        <item name="android:textColor">@color/h5</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:gravity">center_vertical|end</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
+    <style name="H4_search_settings_text3" parent="H4">
+        <item name="android:textColor">@color/h5</item>
+        <item name="android:gravity">center_vertical|start</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:paddingVertical">@dimen/settings_padding_vert</item>
+    </style>
     <style name="H5" parent = "textApp">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/h5</item>
@@ -239,6 +259,20 @@
         <item name="android:textSize">18sp</item>
         <item name="android:focusable">true</item>
     </style>
+    <style name="setting_bt_select" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">@dimen/dialog_tv_height</item>
+        <item name="android:layout_marginTop">30dp</item>
+        <item name="android:layout_marginBottom">@dimen/dialog_tv_margin_bottom</item>
+        <item name="android:background">@drawable/gallery_tab_selected_rectangle</item>
+        <item name="android:clickable">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingHorizontal">@dimen/dialog_tv_padding_hor</item>
+        <item name="android:text">@string/ok</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:focusable">true</item>
+    </style>
     <style name="tvProfileCount" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -264,24 +298,23 @@
     <style name="search_lupa">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingStart">18dp</item>
-        <item name="android:paddingEnd">10dp</item>
-        <item name="android:paddingTop">10dp</item>
-        <item name="android:paddingBottom">10dp</item>
+        <item name="android:layout_marginStart">18dp</item>
         <item name="android:contentDescription">@string/todo</item>
-        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_gravity">center_vertical</item>
     </style>
     <style name="search_settings">
         <item name="android:layout_width">@dimen/search_size_icon</item>
         <item name="android:layout_height">@dimen/search_size_icon</item>
         <item name="android:layout_marginEnd">18dp</item>
         <item name="android:contentDescription">@string/todo</item>
-        <item name="android:layout_gravity">end|center_vertical</item>
     </style>
     <style name="search_edit_text">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:gravity">start</item>
+        <item name="android:layout_gravity">start</item>
     </style>
     <style name="search_separator">
         <item name="android:layout_width">wrap_content</item>
@@ -309,5 +342,19 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingTop">@dimen/settings_padding_vert</item>
     </style>
+    <style name="radiobutton">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:button">@null</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@drawable/control_switch_color_selector</item>
+    </style>
 
+    <style name="SCBSwitch" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">@color/blue_arrow</item>
+        <item name="colorSwitchThumbNormal">@color/white</item>
+        <item name="android:colorForeground">@color/black</item>
+    </style>
 </resources>

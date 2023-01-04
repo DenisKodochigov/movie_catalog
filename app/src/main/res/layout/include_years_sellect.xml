@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nestedScroll1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="?attr/actionBarSize"
+    android:layout_marginHorizontal="@dimen/margin_app_hor"
+    android:fillViewport="true"
+    tools:viewBindingType="androidx.core.widget.NestedScrollView">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_year1"
+            style="@style/H4_search_settings_text3"
+            android:text="@string/search_from"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/llFrom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_rect_year"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_year1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_diapason_years1"
+                    style="@style/settings_year_text"
+                    android:text="@string/year_from" />
+
+                <ImageView
+                    android:id="@+id/ivLeftFrom"
+                    style="@style/settings_iv_arrow"
+                    android:src="@drawable/icon_arrow_left"
+                    android:layout_marginEnd="@dimen/settings_margin_hor" />
+
+                <ImageView
+                    android:id="@+id/ivRightFrom"
+                    android:src="@drawable/icon_arrow_right"
+                    style="@style/settings_iv_arrow"
+                    android:layout_marginEnd="@dimen/settings_margin_end" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerFrom"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/settings_recycler_height"
+                android:layout_gravity="center"
+                android:layout_marginVertical="12dp"
+                android:paddingHorizontal="@dimen/settings_recycler_padding_year" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_year2"
+            style="@style/H4_search_settings_text3"
+            android:text="@string/search_to"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/llFrom" />
+
+        <LinearLayout
+            android:id="@+id/llTo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_rect_year"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_year2">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_diapason_years2"
+                    style="@style/settings_year_text"
+                    android:text="@string/year_from" />
+
+                <ImageView
+                    android:id="@+id/ivLeftTo"
+                    android:src="@drawable/icon_arrow_left"
+                    style="@style/settings_iv_arrow"
+                    android:layout_marginEnd="@dimen/settings_margin_hor" />
+
+                <ImageView
+                    android:id="@+id/ivRightTo"
+                    android:src="@drawable/icon_arrow_right"
+                    style="@style/settings_iv_arrow"
+                    android:layout_marginEnd="@dimen/settings_margin_end" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerTo"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/settings_recycler_height"
+                android:layout_gravity="center"
+                android:layout_marginVertical="12dp"
+                android:paddingHorizontal="@dimen/settings_recycler_padding_year" />
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_button"
+            style="@style/setting_bt_select"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/selected"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/llTo" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
