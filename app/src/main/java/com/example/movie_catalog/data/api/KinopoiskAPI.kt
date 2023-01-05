@@ -34,14 +34,17 @@ interface KinopoiskAPI {
     // type = FILM, TV_SHOW, TV_SERIES, MINI_SERIES, ALL
     @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
     @GET("/api/v2.2/films?order=RATING&type=TV_SERIES&ratingFrom=5&ratingTo=10&yearFrom=1000&yearTo=3000")
-    suspend fun getSerials(@Query("page") page: Int): FilterDTO
+    suspend fun getFilters(@Query("page") page: Int, @Query("order") order: String,
+                           @Query("type") type: String, @Query("ratingFrom") ratingFrom: Int,
+                           @Query("ratingTo") ratingTo: Int, @Query("yearFrom") yearFrom: Int,
+                           @Query("yearTo") yearTo: Int): FilterDTO
 
     @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
     @GET("/api/v2.2/films")
-    suspend fun getFilters(@Query("page") page: Int,
-                    @Query("order") order: String, @Query("type") type: String,
-                    @Query("ratingFrom") ratingFrom: Int, @Query("ratingTo") ratingTo: Int,
-                    @Query("yearFrom") yearFrom: Int, @Query("yearTo") yearTo: Int,
+    suspend fun getFilters(@Query("page") page: Int, @Query("order") order: String,
+                    @Query("type") type: String, @Query("ratingFrom") ratingFrom: Int,
+                    @Query("ratingTo") ratingTo: Int, @Query("yearFrom") yearFrom: Int,
+                    @Query("yearTo") yearTo: Int, @Query("keyword") keyword: String,
                     @Query("countries") countries: Int?, @Query("genres") genres: Int?): FilterDTO
 
     @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")

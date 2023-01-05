@@ -8,11 +8,8 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.movie_catalog.data.DataRepository
 import com.example.movie_catalog.data.PagedSourceData
-import com.example.movie_catalog.data.api.home.getKit.CountryIdDTO
-import com.example.movie_catalog.data.api.home.getKit.GenreIdDTO
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Linker
-import com.example.movie_catalog.entity.SearchFilter
 import com.example.movie_catalog.entity.enumApp.Kit
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -23,25 +20,24 @@ class SearchViewModel @Inject constructor(): ViewModel() {
 
     private val dataRepository = DataRepository()
 
-//    var filter = SearchFilter()
-//    var genres = emptyList<GenreIdDTO>()
-//    var countries = emptyList<CountryIdDTO>()
-
     var pagedFilms: Flow<PagingData<Linker>>
-
-//    var pagesFilmFilter
 
     init {
         pagedFilms = Pager(
             config = PagingConfig(pageSize = 20),
-            pagingSourceFactory = { PagedSourceData(Kit.ALL) }
+            pagingSourceFactory = { PagedSourceData(Kit.SEARCH) }
         ).flow.cachedIn(viewModelScope)
     }
 
-    fun startSearch(){
+    fun startSearch(keyWord: String?){
+        keyWord?.let {
+            val filter = dataRepository.takeSearchFilter()
+            filter.keyWord = keyWord
+            dataRepository.putSearchFilter(filter)
+        }
         pagedFilms = Pager(
             config = PagingConfig(pageSize = 20),
-            pagingSourceFactory = { PagedSourceData(Kit.ALL) }
+            pagingSourceFactory = { PagedSourceData(Kit.SEARCH) }
         ).flow.cachedIn(viewModelScope)
     }
 

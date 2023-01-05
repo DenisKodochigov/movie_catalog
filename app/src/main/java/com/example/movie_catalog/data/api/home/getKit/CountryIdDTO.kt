@@ -8,6 +8,6 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @JsonClass(generateAdapter = true)
 data class CountryIdDTO(
-    @Json(name = "id") val id: Int? = null,
+    @Json(name = "id") var id: Int? = null,
     @Json(name = "country") val country: String? = null
 ) : Parcelable

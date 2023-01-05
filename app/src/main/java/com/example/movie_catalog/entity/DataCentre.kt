@@ -83,7 +83,8 @@ object DataCentre {
         films.shuffle()
     }
 
-    fun addFilms(filterDTO: FilterDTO, kit: Kit) {
+    fun addFilms(filterDTO: FilterDTO, kit: Kit): List<Linker> {
+        val listLinkers = mutableListOf<Linker>()
         if (filterDTO.items != null) {
             filterDTO.items!!.forEach { filmDTO ->
                 var film = films.find { it.filmId == filmDTO.kinopoiskId }
@@ -100,13 +101,17 @@ object DataCentre {
                         viewed = false,
                         favorite = false,
                         bookmark = false,
+                        nameOriginal = filmDTO.nameOriginal,
+                        year = filmDTO.year,
+                        posterUrl = filmDTO.posterUrl
                     )
                     films.add(film)
                 }
+                listLinkers.add(Linker(film, null, null, null, kit))
                 addLinker(film, kit)
             }
         }
-        films.shuffle()
+        return listLinkers
     }
 
     fun addFilms(similar: SimilarDTO, film: Film) {
@@ -137,41 +142,27 @@ object DataCentre {
     }
 
     fun addFilm(filmInfo: InfoFilmSeasons, film: Film) {
-        if (filmInfo.infoFilm != null) {
-            with(film) {
-                if (filmInfo.infoFilm!!.imdbId != null) imdbId = filmInfo.infoFilm!!.imdbId
-                if (filmInfo.infoFilm!!.nameRu != null) nameRu = filmInfo.infoFilm!!.nameRu
-                if (filmInfo.infoFilm!!.nameEn != null) nameEn = filmInfo.infoFilm!!.nameEn
-                if (filmInfo.infoFilm!!.ratingKinopoisk != null) rating =
-                    filmInfo.infoFilm!!.ratingKinopoisk
-                if (filmInfo.infoFilm!!.posterUrlPreview != null) posterUrlPreview =
-                    filmInfo.infoFilm!!.posterUrlPreview
-                if (filmInfo.infoFilm!!.countries != null) countries =
-                    filmInfo.infoFilm!!.countries
-                if (filmInfo.infoFilm!!.genres != null) genres = filmInfo.infoFilm!!.genres!!
-                if (filmInfo.infoFilm!!.startYear != null) startYear =
-                    filmInfo.infoFilm!!.startYear?.toInt()
-                if (filmInfo.infoFilm!!.posterUrl != null) posterUrl =
-                    filmInfo.infoFilm!!.posterUrl
-                if (filmInfo.infoFilm!!.logoUrl != null) logoUrl = filmInfo.infoFilm!!.logoUrl
-                if (filmInfo.infoFilm!!.nameOriginal != null) nameOriginal =
-                    filmInfo.infoFilm!!.nameOriginal
-                if (filmInfo.infoFilm!!.ratingImdb != null) ratingImdb =
-                    filmInfo.infoFilm!!.ratingImdb
-                if (filmInfo.infoFilm!!.ratingAwait != null) ratingAwait =
-                    filmInfo.infoFilm!!.ratingAwait
-                if (filmInfo.infoFilm!!.ratingGoodReview != null) ratingGoodReview =
-                    filmInfo.infoFilm!!.ratingGoodReview
-                if (filmInfo.infoSeasons?.total != null) totalSeasons =
-                    filmInfo.infoSeasons?.total
-                if (filmInfo.infoSeasons?.items != null) listSeasons =
-                    filmInfo.infoSeasons?.items
-                if (filmInfo.infoFilm!!.year != null) year = filmInfo.infoFilm!!.year
-                if (filmInfo.infoFilm!!.description != null) description =
-                    filmInfo.infoFilm!!.description
-                if (filmInfo.infoFilm!!.shortDescription != null) shortDescription =
-                    filmInfo.infoFilm!!.shortDescription
-            }
+
+        with(film) {
+            imdbId = filmInfo.infoFilm!!.imdbId
+            nameRu = filmInfo.infoFilm!!.nameRu.orEmpty()
+            nameEn = filmInfo.infoFilm!!.nameEn.orEmpty()
+            rating = filmInfo.infoFilm!!.ratingKinopoisk
+            posterUrlPreview = filmInfo.infoFilm!!.posterUrlPreview
+            countries = filmInfo.infoFilm!!.countries.orEmpty()
+            genres = filmInfo.infoFilm!!.genres.orEmpty()
+            startYear = filmInfo.infoFilm!!.startYear.orEmpty().toInt()
+            posterUrl = filmInfo.infoFilm!!.posterUrl.orEmpty()
+            logoUrl = filmInfo.infoFilm!!.logoUrl.orEmpty()
+            nameOriginal = filmInfo.infoFilm!!.nameOriginal.orEmpty()
+            ratingImdb = filmInfo.infoFilm!!.ratingImdb
+            ratingAwait = filmInfo.infoFilm!!.ratingAwait
+            ratingGoodReview = filmInfo.infoFilm!!.ratingGoodReview
+            totalSeasons = filmInfo.infoSeasons?.total
+            listSeasons = filmInfo.infoSeasons?.items
+            year = filmInfo.infoFilm!!.year
+            description = filmInfo.infoFilm!!.description.orEmpty()
+            shortDescription = filmInfo.infoFilm!!.shortDescription.orEmpty()
         }
     }
 
@@ -242,7 +233,11 @@ object DataCentre {
             addLinker(film, person, filmPerson.professionKey!!)
         }
     }
-
+    private fun addLinker(film: Film) {
+        if (linkers.find { (it.film == film) } == null) {
+            linkers.add(Linker(film = film))
+        }
+    }
     private fun addLinker(film: Film, kit: Kit) {
         if (linkers.find { (it.film == film) && (it.kit == kit) } == null) {
             linkers.add(Linker(film = film, kit = kit))

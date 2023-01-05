@@ -42,6 +42,7 @@ class ListFilmPagingAdapter @Inject constructor(private val mode: ModeViewer,
 
     @SuppressLint("UseCompatLoadingForDrawables", "SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+//        Log.d("KDS", "PagingDataAdapter, position=$position")
         val filmF = getItem(position)?.film
         when (holder) {
             is PagingBotVH -> {
@@ -71,7 +72,6 @@ class ListFilmPagingAdapter @Inject constructor(private val mode: ModeViewer,
                 }
             }
             is PagingRightVH -> {
-
 //        Log.d("KDS", "ImagesAdapter, onBindViewHolder start. position=$position")
                 val animationCard = LoadImageURLShow()
                 filmF?.let { film ->
@@ -90,10 +90,9 @@ class ListFilmPagingAdapter @Inject constructor(private val mode: ModeViewer,
 
                         animationCard.setAnimation( poster, film.posterUrlPreview, R.dimen.gallery_list_small_card_radius)
 //Set film name
-                        if (film.nameRu != null) nameFilm.text = film.nameRu
-                        else if (film.nameEn != null) nameFilm.text = film.nameEn
+                        nameFilm.text = film.nameRu ?: film.nameEn ?: film.nameOriginal
 //Set film date
-                        if (film.startYear != null) startYear.text = film.startYear.toString() + " " + film.genresTxt()
+                        startYear.text = film.year.toString().orEmpty() + " " + film.genresTxt()
 //Set action on click item recyclerView
                         poster.setOnClickListener {
                             onClick(film)

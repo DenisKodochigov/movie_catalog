@@ -7,13 +7,13 @@ import com.example.movie_catalog.data.room.DataSourceDB
 import com.example.movie_catalog.entity.*
 import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.enumApp.ProfKey
-import com.example.movie_catalog.entity.enumApp.TypeFilm
 import com.example.movie_catalog.entity.filminfo.ImageFilm
 import javax.inject.Inject
 
 class DataRepository @Inject constructor() {
 
     private val dataSourceAPI = DataSourceAPI()
+
     private val dataSourceDB = DataSourceDB()
 
     // home  fragment
@@ -34,15 +34,6 @@ class DataRepository @Inject constructor() {
         var listBinder = DataCentre.linkers.filter { it.kit == kit }
         if (listBinder.isEmpty()) {
             dataSourceAPI.getTop(page, kit)
-            listBinder = DataCentre.linkers.filter { it.kit == kit }
-        }
-        return listBinder
-    }
-
-    suspend fun getSerials(page: Int, kit: Kit): List<Linker> {
-        var listBinder = DataCentre.linkers.filter { it.kit == kit }
-        if (listBinder.isEmpty()) {
-            dataSourceAPI.getSerials(page, kit)
             listBinder = DataCentre.linkers.filter { it.kit == kit }
         }
         return listBinder
@@ -117,16 +108,16 @@ class DataRepository @Inject constructor() {
         return when (kit) {
             Kit.POPULAR -> getTop(page, Kit.POPULAR)
             Kit.TOP250 -> getTop(page, Kit.TOP250)
-            Kit.SERIALS -> getSerials(page, Kit.SERIALS)
+            Kit.SERIALS -> getFilters(page, Kit.SERIALS)
             Kit.RANDOM1 -> getFilters(page, Kit.RANDOM1)
-            Kit.RANDOM2 -> getFilters(page, Kit.RANDOM2)
-            Kit.ALL -> getSearchFilter(page)
+            Kit.RANDOM2 ->  getFilters(page, Kit.RANDOM2)
+            Kit.SEARCH -> getFilters(page, Kit.SEARCH)
             else -> emptyList()
         }
     }
 
     //List film fragment
-    fun getFilmsForFilter(film: Film?, person: Person?): List<Linker> {
+    fun getForListFilmFragment(film: Film?, person: Person?): List<Linker> {
         var linkers = listOf<Linker>()
         if (film != null && person == null) {
             linkers = DataCentre.linkers.filter { it.film == film && it.similarFilm != null }
@@ -136,7 +127,7 @@ class DataRepository @Inject constructor() {
             linkers = DataCentre.linkers.filter { it.person == person && it.film == film }
         }
         return linkers
-    }  // film info fragment
+    }
 
     //List person fragment
     fun getGallery(film: Film): Gallery {
@@ -147,60 +138,7 @@ class DataRepository @Inject constructor() {
     }
 
     suspend fun getFilters(page: Int, kit: Kit): List<Linker> {
-        var listBinder = DataCentre.linkers.filter { it.kit == kit }
-        if (listBinder.isEmpty()) {
-            dataSourceAPI.getFilters(page, kit, kit.countryID, kit.genreID)
-            listBinder = DataCentre.linkers.filter { it.kit == kit }
-        }
-        return listBinder
-    }
-    // Search fragment
-    private suspend fun getSearchFilter(page: Int): List<Linker>{
-        val filter = DataCentre.takeSearchFilter()
-        filter?.let { item ->
-            dataSourceAPI.getFilters(page, Kit.ALL, item.country?.id,item.genre?.id,
-                item.sorting!!.name, item.typeFilm!!.name, item.rating!!.first.toInt(),
-                item.rating!!.second.toInt(), item.year!!.first, item.year!!.second)
-        }
-        var linkers: List<Linker> = DataCentre.linkers
-        if (filter != null) {
-            linkers = DataCentre.linkers.filter { linker ->
-                if (filter.country?.country == null) true
-                else {
-                    linker.film?.countries?.any { it.country == filter.country?.country } ?: false
-                } &&
-                if (filter.genre?.genre == null) true
-                else {
-                    linker.film?.genres?.any { it.genre == filter.genre?.genre } ?: false
-                } &&
-                if (linker.film?.startYear == null) true
-                else {
-                    linker.film?.startYear!! >= filter.year!!.first &&
-                        linker.film?.startYear!! <= filter.year!!.second
-                } &&
-                if (filter.rating == null || linker.film?.rating == null) true
-                else {
-                    linker.film?.rating!! >= filter.rating!!.first &&
-                            linker.film?.rating!! <= filter.rating!!.second
-                } &&
-                if (filter.viewed == null && linker.film?.viewed == null) true
-                else {
-                    linker.film?.viewed!! >= filter.viewed!!
-                } &&
-                if (filter.typeFilm == null || filter.typeFilm == TypeFilm.ALL) true
-                else {
-                    linker.film?.totalSeasons == null && filter.typeFilm!! == TypeFilm.FILM ||
-                    linker.film?.totalSeasons != null && filter.typeFilm!! == TypeFilm.SERIALS
-                }
-            }
-        }
-//       when (DataCentre.takeSearchFilter()!!.sorting){
-//            SortingField.YEAR -> linkers.sortedBy { it.film!!.startYear }
-//            SortingField.NUM_VOTE -> linkers.sortedBy { it.film!!.startYear }
-//            SortingField.RATING -> linkers.sortedBy { it.film!!.rating }
-//            else -> {}
-//        }
-        return linkers
+        return dataSourceAPI.getFilters(page, kit)
     }
 
     fun getGenres() = DataCentre.genres
@@ -215,7 +153,7 @@ class DataRepository @Inject constructor() {
 
     fun putPerson(person: Person) {
         DataCentre.putPerson(person)
-    }                                   // film info, list person fragment
+    }                // film info, list person fragment
 
     fun takePerson() = DataCentre.takePerson()
 

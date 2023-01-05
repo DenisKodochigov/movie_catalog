@@ -59,7 +59,7 @@ class ListFilmAdapter @Inject constructor(
                     if (mode == ModeViewer.SIMILAR) film = linkers.getOrNull(position)?.similarFilm
                     film?.let {
                         //Set film name
-                        holder.binding.inclFilm.nameFilm.text = film.nameRu ?: ""
+                        holder.binding.inclFilm.nameFilm.text = film.nameRu ?: film.nameEn ?: film.nameOriginal
         //Set film genres.
                         holder.binding.inclFilm.genreFilm.text = film.genresTxt()
         //Set viewed flag
@@ -106,8 +106,7 @@ class ListFilmAdapter @Inject constructor(
 
                         animationCard.setAnimation( poster, film.posterUrlPreview, R.dimen.gallery_list_small_card_radius)
 //Set film name
-                        if (film.nameRu != null) nameFilm.text = film.nameRu
-                        else if (film.nameEn != null) nameFilm.text = film.nameEn
+                        nameFilm.text = film.nameRu ?: film.nameEn ?: film.nameOriginal
 //Set film date
                         if (film.startYear != null) startYear.text = film.startYear.toString() + " " + film.genresTxt()
 //Set action on click item recyclerView

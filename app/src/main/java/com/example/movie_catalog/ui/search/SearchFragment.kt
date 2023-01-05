@@ -1,6 +1,7 @@
 package com.example.movie_catalog.ui.search
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,14 +41,25 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        var listFilm: PagingData<Linker>? = null
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerSearch.layoutManager =
             LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         binding.recyclerSearch.adapter = adapter
         viewModel.pagedFilms.onEach {
-            listFilm = it
-            adapter.submitData(it)
+            Log.d("KDS", "SearchFragment, start load list.")
+            val textSearch = binding.etSearch.text
+            if (textSearch.isNotEmpty()) {
+                adapter.submitData(it.filter { item ->
+                    item.film?.nameEn!!.contains(textSearch) ||
+                    item.film?.nameRu!!.contains(textSearch) ||
+                    item.film?.nameOriginal!!.contains(textSearch) ||
+                    item.person?.nameEn!!.contains(textSearch) ||
+                    item.person?.nameRu!!.contains(textSearch)
+                })
+            } else {
+                adapter.submitData(it)
+            }
+            Log.d("KDS", "SearchFragment, end load list.")
         }.launchIn(viewLifecycleOwner.lifecycleScope)
         binding.swipeRefresh.setOnRefreshListener {
             adapter.refresh()
@@ -57,18 +69,16 @@ class SearchFragment : Fragment() {
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         binding.ivSearch.setOnClickListener {
-            viewModel.startSearch()
+            viewModel.startSearch(binding.etSearch.text.toString())
         }
         binding.ivConfig.setOnClickListener {
             findNavController().navigate(R.id.action_nav_search_to_nav_setting)
         }
-        binding.etSearch.addTextChangedListener {
-//            adapter.submitData(
-//                listFilm.filter {
-//
-//                }
-//            )
-        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.startSearch(null)
     }
 
     private fun onItemClick(film: Film) {

@@ -113,7 +113,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     private fun getSerials() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                dataRepository.getSerials(1, Kit.SERIALS)
+                dataRepository.getFilters(1, Kit.SERIALS)
             }.fold(
                 onSuccess = {_serials.value = it },
                 onFailure = { Log.d("KDS",it.message ?: "getSerials")}
