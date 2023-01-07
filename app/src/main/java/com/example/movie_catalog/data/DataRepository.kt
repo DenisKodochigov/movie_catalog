@@ -2,12 +2,14 @@ package com.example.movie_catalog.data
 
 import android.util.Log
 import com.example.movie_catalog.data.api.DataSourceAPI
-import com.example.movie_catalog.data.room.CollectionFilmDB
+import com.example.movie_catalog.data.room.tables.CollectionDB
 import com.example.movie_catalog.data.room.DataSourceDB
+import com.example.movie_catalog.data.room.tables.FilmDB
 import com.example.movie_catalog.entity.*
 import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.enumApp.ProfKey
 import com.example.movie_catalog.entity.filminfo.ImageFilm
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class DataRepository @Inject constructor() {
@@ -110,7 +112,7 @@ class DataRepository @Inject constructor() {
             Kit.TOP250 -> getTop(page, Kit.TOP250)
             Kit.SERIALS -> getFilters(page, Kit.SERIALS)
             Kit.RANDOM1 -> getFilters(page, Kit.RANDOM1)
-            Kit.RANDOM2 ->  getFilters(page, Kit.RANDOM2)
+            Kit.RANDOM2 -> getFilters(page, Kit.RANDOM2)
             Kit.SEARCH -> getFilters(page, Kit.SEARCH)
             else -> emptyList()
         }
@@ -165,7 +167,7 @@ class DataRepository @Inject constructor() {
 
     fun takeSearchFilter() = DataCentre.takeSearchFilter()
 
-    fun putSearchFilter(searchFilter: SearchFilter){
+    fun putSearchFilter(searchFilter: SearchFilter) {
         DataCentre.putSearchFilter(searchFilter)
     }
 
@@ -174,46 +176,55 @@ class DataRepository @Inject constructor() {
     fun putJobPerson(item: String) {
         DataCentre.putJobPerson(item)
     }
-    
+
     // FUNCTION DB #################################################
 
     fun changeViewed(film: Film) {
-        dataSourceDB.setViewed(film.filmId!!)
+        dataSourceDB.setViewed(film)
         film.viewed = !film.viewed
     }
 
     fun changeFavorite(film: Film) {
-        dataSourceDB.setFavorite(film.filmId!!)
+        dataSourceDB.addRemoveFilmToCollection(film,1)
         film.favorite = !film.favorite
     }
 
     fun changeBookmark(film: Film) {
-        dataSourceDB.setBookmark(film.filmId!!)
+        dataSourceDB.addRemoveFilmToCollection(film,2)
         film.bookmark = !film.bookmark
     }
 
-    fun getCollections(filmId:Int): List<CollectionFilmDB>{
+    fun getCollections(filmId:Int): List<CollectionDB> {
         val listCollectionFilmDB = dataSourceDB.getCollections()
         if (listCollectionFilmDB.isNotEmpty()) {
             listCollectionFilmDB.forEach {
-                it.count = dataSourceDB.getCountFilmCollection(it.name).size
-                it.included = dataSourceDB.getFilmInCollection(it.name, filmId)?.included == 1
+                it.count = dataSourceDB.getCountFilmCollection(it.idCollection).size
+                it.included = dataSourceDB.getFilmInCollection(filmId,it.idCollection)
                 Log.d("KDS", " count = ${it.count}")
             }
         }
         return listCollectionFilmDB
     }
 
-    fun newCollection(nameCollection: String, filmId:Int): List<CollectionFilmDB>{
-        dataSourceDB.newCollection(CollectionFilmDB(name = nameCollection))
-        addRemoveFilmToCollection(nameCollection,filmId)
-        return getCollections(filmId)
+    fun newCollection(nameCollection: String, film: Film): List<CollectionDB> {
+        //Проверяем наличие коллекции с таким именем.
+        dataSourceDB.addCollection(CollectionDB(name = nameCollection))
+        val newCollection = dataSourceDB.getCollectionRecord(nameCollection)
+        if ( newCollection != null) {
+            dataSourceDB.addFilm(FilmDB(idFilm = film.filmId!!, msg = "", film))
+            val filmDB = dataSourceDB.getFilm(film)
+            if (filmDB != null) addRemoveFilmToCollection(newCollection, film)
+        }
+        return getCollections(film.filmId!!)
     }
 
-    fun addRemoveFilmToCollection(nameCollection: String, filmId: Int): List<CollectionFilmDB>{
-        dataSourceDB.addRemoveFilmToCollection(nameCollection, filmId)
-        return getCollections(filmId)
+    fun addRemoveFilmToCollection(collection: CollectionDB, film: Film): List<CollectionDB> {
+        dataSourceDB.addRemoveFilmToCollection(film, collection.idCollection)
+        return getCollections(film.filmId!!)
     }
 
+    fun viewedFlow(id: Int): Flow<Boolean> = dataSourceDB.viewedFlow(id)
+    fun bookmarkFlow(id: Int): Flow<Boolean> = dataSourceDB.bookmarkFlow(id)
+    fun favoriteFlow(id: Int): Flow<Boolean> = dataSourceDB.favoriteFlow(id)
 }
 //################################################################################################################

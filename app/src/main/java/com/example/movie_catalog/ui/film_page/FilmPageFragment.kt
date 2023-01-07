@@ -22,7 +22,7 @@ import com.bumptech.glide.Glide
 import com.example.movie_catalog.entity.Constants
 import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
-import com.example.movie_catalog.data.room.CollectionFilmDB
+import com.example.movie_catalog.data.room.tables.CollectionDB
 import com.example.movie_catalog.databinding.FragmentFilmPageBinding
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Person
@@ -59,6 +59,8 @@ class FilmPageFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.posterBig.viewmodel = viewModel
+        binding.posterBig.lifecycleOwner = viewLifecycleOwner
         viewModel.filmInfo.onEach {
             if (it != Film()) fillPage(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -74,21 +76,14 @@ class FilmPageFragment : Fragment() {
         val animationCard = LoadImageURLShow()
         animationCard.setAnimation(binding.posterBig.poster, filmInfo.posterUrl, R.dimen.film_page_poster_radius)
 //Show logotype or name russia or name original
-        if (filmInfo.logoUrl == null) {
-            binding.posterBig.logotype.visibility=View.INVISIBLE
-            if (filmInfo.nameRu == null){
-                if (filmInfo.nameOriginal == null){
-//                    Log.d("KDS","nameRu=${filmInfo.nameRu}, nameOriginal=${filmInfo.nameOriginal}")
-                    binding.posterBig.nameRuOrig.visibility=View.INVISIBLE
-                } else {
-                    binding.posterBig.nameRuOrig.text = filmInfo.nameOriginal.toString().trim()
-                }
-            } else {
-                binding.posterBig.nameRuOrig.text = filmInfo.nameRu.toString().trim()
-            }
-        } else {
-            binding.posterBig.nameRuOrig.visibility=View.INVISIBLE
+        if (!filmInfo.logoUrl.isNullOrEmpty()) {
             Glide.with(binding.posterBig.logotype).load(filmInfo.logoUrl).into(binding.posterBig.logotype)
+        } else {
+            binding.posterBig.logotype.visibility=View.INVISIBLE
+        }
+        binding.posterBig.nameRuOrig.text = filmInfo.nameRu?.trim() ?: filmInfo.nameOriginal?.trim() ?: ""
+        if ( binding.posterBig.nameRuOrig.text.isNullOrEmpty()){
+            binding.posterBig.nameRuOrig.visibility=View.INVISIBLE
         }
 //Show rating and other name
         var stringForTextView = ""
@@ -123,9 +118,8 @@ class FilmPageFragment : Fragment() {
         }
         binding.posterBig.yearGenreOther.text = stringForTextView
 //Show short descriptions
-        var description = ""
-        if (filmInfo.shortDescription != null) description = filmInfo.shortDescription.toString()
-        if (filmInfo.description != null) description += filmInfo.description.toString()
+        var description = filmInfo.shortDescription ?: ""
+        description += filmInfo.description ?: ""
         //Animation description
         binding.fragmFilmInfoLinear.layoutTransition = LayoutTransition().apply {
             setDuration(600)
@@ -307,7 +301,7 @@ class FilmPageFragment : Fragment() {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun showBottomSheetDialog(film:Film){
-        val adapterBottom = BottomAdapterAny {collection -> onClickChecked(collection as CollectionFilmDB) }
+        val adapterBottom = BottomAdapterAny {collection -> onClickChecked(collection as CollectionDB) }
         val bottomSheetDialog = context?.let{ BottomSheetDialog(it, R.style.AppBottomSheetDialogTheme)}!!
         bottomSheetDialog.setContentView(R.layout.include_bottom_sheet)
 
@@ -343,8 +337,8 @@ class FilmPageFragment : Fragment() {
         }
     }
 
-    private fun onClickChecked(collection: CollectionFilmDB){
-        viewModel.addRemoveFilmToCollection(collection.name)
+    private fun onClickChecked(collection: CollectionDB){
+        viewModel.addRemoveFilmToCollection(collection)
         Toast.makeText(context,"Selected collection: ${collection.name}",Toast.LENGTH_SHORT).show()
     }
 

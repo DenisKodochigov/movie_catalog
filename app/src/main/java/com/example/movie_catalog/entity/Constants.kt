@@ -9,5 +9,4 @@ object Constants {
     const val ACTOR = "ACTOR"
     const val OTHER = "OTHER"
     const val FILM = "FILM"
-    const val SIMILAR = "SIMILAR"
 }

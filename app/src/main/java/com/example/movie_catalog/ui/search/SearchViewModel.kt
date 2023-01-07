@@ -29,16 +29,20 @@ class SearchViewModel @Inject constructor(): ViewModel() {
         ).flow.cachedIn(viewModelScope)
     }
 
-    fun startSearch(keyWord: String?){
-        keyWord?.let {
-            val filter = dataRepository.takeSearchFilter()
-            filter.keyWord = keyWord
-            dataRepository.putSearchFilter(filter)
-        }
+    fun startSearch(keyWord: String){
+        putTextSearch(keyWord)
         pagedFilms = Pager(
             config = PagingConfig(pageSize = 20),
             pagingSourceFactory = { PagedSourceData(Kit.SEARCH) }
         ).flow.cachedIn(viewModelScope)
+    }
+
+    fun putTextSearch(keyWord:String){
+        if (keyWord.isNotEmpty()) {
+            val filter = dataRepository.takeSearchFilter()
+            filter.keyWord = keyWord
+            dataRepository.putSearchFilter(filter)
+        }
     }
 
     fun putFilm(film: Film){

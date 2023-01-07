@@ -1,6 +1,11 @@
 package com.example.movie_catalog.data.room
 
 import com.example.movie_catalog.App
+import com.example.movie_catalog.data.room.tables.CollectionDB
+import com.example.movie_catalog.data.room.tables.CrossFC
+import com.example.movie_catalog.data.room.tables.FilmDB
+import com.example.movie_catalog.entity.Film
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -12,77 +17,61 @@ open class DataSourceDB  @Inject constructor(){
     fun getViewed(id:Int):Boolean{
         return dataDao.getViewed(id)
     }
-    fun getFavorite(id:Int):Boolean{
-        return dataDao.getFavorite(id)
-    }
-    fun getBookmark(id:Int):Boolean{
-        return dataDao.getBookmark(id)
-    }
-    fun getFilm(id:Int): FilmDB? {
-        return dataDao.getFilm(id)
-    }
-    fun updateRecord(film: FilmDB){
-        dataDao.update(film)
-    }
-
-    fun setViewed(id: Int) {
-        val filmDB = dataDao.getFilm(id)
+    fun getFilm(film: Film): FilmDB? {
+        val filmDB = dataDao.getFilm(film.filmId!!)
         if (filmDB == null) {
-            dataDao.insert(FilmDB(filmId = id, msg = "", timestamp = 0,
-                id = 0, viewed = true, bookmark = false, favorite = false))
+            dataDao.insert(FilmDB(idFilm = film.filmId, msg = "", film))
+        }
+        return filmDB
+    }
+    private fun checkFilmInCollection(film: Film){
+        if ( ! dataDao.existFilmInCollections(film.filmId!!)) {
+            dataDao.deleteByIdFilmDB(film.filmId)
+        }
+    }
+    fun addFilm(filmDB: FilmDB){
+        dataDao.insert(filmDB)
+    }
+    fun viewedFlow(id: Int): Flow<Boolean> = dataDao.setViewedFlow(id)
+    fun bookmarkFlow(id: Int): Flow<Boolean> = dataDao.setBookmarkFlow(id)
+    fun favoriteFlow(id: Int): Flow<Boolean> = dataDao.setFavoriteFlow(id)
+
+    fun setViewed(film: Film) {
+        val filmDB = dataDao.getFilm(film.filmId!!)
+        if (filmDB == null) {
+            dataDao.insert(FilmDB(idFilm = film.filmId, msg = "", film))
         } else {
-            filmDB.viewed = !filmDB.viewed
+            filmDB.film?.let { it.viewed = !it.viewed}
             dataDao.update(filmDB)
         }
     }
 
-    fun setFavorite(id: Int) {
-        val filmDB = dataDao.getFilm(id)
-        if (filmDB == null) {
-            dataDao.insert(FilmDB(filmId = id, msg = "", timestamp = 0,
-                id = 0, viewed = false, bookmark = false, favorite = true))
-        } else {
-            filmDB.favorite = !filmDB.favorite
-            dataDao.update(filmDB)
-        }
-    }
-
-    fun setBookmark(id: Int) {
-        val filmDB = dataDao.getFilm(id)
-        if (filmDB == null) {
-            dataDao.insert(FilmDB(filmId = id, msg = "", timestamp = 0,
-                id = 0, viewed = false, bookmark = true, favorite = true))
-        } else {
-            filmDB.bookmark = !filmDB.bookmark
-            dataDao.update(filmDB)
-        }
-    }
-
-    fun getCollections():List<CollectionFilmDB>{
+    fun getCollections():List<CollectionDB>{
         return dataDao.getCollection()
     }
 
-    fun newCollection(collection: CollectionFilmDB){
+    fun addCollection(collection: CollectionDB){
         dataDao.insert(collection)
     }
 
-    fun getCountFilmCollection(collectionId: String): List<CrossFileCollection>{
-        return dataDao.getCountFilmCollection(collectionId,1)
+    fun getCountFilmCollection(collectionId: Int): List<CrossFC>{
+        return dataDao.getCountFilmCollection(collectionId)
     }
 
-    fun addRemoveFilmToCollection(collectionId: String, filmId: Int){
-        val crossFilmCollection = dataDao.getFilmInCollection(collectionId, filmId)
-        if (crossFilmCollection != null){
-            if (crossFilmCollection.included == 0) crossFilmCollection.included = 1
-            else crossFilmCollection.included = 0
-            dataDao.update(crossFilmCollection)
+    fun addRemoveFilmToCollection( film: Film, collectionId: Int){
+        getFilm(film)
+        val idCrossFc = dataDao.getFilmInCollection(film.filmId!!, collectionId)
+        if (idCrossFc == null){
+            dataDao.insert(CrossFC( film_id = film.filmId, collection_id = collectionId, value = true ))
         } else {
-            dataDao.insert(CrossFileCollection(idFilm = filmId, idCollection = collectionId, 1))
+            dataDao.deleteByIdCrossFC(idCrossFc)
+            checkFilmInCollection(film)
         }
     }
 
-    fun getFilmInCollection(collectionId: String, filmId: Int): CrossFileCollection?{
-        return dataDao.getFilmInCollection(collectionId,filmId)
+    fun getFilmInCollection(filmId: Int, collectionId: Int): Boolean{
+        return dataDao.getFilmInCollection(filmId, collectionId) != null
     }
 
+    fun getCollectionRecord(nameCollection: String):CollectionDB? = dataDao.getCollectionRecord(nameCollection)
 }

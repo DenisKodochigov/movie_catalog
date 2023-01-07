@@ -205,18 +205,17 @@
         <item name="android:background">@color/fon_app</item>
         <item name="android:layout_marginTop">@dimen/film_page_margin_bottom_h2</item>
     </style>
-    <style name="gallery_tabs_name" parent = "H2">
+    <style name="tabs_name" parent = "H2">
         <item name="android:textColor">@color/ic_rating_text</item>
         <item name="android:maxLength">15</item>
         <item name="android:ellipsize">end</item>
-        <item name="android:paddingStart">@dimen/gallery_tab_margin_hor</item>
+        <item name="android:paddingStart">@dimen/tab_margin_hor</item>
         <item name="android:paddingVertical">8dp</item>
     </style>
-    <style name="gallery_tabs_quantity" parent = "H4">
+    <style name="tabs_quantity" parent = "H4">
         <item name="android:textColor">@color/h5_poster</item>
-        <item name="android:paddingStart">@dimen/gallery_tab_item_margin_hor</item>
-        <item name="android:paddingEnd">@dimen/gallery_tab_margin_hor</item>
-        <item name="android:paddingVertical">8dp</item>
+        <item name="android:paddingStart">@dimen/tab_item_margin_hor</item>
+        <item name="android:paddingEnd">@dimen/tab_margin_hor</item>
     </style>
 
     <style name="AppBottomSheetDialogTheme"
@@ -242,6 +241,12 @@
     <style name="Style_Dialog_Rounded_Corner" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:windowBackground">@drawable/dialog_corner</item>
         <item name="android:windowMinWidthMinor">85%</item>
+    </style>
+    <style name="film_page_icon">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:padding">16dp</item>
     </style>
     <style name="dialog_tv" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:layout_width">wrap_content</item>

@@ -48,17 +48,18 @@ class SearchFragment : Fragment() {
         viewModel.pagedFilms.onEach {
             Log.d("KDS", "SearchFragment, start load list.")
             val textSearch = binding.etSearch.text
-            if (textSearch.isNotEmpty()) {
-                adapter.submitData(it.filter { item ->
-                    item.film?.nameEn!!.contains(textSearch) ||
-                    item.film?.nameRu!!.contains(textSearch) ||
-                    item.film?.nameOriginal!!.contains(textSearch) ||
-                    item.person?.nameEn!!.contains(textSearch) ||
-                    item.person?.nameRu!!.contains(textSearch)
-                })
-            } else {
-                adapter.submitData(it)
-            }
+            adapter.submitData(it)
+//            if (textSearch.isNotEmpty()) {
+//                adapter.submitData(it.filter { item ->
+//                    item.film?.nameEn!!.contains(textSearch) ||
+//                    item.film?.nameRu!!.contains(textSearch) ||
+//                    item.film?.nameOriginal!!.contains(textSearch) ||
+//                    item.person?.nameEn!!.contains(textSearch) ||
+//                    item.person?.nameRu!!.contains(textSearch)
+//                })
+//            } else {
+//                adapter.submitData(it)
+//            }
             Log.d("KDS", "SearchFragment, end load list.")
         }.launchIn(viewLifecycleOwner.lifecycleScope)
         binding.swipeRefresh.setOnRefreshListener {
@@ -69,7 +70,8 @@ class SearchFragment : Fragment() {
         }.launchIn(viewLifecycleOwner.lifecycleScope)
 
         binding.ivSearch.setOnClickListener {
-            viewModel.startSearch(binding.etSearch.text.toString())
+            viewModel.putTextSearch(binding.etSearch.text.toString())
+            adapter.refresh()
         }
         binding.ivConfig.setOnClickListener {
             findNavController().navigate(R.id.action_nav_search_to_nav_setting)
@@ -78,7 +80,7 @@ class SearchFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        viewModel.startSearch(null)
+        viewModel.startSearch("")
     }
 
     private fun onItemClick(film: Film) {

@@ -151,7 +151,7 @@ object DataCentre {
             posterUrlPreview = filmInfo.infoFilm!!.posterUrlPreview
             countries = filmInfo.infoFilm!!.countries.orEmpty()
             genres = filmInfo.infoFilm!!.genres.orEmpty()
-            startYear = filmInfo.infoFilm!!.startYear.orEmpty().toInt()
+            startYear = filmInfo.infoFilm!!.startYear?.toInt()
             posterUrl = filmInfo.infoFilm!!.posterUrl.orEmpty()
             logoUrl = filmInfo.infoFilm!!.logoUrl.orEmpty()
             nameOriginal = filmInfo.infoFilm!!.nameOriginal.orEmpty()

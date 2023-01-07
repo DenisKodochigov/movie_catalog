@@ -4,15 +4,14 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.data.DataRepository
-import com.example.movie_catalog.data.room.CollectionFilmDB
+import com.example.movie_catalog.data.room.tables.CollectionDB
 import com.example.movie_catalog.entity.Linker
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Person
 import com.example.movie_catalog.entity.filminfo.ImageFilm
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,18 +33,49 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
     private var _similar = MutableStateFlow(listOf<Linker>())
     var similar = _similar.asStateFlow()
 
-    private var _collections = MutableStateFlow(listOf<CollectionFilmDB>())
+    private var _collections = MutableStateFlow(listOf<CollectionDB>())
     var collections = _collections.asStateFlow()
 
+//    private var _viewed = MutableStateFlow(false)
+//    var viewed = _viewed.asStateFlow()
+//    private var _favorite = MutableStateFlow(false)
+//    var favorite = _favorite.asStateFlow()
+//    private var _bookmark = MutableStateFlow(false)
+//    var bookmark = _bookmark.asStateFlow()
+
+    lateinit var viewed: StateFlow<Boolean>
+    lateinit var favorite: StateFlow<Boolean>
+    lateinit var bookmark: StateFlow<Boolean>
 
     init {
         takeFilm()
         localFilm?.let {
+            getFlowIcon(it.filmId)
             getFilmInfo(it)
             getImages(it)
             getSimilar(it)
             getPersons(it)
             getCollections()
+        }
+    }
+
+    private fun getFlowIcon(id: Int?){
+        id?.let { filmId ->
+            viewed = dataRepository.viewedFlow(filmId).stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000L),
+                initialValue = false
+            )
+            favorite = dataRepository.favoriteFlow(filmId).stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000L),
+                initialValue = false
+            )
+            bookmark = dataRepository.bookmarkFlow(filmId).stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000L),
+                initialValue = false
+            )
         }
     }
 
@@ -67,22 +97,19 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 localFilm?.let { film ->
-                    film.filmId?.let {
-                        dataRepository.newCollection(nameCollection, it)
-                    }}
+                    dataRepository.newCollection(nameCollection, film)
+                }
             }.fold(
                 onSuccess = { if (it != null) _collections.value = it },
                 onFailure = { Log.d("KDS", it.message ?: "getFilmInfo") } )
         }
     }
 
-    fun addRemoveFilmToCollection(nameCollection: String){
+    fun addRemoveFilmToCollection(collection: CollectionDB){
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 localFilm?.let { film ->
-                    film.filmId?.let {
-                        dataRepository.addRemoveFilmToCollection(nameCollection, it)
-                    }
+                    dataRepository.addRemoveFilmToCollection(collection, film)
                 }
             }.fold(
                 onSuccess = { if (it != null) _collections.value = it },

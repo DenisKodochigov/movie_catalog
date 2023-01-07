@@ -37,11 +37,12 @@ public final class AppDatabase_Impl extends AppDatabase {
     final SupportSQLiteOpenHelper.Callback _openCallback = new RoomOpenHelper(configuration, new RoomOpenHelper.Delegate(1) {
       @Override
       public void createAllTables(SupportSQLiteDatabase _db) {
-        _db.execSQL("CREATE TABLE IF NOT EXISTS `films` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `filmId` INTEGER NOT NULL, `msg` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, `viewed` INTEGER NOT NULL, `bookmark` INTEGER NOT NULL, `favorite` INTEGER NOT NULL)");
-        _db.execSQL("CREATE TABLE IF NOT EXISTS `collections` (`name` TEXT NOT NULL, `included` INTEGER NOT NULL, `count` INTEGER NOT NULL, `filmId` INTEGER NOT NULL, PRIMARY KEY(`name`))");
-        _db.execSQL("CREATE TABLE IF NOT EXISTS `crossFC` (`idFilm` INTEGER NOT NULL, `idCollection` TEXT NOT NULL, `included` INTEGER NOT NULL, PRIMARY KEY(`idFilm`, `idCollection`))");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `films` (`idFilm` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `msg` TEXT NOT NULL, `filmId` INTEGER, `imdbId` TEXT, `nameRu` TEXT, `nameEn` TEXT, `rating` REAL, `posterUrlPreview` TEXT, `countries` TEXT, `genres` TEXT, `favorite` INTEGER, `viewed` INTEGER, `bookmark` INTEGER, `professionKey` TEXT, `startYear` INTEGER, `images` TEXT, `posterUrl` TEXT, `logoUrl` TEXT, `nameOriginal` TEXT, `ratingImdb` REAL, `ratingAwait` REAL, `ratingGoodReview` REAL, `year` INTEGER, `totalSeasons` INTEGER, `listSeasons` TEXT, `description` TEXT, `shortDescription` TEXT)");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `collections` (`idCollection` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `count` INTEGER NOT NULL, `included` INTEGER NOT NULL)");
+        _db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_collections_name` ON `collections` (`name`)");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `crossFC` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `film_id` INTEGER NOT NULL, `collection_id` INTEGER NOT NULL, `value` INTEGER NOT NULL)");
         _db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '481f9d6f4a7578d997dfb3fe7823d7e2')");
+        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'bcef7615b210bbd91ee1d936b3c32976')");
       }
 
       @Override
@@ -87,53 +88,75 @@ public final class AppDatabase_Impl extends AppDatabase {
 
       @Override
       protected RoomOpenHelper.ValidationResult onValidateSchema(SupportSQLiteDatabase _db) {
-        final HashMap<String, TableInfo.Column> _columnsFilms = new HashMap<String, TableInfo.Column>(7);
-        _columnsFilms.put("id", new TableInfo.Column("id", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsFilms.put("filmId", new TableInfo.Column("filmId", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        final HashMap<String, TableInfo.Column> _columnsFilms = new HashMap<String, TableInfo.Column>(27);
+        _columnsFilms.put("idFilm", new TableInfo.Column("idFilm", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsFilms.put("msg", new TableInfo.Column("msg", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsFilms.put("timestamp", new TableInfo.Column("timestamp", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsFilms.put("viewed", new TableInfo.Column("viewed", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsFilms.put("bookmark", new TableInfo.Column("bookmark", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsFilms.put("favorite", new TableInfo.Column("favorite", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsFilms.put("filmId", new TableInfo.Column("filmId", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsFilms.put("imdbId", new TableInfo.Column("imdbId", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsFilms.put("nameRu", new TableInfo.Column("nameRu", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsFilms.put("nameEn", new TableInfo.Column("nameEn", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsFilms.put("rating", new TableInfo.Column("rating", "REAL", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsFilms.put("posterUrlPreview", new TableInfo.Column("posterUrlPreview", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsFilms.put("countries", new TableInfo.Column("countries", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsFilms.put("genres", new TableInfo.Column("genres", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsFilms.put("favorite", new TableInfo.Column("favorite", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsFilms.put("viewed", new TableInfo.Column("viewed", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsFilms.put("bookmark", new TableInfo.Column("bookmark", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsFilms.put("professionKey", new TableInfo.Column("professionKey", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsFilms.put("startYear", new TableInfo.Column("startYear", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsFilms.put("images", new TableInfo.Column("images", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsFilms.put("posterUrl", new TableInfo.Column("posterUrl", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsFilms.put("logoUrl", new TableInfo.Column("logoUrl", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsFilms.put("nameOriginal", new TableInfo.Column("nameOriginal", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsFilms.put("ratingImdb", new TableInfo.Column("ratingImdb", "REAL", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsFilms.put("ratingAwait", new TableInfo.Column("ratingAwait", "REAL", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsFilms.put("ratingGoodReview", new TableInfo.Column("ratingGoodReview", "REAL", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsFilms.put("year", new TableInfo.Column("year", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsFilms.put("totalSeasons", new TableInfo.Column("totalSeasons", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsFilms.put("listSeasons", new TableInfo.Column("listSeasons", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsFilms.put("description", new TableInfo.Column("description", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsFilms.put("shortDescription", new TableInfo.Column("shortDescription", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         final HashSet<TableInfo.ForeignKey> _foreignKeysFilms = new HashSet<TableInfo.ForeignKey>(0);
         final HashSet<TableInfo.Index> _indicesFilms = new HashSet<TableInfo.Index>(0);
         final TableInfo _infoFilms = new TableInfo("films", _columnsFilms, _foreignKeysFilms, _indicesFilms);
         final TableInfo _existingFilms = TableInfo.read(_db, "films");
         if (! _infoFilms.equals(_existingFilms)) {
-          return new RoomOpenHelper.ValidationResult(false, "films(com.example.movie_catalog.data.room.FilmDB).\n"
+          return new RoomOpenHelper.ValidationResult(false, "films(com.example.movie_catalog.data.room.tables.FilmDB).\n"
                   + " Expected:\n" + _infoFilms + "\n"
                   + " Found:\n" + _existingFilms);
         }
         final HashMap<String, TableInfo.Column> _columnsCollections = new HashMap<String, TableInfo.Column>(4);
-        _columnsCollections.put("name", new TableInfo.Column("name", "TEXT", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsCollections.put("included", new TableInfo.Column("included", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCollections.put("idCollection", new TableInfo.Column("idCollection", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCollections.put("name", new TableInfo.Column("name", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         _columnsCollections.put("count", new TableInfo.Column("count", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsCollections.put("filmId", new TableInfo.Column("filmId", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCollections.put("included", new TableInfo.Column("included", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         final HashSet<TableInfo.ForeignKey> _foreignKeysCollections = new HashSet<TableInfo.ForeignKey>(0);
-        final HashSet<TableInfo.Index> _indicesCollections = new HashSet<TableInfo.Index>(0);
+        final HashSet<TableInfo.Index> _indicesCollections = new HashSet<TableInfo.Index>(1);
+        _indicesCollections.add(new TableInfo.Index("index_collections_name", true, Arrays.asList("name"), Arrays.asList("ASC")));
         final TableInfo _infoCollections = new TableInfo("collections", _columnsCollections, _foreignKeysCollections, _indicesCollections);
         final TableInfo _existingCollections = TableInfo.read(_db, "collections");
         if (! _infoCollections.equals(_existingCollections)) {
-          return new RoomOpenHelper.ValidationResult(false, "collections(com.example.movie_catalog.data.room.CollectionFilmDB).\n"
+          return new RoomOpenHelper.ValidationResult(false, "collections(com.example.movie_catalog.data.room.tables.CollectionDB).\n"
                   + " Expected:\n" + _infoCollections + "\n"
                   + " Found:\n" + _existingCollections);
         }
-        final HashMap<String, TableInfo.Column> _columnsCrossFC = new HashMap<String, TableInfo.Column>(3);
-        _columnsCrossFC.put("idFilm", new TableInfo.Column("idFilm", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsCrossFC.put("idCollection", new TableInfo.Column("idCollection", "TEXT", true, 2, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsCrossFC.put("included", new TableInfo.Column("included", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        final HashMap<String, TableInfo.Column> _columnsCrossFC = new HashMap<String, TableInfo.Column>(4);
+        _columnsCrossFC.put("id", new TableInfo.Column("id", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCrossFC.put("film_id", new TableInfo.Column("film_id", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCrossFC.put("collection_id", new TableInfo.Column("collection_id", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCrossFC.put("value", new TableInfo.Column("value", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
         final HashSet<TableInfo.ForeignKey> _foreignKeysCrossFC = new HashSet<TableInfo.ForeignKey>(0);
         final HashSet<TableInfo.Index> _indicesCrossFC = new HashSet<TableInfo.Index>(0);
         final TableInfo _infoCrossFC = new TableInfo("crossFC", _columnsCrossFC, _foreignKeysCrossFC, _indicesCrossFC);
         final TableInfo _existingCrossFC = TableInfo.read(_db, "crossFC");
         if (! _infoCrossFC.equals(_existingCrossFC)) {
-          return new RoomOpenHelper.ValidationResult(false, "crossFC(com.example.movie_catalog.data.room.CrossFileCollection).\n"
+          return new RoomOpenHelper.ValidationResult(false, "crossFC(com.example.movie_catalog.data.room.tables.CrossFC).\n"
                   + " Expected:\n" + _infoCrossFC + "\n"
                   + " Found:\n" + _existingCrossFC);
         }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "481f9d6f4a7578d997dfb3fe7823d7e2", "450b53292e222e4b4b665a469bf85fa6");
+    }, "bcef7615b210bbd91ee1d936b3c32976", "a9e06521474c745779d38699dc8a6c94");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(configuration.context)
         .name(configuration.name)
         .callback(_openCallback)

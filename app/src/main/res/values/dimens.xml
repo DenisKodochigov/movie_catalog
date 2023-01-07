@@ -60,12 +60,13 @@
     <dimen name="toolbar_margin_top">20dp</dimen>
     <dimen name="dp0">0dp</dimen>
 
+    <dimen name="tab_rectangle_radius">20dp</dimen>
+    <dimen name="tab_rectangle_stroke_width">2dp</dimen>
+    <dimen name="tab_margin_hor">24dp</dimen>
+    <dimen name="tab_item_margin_hor">10dp</dimen>
+    <dimen name="tab_margin_ver">8dp</dimen>
+
     <dimen name="gallery_marginTop">20dp</dimen>
-    <dimen name="gallery_tab_rectangle_radius">20dp</dimen>
-    <dimen name="gallery_tab_rectangle_stroke_width">2dp</dimen>
-    <dimen name="gallery_tab_margin_hor">24dp</dimen>
-    <dimen name="gallery_tab_item_margin_hor">10dp</dimen>
-    <dimen name="gallery_tab_margin_ver">8dp</dimen>
     <dimen name="gallery_list_big_card_width">308dp</dimen>
     <dimen name="gallery_list_big_card_height">173dp</dimen>
     <dimen name="gallery_list_small_card_width">146dp</dimen>

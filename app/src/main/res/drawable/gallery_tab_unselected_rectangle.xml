@@ -4,10 +4,10 @@
     android:shape="rectangle" >
 
     <solid android:color="@color/clear" />
-    <stroke android:width="@dimen/gallery_tab_rectangle_stroke_width"/>
+    <stroke android:width="@dimen/tab_rectangle_stroke_width"/>
     <corners
-        android:bottomLeftRadius="@dimen/gallery_tab_rectangle_radius"
-        android:bottomRightRadius="@dimen/gallery_tab_rectangle_radius"
-        android:topLeftRadius="@dimen/gallery_tab_rectangle_radius"
-        android:topRightRadius="@dimen/gallery_tab_rectangle_radius" />
+        android:bottomLeftRadius="@dimen/tab_rectangle_radius"
+        android:bottomRightRadius="@dimen/tab_rectangle_radius"
+        android:topLeftRadius="@dimen/tab_rectangle_radius"
+        android:topRightRadius="@dimen/tab_rectangle_radius" />
 </shape>

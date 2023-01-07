@@ -6,8 +6,8 @@
     <solid android:color="@color/blue_arrow" />
 
     <corners
-        android:bottomLeftRadius="@dimen/gallery_tab_rectangle_radius"
-        android:bottomRightRadius="@dimen/gallery_tab_rectangle_radius"
-        android:topLeftRadius="@dimen/gallery_tab_rectangle_radius"
-        android:topRightRadius="@dimen/gallery_tab_rectangle_radius" />
+        android:bottomLeftRadius="@dimen/tab_rectangle_radius"
+        android:bottomRightRadius="@dimen/tab_rectangle_radius"
+        android:topLeftRadius="@dimen/tab_rectangle_radius"
+        android:topRightRadius="@dimen/tab_rectangle_radius" />
 </shape>

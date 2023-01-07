@@ -6,7 +6,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.data.DataRepository
 import com.example.movie_catalog.data.api.home.getKit.CountryIdDTO
 import com.example.movie_catalog.data.api.home.getKit.GenreIdDTO
-import com.example.movie_catalog.data.room.CollectionFilmDB
 import com.example.movie_catalog.entity.SearchFilter
 import com.example.movie_catalog.entity.enumApp.SortingField
 import com.example.movie_catalog.entity.enumApp.TypeFilm

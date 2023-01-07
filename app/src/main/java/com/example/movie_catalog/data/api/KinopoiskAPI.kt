@@ -77,7 +77,7 @@ interface KinopoiskAPI {
     suspend fun getSimilar(@Path("id") id:Int): SimilarDTO
 
     companion object{
-        private const val api_key = "130f6e6d-9e90-4c52-8cf5-8c4cda072fa8"
+        private const val api_key = "20c3f30c-7ba7-4417-9c72-4975ac6091c6"
     }
 }
 

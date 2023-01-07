@@ -1,21 +1,17 @@
 package com.example.movie_catalog.ui.recycler
 
 import android.annotation.SuppressLint
-import android.app.ActionBar.LayoutParams
 import android.graphics.Typeface
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_catalog.R
 import com.example.movie_catalog.data.api.home.getKit.CountryIdDTO
 import com.example.movie_catalog.data.api.home.getKit.GenreIdDTO
-import com.example.movie_catalog.data.room.CollectionFilmDB
+import com.example.movie_catalog.data.room.tables.CollectionDB
 import com.example.movie_catalog.databinding.ItemBottomRecyclerBinding
 import com.example.movie_catalog.databinding.ItemBottomRecyclerTextBinding
 import com.example.movie_catalog.databinding.ItemBottomRecyclerYearsBinding
-import com.example.movie_catalog.databinding.ItemFilmPagePersonBinding
-import com.example.movie_catalog.databinding.ItemPersonListBinding
 import com.example.movie_catalog.entity.RecyclerData
 import javax.inject.Inject
 
@@ -44,7 +40,7 @@ class BottomAdapterAny @Inject constructor( private val onClick: (Any) -> Unit,
     }
     override fun getItemViewType(position: Int): Int {
         return when (items[position]) {
-            is CollectionFilmDB -> R.layout.item_bottom_recycler
+            is CollectionDB -> R.layout.item_bottom_recycler
             is RecyclerData -> R.layout.item_bottom_recycler_years
             else -> R.layout.item_bottom_recycler_text
         }
@@ -55,7 +51,7 @@ class BottomAdapterAny @Inject constructor( private val onClick: (Any) -> Unit,
 
         when (holder){
             is BottomAnyVH -> {
-                if (item is CollectionFilmDB){
+                if (item is CollectionDB){
                     holder.binding.checkBox.text = item.name ?: ""
                     holder.binding.tvCount.text = item.count.toString()
                     holder.binding.checkBox.isChecked = item.included

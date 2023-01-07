@@ -14,7 +14,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-import com.example.movie_catalog.data.room.CollectionFilmDB
+import com.example.movie_catalog.data.room.tables.CollectionDB
 
 @InstallIn(SingletonComponent::class)
 @Module
@@ -33,8 +33,8 @@ object DatabaseModule {
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
                     ioThread {
-                        database.dataDao().insert(CollectionFilmDB(name = nameCollection1))
-                        database.dataDao().insert(CollectionFilmDB(name = nameCollection2))
+                        database.dataDao().insert(CollectionDB(name = nameCollection1))
+                        database.dataDao().insert(CollectionDB(name = nameCollection2))
                     }
                 }
             })

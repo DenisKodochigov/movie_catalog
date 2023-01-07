@@ -1,61 +1,80 @@
 package com.example.movie_catalog.data.room
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
+import com.example.movie_catalog.data.room.tables.CollectionDB
+import com.example.movie_catalog.data.room.tables.CrossFC
+import com.example.movie_catalog.data.room.tables.FilmDB
+import kotlinx.coroutines.flow.Flow
 
 /* Data access object to query the database. */
 @Dao
 interface DataDao {
-
+//table FILMS
     @Insert(entity = FilmDB::class)
     fun insert(vararg data: FilmDB)
-
-    @Query("DELETE FROM films")
-    fun nukeTable()
-
-    @Query("SELECT * FROM films ORDER BY filmId DESC")
-    fun getAll(): FilmDB
-
-    @Query("SELECT * FROM films WHERE filmId = :id")
-    fun getFilm(id: Int): FilmDB?
 
     @Update
     fun update(film: FilmDB)
 
-    @Query("SELECT viewed FROM films WHERE filmId = :id")
+    @Query("DELETE FROM films")
+    fun nukeTable()
+
+    @Query("SELECT * FROM films ORDER BY idFilm DESC")
+    fun getAll(): FilmDB
+
+    @Query("SELECT * FROM films WHERE idFilm = :id")
+    fun getFilm(id: Int): FilmDB?
+
+    @Query("SELECT viewed FROM films WHERE idFilm = :id")
     fun getViewed(id: Int): Boolean
+    @Query("SELECT viewed FROM films WHERE idFilm = :id")
+    fun setViewedFlow(id: Int): Flow<Boolean>
+    @Query("DELETE FROM films WHERE idFilm = :id")
+    fun deleteByIdFilmDB(id: Int)
 
-    @Query("SELECT favorite FROM films WHERE filmId = :id")
-    fun getFavorite(id: Int): Boolean
+//Table COLLECTIONS
+    @Insert(entity = CollectionDB::class)
+    fun insert(vararg data: CollectionDB)
 
-    @Query("SELECT bookmark FROM films WHERE filmId = :id")
-    fun getBookmark(id: Int): Boolean
-
-    @Query("SELECT viewed FROM films WHERE filmId = :id")
-    fun setViewed(id: Int): Boolean
-
-    @Query("SELECT favorite FROM films WHERE filmId = :id")
-    fun setFavorite(id: Int): Boolean
-
-    @Query("SELECT bookmark FROM films WHERE filmId = :id")
-    fun setBookmark(id: Int): Boolean
+    @Query("DELETE FROM collections WHERE idCollection = :id")
+    fun deleteById(id:Int)
 
     @Query("SELECT * FROM collections ")
-    fun getCollection(): List<CollectionFilmDB>
+    fun getCollection(): List<CollectionDB>
 
-    @Insert(entity = CollectionFilmDB::class)
-    fun insert(vararg data: CollectionFilmDB)
+    @Query("SELECT * FROM collections WHERE name = :collectionName ")
+    fun getCollectionRecord(collectionName: String): CollectionDB?
 
-    @Query("SELECT * FROM crossFC WHERE idCollection = :id AND included = :included")
-    fun getCountFilmCollection(id: String, included:Int): List<CrossFileCollection>
-
-    @Query("SELECT * FROM crossFC WHERE idCollection = :collectionId AND idFilm = :filmId")
-    fun getFilmInCollection(collectionId: String, filmId: Int): CrossFileCollection?
+//Table COLLECTIONS WITH FILM
+    @Insert(entity = CrossFC::class, onConflict = OnConflictStrategy.REPLACE)
+    fun insert(vararg data: CrossFC)
 
     @Update
-    fun update(crossFileCollection: CrossFileCollection)
-    @Insert(entity = CrossFileCollection::class)
-    fun insert(vararg data: CrossFileCollection)
+    fun update(data: CrossFC)
+    // FAVORITE
+    @Query("SELECT value FROM crossFC WHERE collection_id = '1' AND film_id = :id")
+    fun setFavoriteFlow(id: Int): Flow<Boolean>
+
+    @Query("SELECT value FROM crossFC WHERE collection_id = '1' AND film_id = :id")
+    fun getFavorite(id: Int): Boolean
+    //BOOKMARK
+    @Query("SELECT value FROM crossFC WHERE collection_id = '2' AND film_id = :id")
+    fun setBookmarkFlow(id: Int): Flow<Boolean>
+
+    @Query("SELECT value FROM crossFC WHERE collection_id = '2' AND film_id = :id")
+    fun getBookmark(id: Int): Boolean
+
+    @Query("SELECT * FROM crossFC WHERE collection_id = :id")
+    fun getCountFilmCollection(id: Int): List<CrossFC>
+
+    @Query("SELECT id FROM crossFC WHERE collection_id = :collectionId AND film_id = :filmId")
+    fun getFilmInCollection( filmId: Int,collectionId: Int): Int?
+
+    @Query("SELECT 1 FROM crossFC WHERE film_id = :filmId")
+    fun existFilmInCollections( filmId: Int): Boolean
+
+    @Query("DELETE FROM crossFC WHERE id = :id")
+    fun deleteByIdCrossFC(id:Int)
+
+
 }

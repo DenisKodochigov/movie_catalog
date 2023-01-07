@@ -4,18 +4,17 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movie_catalog.data.room.CollectionFilmDB
+import com.example.movie_catalog.data.room.tables.CollectionDB
 import com.example.movie_catalog.databinding.ItemBottomRecyclerBinding
 import javax.inject.Inject
 
-
-class BottomAdapter @Inject constructor(private val onClick: (collection: CollectionFilmDB) -> Unit,
+class BottomAdapter @Inject constructor(private val onClick: (collection: CollectionDB) -> Unit,
 ): RecyclerView.Adapter<BottomVH>() {
 
-    private var collections: List<CollectionFilmDB> = emptyList()
+    private var collections: List<CollectionDB> = emptyList()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setListFilm(listCollection: List<CollectionFilmDB>) {
+    fun setListFilm(listCollection: List<CollectionDB>) {
         collections = listCollection
         notifyDataSetChanged()
     }

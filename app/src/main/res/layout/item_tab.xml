@@ -4,19 +4,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/linearlayout"
     android:layout_width="wrap_content"
-    android:layout_height="@dimen/dialog_tv_height"
+    android:layout_height="wrap_content"
     android:background="@drawable/gallery_tab_unselected_rectangle"
     android:orientation="horizontal">
 
     <TextView
         android:id="@+id/tv_gallery_tab_name"
-        style="@style/gallery_tabs_name"
+        style="@style/tabs_name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
         android:id="@+id/tv_gallery_tab_quantity"
-        style="@style/gallery_tabs_quantity"
+        style="@style/tabs_quantity"
         app:layout_constraintBottom_toBottomOf="@id/tv_gallery_tab_name"
         app:layout_constraintStart_toEndOf="@id/tv_gallery_tab_name"
         app:layout_constraintTop_toTopOf="@id/tv_gallery_tab_name" />
