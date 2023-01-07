@@ -4,8 +4,8 @@ import androidx.room.TypeConverter
 import com.example.movie_catalog.data.api.home.seasons.EpisodeDTO
 import com.example.movie_catalog.data.api.home.seasons.SeasonDTO
 import com.example.movie_catalog.entity.filminfo.ImageFilm
-import com.example.movie_catalog.entity.home.Country
-import com.example.movie_catalog.entity.home.Genre
+import com.example.movie_catalog.entity.Country
+import com.example.movie_catalog.entity.Genre
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types

@@ -17,4 +17,10 @@
         android:layout_width="@dimen/card_film_width"
         android:layout_height="@dimen/card_film_height" />
 
+    <include
+        android:id="@+id/incl_clear"
+        layout="@layout/item_list_film_clear"
+        android:layout_width="@dimen/card_film_width"
+        android:layout_height="@dimen/card_film_height" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,4 +7,5 @@ enum class ModeViewer {
     SEASON,
     FILM,
     SIMILAR,
+    PROFILE,
 }

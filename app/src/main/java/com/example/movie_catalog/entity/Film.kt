@@ -1,10 +1,7 @@
 package com.example.movie_catalog.entity
 
 import com.example.movie_catalog.data.api.home.seasons.SeasonDTO
-import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.filminfo.ImageFilm
-import com.example.movie_catalog.entity.home.Country
-import com.example.movie_catalog.entity.home.Genre
 
 data class Film(
     val filmId: Int? = null,

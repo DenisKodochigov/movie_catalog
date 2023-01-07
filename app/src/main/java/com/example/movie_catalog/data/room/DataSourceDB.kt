@@ -14,9 +14,6 @@ open class DataSourceDB  @Inject constructor(){
 
     private val dataDao = ProviderDao().getDataDao(App.context)
 
-    fun getViewed(id:Int):Boolean{
-        return dataDao.getViewed(id)
-    }
     fun getFilm(film: Film): FilmDB? {
         val filmDB = dataDao.getFilm(film.filmId!!)
         if (filmDB == null) {
@@ -25,9 +22,9 @@ open class DataSourceDB  @Inject constructor(){
         return filmDB
     }
     private fun checkFilmInCollection(film: Film){
-        if ( ! dataDao.existFilmInCollections(film.filmId!!)) {
-            dataDao.deleteByIdFilmDB(film.filmId)
-        }
+//        if ( ! dataDao.existFilmInCollections(film.filmId!!)) {
+//            dataDao.deleteByIdFilmDB(film.filmId)
+//        }
     }
     fun addFilm(filmDB: FilmDB){
         dataDao.insert(filmDB)
@@ -39,6 +36,7 @@ open class DataSourceDB  @Inject constructor(){
     fun setViewed(film: Film) {
         val filmDB = dataDao.getFilm(film.filmId!!)
         if (filmDB == null) {
+            film.viewed = true //Добавляем фмльм в базу, это возможно полсе того как поставили признак просмотрено
             dataDao.insert(FilmDB(idFilm = film.filmId, msg = "", film))
         } else {
             filmDB.film?.let { it.viewed = !it.viewed}
@@ -74,4 +72,28 @@ open class DataSourceDB  @Inject constructor(){
     }
 
     fun getCollectionRecord(nameCollection: String):CollectionDB? = dataDao.getCollectionRecord(nameCollection)
+
+    fun getViewedFilmsId() = dataDao.getViewedFilms(true)
+
+    fun getBookmarkFilmsId() = dataDao.getListFilmsInCollection(2)
+
+    fun getListFilmDB(listId: List<Int>) = dataDao.getFilmInList(listId)
+
+    fun clearViewedFilm(){
+        dataDao.setAllViewed(false)
+    }
+
+    fun clearBookmarkFilm(){
+        dataDao.deleteByIdCrossFC(2)
+    }
+
+    fun deleteCollection(nameCollection: String){
+        val colDb = dataDao.getCollectionRecord(nameCollection)
+        colDb?.let{
+            if (it.idCollection != 1 && it.idCollection != 2) {
+                dataDao.deleteByIdCrossFC(it.idCollection)
+                dataDao.deleteByIdCollection(it.idCollection)
+            }
+        }
+    }
 }

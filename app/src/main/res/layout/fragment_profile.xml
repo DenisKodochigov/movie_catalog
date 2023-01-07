@@ -1,36 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/id_fragment_profile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     android:paddingTop="?attr/actionBarSize"
-    android:layout_marginHorizontal="@dimen/margin_app_hor"
-    tools:context=".ui.profile.ProfileFragment">
+    tools:viewBindingType="androidx.core.widget.NestedScrollView">
 
-    <include
-        android:id="@+id/incl_viewed_film"
-        layout="@layout/include_profile_viewed"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        android:layout_marginHorizontal="@dimen/margin_app_hor"
+        tools:context=".ui.profile.ProfileFragment">
 
-    <include
-        android:id="@+id/incl_collection"
-        layout="@layout/include_profile_collection"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/incl_viewed_film"
-        app:layout_constraintStart_toStartOf="parent"/>
+        <include
+            android:id="@+id/incl_viewed_film"
+            layout="@layout/include_list_film"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <include
-        android:id="@+id/incl_interesting_film"
-        layout="@layout/include_profile_viewed"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/incl_collection"
-        app:layout_constraintStart_toStartOf="parent"/>
+        <include
+            android:id="@+id/incl_collection"
+            layout="@layout/include_profile_collection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/incl_viewed_film" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <include
+            android:id="@+id/incl_interesting_film"
+            layout="@layout/include_list_film"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/incl_collection" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

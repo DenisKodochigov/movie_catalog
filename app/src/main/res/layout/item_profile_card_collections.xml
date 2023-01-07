@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/profile_card_height"
     android:layout_height="@dimen/profile_card_height"
+    android:layout_margin="8dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/round_rect_year">
 
     <ImageView
-        android:id="@+id/iv1"
+        android:id="@+id/iv_del_collection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="@dimen/profile_card_iv_del_padding"
+        android:src="@drawable/icon_del_collection"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/todo" />
+    <ImageView
+        android:id="@+id/iv1"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
         android:layout_marginTop="@dimen/profile_card_iv_margin_top"
         android:src="@drawable/icon_favorite"
         app:layout_constraintTop_toTopOf="parent"
@@ -19,7 +30,9 @@
         android:id="@+id/tvNameCollection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="12sp"
         android:layout_marginTop="@dimen/profile_card_tv_margin_top"
+        android:gravity="center_horizontal"
         android:hint="@string/name_collection"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

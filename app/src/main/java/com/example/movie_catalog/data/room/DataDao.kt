@@ -27,17 +27,28 @@ interface DataDao {
 
     @Query("SELECT viewed FROM films WHERE idFilm = :id")
     fun getViewed(id: Int): Boolean
+
+    @Query("UPDATE films SET viewed = :value ")
+    fun setAllViewed(value: Boolean)
+
     @Query("SELECT viewed FROM films WHERE idFilm = :id")
     fun setViewedFlow(id: Int): Flow<Boolean>
+
     @Query("DELETE FROM films WHERE idFilm = :id")
     fun deleteByIdFilmDB(id: Int)
+
+    @Query("SELECT filmId FROM films WHERE viewed = :viewed")
+    fun getViewedFilms(viewed: Boolean): List<Int>
+
+    @Query("SELECT * FROM films WHERE idFilm = :listId")
+    fun getFilmInList(listId: List<Int>): List<FilmDB>
 
 //Table COLLECTIONS
     @Insert(entity = CollectionDB::class)
     fun insert(vararg data: CollectionDB)
 
     @Query("DELETE FROM collections WHERE idCollection = :id")
-    fun deleteById(id:Int)
+    fun deleteByIdCollection(id:Int)
 
     @Query("SELECT * FROM collections ")
     fun getCollection(): List<CollectionDB>
@@ -76,5 +87,6 @@ interface DataDao {
     @Query("DELETE FROM crossFC WHERE id = :id")
     fun deleteByIdCrossFC(id:Int)
 
-
+    @Query("SELECT film_id FROM crossFC WHERE collection_id = :collectionId")
+    fun getListFilmsInCollection(collectionId: Int): List<Int>
 }

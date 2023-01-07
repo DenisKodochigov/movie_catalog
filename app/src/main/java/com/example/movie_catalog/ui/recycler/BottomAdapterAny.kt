@@ -12,7 +12,9 @@ import com.example.movie_catalog.data.room.tables.CollectionDB
 import com.example.movie_catalog.databinding.ItemBottomRecyclerBinding
 import com.example.movie_catalog.databinding.ItemBottomRecyclerTextBinding
 import com.example.movie_catalog.databinding.ItemBottomRecyclerYearsBinding
+import com.example.movie_catalog.databinding.ItemProfileCardCollectionsBinding
 import com.example.movie_catalog.entity.RecyclerData
+import com.example.movie_catalog.entity.Collection
 import javax.inject.Inject
 
 
@@ -29,8 +31,10 @@ class BottomAdapterAny @Inject constructor( private val onClick: (Any) -> Unit,
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            R.layout.item_bottom_recycler -> BottomAnyVH( ItemBottomRecyclerBinding
+            R.layout.item_profile_card_collections -> CollectionVH( ItemProfileCardCollectionsBinding
                         .inflate(LayoutInflater.from(parent.context), parent, false))
+            R.layout.item_bottom_recycler -> BottomAnyVH( ItemBottomRecyclerBinding
+                .inflate(LayoutInflater.from(parent.context), parent, false))
             R.layout.item_bottom_recycler_years -> BottomYearsVH(ItemBottomRecyclerYearsBinding
                         .inflate(LayoutInflater.from(parent.context), parent, false))
             R.layout.item_bottom_recycler_text -> BottomTextVH(ItemBottomRecyclerTextBinding
@@ -42,6 +46,7 @@ class BottomAdapterAny @Inject constructor( private val onClick: (Any) -> Unit,
         return when (items[position]) {
             is CollectionDB -> R.layout.item_bottom_recycler
             is RecyclerData -> R.layout.item_bottom_recycler_years
+            is Collection -> R.layout.item_profile_card_collections
             else -> R.layout.item_bottom_recycler_text
         }
     }
@@ -52,9 +57,9 @@ class BottomAdapterAny @Inject constructor( private val onClick: (Any) -> Unit,
         when (holder){
             is BottomAnyVH -> {
                 if (item is CollectionDB){
-                    holder.binding.checkBox.text = item.name ?: ""
-                    holder.binding.tvCount.text = item.count.toString()
-                    holder.binding.checkBox.isChecked = item.included
+                    holder.binding.checkBox.text = item.collection?.name ?: ""
+                    holder.binding.tvCount.text = item.collection?.count.toString()
+                    holder.binding.checkBox.isChecked = item.collection?.included ?: false
                     holder.binding.checkBox.setOnClickListener { onClick(item) }
                 }
             }
@@ -86,6 +91,14 @@ class BottomAdapterAny @Inject constructor( private val onClick: (Any) -> Unit,
                     }
                 }
             }
+            is CollectionVH -> {
+                if (item is Collection){
+                    holder.binding.tvNameCollection.text = item.name
+                    holder.binding.tvCount.text = item.count.toString()
+                    holder.binding.iv1.setImageResource(item.image)
+                    holder.binding.ivDelCollection.setOnClickListener { onClick(item) }
+                }
+            }
         }
     }
     override fun getItemCount() = items.size
@@ -94,3 +107,4 @@ class BottomAdapterAny @Inject constructor( private val onClick: (Any) -> Unit,
 class BottomAnyVH(val binding: ItemBottomRecyclerBinding) : RecyclerView.ViewHolder(binding.root)
 class BottomTextVH(val binding: ItemBottomRecyclerTextBinding) : RecyclerView.ViewHolder(binding.root)
 class BottomYearsVH(val binding: ItemBottomRecyclerYearsBinding) : RecyclerView.ViewHolder(binding.root)
+class CollectionVH(val binding: ItemProfileCardCollectionsBinding) : RecyclerView.ViewHolder(binding.root)

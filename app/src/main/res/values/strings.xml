@@ -9,6 +9,7 @@
     <string name="kit_name">KIT NAME</string>
     <string name="show_all">Все</string>
     <string name="show_all1">Показать все</string>
+    <string name="clear">Очистить все</string>
     <string name="quantity_starred">Всего</string>
 
     <string name="premieres">Премьеры</string>
@@ -17,6 +18,9 @@
     <string name="serials">Сериалы</string>
     <string name="random1">Подборка 1</string>
     <string name="random2">Подборка 2</string>
+    <string name="search_kit">Поиск</string>
+    <string name="viewed_kit">Просмотрено</string>
+    <string name="bookmark_kit">Вам было интересно</string>
 
     <string name="card_starred_actor">Актер</string>
     <string name="card_starred_role">Роль</string>

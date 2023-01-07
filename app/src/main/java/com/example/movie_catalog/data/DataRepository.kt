@@ -6,6 +6,7 @@ import com.example.movie_catalog.data.room.tables.CollectionDB
 import com.example.movie_catalog.data.room.DataSourceDB
 import com.example.movie_catalog.data.room.tables.FilmDB
 import com.example.movie_catalog.entity.*
+import com.example.movie_catalog.entity.Collection
 import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.enumApp.ProfKey
 import com.example.movie_catalog.entity.filminfo.ImageFilm
@@ -193,34 +194,73 @@ class DataRepository @Inject constructor() {
         dataSourceDB.addRemoveFilmToCollection(film,2)
         film.bookmark = !film.bookmark
     }
-
-    fun getCollections(filmId:Int): List<CollectionDB> {
+    fun addFilmToCollection(collection: CollectionDB, film: Film) {
+        if (dataSourceDB.getFilm(film) == null) {
+            dataSourceDB.addFilm(FilmDB(idFilm = film.filmId!!, msg = "", film))
+        }
+        addRemoveFilmToCollection(collection, film)
+    }
+    fun getCollectionsFilm(filmId:Int): List<CollectionDB> {
         val listCollectionFilmDB = dataSourceDB.getCollections()
         if (listCollectionFilmDB.isNotEmpty()) {
             listCollectionFilmDB.forEach {
-                it.count = dataSourceDB.getCountFilmCollection(it.idCollection).size
-                it.included = dataSourceDB.getFilmInCollection(filmId,it.idCollection)
-                Log.d("KDS", " count = ${it.count}")
+                it.collection?.count = dataSourceDB.getCountFilmCollection(it.idCollection).count()
+                it.collection?.included = dataSourceDB.getFilmInCollection(filmId,it.idCollection)
+//                Log.d("KDS", " count = ${it.count}")
             }
         }
         return listCollectionFilmDB
     }
 
-    fun newCollection(nameCollection: String, film: Film): List<CollectionDB> {
-        //Проверяем наличие коллекции с таким именем.
-        dataSourceDB.addCollection(CollectionDB(name = nameCollection))
-        val newCollection = dataSourceDB.getCollectionRecord(nameCollection)
-        if ( newCollection != null) {
-            dataSourceDB.addFilm(FilmDB(idFilm = film.filmId!!, msg = "", film))
-            val filmDB = dataSourceDB.getFilm(film)
-            if (filmDB != null) addRemoveFilmToCollection(newCollection, film)
+    fun getCollectionsDB(): List<CollectionDB> {
+        val listCollectionFilmDB = dataSourceDB.getCollections()
+        if (listCollectionFilmDB.isNotEmpty()) {
+            listCollectionFilmDB.forEach {
+                it.collection?.count = dataSourceDB.getCountFilmCollection(it.idCollection).count()
+                Log.d("KDS", " count = ${it.collection?.count}")
+            }
         }
-        return getCollections(film.filmId!!)
+        return listCollectionFilmDB
+    }
+
+    fun addCollection(nameCollection: String): CollectionDB? {
+        dataSourceDB.addCollection(CollectionDB(collection = Collection( name= nameCollection)))
+        return dataSourceDB.getCollectionRecord(nameCollection)
+    }
+
+    fun deleteCollection(collection: Collection){
+        dataSourceDB.deleteCollection(collection.name)
     }
 
     fun addRemoveFilmToCollection(collection: CollectionDB, film: Film): List<CollectionDB> {
         dataSourceDB.addRemoveFilmToCollection(film, collection.idCollection)
-        return getCollections(film.filmId!!)
+        return getCollectionsFilm(film.filmId!!)
+    }
+
+    fun getViewedFilms() : List<Linker> {
+        val linkers = mutableListOf<Linker>()
+        val listFilmId = dataSourceDB.getViewedFilmsId()
+        listFilmId.forEach { filmId ->
+            linkers.add(Linker(film = DataCentre.films.find { it.filmId == filmId },
+                kit = Kit.VIEWED))
+        }
+        return linkers
+    }
+    fun getBookmarkFilms(): List<Linker> {
+        val linkers = mutableListOf<Linker>()
+        val listFilmId = dataSourceDB.getBookmarkFilmsId()
+        listFilmId.forEach { filmId ->
+            linkers.add( Linker(film = DataCentre.films.find { it.filmId == filmId },
+            kit = Kit.BOOKMARK))
+        }
+        return linkers
+    }
+
+    fun clearViewedFilm(){
+        dataSourceDB.clearViewedFilm()
+    }
+    fun clearBookmarkFilm(){
+        dataSourceDB.clearBookmarkFilm()
     }
 
     fun viewedFlow(id: Int): Flow<Boolean> = dataSourceDB.viewedFlow(id)

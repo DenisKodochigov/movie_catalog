@@ -7,6 +7,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.movie_catalog.R
 import com.example.movie_catalog.data.room.AppDatabase
 import com.example.movie_catalog.data.room.DataDao
+import com.example.movie_catalog.entity.Collection
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,15 +27,19 @@ object DatabaseModule {
     fun provideDatabase(@ApplicationContext appContext: Context): AppDatabase {
 //        database = Room.databaseBuilder( appContext, AppDatabase::class.java, "data.db")
 //            .build()
-        val nameCollection1 = appContext.getString(R.string.want_look)
-        val nameCollection2 = appContext.getString(R.string.favourite)
+        val nameCollection1 = appContext.getString(R.string.favourite)
+        val imageCollection1 = R.drawable.icon_favorite
+        val nameCollection2 = appContext.getString(R.string.want_look)
+        val imageCollection2 = R.drawable.icon_bookmark
         database = Room.inMemoryDatabaseBuilder(appContext, AppDatabase::class.java)
             .addCallback( object: RoomDatabase.Callback(){
                 override fun onCreate(db: SupportSQLiteDatabase) {
                     super.onCreate(db)
                     ioThread {
-                        database.dataDao().insert(CollectionDB(name = nameCollection1))
-                        database.dataDao().insert(CollectionDB(name = nameCollection2))
+                        database.dataDao().insert(CollectionDB(
+                            collection = Collection( name = nameCollection1, image = imageCollection1)))
+                        database.dataDao().insert(CollectionDB(
+                            collection = Collection( name = nameCollection2, image = imageCollection2)))
                     }
                 }
             })

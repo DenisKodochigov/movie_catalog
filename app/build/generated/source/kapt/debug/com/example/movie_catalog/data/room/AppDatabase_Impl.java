@@ -38,11 +38,11 @@ public final class AppDatabase_Impl extends AppDatabase {
       @Override
       public void createAllTables(SupportSQLiteDatabase _db) {
         _db.execSQL("CREATE TABLE IF NOT EXISTS `films` (`idFilm` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `msg` TEXT NOT NULL, `filmId` INTEGER, `imdbId` TEXT, `nameRu` TEXT, `nameEn` TEXT, `rating` REAL, `posterUrlPreview` TEXT, `countries` TEXT, `genres` TEXT, `favorite` INTEGER, `viewed` INTEGER, `bookmark` INTEGER, `professionKey` TEXT, `startYear` INTEGER, `images` TEXT, `posterUrl` TEXT, `logoUrl` TEXT, `nameOriginal` TEXT, `ratingImdb` REAL, `ratingAwait` REAL, `ratingGoodReview` REAL, `year` INTEGER, `totalSeasons` INTEGER, `listSeasons` TEXT, `description` TEXT, `shortDescription` TEXT)");
-        _db.execSQL("CREATE TABLE IF NOT EXISTS `collections` (`idCollection` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `count` INTEGER NOT NULL, `included` INTEGER NOT NULL)");
+        _db.execSQL("CREATE TABLE IF NOT EXISTS `collections` (`idCollection` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT, `count` INTEGER, `image` INTEGER, `included` INTEGER)");
         _db.execSQL("CREATE UNIQUE INDEX IF NOT EXISTS `index_collections_name` ON `collections` (`name`)");
         _db.execSQL("CREATE TABLE IF NOT EXISTS `crossFC` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `film_id` INTEGER NOT NULL, `collection_id` INTEGER NOT NULL, `value` INTEGER NOT NULL)");
         _db.execSQL("CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)");
-        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'bcef7615b210bbd91ee1d936b3c32976')");
+        _db.execSQL("INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '41d989caaf76ca212d9496e46fd02e16')");
       }
 
       @Override
@@ -125,11 +125,12 @@ public final class AppDatabase_Impl extends AppDatabase {
                   + " Expected:\n" + _infoFilms + "\n"
                   + " Found:\n" + _existingFilms);
         }
-        final HashMap<String, TableInfo.Column> _columnsCollections = new HashMap<String, TableInfo.Column>(4);
+        final HashMap<String, TableInfo.Column> _columnsCollections = new HashMap<String, TableInfo.Column>(5);
         _columnsCollections.put("idCollection", new TableInfo.Column("idCollection", "INTEGER", true, 1, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsCollections.put("name", new TableInfo.Column("name", "TEXT", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsCollections.put("count", new TableInfo.Column("count", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
-        _columnsCollections.put("included", new TableInfo.Column("included", "INTEGER", true, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCollections.put("name", new TableInfo.Column("name", "TEXT", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCollections.put("count", new TableInfo.Column("count", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCollections.put("image", new TableInfo.Column("image", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
+        _columnsCollections.put("included", new TableInfo.Column("included", "INTEGER", false, 0, null, TableInfo.CREATED_FROM_ENTITY));
         final HashSet<TableInfo.ForeignKey> _foreignKeysCollections = new HashSet<TableInfo.ForeignKey>(0);
         final HashSet<TableInfo.Index> _indicesCollections = new HashSet<TableInfo.Index>(1);
         _indicesCollections.add(new TableInfo.Index("index_collections_name", true, Arrays.asList("name"), Arrays.asList("ASC")));
@@ -156,7 +157,7 @@ public final class AppDatabase_Impl extends AppDatabase {
         }
         return new RoomOpenHelper.ValidationResult(true, null);
       }
-    }, "bcef7615b210bbd91ee1d936b3c32976", "a9e06521474c745779d38699dc8a6c94");
+    }, "41d989caaf76ca212d9496e46fd02e16", "bb997fd110f5bd5188920a451f009c9a");
     final SupportSQLiteOpenHelper.Configuration _sqliteConfig = SupportSQLiteOpenHelper.Configuration.builder(configuration.context)
         .name(configuration.name)
         .callback(_openCallback)

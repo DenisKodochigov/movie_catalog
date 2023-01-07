@@ -36,13 +36,6 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
     private var _collections = MutableStateFlow(listOf<CollectionDB>())
     var collections = _collections.asStateFlow()
 
-//    private var _viewed = MutableStateFlow(false)
-//    var viewed = _viewed.asStateFlow()
-//    private var _favorite = MutableStateFlow(false)
-//    var favorite = _favorite.asStateFlow()
-//    private var _bookmark = MutableStateFlow(false)
-//    var bookmark = _bookmark.asStateFlow()
-
     lateinit var viewed: StateFlow<Boolean>
     lateinit var favorite: StateFlow<Boolean>
     lateinit var bookmark: StateFlow<Boolean>
@@ -84,7 +77,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
             kotlin.runCatching {
                 localFilm?.let { film ->
                     film.filmId?.let {
-                        dataRepository.getCollections(it)
+                        dataRepository.getCollectionsFilm(it)
                     }}
             }.fold(
                 onSuccess = { if (it != null) _collections.value = it },
@@ -97,7 +90,9 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 localFilm?.let { film ->
-                    dataRepository.newCollection(nameCollection, film)
+                    val collection = dataRepository.addCollection(nameCollection)
+                    dataRepository.addFilmToCollection( collection!!, film )
+                    dataRepository.getCollectionsFilm(film.filmId!!)
                 }
             }.fold(
                 onSuccess = { if (it != null) _collections.value = it },

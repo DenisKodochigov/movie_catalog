@@ -2,12 +2,13 @@ package com.example.movie_catalog.entity.plug
 
 import com.example.movie_catalog.data.api.film_info.FilmInfoDTO
 import com.example.movie_catalog.data.room.tables.CollectionDB
+import com.example.movie_catalog.entity.Collection
 import com.example.movie_catalog.entity.Linker
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.filminfo.InfoFilmSeasons
 import com.example.movie_catalog.entity.enumApp.Kit
-import com.example.movie_catalog.entity.home.Country
-import com.example.movie_catalog.entity.home.Genre
+import com.example.movie_catalog.entity.Country
+import com.example.movie_catalog.entity.Genre
 
 object Plug {
 
@@ -324,7 +325,7 @@ object Plug {
             nameRu= "Голос любви",
             nameEn= "Aline",
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1236740.jpg",
-            countries = listOf(Country("Франция"),Country ("Канада"), Country("Бельгия")),
+            countries = listOf(Country("Франция"), Country ("Канада"), Country("Бельгия")),
             genres = listOf(Genre("музыка"), Genre("мелодрама"), Genre("комедия")),
             // kit = Kit.PREMIERES
         ),
@@ -468,7 +469,7 @@ object Plug {
             nameRu= "Исправь меня, если сможешь",
             nameEn= "Abbi Fede",
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/1146119.jpg",
-            countries = listOf(Country("Италия"),Country("Австрия")),
+            countries = listOf(Country("Италия"), Country("Австрия")),
             genres = listOf(Genre("комедия")),
             // kit = Kit.PREMIERES
         ),
@@ -485,7 +486,7 @@ object Plug {
             nameEn= "",
             posterUrlPreview= "https://kinopoiskapiunofficial.tech/images/posters/kp_small/4833814.jpg",
             countries = listOf(Country("Россия")),
-            genres = listOf(Genre("мультфильм"),Genre("детский")),
+            genres = listOf(Genre("мультфильм"), Genre("детский")),
             // kit = Kit.PREMIERES
         ),
         Film( filmId =  4661022,
@@ -497,12 +498,12 @@ object Plug {
             // kit = Kit.PREMIERES
         )
     )
-    val listCollection = listOf(
-        CollectionDB(name = "Хочу посмотреть", count = 2),
-        CollectionDB(name = "Любимые",  count = 3),
-        CollectionDB(name = "Другие",  count = 4),
-        CollectionDB(name = "Не хочу посмотреть", count = 5)
-    )
+//    val listCollection = listOf(
+//        CollectionDB(Collection( name = "Хочу посмотреть", count = 2)),
+//        CollectionDB(Collection( name = "Любимые",  count = 3)),
+//        CollectionDB(Collection( name = "Другие",  count = 4)),
+//        CollectionDB(Collection( name = "Не хочу посмотреть", count = 5))
+//    )
 
     val listLinkers = listOf(
         Linker(film = filmPlug[0], similarFilm = null, person = null, profKey = null, kit = Kit.PREMIERES),

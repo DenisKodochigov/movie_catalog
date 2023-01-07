@@ -9,16 +9,18 @@ import androidx.room.RoomSQLiteQuery;
 import androidx.room.SharedSQLiteStatement;
 import androidx.room.util.CursorUtil;
 import androidx.room.util.DBUtil;
+import androidx.room.util.StringUtil;
 import androidx.sqlite.db.SupportSQLiteStatement;
 import com.example.movie_catalog.data.api.home.seasons.SeasonDTO;
 import com.example.movie_catalog.data.room.tables.CollectionDB;
 import com.example.movie_catalog.data.room.tables.ConverterForFilmDB;
 import com.example.movie_catalog.data.room.tables.CrossFC;
 import com.example.movie_catalog.data.room.tables.FilmDB;
+import com.example.movie_catalog.entity.Collection;
+import com.example.movie_catalog.entity.Country;
 import com.example.movie_catalog.entity.Film;
+import com.example.movie_catalog.entity.Genre;
 import com.example.movie_catalog.entity.filminfo.ImageFilm;
-import com.example.movie_catalog.entity.home.Country;
-import com.example.movie_catalog.entity.home.Genre;
 import java.lang.Boolean;
 import java.lang.Class;
 import java.lang.Double;
@@ -26,6 +28,7 @@ import java.lang.Exception;
 import java.lang.Integer;
 import java.lang.Override;
 import java.lang.String;
+import java.lang.StringBuilder;
 import java.lang.SuppressWarnings;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,9 +54,11 @@ public final class DataDao_Impl implements DataDao {
 
   private final SharedSQLiteStatement __preparedStmtOfNukeTable;
 
+  private final SharedSQLiteStatement __preparedStmtOfSetAllViewed;
+
   private final SharedSQLiteStatement __preparedStmtOfDeleteByIdFilmDB;
 
-  private final SharedSQLiteStatement __preparedStmtOfDeleteById;
+  private final SharedSQLiteStatement __preparedStmtOfDeleteByIdCollection;
 
   private final SharedSQLiteStatement __preparedStmtOfDeleteByIdCrossFC;
 
@@ -227,20 +232,29 @@ public final class DataDao_Impl implements DataDao {
     this.__insertionAdapterOfCollectionDB = new EntityInsertionAdapter<CollectionDB>(__db) {
       @Override
       public String createQuery() {
-        return "INSERT OR ABORT INTO `collections` (`idCollection`,`name`,`count`,`included`) VALUES (nullif(?, 0),?,?,?)";
+        return "INSERT OR ABORT INTO `collections` (`idCollection`,`name`,`count`,`image`,`included`) VALUES (nullif(?, 0),?,?,?,?)";
       }
 
       @Override
       public void bind(SupportSQLiteStatement stmt, CollectionDB value) {
         stmt.bindLong(1, value.getIdCollection());
-        if (value.getName() == null) {
-          stmt.bindNull(2);
+        final Collection _tmpCollection = value.getCollection();
+        if(_tmpCollection != null) {
+          if (_tmpCollection.getName() == null) {
+            stmt.bindNull(2);
+          } else {
+            stmt.bindString(2, _tmpCollection.getName());
+          }
+          stmt.bindLong(3, _tmpCollection.getCount());
+          stmt.bindLong(4, _tmpCollection.getImage());
+          final int _tmp = _tmpCollection.getIncluded() ? 1 : 0;
+          stmt.bindLong(5, _tmp);
         } else {
-          stmt.bindString(2, value.getName());
+          stmt.bindNull(2);
+          stmt.bindNull(3);
+          stmt.bindNull(4);
+          stmt.bindNull(5);
         }
-        stmt.bindLong(3, value.getCount());
-        final int _tmp = value.getIncluded() ? 1 : 0;
-        stmt.bindLong(4, _tmp);
       }
     };
     this.__insertionAdapterOfCrossFC = new EntityInsertionAdapter<CrossFC>(__db) {
@@ -447,6 +461,13 @@ public final class DataDao_Impl implements DataDao {
         return _query;
       }
     };
+    this.__preparedStmtOfSetAllViewed = new SharedSQLiteStatement(__db) {
+      @Override
+      public String createQuery() {
+        final String _query = "UPDATE films SET viewed = ? ";
+        return _query;
+      }
+    };
     this.__preparedStmtOfDeleteByIdFilmDB = new SharedSQLiteStatement(__db) {
       @Override
       public String createQuery() {
@@ -454,7 +475,7 @@ public final class DataDao_Impl implements DataDao {
         return _query;
       }
     };
-    this.__preparedStmtOfDeleteById = new SharedSQLiteStatement(__db) {
+    this.__preparedStmtOfDeleteByIdCollection = new SharedSQLiteStatement(__db) {
       @Override
       public String createQuery() {
         final String _query = "DELETE FROM collections WHERE idCollection = ?";
@@ -545,6 +566,23 @@ public final class DataDao_Impl implements DataDao {
   }
 
   @Override
+  public void setAllViewed(final boolean value) {
+    __db.assertNotSuspendingTransaction();
+    final SupportSQLiteStatement _stmt = __preparedStmtOfSetAllViewed.acquire();
+    int _argIndex = 1;
+    final int _tmp = value ? 1 : 0;
+    _stmt.bindLong(_argIndex, _tmp);
+    __db.beginTransaction();
+    try {
+      _stmt.executeUpdateDelete();
+      __db.setTransactionSuccessful();
+    } finally {
+      __db.endTransaction();
+      __preparedStmtOfSetAllViewed.release(_stmt);
+    }
+  }
+
+  @Override
   public void deleteByIdFilmDB(final int id) {
     __db.assertNotSuspendingTransaction();
     final SupportSQLiteStatement _stmt = __preparedStmtOfDeleteByIdFilmDB.acquire();
@@ -561,9 +599,9 @@ public final class DataDao_Impl implements DataDao {
   }
 
   @Override
-  public void deleteById(final int id) {
+  public void deleteByIdCollection(final int id) {
     __db.assertNotSuspendingTransaction();
-    final SupportSQLiteStatement _stmt = __preparedStmtOfDeleteById.acquire();
+    final SupportSQLiteStatement _stmt = __preparedStmtOfDeleteByIdCollection.acquire();
     int _argIndex = 1;
     _stmt.bindLong(_argIndex, id);
     __db.beginTransaction();
@@ -572,7 +610,7 @@ public final class DataDao_Impl implements DataDao {
       __db.setTransactionSuccessful();
     } finally {
       __db.endTransaction();
-      __preparedStmtOfDeleteById.release(_stmt);
+      __preparedStmtOfDeleteByIdCollection.release(_stmt);
     }
   }
 
@@ -1081,6 +1119,260 @@ public final class DataDao_Impl implements DataDao {
   }
 
   @Override
+  public List<Integer> getViewedFilms(final boolean viewed) {
+    final String _sql = "SELECT filmId FROM films WHERE viewed = ?";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
+    int _argIndex = 1;
+    final int _tmp = viewed ? 1 : 0;
+    _statement.bindLong(_argIndex, _tmp);
+    __db.assertNotSuspendingTransaction();
+    final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
+    try {
+      final List<Integer> _result = new ArrayList<Integer>(_cursor.getCount());
+      while(_cursor.moveToNext()) {
+        final Integer _item;
+        if (_cursor.isNull(0)) {
+          _item = null;
+        } else {
+          _item = _cursor.getInt(0);
+        }
+        _result.add(_item);
+      }
+      return _result;
+    } finally {
+      _cursor.close();
+      _statement.release();
+    }
+  }
+
+  @Override
+  public List<FilmDB> getFilmInList(final List<Integer> listId) {
+    StringBuilder _stringBuilder = StringUtil.newStringBuilder();
+    _stringBuilder.append("SELECT * FROM films WHERE idFilm = ");
+    final int _inputSize = listId.size();
+    StringUtil.appendPlaceholders(_stringBuilder, _inputSize);
+    final String _sql = _stringBuilder.toString();
+    final int _argCount = 0 + _inputSize;
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, _argCount);
+    int _argIndex = 1;
+    for (Integer _item : listId) {
+      if (_item == null) {
+        _statement.bindNull(_argIndex);
+      } else {
+        _statement.bindLong(_argIndex, _item);
+      }
+      _argIndex ++;
+    }
+    __db.assertNotSuspendingTransaction();
+    final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
+    try {
+      final int _cursorIndexOfIdFilm = CursorUtil.getColumnIndexOrThrow(_cursor, "idFilm");
+      final int _cursorIndexOfMsg = CursorUtil.getColumnIndexOrThrow(_cursor, "msg");
+      final int _cursorIndexOfFilmId = CursorUtil.getColumnIndexOrThrow(_cursor, "filmId");
+      final int _cursorIndexOfImdbId = CursorUtil.getColumnIndexOrThrow(_cursor, "imdbId");
+      final int _cursorIndexOfNameRu = CursorUtil.getColumnIndexOrThrow(_cursor, "nameRu");
+      final int _cursorIndexOfNameEn = CursorUtil.getColumnIndexOrThrow(_cursor, "nameEn");
+      final int _cursorIndexOfRating = CursorUtil.getColumnIndexOrThrow(_cursor, "rating");
+      final int _cursorIndexOfPosterUrlPreview = CursorUtil.getColumnIndexOrThrow(_cursor, "posterUrlPreview");
+      final int _cursorIndexOfCountries = CursorUtil.getColumnIndexOrThrow(_cursor, "countries");
+      final int _cursorIndexOfGenres = CursorUtil.getColumnIndexOrThrow(_cursor, "genres");
+      final int _cursorIndexOfFavorite = CursorUtil.getColumnIndexOrThrow(_cursor, "favorite");
+      final int _cursorIndexOfViewed = CursorUtil.getColumnIndexOrThrow(_cursor, "viewed");
+      final int _cursorIndexOfBookmark = CursorUtil.getColumnIndexOrThrow(_cursor, "bookmark");
+      final int _cursorIndexOfProfessionKey = CursorUtil.getColumnIndexOrThrow(_cursor, "professionKey");
+      final int _cursorIndexOfStartYear = CursorUtil.getColumnIndexOrThrow(_cursor, "startYear");
+      final int _cursorIndexOfImages = CursorUtil.getColumnIndexOrThrow(_cursor, "images");
+      final int _cursorIndexOfPosterUrl = CursorUtil.getColumnIndexOrThrow(_cursor, "posterUrl");
+      final int _cursorIndexOfLogoUrl = CursorUtil.getColumnIndexOrThrow(_cursor, "logoUrl");
+      final int _cursorIndexOfNameOriginal = CursorUtil.getColumnIndexOrThrow(_cursor, "nameOriginal");
+      final int _cursorIndexOfRatingImdb = CursorUtil.getColumnIndexOrThrow(_cursor, "ratingImdb");
+      final int _cursorIndexOfRatingAwait = CursorUtil.getColumnIndexOrThrow(_cursor, "ratingAwait");
+      final int _cursorIndexOfRatingGoodReview = CursorUtil.getColumnIndexOrThrow(_cursor, "ratingGoodReview");
+      final int _cursorIndexOfYear = CursorUtil.getColumnIndexOrThrow(_cursor, "year");
+      final int _cursorIndexOfTotalSeasons = CursorUtil.getColumnIndexOrThrow(_cursor, "totalSeasons");
+      final int _cursorIndexOfListSeasons = CursorUtil.getColumnIndexOrThrow(_cursor, "listSeasons");
+      final int _cursorIndexOfDescription = CursorUtil.getColumnIndexOrThrow(_cursor, "description");
+      final int _cursorIndexOfShortDescription = CursorUtil.getColumnIndexOrThrow(_cursor, "shortDescription");
+      final List<FilmDB> _result = new ArrayList<FilmDB>(_cursor.getCount());
+      while(_cursor.moveToNext()) {
+        final FilmDB _item_1;
+        final int _tmpIdFilm;
+        _tmpIdFilm = _cursor.getInt(_cursorIndexOfIdFilm);
+        final String _tmpMsg;
+        if (_cursor.isNull(_cursorIndexOfMsg)) {
+          _tmpMsg = null;
+        } else {
+          _tmpMsg = _cursor.getString(_cursorIndexOfMsg);
+        }
+        final Film _tmpFilm;
+        if (! (_cursor.isNull(_cursorIndexOfFilmId) && _cursor.isNull(_cursorIndexOfImdbId) && _cursor.isNull(_cursorIndexOfNameRu) && _cursor.isNull(_cursorIndexOfNameEn) && _cursor.isNull(_cursorIndexOfRating) && _cursor.isNull(_cursorIndexOfPosterUrlPreview) && _cursor.isNull(_cursorIndexOfCountries) && _cursor.isNull(_cursorIndexOfGenres) && _cursor.isNull(_cursorIndexOfFavorite) && _cursor.isNull(_cursorIndexOfViewed) && _cursor.isNull(_cursorIndexOfBookmark) && _cursor.isNull(_cursorIndexOfProfessionKey) && _cursor.isNull(_cursorIndexOfStartYear) && _cursor.isNull(_cursorIndexOfImages) && _cursor.isNull(_cursorIndexOfPosterUrl) && _cursor.isNull(_cursorIndexOfLogoUrl) && _cursor.isNull(_cursorIndexOfNameOriginal) && _cursor.isNull(_cursorIndexOfRatingImdb) && _cursor.isNull(_cursorIndexOfRatingAwait) && _cursor.isNull(_cursorIndexOfRatingGoodReview) && _cursor.isNull(_cursorIndexOfYear) && _cursor.isNull(_cursorIndexOfTotalSeasons) && _cursor.isNull(_cursorIndexOfListSeasons) && _cursor.isNull(_cursorIndexOfDescription) && _cursor.isNull(_cursorIndexOfShortDescription))) {
+          final Integer _tmpFilmId;
+          if (_cursor.isNull(_cursorIndexOfFilmId)) {
+            _tmpFilmId = null;
+          } else {
+            _tmpFilmId = _cursor.getInt(_cursorIndexOfFilmId);
+          }
+          final String _tmpImdbId;
+          if (_cursor.isNull(_cursorIndexOfImdbId)) {
+            _tmpImdbId = null;
+          } else {
+            _tmpImdbId = _cursor.getString(_cursorIndexOfImdbId);
+          }
+          final String _tmpNameRu;
+          if (_cursor.isNull(_cursorIndexOfNameRu)) {
+            _tmpNameRu = null;
+          } else {
+            _tmpNameRu = _cursor.getString(_cursorIndexOfNameRu);
+          }
+          final String _tmpNameEn;
+          if (_cursor.isNull(_cursorIndexOfNameEn)) {
+            _tmpNameEn = null;
+          } else {
+            _tmpNameEn = _cursor.getString(_cursorIndexOfNameEn);
+          }
+          final Double _tmpRating;
+          if (_cursor.isNull(_cursorIndexOfRating)) {
+            _tmpRating = null;
+          } else {
+            _tmpRating = _cursor.getDouble(_cursorIndexOfRating);
+          }
+          final String _tmpPosterUrlPreview;
+          if (_cursor.isNull(_cursorIndexOfPosterUrlPreview)) {
+            _tmpPosterUrlPreview = null;
+          } else {
+            _tmpPosterUrlPreview = _cursor.getString(_cursorIndexOfPosterUrlPreview);
+          }
+          final List<Country> _tmpCountries;
+          final String _tmp;
+          if (_cursor.isNull(_cursorIndexOfCountries)) {
+            _tmp = null;
+          } else {
+            _tmp = _cursor.getString(_cursorIndexOfCountries);
+          }
+          _tmpCountries = __converterForFilmDB.countryFromJSON(_tmp);
+          final List<Genre> _tmpGenres;
+          final String _tmp_1;
+          if (_cursor.isNull(_cursorIndexOfGenres)) {
+            _tmp_1 = null;
+          } else {
+            _tmp_1 = _cursor.getString(_cursorIndexOfGenres);
+          }
+          _tmpGenres = __converterForFilmDB.genreFromJSON(_tmp_1);
+          final boolean _tmpFavorite;
+          final int _tmp_2;
+          _tmp_2 = _cursor.getInt(_cursorIndexOfFavorite);
+          _tmpFavorite = _tmp_2 != 0;
+          final boolean _tmpViewed;
+          final int _tmp_3;
+          _tmp_3 = _cursor.getInt(_cursorIndexOfViewed);
+          _tmpViewed = _tmp_3 != 0;
+          final boolean _tmpBookmark;
+          final int _tmp_4;
+          _tmp_4 = _cursor.getInt(_cursorIndexOfBookmark);
+          _tmpBookmark = _tmp_4 != 0;
+          final String _tmpProfessionKey;
+          if (_cursor.isNull(_cursorIndexOfProfessionKey)) {
+            _tmpProfessionKey = null;
+          } else {
+            _tmpProfessionKey = _cursor.getString(_cursorIndexOfProfessionKey);
+          }
+          final Integer _tmpStartYear;
+          if (_cursor.isNull(_cursorIndexOfStartYear)) {
+            _tmpStartYear = null;
+          } else {
+            _tmpStartYear = _cursor.getInt(_cursorIndexOfStartYear);
+          }
+          final List<ImageFilm> _tmpImages;
+          final String _tmp_5;
+          if (_cursor.isNull(_cursorIndexOfImages)) {
+            _tmp_5 = null;
+          } else {
+            _tmp_5 = _cursor.getString(_cursorIndexOfImages);
+          }
+          _tmpImages = __converterForFilmDB.imageFromJSON(_tmp_5);
+          final String _tmpPosterUrl;
+          if (_cursor.isNull(_cursorIndexOfPosterUrl)) {
+            _tmpPosterUrl = null;
+          } else {
+            _tmpPosterUrl = _cursor.getString(_cursorIndexOfPosterUrl);
+          }
+          final String _tmpLogoUrl;
+          if (_cursor.isNull(_cursorIndexOfLogoUrl)) {
+            _tmpLogoUrl = null;
+          } else {
+            _tmpLogoUrl = _cursor.getString(_cursorIndexOfLogoUrl);
+          }
+          final String _tmpNameOriginal;
+          if (_cursor.isNull(_cursorIndexOfNameOriginal)) {
+            _tmpNameOriginal = null;
+          } else {
+            _tmpNameOriginal = _cursor.getString(_cursorIndexOfNameOriginal);
+          }
+          final Double _tmpRatingImdb;
+          if (_cursor.isNull(_cursorIndexOfRatingImdb)) {
+            _tmpRatingImdb = null;
+          } else {
+            _tmpRatingImdb = _cursor.getDouble(_cursorIndexOfRatingImdb);
+          }
+          final Double _tmpRatingAwait;
+          if (_cursor.isNull(_cursorIndexOfRatingAwait)) {
+            _tmpRatingAwait = null;
+          } else {
+            _tmpRatingAwait = _cursor.getDouble(_cursorIndexOfRatingAwait);
+          }
+          final Double _tmpRatingGoodReview;
+          if (_cursor.isNull(_cursorIndexOfRatingGoodReview)) {
+            _tmpRatingGoodReview = null;
+          } else {
+            _tmpRatingGoodReview = _cursor.getDouble(_cursorIndexOfRatingGoodReview);
+          }
+          final Integer _tmpYear;
+          if (_cursor.isNull(_cursorIndexOfYear)) {
+            _tmpYear = null;
+          } else {
+            _tmpYear = _cursor.getInt(_cursorIndexOfYear);
+          }
+          final Integer _tmpTotalSeasons;
+          if (_cursor.isNull(_cursorIndexOfTotalSeasons)) {
+            _tmpTotalSeasons = null;
+          } else {
+            _tmpTotalSeasons = _cursor.getInt(_cursorIndexOfTotalSeasons);
+          }
+          final List<SeasonDTO> _tmpListSeasons;
+          final String _tmp_6;
+          if (_cursor.isNull(_cursorIndexOfListSeasons)) {
+            _tmp_6 = null;
+          } else {
+            _tmp_6 = _cursor.getString(_cursorIndexOfListSeasons);
+          }
+          _tmpListSeasons = __converterForFilmDB.seasonFromJSON(_tmp_6);
+          final String _tmpDescription;
+          if (_cursor.isNull(_cursorIndexOfDescription)) {
+            _tmpDescription = null;
+          } else {
+            _tmpDescription = _cursor.getString(_cursorIndexOfDescription);
+          }
+          final String _tmpShortDescription;
+          if (_cursor.isNull(_cursorIndexOfShortDescription)) {
+            _tmpShortDescription = null;
+          } else {
+            _tmpShortDescription = _cursor.getString(_cursorIndexOfShortDescription);
+          }
+          _tmpFilm = new Film(_tmpFilmId,_tmpImdbId,_tmpNameRu,_tmpNameEn,_tmpRating,_tmpPosterUrlPreview,_tmpCountries,_tmpGenres,_tmpFavorite,_tmpViewed,_tmpBookmark,_tmpProfessionKey,_tmpStartYear,_tmpImages,_tmpPosterUrl,_tmpLogoUrl,_tmpNameOriginal,_tmpRatingImdb,_tmpRatingAwait,_tmpRatingGoodReview,_tmpYear,_tmpTotalSeasons,_tmpListSeasons,_tmpDescription,_tmpShortDescription);
+        }  else  {
+          _tmpFilm = null;
+        }
+        _item_1 = new FilmDB(_tmpIdFilm,_tmpMsg,_tmpFilm);
+        _result.add(_item_1);
+      }
+      return _result;
+    } finally {
+      _cursor.close();
+      _statement.release();
+    }
+  }
+
+  @Override
   public List<CollectionDB> getCollection() {
     final String _sql = "SELECT * FROM collections ";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
@@ -1090,25 +1382,34 @@ public final class DataDao_Impl implements DataDao {
       final int _cursorIndexOfIdCollection = CursorUtil.getColumnIndexOrThrow(_cursor, "idCollection");
       final int _cursorIndexOfName = CursorUtil.getColumnIndexOrThrow(_cursor, "name");
       final int _cursorIndexOfCount = CursorUtil.getColumnIndexOrThrow(_cursor, "count");
+      final int _cursorIndexOfImage = CursorUtil.getColumnIndexOrThrow(_cursor, "image");
       final int _cursorIndexOfIncluded = CursorUtil.getColumnIndexOrThrow(_cursor, "included");
       final List<CollectionDB> _result = new ArrayList<CollectionDB>(_cursor.getCount());
       while(_cursor.moveToNext()) {
         final CollectionDB _item;
         final int _tmpIdCollection;
         _tmpIdCollection = _cursor.getInt(_cursorIndexOfIdCollection);
-        final String _tmpName;
-        if (_cursor.isNull(_cursorIndexOfName)) {
-          _tmpName = null;
-        } else {
-          _tmpName = _cursor.getString(_cursorIndexOfName);
+        final Collection _tmpCollection;
+        if (! (_cursor.isNull(_cursorIndexOfName) && _cursor.isNull(_cursorIndexOfCount) && _cursor.isNull(_cursorIndexOfImage) && _cursor.isNull(_cursorIndexOfIncluded))) {
+          final String _tmpName;
+          if (_cursor.isNull(_cursorIndexOfName)) {
+            _tmpName = null;
+          } else {
+            _tmpName = _cursor.getString(_cursorIndexOfName);
+          }
+          final int _tmpCount;
+          _tmpCount = _cursor.getInt(_cursorIndexOfCount);
+          final int _tmpImage;
+          _tmpImage = _cursor.getInt(_cursorIndexOfImage);
+          final boolean _tmpIncluded;
+          final int _tmp;
+          _tmp = _cursor.getInt(_cursorIndexOfIncluded);
+          _tmpIncluded = _tmp != 0;
+          _tmpCollection = new Collection(_tmpName,_tmpCount,_tmpImage,_tmpIncluded);
+        }  else  {
+          _tmpCollection = null;
         }
-        final int _tmpCount;
-        _tmpCount = _cursor.getInt(_cursorIndexOfCount);
-        final boolean _tmpIncluded;
-        final int _tmp;
-        _tmp = _cursor.getInt(_cursorIndexOfIncluded);
-        _tmpIncluded = _tmp != 0;
-        _item = new CollectionDB(_tmpIdCollection,_tmpName,_tmpCount,_tmpIncluded);
+        _item = new CollectionDB(_tmpIdCollection,_tmpCollection);
         _result.add(_item);
       }
       return _result;
@@ -1134,24 +1435,33 @@ public final class DataDao_Impl implements DataDao {
       final int _cursorIndexOfIdCollection = CursorUtil.getColumnIndexOrThrow(_cursor, "idCollection");
       final int _cursorIndexOfName = CursorUtil.getColumnIndexOrThrow(_cursor, "name");
       final int _cursorIndexOfCount = CursorUtil.getColumnIndexOrThrow(_cursor, "count");
+      final int _cursorIndexOfImage = CursorUtil.getColumnIndexOrThrow(_cursor, "image");
       final int _cursorIndexOfIncluded = CursorUtil.getColumnIndexOrThrow(_cursor, "included");
       final CollectionDB _result;
       if(_cursor.moveToFirst()) {
         final int _tmpIdCollection;
         _tmpIdCollection = _cursor.getInt(_cursorIndexOfIdCollection);
-        final String _tmpName;
-        if (_cursor.isNull(_cursorIndexOfName)) {
-          _tmpName = null;
-        } else {
-          _tmpName = _cursor.getString(_cursorIndexOfName);
+        final Collection _tmpCollection;
+        if (! (_cursor.isNull(_cursorIndexOfName) && _cursor.isNull(_cursorIndexOfCount) && _cursor.isNull(_cursorIndexOfImage) && _cursor.isNull(_cursorIndexOfIncluded))) {
+          final String _tmpName;
+          if (_cursor.isNull(_cursorIndexOfName)) {
+            _tmpName = null;
+          } else {
+            _tmpName = _cursor.getString(_cursorIndexOfName);
+          }
+          final int _tmpCount;
+          _tmpCount = _cursor.getInt(_cursorIndexOfCount);
+          final int _tmpImage;
+          _tmpImage = _cursor.getInt(_cursorIndexOfImage);
+          final boolean _tmpIncluded;
+          final int _tmp;
+          _tmp = _cursor.getInt(_cursorIndexOfIncluded);
+          _tmpIncluded = _tmp != 0;
+          _tmpCollection = new Collection(_tmpName,_tmpCount,_tmpImage,_tmpIncluded);
+        }  else  {
+          _tmpCollection = null;
         }
-        final int _tmpCount;
-        _tmpCount = _cursor.getInt(_cursorIndexOfCount);
-        final boolean _tmpIncluded;
-        final int _tmp;
-        _tmp = _cursor.getInt(_cursorIndexOfIncluded);
-        _tmpIncluded = _tmp != 0;
-        _result = new CollectionDB(_tmpIdCollection,_tmpName,_tmpCount,_tmpIncluded);
+        _result = new CollectionDB(_tmpIdCollection,_tmpCollection);
       } else {
         _result = null;
       }
@@ -1360,6 +1670,32 @@ public final class DataDao_Impl implements DataDao {
         _result = _tmp != 0;
       } else {
         _result = false;
+      }
+      return _result;
+    } finally {
+      _cursor.close();
+      _statement.release();
+    }
+  }
+
+  @Override
+  public List<Integer> getListFilmsInCollection(final int collectionId) {
+    final String _sql = "SELECT film_id FROM crossFC WHERE collection_id = ?";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
+    int _argIndex = 1;
+    _statement.bindLong(_argIndex, collectionId);
+    __db.assertNotSuspendingTransaction();
+    final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
+    try {
+      final List<Integer> _result = new ArrayList<Integer>(_cursor.getCount());
+      while(_cursor.moveToNext()) {
+        final Integer _item;
+        if (_cursor.isNull(0)) {
+          _item = null;
+        } else {
+          _item = _cursor.getInt(0);
+        }
+        _result.add(_item);
       }
       return _result;
     } finally {

@@ -46,15 +46,23 @@ class ListFilmAdapter @Inject constructor(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is ListVH -> {
+                holder.binding.inclFilm.root.visibility = View.INVISIBLE
+                holder.binding.inclShowAll.root.visibility = View.INVISIBLE
+                holder.binding.inclClear.root.visibility = View.INVISIBLE
                 if (quantityItem > 0 && position > Constants.HOME_QTY_FILMCARD-2){
-                    holder.binding.inclFilm.root.visibility = View.INVISIBLE
-                    holder.binding.inclShowAll.root.visibility = View.VISIBLE
-                    holder.binding.inclShowAll.oval.setOnClickListener {
-                        linkers[position].kit?.let { kit -> onClickAll(kit) }
+                    if (mode == ModeViewer.PROFILE) {
+                        holder.binding.inclClear.root.visibility = View.VISIBLE
+                        holder.binding.inclClear.oval.setOnClickListener {
+                            linkers[position].kit?.let { kit -> onClickAll(kit) }
+                        }
+                    } else {
+                        holder.binding.inclShowAll.root.visibility = View.VISIBLE
+                        holder.binding.inclShowAll.oval.setOnClickListener {
+                            linkers[position].kit?.let { kit -> onClickAll(kit) }
+                        }
                     }
                 }else {
                     holder.binding.inclFilm.root.visibility = View.VISIBLE
-                    holder.binding.inclShowAll.root.visibility = View.INVISIBLE
                     var film = linkers.getOrNull(position)?.film
                     if (mode == ModeViewer.SIMILAR) film = linkers.getOrNull(position)?.similarFilm
                     film?.let {

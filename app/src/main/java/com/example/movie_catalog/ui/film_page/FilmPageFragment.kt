@@ -339,7 +339,7 @@ class FilmPageFragment : Fragment() {
 
     private fun onClickChecked(collection: CollectionDB){
         viewModel.addRemoveFilmToCollection(collection)
-        Toast.makeText(context,"Selected collection: ${collection.name}",Toast.LENGTH_SHORT).show()
+        Toast.makeText(context,"Selected collection: ${collection.collection?.name ?: ""}",Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {
