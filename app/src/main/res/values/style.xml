@@ -248,35 +248,30 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:padding">16dp</item>
     </style>
-    <style name="dialog_tv" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <style name="blue_button" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">@dimen/dialog_tv_height</item>
-        <item name="android:layout_gravity">end</item>
-        <item name="android:layout_marginTop">@dimen/dialog_tv_margin_top</item>
-        <item name="android:layout_marginEnd">@dimen/dialog_tv_margin_end</item>
-        <item name="android:layout_marginBottom">@dimen/dialog_tv_margin_bottom</item>
+        <item name="android:layout_gravity">center</item>
         <item name="android:background">@drawable/gallery_tab_selected_rectangle</item>
         <item name="android:clickable">true</item>
         <item name="android:gravity">center</item>
         <item name="android:paddingHorizontal">@dimen/dialog_tv_padding_hor</item>
-        <item name="android:text">@string/ok</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">18sp</item>
         <item name="android:focusable">true</item>
     </style>
-    <style name="setting_bt_select" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">@dimen/dialog_tv_height</item>
+    <style name="dialog_tv" parent="blue_button">
+        <item name="android:layout_gravity">end</item>
+        <item name="android:layout_marginTop">@dimen/dialog_tv_margin_top</item>
+        <item name="android:layout_marginEnd">@dimen/dialog_tv_margin_end</item>
+        <item name="android:layout_marginBottom">@dimen/dialog_tv_margin_bottom</item>
+        <item name="android:text">@string/ok</item>
+    </style>
+    <style name="setting_bt_select" parent="blue_button">
         <item name="android:layout_marginTop">30dp</item>
         <item name="android:layout_marginBottom">@dimen/dialog_tv_margin_bottom</item>
-        <item name="android:background">@drawable/gallery_tab_selected_rectangle</item>
-        <item name="android:clickable">true</item>
-        <item name="android:gravity">center</item>
-        <item name="android:paddingHorizontal">@dimen/dialog_tv_padding_hor</item>
+        <item name="android:layout_marginEnd">@dimen/dialog_tv_margin_end</item>
         <item name="android:text">@string/ok</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:focusable">true</item>
     </style>
     <style name="tvProfileCount" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:layout_width">wrap_content</item>

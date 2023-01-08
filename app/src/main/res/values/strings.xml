@@ -133,4 +133,10 @@
     <string name="selected">Выбрать</string>
     <string name="collections">Коллекции</string>
     <string name="name_collection">Name collection</string>
+    <string name="next_fragment">Пропустить</string>
+    <string name="signature1">Узнавай \nо премьерах</string>
+    <string name="signature2">Создавай \nколлекции</string>
+    <string name="signature3">Делись \nс друзьями</string>
+    <string name="signature4"></string>
+
 </resources>

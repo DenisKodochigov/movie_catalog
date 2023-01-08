@@ -52,7 +52,7 @@
                 android:layout_height="22dp"
                 android:layout_marginEnd="18dp"
                 android:outlineAmbientShadowColor="@color/black"
-                android:src="@drawable/icon_settings_search" />
+                android:src="@drawable/icon_search_settings" />
         </TableRow>
     </TableLayout>
 

@@ -8,4 +8,5 @@ enum class ModeViewer {
     FILM,
     SIMILAR,
     PROFILE,
+    START,
 }

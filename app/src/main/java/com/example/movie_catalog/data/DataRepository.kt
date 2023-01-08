@@ -1,6 +1,7 @@
 package com.example.movie_catalog.data
 
 import android.util.Log
+import com.example.movie_catalog.R
 import com.example.movie_catalog.data.api.DataSourceAPI
 import com.example.movie_catalog.data.room.tables.CollectionDB
 import com.example.movie_catalog.data.room.DataSourceDB
@@ -132,11 +133,20 @@ class DataRepository @Inject constructor() {
         return linkers
     }
 
-    //List person fragment
+    //List person fragment, images fragment
     fun getGallery(film: Film): Gallery {
         return Gallery(
             images = film.images,
             tabs = film.images.groupingBy { it.imageGroup }.eachCount().toList()
+        )
+    }
+
+    fun getImageStart(): List<ImageStart> {
+        return listOf(
+                ImageStart(imageResource = R.drawable.ic_start1, signature = R.string.signature1),
+                ImageStart(imageResource = R.drawable.ic_start2, signature = R.string.signature2),
+                ImageStart(imageResource = R.drawable.ic_start3, signature = R.string.signature3),
+                ImageStart(imageResource = R.drawable.ic_start1, signature = R.string.signature4),
         )
     }
 
