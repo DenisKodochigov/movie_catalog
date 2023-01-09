@@ -34,7 +34,7 @@ class ListFilmsFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: ListFilmsViewModel by viewModels()
     private val listAdapter = ListFilmAdapter(0, ModeViewer.FILM,
-        { film -> onItemClick(film)}, {kit -> onClickAll(kit)})
+        { film -> onItemClick(film)}, {})
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -58,10 +58,6 @@ class ListFilmsFragment : Fragment() {
     private fun onItemClick(film: Film) {
         viewModel.putFilm(film)
         findNavController().navigate(R.id.action_nav_list_films_to_nav_filmInfo)
-    }
-    private fun onClickAll(kit: Kit) {
-//        homeViewModel.putKit(kit)
-//        findNavController().navigate(R.id.action_nav_home_to_nav_kitfilms)
     }
 
     override fun onDestroyView() {

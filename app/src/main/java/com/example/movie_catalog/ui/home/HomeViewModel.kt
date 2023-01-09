@@ -42,7 +42,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     var serials = _serials.asStateFlow()
 
     init {
-        getGenres()
+//        getGenres()
         getPremieres()
 //        getPopular()
 //        getTop250()

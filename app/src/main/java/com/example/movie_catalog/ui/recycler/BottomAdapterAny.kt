@@ -97,6 +97,7 @@ class BottomAdapterAny @Inject constructor( private val onClick: (Any) -> Unit,
                     holder.binding.tvCount.text = item.count.toString()
                     holder.binding.iv1.setImageResource(item.image)
                     holder.binding.ivDelCollection.setOnClickListener { onClick(item) }
+                    holder.binding.root.setOnClickListener { onClick(item.name) }
                 }
             }
         }

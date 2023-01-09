@@ -36,7 +36,7 @@ class KitFilmsFragment: Fragment() {
     private val binding get() = _binding!!
     private val viewModel: KitfilmsViewModel by viewModels()
     private val listAdapter = ListFilmAdapter(0, ModeViewer.FILM,
-        { film -> onItemClick(film)}, {kit -> onClickAll(kit)})
+        { film -> onItemClick(film)}, {})
     private val pagingAdapter = ListFilmPagingAdapter( ModeViewer.FILM) { film -> onItemClick(film) }
 
 
@@ -53,7 +53,7 @@ class KitFilmsFragment: Fragment() {
         binding.filmRecyclerVertical.layoutManager =
             GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
 
-        if (viewModel.localKit == Kit.PREMIERES) processingPremieres()
+        if (viewModel.localKit == Kit.PREMIERES || viewModel.localKit == Kit.COLLECTION) processingPremieres()
         else processingPagingListFilm()
     }
 
@@ -82,7 +82,6 @@ class KitFilmsFragment: Fragment() {
         viewModel.putFilm(film)
         findNavController().navigate(R.id.action_nav_kitFilms_to_nav_filmInfo)
     }
-    private fun onClickAll(kit: Kit) {}
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

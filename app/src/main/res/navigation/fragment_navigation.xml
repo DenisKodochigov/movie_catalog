@@ -50,6 +50,9 @@
         <action
             android:id="@+id/action_nav_profile_to_nav_list_films"
             app:destination="@id/nav_list_films" />
+        <action
+            android:id="@+id/action_nav_profile_to_nav_kitFilms"
+            app:destination="@id/nav_kitFilms" />
     </fragment>
     <fragment
         android:id="@+id/nav_kitFilms"

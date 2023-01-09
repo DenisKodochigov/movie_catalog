@@ -13,4 +13,5 @@ enum class Kit(var nameKit:String, var query:String, var genreID: Int, var count
     SEARCH (App.context.getString(R.string.search_kit), "",0,0),
     VIEWED (App.context.getString(R.string.viewed_kit), "",0,0),
     BOOKMARK (App.context.getString(R.string.bookmark_kit), "",0,0),
+    COLLECTION ("", "",0,0),
 }

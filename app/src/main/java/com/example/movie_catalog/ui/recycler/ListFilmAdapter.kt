@@ -21,7 +21,7 @@ class ListFilmAdapter @Inject constructor(
     private val quantityItem: Int = 0,
     private val mode: ModeViewer = ModeViewer.FILM,
     private val onClick: (film: Film) -> Unit,
-    private val onClickAll: (kit: Kit) -> Unit
+    private val onClickLast: (kit: Kit) -> Unit
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var linkers: List<Linker> = emptyList()
@@ -49,17 +49,19 @@ class ListFilmAdapter @Inject constructor(
                 holder.binding.inclFilm.root.visibility = View.INVISIBLE
                 holder.binding.inclShowAll.root.visibility = View.INVISIBLE
                 holder.binding.inclClear.root.visibility = View.INVISIBLE
-                if (quantityItem > 0 && position > Constants.HOME_QTY_FILMCARD-2){
-                    if (mode == ModeViewer.PROFILE) {
-                        holder.binding.inclClear.root.visibility = View.VISIBLE
-                        holder.binding.inclClear.oval.setOnClickListener {
-                            linkers[position].kit?.let { kit -> onClickAll(kit) }
-                        }
-                    } else {
-                        holder.binding.inclShowAll.root.visibility = View.VISIBLE
-                        holder.binding.inclShowAll.oval.setOnClickListener {
-                            linkers[position].kit?.let { kit -> onClickAll(kit) }
-                        }
+                //Add card "Show all"
+                if (mode != ModeViewer.PROFILE && quantityItem > 0 && position > Constants.HOME_QTY_FILMCARD-2){
+                    holder.binding.inclShowAll.root.visibility = View.VISIBLE
+                    holder.binding.inclShowAll.oval.setOnClickListener {
+                        linkers[position].kit?.let { kit -> onClickLast(kit) }
+                    }
+                //Add card "Clear kit"
+                } else if (mode == ModeViewer.PROFILE &&
+                    (quantityItem > 0 && position > Constants.HOME_QTY_PROFILE-2) ||
+                    position == linkers.size - 1){
+                    holder.binding.inclClear.root.visibility = View.VISIBLE
+                    holder.binding.inclClear.oval.setOnClickListener {
+                        linkers[position].kit?.let { kit -> onClickLast(kit) }
                     }
                 }else {
                     holder.binding.inclFilm.root.visibility = View.VISIBLE
@@ -75,7 +77,11 @@ class ListFilmAdapter @Inject constructor(
                             holder.binding.inclFilm.ivViewed.visibility = View.VISIBLE
                             holder.binding.inclFilm.poster.foreground =
                                 App.context.getDrawable(R.drawable.gradientviewed)
+//                            Log.d("KDS", "Viewed = true for name =${film.nameRu}, id=${film.filmId}")
+                        } else {
+                            holder.binding.inclFilm.poster.foreground = null
                         }
+
         //Set rating
                         if (film.rating != null) holder.binding.inclFilm.tvRating.text =
                             film.rating.toString()
@@ -132,6 +138,7 @@ class ListFilmAdapter @Inject constructor(
             ModeViewer.FILM -> R.layout.item_list_film_bot
             ModeViewer.SIMILAR -> R.layout.item_list_film_bot
             ModeViewer.FILMOGRAPHY -> R.layout.item_list_film_right
+            ModeViewer.PROFILE -> R.layout.item_list_film_bot
             else -> throw IllegalArgumentException("Unsupported type") // in case populated with a model we don't know how to display.
         }
     }

@@ -33,7 +33,7 @@ class PersonFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: PersonViewModel by viewModels()
     private val filmAdapter = ListFilmAdapter(0, ModeViewer.FILM,
-        { film -> onItemClick(film)}, {kit -> onClickAll(kit)})
+        { film -> onItemClick(film)}, {})
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentPersonBinding.inflate(inflater, container, false)
@@ -84,10 +84,7 @@ class PersonFragment : Fragment() {
         viewModel.putFilm(film)
         findNavController().navigate(R.id.action_nav_person_to_nav_filmInfo)
     }
-    private fun onClickAll(kit: Kit) {
-//        homeViewModel.putKit(kit)
-//        findNavController().navigate(R.id.action_nav_home_to_nav_kitfilms)
-    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

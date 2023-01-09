@@ -295,7 +295,7 @@ class FilmPageFragment : Fragment() {
     }
 
     private fun onClickAll(kit: Kit) {
-//        homeViewModel.putKit(kit)
+        viewModel.putKit(kit)
         findNavController().navigate(R.id.action_nav_home_to_nav_kitfilms)
     }
 

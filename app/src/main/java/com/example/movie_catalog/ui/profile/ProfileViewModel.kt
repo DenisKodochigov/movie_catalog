@@ -42,17 +42,17 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
                  dataRepository.getViewedFilms()
             }.fold(
                 onSuccess = { _viewedFilm.value = it },
-                onFailure = { Log.d("KDS", it.message ?: "getFilmInfo") }
+                onFailure = { Log.d("KDS", it.message ?: "getViewedFilm error") }
             )
         }
     }
     private fun getBookmarkFilm() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                dataRepository.getBookmarkFilms()
+                dataRepository.getFilmsInCollectionName("",2)
             }.fold(
                 onSuccess = { _bookmarkFilm.value = it },
-                onFailure = { Log.d("KDS", it.message ?: "getFilmInfo") }
+                onFailure = { Log.d("KDS", it.message ?: "getBookmarkFilm error") }
             )
         }
     }
@@ -62,14 +62,13 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
                 Convertor().fromCollectionDBtoCollection(dataRepository.getCollectionsDB())
             }.fold(
                 onSuccess = { _collection.value = it },
-                onFailure = { Log.d("KDS", it.message ?: "getFilmInfo") }
+                onFailure = { Log.d("KDS", it.message ?: "getCollections error") }
             )
         }
     }
     fun putFilm(film: Film){
         dataRepository.putFilm(film)
     }
-
     fun putKit(kit: Kit){
         dataRepository.putKit(kit)
     }
@@ -87,10 +86,21 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
     }
 
     fun clearKit(kit: Kit){
-        if (kit == Kit.VIEWED){
-            dataRepository.clearViewedFilm()
-        } else if (kit == Kit.BOOKMARK){
-            dataRepository.clearBookmarkFilm()
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                if (kit == Kit.VIEWED){
+                    dataRepository.clearViewedFilm()
+                    getViewedFilm()
+                    getCollections()
+                } else if (kit == Kit.BOOKMARK){
+                    dataRepository.clearBookmarkFilm()
+                    getBookmarkFilm()
+                    getCollections()
+                }
+            }.fold(
+                onSuccess = { },
+                onFailure = { Log.d("KDS", it.message ?: "clearKit error") }
+            )
         }
     }
 

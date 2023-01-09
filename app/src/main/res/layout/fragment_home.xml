@@ -14,16 +14,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/text_home"
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
                 android:layout_marginTop="97dp"
                 android:layout_marginBottom="47dp"
-                android:text="Skillcinema"
-                android:textSize="20sp"
-                tools:ignore="HardcodedText" />
+                android:src="@drawable/icon_skillcinema"/>
 
             <include
                 android:id="@+id/premier_kit"

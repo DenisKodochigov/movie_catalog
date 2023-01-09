@@ -38,8 +38,32 @@ class KitfilmsViewModel @Inject constructor(): ViewModel() {
     init {
         takeKit()
         if (localKit == Kit.PREMIERES) getData()
+        else if (localKit == Kit.VIEWED) getDataViewed()
+        else if (localKit == Kit.BOOKMARK) getDataCollection("",2)
+        else if (localKit == Kit.COLLECTION) getDataCollection(localKit!!.nameKit)
+    }
+    private fun getDataCollection(nameCollection: String = "", idCollection: Int = 0) {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                dataRepository.getFilmsInCollectionName(nameCollection, idCollection)
+            }.fold(
+                onSuccess = {
+                    _premieres.value = it},
+                onFailure = { Log.d("KDS",it.message ?: "")}
+            )
+        }
     }
 
+    private fun getDataViewed() {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                dataRepository.getViewedFilms()
+            }.fold(
+                onSuccess = { _premieres.value = it},
+                onFailure = { Log.d("KDS",it.message ?: "")}
+            )
+        }
+    }
     private fun getData() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {

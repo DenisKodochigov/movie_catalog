@@ -8,6 +8,7 @@ import com.example.movie_catalog.data.room.tables.CollectionDB
 import com.example.movie_catalog.entity.Linker
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Person
+import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.filminfo.ImageFilm
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -157,6 +158,11 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+    private fun takeFilm() {
+        val film = dataRepository.takeFilm()
+        if (film != null) localFilm = film
+    }
+
     fun clickViewed() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching { dataRepository.changeViewed(localFilm!!) }.fold(
@@ -184,13 +190,12 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    private fun takeFilm() {
-        val film = dataRepository.takeFilm()
-        if (film != null) localFilm = film
-    }
-
     fun putFilm(){
         localFilm?.let { dataRepository.putFilm(it) }
+    }
+
+    fun putKit(kit: Kit){
+        dataRepository.putKit(kit)
     }
 
     fun putPerson(person: Person) {

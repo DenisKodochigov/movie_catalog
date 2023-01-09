@@ -120,6 +120,7 @@ class ViewerPageAdapter (private val mode: ModeViewer, private val onClick: (Any
             is ImageStartHV -> {
                 val listImageStart = items as List<ImageStart>
                 holder.binding.ivIcon.setImageResource(listImageStart[position].imageResource!!)
+                holder.binding.ivIndicator.setImageResource(listImageStart[position].imageIndicator!!)
                 holder.binding.tvSignature.text =
                     App.context.resources.getString(listImageStart[position].signature!!)
             }

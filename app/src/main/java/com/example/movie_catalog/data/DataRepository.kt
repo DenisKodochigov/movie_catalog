@@ -143,10 +143,14 @@ class DataRepository @Inject constructor() {
 
     fun getImageStart(): List<ImageStart> {
         return listOf(
-                ImageStart(imageResource = R.drawable.ic_start1, signature = R.string.signature1),
-                ImageStart(imageResource = R.drawable.ic_start2, signature = R.string.signature2),
-                ImageStart(imageResource = R.drawable.ic_start3, signature = R.string.signature3),
-                ImageStart(imageResource = R.drawable.ic_start1, signature = R.string.signature4),
+                ImageStart(imageResource = R.drawable.ic_start1, signature = R.string.signature1,
+                    imageIndicator = R.drawable.indicator_start_fragment_1),
+                ImageStart(imageResource = R.drawable.ic_start2, signature = R.string.signature2,
+                    imageIndicator = R.drawable.indicator_start_fragment_2),
+                ImageStart(imageResource = R.drawable.ic_start3, signature = R.string.signature3,
+                    imageIndicator = R.drawable.indicator_start_fragment_3),
+                ImageStart(imageResource = R.drawable.ic_start1, signature = R.string.signature4,
+                    imageIndicator = R.drawable.indicator_start_fragment_3),
         )
     }
 
@@ -194,16 +198,15 @@ class DataRepository @Inject constructor() {
         dataSourceDB.setViewed(film)
         film.viewed = !film.viewed
     }
-
     fun changeFavorite(film: Film) {
         dataSourceDB.addRemoveFilmToCollection(film,1)
         film.favorite = !film.favorite
     }
-
     fun changeBookmark(film: Film) {
         dataSourceDB.addRemoveFilmToCollection(film,2)
         film.bookmark = !film.bookmark
     }
+
     fun addFilmToCollection(collection: CollectionDB, film: Film) {
         if (dataSourceDB.getFilm(film) == null) {
             dataSourceDB.addFilm(FilmDB(idFilm = film.filmId!!, msg = "", film))
@@ -227,7 +230,7 @@ class DataRepository @Inject constructor() {
         if (listCollectionFilmDB.isNotEmpty()) {
             listCollectionFilmDB.forEach {
                 it.collection?.count = dataSourceDB.getCountFilmCollection(it.idCollection).count()
-                Log.d("KDS", " count = ${it.collection?.count}")
+//                Log.d("KDS", " count = ${it.collection?.count}")
             }
         }
         return listCollectionFilmDB
@@ -254,18 +257,28 @@ class DataRepository @Inject constructor() {
             linkers.add(Linker(film = DataCentre.films.find { it.filmId == filmId },
                 kit = Kit.VIEWED))
         }
-        return linkers
-    }
-    fun getBookmarkFilms(): List<Linker> {
-        val linkers = mutableListOf<Linker>()
-        val listFilmId = dataSourceDB.getBookmarkFilmsId()
-        listFilmId.forEach { filmId ->
-            linkers.add( Linker(film = DataCentre.films.find { it.filmId == filmId },
-            kit = Kit.BOOKMARK))
-        }
+        //Add item for viewing card "clear history"
+        linkers.add(Linker(Film(),null,null,null,Kit.VIEWED))
         return linkers
     }
 
+    fun getFilmsInCollectionName(nameCollection: String = "", idCollection: Int = 0): List<Linker> {
+        var idCollect = idCollection
+        val linkers = mutableListOf<Linker>()
+        if (idCollect == 0){
+            idCollect = dataSourceDB.getCollectionRecord(nameCollection)?.idCollection ?: 0
+        }
+        var kit = Kit.COLLECTION
+        if (idCollect == 2) kit = Kit.BOOKMARK
+        if (idCollect != 0) {
+            val listFilmId = dataSourceDB.getListFilmsIdInCollection(idCollect)
+            listFilmId.forEach { filmId ->
+                linkers.add( Linker(film = DataCentre.films.find { it.filmId == filmId }, kit = kit))
+            }
+        }
+        linkers.add(Linker( Film(),null,null,null, kit))
+        return linkers
+    }
     fun clearViewedFilm(){
         dataSourceDB.clearViewedFilm()
     }

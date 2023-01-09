@@ -62,14 +62,14 @@ class SettingFragment: Fragment()  {
             SortingField.RATING -> binding.rbRating.isChecked = true
             else -> {}
         }
-        binding.tvCountryEnter.text = filter.country?.country ?: ""
-        binding.tvGenreEnter.text = filter.genre?.genre ?: ""
-        binding.tvYearEnter.text = "" + filter.year?.first.toString() + " - " +
-                filter.year?.second.toString()
-        binding.tvRatingEnter.text = "" + filter.rating?.first.toString() + " - " +
-                filter.rating?.second.toString()
-        binding.rangeSlider.setValues(filter.rating?.first?.toFloat(), filter.rating?.second?.toFloat())
-        binding.switch1.isChecked = filter.viewed!!
+        binding.tvCountryEnter.text = filter.country.country ?: ""
+        binding.tvGenreEnter.text = filter.genre.genre ?: ""
+        binding.tvYearEnter.text = "" + filter.year.first.toString() + " - " +
+                filter.year.second.toString()
+        binding.tvRatingEnter.text = "" + filter.rating.first.toString() + " - " +
+                filter.rating.second.toString()
+        binding.rangeSlider.setValues(filter.rating.first.toFloat(), filter.rating.second.toFloat())
+        binding.switch1.isChecked = filter.viewed
 // Processing clickable
         binding.rgTypeFilm.setOnCheckedChangeListener { _, b ->
             when (b){
@@ -229,18 +229,17 @@ class SettingFragment: Fragment()  {
         viewModel.takeGenres(genre)
         bottomSheetDialog.cancel()
     }
-
     @SuppressLint("SetTextI18n")
     private fun onClickYear1(year: Int){
-        viewModel.takeYears(Pair(year,viewModel.filter.year!!.second))
-        binding.tvYearEnter.text = "" + viewModel.filter.year?.first.toString() + " - " +
-                viewModel.filter.year?.second.toString()
+        viewModel.takeYears(Pair(year,viewModel.filter.year.second))
+        binding.tvYearEnter.text = "" + viewModel.filter.year.first.toString() + " - " +
+                viewModel.filter.year.second.toString()
     }
     @SuppressLint("SetTextI18n")
     private fun onClickYear2(year: Int){
-        viewModel.takeYears(Pair(viewModel.filter.year!!.first,year))
-        binding.tvYearEnter.text = "" + viewModel.filter.year?.first.toString() + " - " +
-                viewModel.filter.year?.second.toString()
+        viewModel.takeYears(Pair(viewModel.filter.year.first,year))
+        binding.tvYearEnter.text = "" + viewModel.filter.year.first.toString() + " - " +
+                viewModel.filter.year.second.toString()
     }
 
     override fun onDestroyView() {

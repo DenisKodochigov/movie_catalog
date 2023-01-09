@@ -17,13 +17,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_catalog.R
-import com.example.movie_catalog.data.room.tables.CollectionDB
 import com.example.movie_catalog.databinding.FragmentProfileBinding
 import com.example.movie_catalog.databinding.IncludeListFilmBinding
+import com.example.movie_catalog.entity.Collection
 import com.example.movie_catalog.entity.Constants
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Linker
-import com.example.movie_catalog.entity.Collection
 import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.enumApp.ModeViewer
 import com.example.movie_catalog.ui.recycler.BottomAdapterAny
@@ -41,14 +40,14 @@ class ProfileFragment : Fragment() {
     private val viewModel: ProfileViewModel by viewModels()
 
     private val viewedAdapter = ListFilmAdapter(
-        Constants.HOME_QTY_FILMCARD, ModeViewer.FILM, { film -> onClickItem(film)},
-        { kit -> onClickItemLast(kit) })
+        Constants.HOME_QTY_PROFILE, ModeViewer.PROFILE, { file -> onClickItem(file)},
+        { kit -> onClickClearCollection(kit) })
 
     private val bookmarkAdapter = ListFilmAdapter(
-        Constants.HOME_QTY_FILMCARD, ModeViewer.FILM, { film -> onClickItem(film)},
-        { kit -> onClickItemLast(kit)})
+        Constants.HOME_QTY_PROFILE, ModeViewer.PROFILE, { file -> onClickItem(file)},
+        { kit -> onClickClearCollection(kit)})
 
-    private val collectionAdapter = BottomAdapterAny {collection -> onClickCollection(collection as Collection) }
+    private val collectionAdapter = BottomAdapterAny {item -> onClickCollection(item) }
 
     @SuppressLint("CutPasteId", "UseCompatLoadingForDrawables")
     override fun onCreateView(
@@ -109,13 +108,22 @@ class ProfileFragment : Fragment() {
 
             showAll.setOnClickListener {
                 viewModel.putKit(kit)
-                findNavController().navigate(R.id.action_nav_profile_to_nav_list_films)
+                findNavController().navigate(R.id.action_nav_profile_to_nav_kitFilms)
             }
         }
     }
 
-    private fun onClickCollection(collection: Collection){
-        viewModel.deleteCollection(collection)
+    private fun onClickCollection(item: Any){
+        when (item){
+            is Collection -> viewModel.deleteCollection(item)
+            is String -> {
+                val kit = Kit.COLLECTION
+                kit.nameKit = item
+                viewModel.putKit(kit)
+                findNavController().navigate(R.id.action_nav_profile_to_nav_kitFilms)
+            }
+            else -> {}
+        }
     }
 
     private fun onClickItem(film: Film) {
@@ -123,9 +131,10 @@ class ProfileFragment : Fragment() {
         findNavController().navigate(R.id.action_nav_profile_to_nav_filmInfo)
     }
 
-    private fun onClickItemLast(kit: Kit) {
+    private fun onClickClearCollection(kit: Kit) {
         viewModel.clearKit(kit)
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

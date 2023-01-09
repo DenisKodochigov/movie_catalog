@@ -18,6 +18,7 @@ import com.example.movie_catalog.entity.ImageStart
 import com.example.movie_catalog.entity.enumApp.ModeViewer
 import com.example.movie_catalog.ui.images.ImagesFragment
 import com.example.movie_catalog.ui.recycler.ViewerPageAdapter
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -39,6 +40,8 @@ class StartFragment: Fragment() {
 
         _binding = FragmentStartBinding.inflate(inflater, container, false)
         (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text = ""
+        (activity as AppCompatActivity).findViewById<BottomNavigationView>(R.id.nav_view).visibility = View.INVISIBLE
+
         return binding.root
     }
 
@@ -57,14 +60,26 @@ class StartFragment: Fragment() {
         binding.tvNext.setOnClickListener {
             findNavController().navigate(R.id.action_nav_start_to_nav_home)
         }
-
+        var stateMy = 0
         binding.viewpager.registerOnPageChangeCallback(object : OnPageChangeCallback() {
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
-                if (position == listImage.size - 1 && positionOffsetPixels == 0){
+                if (position == listImage.size - 1 && positionOffsetPixels == 0 && stateMy == 1){
                     findNavController().navigate(R.id.action_nav_start_to_nav_home)
                 }
+//                Log.d("KDS", "onPageScrolled position = $position, positionOffset = $positionOffset, positionOffsetPixels = $positionOffsetPixels")
             }
+
+            override fun onPageScrollStateChanged(state: Int) {
+                super.onPageScrollStateChanged(state)
+                stateMy = state
+//                Log.d("KDS", "onPageScrollStateChanged state = $state, stateMy=$stateMy")
+            }
+//
+//            override fun onPageSelected(position: Int) {
+//                super.onPageSelected(position)
+//                Log.d("KDS", "onPageSelected position = $position")
+//            }
         })
     }
 

@@ -34,10 +34,11 @@ open class DataSourceDB  @Inject constructor(){
     fun favoriteFlow(id: Int): Flow<Boolean> = dataDao.setFavoriteFlow(id)
 
     fun setViewed(film: Film) {
-        val filmDB = dataDao.getFilm(film.filmId!!)
+        val filmN = film.copy()
+        val filmDB = dataDao.getFilm(filmN.filmId!!)
         if (filmDB == null) {
-            film.viewed = true //Добавляем фмльм в базу, это возможно полсе того как поставили признак просмотрено
-            dataDao.insert(FilmDB(idFilm = film.filmId, msg = "", film))
+            filmN.viewed = true //Добавляем фмльм в базу, это возможно полсе того как поставили признак просмотрено
+            dataDao.insert(FilmDB(idFilm = filmN.filmId, msg = "", filmN))
         } else {
             filmDB.film?.let { it.viewed = !it.viewed}
             dataDao.update(filmDB)
@@ -75,7 +76,7 @@ open class DataSourceDB  @Inject constructor(){
 
     fun getViewedFilmsId() = dataDao.getViewedFilms(true)
 
-    fun getBookmarkFilmsId() = dataDao.getListFilmsInCollection(2)
+    fun getListFilmsIdInCollection(id: Int) = dataDao.getListFilmsInCollection(id)
 
     fun getListFilmDB(listId: List<Int>) = dataDao.getFilmInList(listId)
 
