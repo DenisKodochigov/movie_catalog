@@ -142,6 +142,7 @@ class ListFilmAdapter @Inject constructor(
             else -> throw IllegalArgumentException("Unsupported type") // in case populated with a model we don't know how to display.
         }
     }
+
     override fun getItemCount(): Int {
         return if (quantityItem > 0 && linkers.size > quantityItem - 1) {
             quantityItem

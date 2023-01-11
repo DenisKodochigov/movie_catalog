@@ -25,6 +25,9 @@ interface DataDao {
     @Query("SELECT * FROM films WHERE idFilm = :id")
     fun getFilm(id: Int): FilmDB?
 
+    @Query("SELECT * FROM films")
+    fun getFilms(): List<FilmDB>?
+
     @Query("SELECT viewed FROM films WHERE idFilm = :id")
     fun getViewed(id: Int): Boolean
 

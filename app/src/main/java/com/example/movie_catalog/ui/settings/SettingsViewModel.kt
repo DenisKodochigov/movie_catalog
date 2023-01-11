@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.data.DataRepository
 import com.example.movie_catalog.data.api.home.getKit.CountryIdDTO
 import com.example.movie_catalog.data.api.home.getKit.GenreIdDTO
+import com.example.movie_catalog.entity.ErrorApp
 import com.example.movie_catalog.entity.SearchFilter
 import com.example.movie_catalog.entity.enumApp.SortingField
 import com.example.movie_catalog.entity.enumApp.TypeFilm
@@ -42,7 +43,7 @@ class SettingsViewModel @Inject constructor() : ViewModel()  {
                 dataRepository.getCountries()
             }.fold(
                 onSuccess = { if (it.isNotEmpty()) _countries.value = it },
-                onFailure = { Log.d("KDS", it.message ?: "getFilmInfo") }
+                onFailure = { ErrorApp().errorApi(it.message!!) }
             )
         }
     }
@@ -53,7 +54,7 @@ class SettingsViewModel @Inject constructor() : ViewModel()  {
                 dataRepository.getGenres()
             }.fold(
                 onSuccess = { if (it.isNotEmpty()) _genres.value = it },
-                onFailure = { Log.d("KDS", it.message ?: "getFilmInfo") }
+                onFailure = { ErrorApp().errorApi(it.message!!) }
             )
         }
     }

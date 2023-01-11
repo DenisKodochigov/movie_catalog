@@ -107,14 +107,14 @@ class FilmPageFragment : Fragment() {
         binding.posterBig.ratingName.text = stringForTextView
 //Show year, genre, quantity seasons,
         //Add year
-        if (filmInfo.year != null) stringForTextView = filmInfo.year.toString().trim()
+        stringForTextView = if (filmInfo.year != null) filmInfo.year.toString().trim() else ""
         //Add genres
-        if (stringForTextView == "") { filmInfo.genresTxt().trim()}
-        else { stringForTextView + ", " + filmInfo.genresTxt().trim()}
+        if (stringForTextView != "") stringForTextView += ", "
+        stringForTextView += filmInfo.genresTxt().trim()
+
         //Add seasons film_info_poster_seasons
         if (filmInfo.totalSeasons != null) {
-            stringForTextView += ", " + context?.getString(R.string.film_info_poster_seasons) +
-                    filmInfo.totalSeasons.toString().trim()
+            stringForTextView += ", " + context?.getString(R.string.film_info_poster_seasons) + filmInfo.totalSeasons.toString().trim()
         }
         binding.posterBig.yearGenreOther.text = stringForTextView
 //Show short descriptions
@@ -126,18 +126,23 @@ class FilmPageFragment : Fragment() {
             enableTransitionType(LayoutTransition.CHANGING)
         }
 //        Log.d("KDS", "description = $description")
-        if (description.length > 250) binding.descriptionFilm.text = description.substring(0, 250) + "..."
+        if (description.length > Constants.LENGTH_DESCRIPTION)
+            binding.descriptionFilm.text = description.substring(0, Constants.LENGTH_DESCRIPTION) + "..."
+        else binding.descriptionFilm.text = description
         binding.descriptionFilm.setTextAppearance(R.style.app_bold)
 
         binding.descriptionFilm.setOnClickListener {
-            if (isCollapsed){
-                binding.descriptionFilm.setTextAppearance(R.style.app_bold)
-                binding.descriptionFilm.text = description.substring(0,250) + "..."
-                isCollapsed = false
-            } else {
-                binding.descriptionFilm.setTextAppearance(R.style.app_normal)
-                binding.descriptionFilm.text = description
-                isCollapsed = true
+            if (binding.descriptionFilm.length() > Constants.LENGTH_DESCRIPTION ) {
+                if (isCollapsed) {
+                    binding.descriptionFilm.setTextAppearance(R.style.app_bold)
+                    binding.descriptionFilm.text =
+                        description.substring(0, Constants.LENGTH_DESCRIPTION) + "..."
+                    isCollapsed = false
+                } else {
+                    binding.descriptionFilm.setTextAppearance(R.style.app_normal)
+                    binding.descriptionFilm.text = description
+                    isCollapsed = true
+                }
             }
         }
 //Show info serial
@@ -154,7 +159,7 @@ class FilmPageFragment : Fragment() {
         } else {
             binding.serials.root.visibility = View.INVISIBLE
             binding.serials.root.layoutParams.height = 0
-            Log.d("KDS", "Invisible block serials")
+//            Log.d("KDS", "Invisible block serials")
         }
 
 // Observe clickable
@@ -305,8 +310,10 @@ class FilmPageFragment : Fragment() {
         val bottomSheetDialog = context?.let{ BottomSheetDialog(it, R.style.AppBottomSheetDialogTheme)}!!
         bottomSheetDialog.setContentView(R.layout.include_bottom_sheet)
 
-        bottomSheetDialog.findViewById<ImageView>(R.id.poster)!!.background =
-            context?.getDrawable(R.drawable.ic_baseline_image_not_supported_24)
+        val animationCard = LoadImageURLShow()
+        animationCard.setAnimation( bottomSheetDialog.findViewById(R.id.poster)!!,
+            film.posterUrlPreview, R.dimen.gallery_list_small_card_radius)
+         context?.getDrawable(R.drawable.ic_baseline_image_not_supported_24)
         bottomSheetDialog.findViewById<TextView>(R.id.bottom_name_film)?.text = film.nameRu
         bottomSheetDialog.findViewById<TextView>(R.id.bottom_genre_film)?.text = film.genresTxt()
 

@@ -58,7 +58,7 @@ class LoadImageURLShow {
                         target: Target<Drawable>?, dataSource: com.bumptech.glide.load.DataSource?,
                         isFirstResource: Boolean): Boolean {
                         animationCard.stop()
-                        view.background.alpha = 0
+                        view.background?.alpha = (0 ?: null) as Int
 //                        Log.d("KDS","LoadImageURLShow.setAnimation animation stop $imageURL")
                         return false
                     }

@@ -1,5 +1,6 @@
 package com.example.movie_catalog.data
 
+import android.provider.ContactsContract.Data
 import android.util.Log
 import com.example.movie_catalog.R
 import com.example.movie_catalog.data.api.DataSourceAPI
@@ -29,7 +30,7 @@ class DataRepository @Inject constructor() {
             dataSourceAPI.getPremieres()
             linkers = DataCentre.linkers.filter { it.kit == Kit.PREMIERES }
         }
-        Log.d("KDS", "${linkers[0].kit}")
+//        Log.d("KDS", "${linkers[0].kit}")
 //        linkers = Plug.listLinkers
         return linkers
     }
@@ -192,6 +193,18 @@ class DataRepository @Inject constructor() {
         DataCentre.putJobPerson(item)
     }
 
+    fun setApiKey(){
+        DataCentre.setApiKey()
+    }
+
+    fun synchronizationDataCenterAndDB(){
+        val listFilmDB = dataSourceDB.getFilms()
+        if (listFilmDB != null) {
+            val listFilm = Convertor().fromListFilmDBtoFilm(listFilmDB)
+            DataCentre.addFilms(listFilm)
+        }
+        setApiKey()
+    }
     // FUNCTION DB #################################################
 
     fun changeViewed(film: Film) {
@@ -237,7 +250,10 @@ class DataRepository @Inject constructor() {
     }
 
     fun addCollection(nameCollection: String): CollectionDB? {
-        dataSourceDB.addCollection(CollectionDB(collection = Collection( name= nameCollection)))
+        val collection = dataSourceDB.getCollectionRecord(nameCollection)
+        if (collection == null) {
+            dataSourceDB.addCollection(CollectionDB(collection = Collection( name= nameCollection)))
+        }
         return dataSourceDB.getCollectionRecord(nameCollection)
     }
 

@@ -14,6 +14,7 @@ import com.example.movie_catalog.data.api.person.PersonInfoDTO
 import com.example.movie_catalog.entity.enumApp.*
 import com.example.movie_catalog.entity.filminfo.ImageFilm
 import com.example.movie_catalog.entity.filminfo.InfoFilmSeasons
+import java.util.HashMap
 
 object DataCentre {
     var films = mutableListOf<Film>()
@@ -21,6 +22,7 @@ object DataCentre {
     var linkers = mutableListOf<Linker>()
     var countries = mutableListOf<CountryIdDTO>()
     var genres = mutableListOf<GenreIdDTO>()
+    val headers = HashMap<String, String>()
 
     private var currentJobPerson: String? = null
     private var currentKit: Kit? = null
@@ -36,23 +38,29 @@ object DataCentre {
         sorting = SortingField.YEAR
     )
 
+    fun setApiKey(){
+        when(headers["X-API-KEY"]){
+            "" -> headers["X-API-KEY"] = "20c3f30c-7ba7-4417-9c72-4975ac6091c6"
+            "20c3f30c-7ba7-4417-9c72-4975ac6091c6" -> headers["X-API-KEY"] = "f8b0f389-e491-48d0-8794-240a6d0bc635"
+            "f8b0f389-e491-48d0-8794-240a6d0bc635" -> headers["X-API-KEY"] = "130f6e6d-9e90-4c52-8cf5-8c4cda072fa8"
+            "130f6e6d-9e90-4c52-8cf5-8c4cda072fa8" -> headers["X-API-KEY"] = "20c3f30c-7ba7-4417-9c72-4975ac6091c6"
+            else -> headers["X-API-KEY"] = "20c3f30c-7ba7-4417-9c72-4975ac6091c6"
+        }
+        headers["X-API-KEY"] = "20c3f30c-7ba7-4417-9c72-4975ac6091c6"
+    }
+
+    fun addFilms(listFilm: List<Film>) {
+        listFilm.forEach { item ->
+            films.add(item)
+            addLinker(item)
+        }
+    }
+
     fun addFilms(listFilm: PremieresDTO) {
         listFilm.items.forEach { filmDTO ->
             var film = films.find { it.filmId == filmDTO.kinopoiskId }
             if (film == null) {
-                film = Film(
-                    filmId = filmDTO.kinopoiskId,
-                    imdbId = null,
-                    nameRu = filmDTO.nameRu,
-                    nameEn = filmDTO.nameEn,
-                    rating = null,
-                    posterUrlPreview = filmDTO.posterUrlPreview,
-                    countries = filmDTO.countries,
-                    genres = filmDTO.genres,
-                    viewed = false,
-                    favorite = false,
-                    bookmark = false,
-                )
+                film = Convertor().fromFilmDTOtoFilm(filmDTO)
                 films.add(film)
             }
             addLinker(film, Kit.PREMIERES)
@@ -63,19 +71,7 @@ object DataCentre {
         item.films.forEach { topfilmDTO ->
             var film = films.find { it.filmId == topfilmDTO.filmId }
             if (film == null) {
-                film = Film(
-                    filmId = topfilmDTO.filmId,
-                    imdbId = null,
-                    nameRu = topfilmDTO.nameRu,
-                    nameEn = topfilmDTO.nameEn,
-                    rating = topfilmDTO.rating?.toDouble(),
-                    posterUrlPreview = topfilmDTO.posterUrlPreview,
-                    countries = topfilmDTO.countries,
-                    genres = topfilmDTO.genres,
-                    viewed = false,
-                    favorite = false,
-                    bookmark = false,
-                )
+                film = Convertor().fromTopFilmDTOtoFilm(topfilmDTO)
                 films.add(film)
             }
             addLinker(film, kit)
@@ -89,22 +85,7 @@ object DataCentre {
             filterDTO.items!!.forEach { filmDTO ->
                 var film = films.find { it.filmId == filmDTO.kinopoiskId }
                 if (film == null) {
-                    film = Film(
-                        filmId = filmDTO.kinopoiskId,
-                        imdbId = filmDTO.imdbId,
-                        nameRu = filmDTO.nameRu,
-                        nameEn = filmDTO.nameEn,
-                        rating = filmDTO.ratingKinopoisk,
-                        posterUrlPreview = filmDTO.posterUrlPreview,
-                        countries = filmDTO.countries,
-                        genres = filmDTO.genres,
-                        viewed = false,
-                        favorite = false,
-                        bookmark = false,
-                        nameOriginal = filmDTO.nameOriginal,
-                        year = filmDTO.year,
-                        posterUrl = filmDTO.posterUrl
-                    )
+                    film = Convertor().fromFilterFilmDTOtoFilm(filmDTO)
                     films.add(film)
                 }
                 listLinkers.add(Linker(film, null, null, null, kit))
@@ -120,20 +101,7 @@ object DataCentre {
                 //Check in list similar current film
                 var filmBase = films.find { it.filmId == filmSimilar.filmId }
                 if (filmBase == null) {
-                    //If don't, add similar film to DataCentre.films
-                    filmBase = Film(
-                        filmId = filmSimilar.filmId,
-                        imdbId = null,
-                        nameRu = filmSimilar.nameRu,
-                        nameEn = filmSimilar.nameEn,
-                        rating = null,
-                        posterUrlPreview = filmSimilar.posterUrlPreview,
-                        countries = emptyList(),
-                        genres = emptyList(),// retrofitApi.getFilmInfo(it.filmId!!).genres!!,
-                        viewed = false,
-                        favorite = false,
-                        bookmark = false
-                    )
+                    filmBase = Convertor().fromSimilarFilmDTOtoFilm(filmSimilar)
                     films.add(filmBase)
                 }
                 addLinker(film, filmBase)
@@ -169,16 +137,7 @@ object DataCentre {
     fun addPerson(personsDTO: List<PersonDTO>, film: Film) {
         personsDTO.forEach { item ->
             if (persons.find { it.personId == item.staffId } == null) {
-                val personNew = Person(
-                    personId = item.staffId,
-                    nameRu = item.nameRu,
-                    nameEn = item.nameEn,
-                    posterUrl = item.posterUrl,
-                    professionKey = item.professionKey,
-                    description = item.description,
-                    professionText = item.professionText,
-                    tabs = mutableListOf(),
-                )
+                val personNew = Convertor().fromPersonDTOtoPerson(item)
                 persons.add(personNew)
                 addLinker(film, personNew, personNew.professionKey!!)
             }
@@ -207,15 +166,7 @@ object DataCentre {
                 personInfo.profession?.let { profession = personInfo.profession }
             }
         } else {
-            person = Person(
-                personId = personInfo.personId,
-                nameRu = personInfo.nameRu,
-                nameEn = personInfo.nameEn,
-                posterUrl = personInfo.posterUrl,
-                age = personInfo.age,
-                hasAwards = personInfo.hasAwards,
-                profession = personInfo.profession,
-            )
+            person = Convertor().fromPersonInfoDTOtoPerson(personInfo)
             persons.add(person)//   .add(person)
         }
         //Перебираем входные данные по фильмам относящиеся к персоне

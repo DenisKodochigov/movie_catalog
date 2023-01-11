@@ -2,16 +2,14 @@ package com.example.movie_catalog.data.api
 
 import android.annotation.SuppressLint
 import android.icu.text.SimpleDateFormat
-import android.util.Log
 import com.example.movie_catalog.data.api.home.MonthKinopoisk
 import com.example.movie_catalog.data.api.home.getKit.SelectedKit
 import com.example.movie_catalog.entity.*
-import com.example.movie_catalog.entity.filminfo.InfoFilmSeasons
-import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.enumApp.ImageGroup
+import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.enumApp.SortingField
 import com.example.movie_catalog.entity.enumApp.TypeFilm
-import retrofit2.http.GET
+import com.example.movie_catalog.entity.filminfo.InfoFilmSeasons
 import java.util.*
 import javax.inject.Inject
 
@@ -23,10 +21,9 @@ class DataSourceAPI @Inject constructor() {
         return SelectedKit(
             genre1 = genreList.genres!!.random(),
             country1 = genreList.countries!!.random(),
-            genre2 = genreList.genres.random(),
-            country2 = genreList.countries.random()
+            genre2 = genreList.genres!!.random(),
+            country2 = genreList.countries!!.random()
         )
-
 //        return SelectedKit(
 //            GenreIdDTO(id = 11, genre = "боевик"), CountryIdDTO(id = 1, country = "США"),
 //            GenreIdDTO(id = 4, genre = "мелодрама"), CountryIdDTO(id = 1, country = "Франция")
@@ -46,11 +43,12 @@ class DataSourceAPI @Inject constructor() {
 
     @SuppressLint("SimpleDateFormat")
     suspend fun getPremieres() {
+
         val calendar = Calendar.getInstance()
         val currentYear = calendar.get(Calendar.YEAR)
         val currentMonth = MonthKinopoisk.values()[calendar.get(Calendar.MONTH)].toString()
 //        Log.d("KDS start retrofit", "getPremieres start")
-        val premieres = retrofitApi.getPremieres(currentYear, currentMonth)
+        val premieres = retrofitApi.getPremieres(currentYear, currentMonth, DataCentre.headers)
         //Calculate date next two weeks in milliseconds
         val currentTime = Calendar.getInstance()
         currentTime.add(Calendar.WEEK_OF_YEAR, Constants.PREMIERES_WEEKS)
@@ -106,9 +104,7 @@ class DataSourceAPI @Inject constructor() {
             if (filmImageDTO.total!! > 0) {
                 DataCentre.addImage(film, tab, filmImageDTO)
                 while (filmImageDTO.totalPages!! >= page) {
-                    DataCentre.addImage(
-                        film,
-                        tab,
+                    DataCentre.addImage(film, tab,
                         retrofitApi.getGallery(film.filmId, tab.toString(), page++)
                     )
                 }

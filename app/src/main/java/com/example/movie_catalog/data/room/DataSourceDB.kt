@@ -15,11 +15,11 @@ open class DataSourceDB  @Inject constructor(){
     private val dataDao = ProviderDao().getDataDao(App.context)
 
     fun getFilm(film: Film): FilmDB? {
-        val filmDB = dataDao.getFilm(film.filmId!!)
-        if (filmDB == null) {
-            dataDao.insert(FilmDB(idFilm = film.filmId, msg = "", film))
-        }
-        return filmDB
+        return dataDao.getFilm(film.filmId!!)
+    }
+
+    fun getFilms(): List<FilmDB>? {
+        return dataDao.getFilms()
     }
     private fun checkFilmInCollection(film: Film){
 //        if ( ! dataDao.existFilmInCollections(film.filmId!!)) {

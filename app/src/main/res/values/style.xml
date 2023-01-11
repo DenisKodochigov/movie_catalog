@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="textApp" parent="TextAppearance.MaterialComponents.Body1">
+
+    <style name="animation1">
+        <item name="android:windowExitAnimation">@anim/anim1</item>
+        <item name="android:windowEnterAnimation">@anim/anim2</item>
+    </style>
+    <style name="Style_Dialog_Rounded_Corner" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/dialog_corner</item>
+        <item name="android:windowMinWidthMinor">85%</item>
+    </style>
+    <style name="style_app" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/general</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    <style name="textApp" parent="style_app">
         <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/general</item>
         <item name="android:layout_width">wrap_content</item>
@@ -233,22 +249,19 @@
         <item name="android:background">@color/material_dynamic_neutral95</item>
     </style>
 
-    <style name="H4_checkbox_collection" parent="TextAppearance.MaterialComponents.Body1">
+    <style name="H4_checkbox_collection" parent="style_app">
         <item name="android:textSize">16sp</item>
         <item name="marginHorizontal">26dp</item>
         <item name="paddingStart">16dp</item>
     </style>
-    <style name="Style_Dialog_Rounded_Corner" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:windowBackground">@drawable/dialog_corner</item>
-        <item name="android:windowMinWidthMinor">85%</item>
-    </style>
+
     <style name="film_page_icon">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:padding">16dp</item>
     </style>
-    <style name="blue_button" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <style name="blue_button" parent="style_app">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">@dimen/dialog_tv_height</item>
         <item name="android:layout_gravity">center</item>
@@ -273,7 +286,7 @@
         <item name="android:layout_marginEnd">@dimen/dialog_tv_margin_end</item>
         <item name="android:text">@string/ok</item>
     </style>
-    <style name="tvProfileCount" parent="Theme.AppCompat.Light.Dialog.Alert">
+    <style name="tvProfileCount" parent="style_app">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
@@ -287,7 +300,7 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">8sp</item>
     </style>
-    <style name = "dialog_et" parent = "Theme.AppCompat.Light.Dialog.Alert">
+    <style name = "dialog_et" parent = "style_app">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginHorizontal">@dimen/dialog_et_marginHor</item>

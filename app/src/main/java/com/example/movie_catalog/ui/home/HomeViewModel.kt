@@ -1,11 +1,12 @@
 package com.example.movie_catalog.ui.home
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.data.DataRepository
 import com.example.movie_catalog.data.api.home.getKit.SelectedKit
+import com.example.movie_catalog.entity.ErrorApp
 import com.example.movie_catalog.entity.Film
+import com.example.movie_catalog.entity.Linker
 import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.plug.Plug
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -72,7 +73,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                     getRandom1()
                     getRandom2()
                 },
-                onFailure = { Log.d("KDS",it.message ?: "getGenres")}
+                onFailure = { ErrorApp().errorApi(it.message!!)}
             )
         }
     }
@@ -83,7 +84,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                 dataRepository.getPremieres()
             }.fold(
                 onSuccess = {_premieres.value = it },
-                onFailure = { Log.d("KDS",it.message ?: "getPremieres")}
+                onFailure = { ErrorApp().errorApi(it.message!!)}
             )
         }
     }
@@ -94,7 +95,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                 dataRepository.getTop(1, Kit.POPULAR)
             }.fold(
                 onSuccess = {_popularFilms.value = it },
-                onFailure = { Log.d("KDS",it.message ?: "getPopular")}
+                onFailure = { ErrorApp().errorApi(it.message!!)}
             )
         }
     }
@@ -105,7 +106,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                 dataRepository.getTop(1, Kit.TOP250)
             }.fold(
                 onSuccess = {_pageTop250.value = it },
-                onFailure = { Log.d("KDS",it.message ?: "getTop250")}
+                onFailure = { ErrorApp().errorApi(it.message!!)}
             )
         }
     }
@@ -116,7 +117,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                 dataRepository.getFilters(1, Kit.SERIALS)
             }.fold(
                 onSuccess = {_serials.value = it },
-                onFailure = { Log.d("KDS",it.message ?: "getSerials")}
+                onFailure = { ErrorApp().errorApi(it.message!!)}
             )
         }
     }
@@ -125,19 +126,20 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching { dataRepository.getFilters(1, Kit.RANDOM1) }.fold(
                 onSuccess = {_randomKit1.value = it },
-                onFailure = { Log.d("KDS",it.message ?: "getRandom1")}
+                onFailure = { ErrorApp().errorApi(it.message!!)}
             )
         }
     }
 
-    private fun getRandom2() {
+    private suspend fun getRandom2() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching { dataRepository.getFilters(1, Kit.RANDOM2) }.fold(
                 onSuccess = {_randomKit2.value = it },
-                onFailure = { Log.d("KDS",it.message ?: "getRandom2")}
+                onFailure = { ErrorApp().errorApi(it.message!!)}
             )
         }
     }
+
 
     fun putKit(kit: Kit){
         dataRepository.putKit(kit)

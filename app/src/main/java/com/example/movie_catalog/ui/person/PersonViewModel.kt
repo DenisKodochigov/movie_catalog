@@ -1,9 +1,9 @@
 package com.example.movie_catalog.ui.person
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.data.DataRepository
+import com.example.movie_catalog.entity.ErrorApp
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Person
 import com.example.movie_catalog.entity.plug.Plug
@@ -19,9 +19,7 @@ class PersonViewModel @Inject constructor() : ViewModel() {
 
     private val dataRepository = DataRepository()
     private var localPerson:Person? = null
-//
-//    private var _person = MutableStateFlow(Plug.listLinks )
-//    var person = _person.asStateFlow()
+
 
     private var _linkrers = MutableStateFlow(Plug.plugLinkers)
     var linkrers = _linkrers.asStateFlow()
@@ -34,15 +32,10 @@ class PersonViewModel @Inject constructor() : ViewModel() {
     private fun getPerson(person: Person) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                Log.d("KDS", "View model getPerson, start order. Person: ${person.nameRu}")
                 dataRepository.getPersonInfo(person)
             }.fold(
-                onSuccess = {
-                    Log.d("KDS", "View model getPerson, send data to fragment")
-                    _linkrers.value = it },
-                onFailure = {
-                    Log.d("Error", it.message ?: "PersonViewModel.getPersonInfo()")
-                }
+                onSuccess = { _linkrers.value = it },
+                onFailure = { ErrorApp().errorApi(it.message!!) }
             )
         }
     }

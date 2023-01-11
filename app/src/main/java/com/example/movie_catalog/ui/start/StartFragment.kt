@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.transition.TransitionInflater
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentStartBinding
@@ -34,6 +35,13 @@ class StartFragment: Fragment() {
     private var _binding: FragmentStartBinding? = null
     private val binding get() = _binding!!
     private val viewModel: StartViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val inflater = TransitionInflater.from(requireContext())
+        exitTransition = inflater.inflateTransition(R.transition.fade)
+        enterTransition = inflater.inflateTransition(R.transition.slide_right)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

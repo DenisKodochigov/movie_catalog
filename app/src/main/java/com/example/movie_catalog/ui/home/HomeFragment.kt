@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.transition.TransitionInflater
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentHomeBinding
 import com.example.movie_catalog.databinding.IncludeListFilmBinding
@@ -44,11 +45,19 @@ class HomeFragment : Fragment() {
     private val serialAdapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD, ModeViewer.FILM,
         { film -> onItemClick(film)}, { kit -> onClickAll(kit)})
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val inflater = TransitionInflater.from(requireContext())
+        enterTransition = inflater.inflateTransition(R.transition.slide_right)
+        exitTransition = inflater.inflateTransition(R.transition.fade)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text = ""
         (activity as AppCompatActivity).findViewById<BottomNavigationView>(R.id.nav_view).visibility = View.VISIBLE
+//        postponeEnterTransition()
         return binding.root
     }
 

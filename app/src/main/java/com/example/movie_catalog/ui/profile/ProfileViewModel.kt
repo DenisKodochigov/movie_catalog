@@ -4,10 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.data.DataRepository
-import com.example.movie_catalog.entity.Film
-import com.example.movie_catalog.entity.Linker
+import com.example.movie_catalog.entity.*
 import com.example.movie_catalog.entity.Collection
-import com.example.movie_catalog.entity.Convertor
 import com.example.movie_catalog.entity.enumApp.Kit
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -42,7 +40,7 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
                  dataRepository.getViewedFilms()
             }.fold(
                 onSuccess = { _viewedFilm.value = it },
-                onFailure = { Log.d("KDS", it.message ?: "getViewedFilm error") }
+                onFailure = { ErrorApp().errorApi(it.message!!) }
             )
         }
     }
@@ -52,7 +50,7 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
                 dataRepository.getFilmsInCollectionName("",2)
             }.fold(
                 onSuccess = { _bookmarkFilm.value = it },
-                onFailure = { Log.d("KDS", it.message ?: "getBookmarkFilm error") }
+                onFailure = { ErrorApp().errorApi(it.message!!) }
             )
         }
     }
@@ -62,7 +60,7 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
                 Convertor().fromCollectionDBtoCollection(dataRepository.getCollectionsDB())
             }.fold(
                 onSuccess = { _collection.value = it },
-                onFailure = { Log.d("KDS", it.message ?: "getCollections error") }
+                onFailure = { ErrorApp().errorApi(it.message!!) }
             )
         }
     }
@@ -80,7 +78,7 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
                 Convertor().fromCollectionDBtoCollection(dataRepository.getCollectionsDB())
             }.fold(
                 onSuccess = { _collection.value = it },
-                onFailure = { Log.d("KDS", it.message ?: "getFilmInfo") }
+                onFailure = { ErrorApp().errorApi(it.message!!) }
             )
         }
     }
@@ -99,7 +97,7 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
                 }
             }.fold(
                 onSuccess = { },
-                onFailure = { Log.d("KDS", it.message ?: "clearKit error") }
+                onFailure = { ErrorApp().errorApi(it.message!!) }
             )
         }
     }
@@ -111,7 +109,7 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
                 Convertor().fromCollectionDBtoCollection(dataRepository.getCollectionsDB())
             }.fold(
                 onSuccess = { _collection.value = it },
-                onFailure = { Log.d("KDS", it.message ?: "getFilmInfo") } )
+                onFailure = { ErrorApp().errorApi(it.message!!) } )
         }
     }
 }

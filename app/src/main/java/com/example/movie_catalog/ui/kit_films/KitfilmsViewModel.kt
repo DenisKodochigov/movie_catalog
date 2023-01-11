@@ -1,6 +1,5 @@
 package com.example.movie_catalog.ui.kit_films
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -9,9 +8,10 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.movie_catalog.data.DataRepository
 import com.example.movie_catalog.data.PagedSourceData
-import com.example.movie_catalog.entity.enumApp.Kit
+import com.example.movie_catalog.entity.ErrorApp
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Linker
+import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.plug.Plug
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -47,9 +47,8 @@ class KitfilmsViewModel @Inject constructor(): ViewModel() {
             kotlin.runCatching {
                 dataRepository.getFilmsInCollectionName(nameCollection, idCollection)
             }.fold(
-                onSuccess = {
-                    _premieres.value = it},
-                onFailure = { Log.d("KDS",it.message ?: "")}
+                onSuccess = { _premieres.value = it},
+                onFailure = { ErrorApp().errorApi(it.message!!)}
             )
         }
     }
@@ -60,7 +59,7 @@ class KitfilmsViewModel @Inject constructor(): ViewModel() {
                 dataRepository.getViewedFilms()
             }.fold(
                 onSuccess = { _premieres.value = it},
-                onFailure = { Log.d("KDS",it.message ?: "")}
+                onFailure = { ErrorApp().errorApi(it.message!!)}
             )
         }
     }
@@ -70,7 +69,7 @@ class KitfilmsViewModel @Inject constructor(): ViewModel() {
                 dataRepository.getPremieres()
             }.fold(
                 onSuccess = { _premieres.value = it},
-                onFailure = { Log.d("KDS",it.message ?: "")}
+                onFailure = { ErrorApp().errorApi(it.message!!)}
             )
         }
     }

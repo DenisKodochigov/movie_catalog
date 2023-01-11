@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.data.DataRepository
 import com.example.movie_catalog.data.room.tables.CollectionDB
+import com.example.movie_catalog.entity.ErrorApp
 import com.example.movie_catalog.entity.Linker
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Person
@@ -82,7 +83,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
                     }}
             }.fold(
                 onSuccess = { if (it != null) _collections.value = it },
-                onFailure = { Log.d("KDS", it.message ?: "getFilmInfo") }
+                onFailure = { ErrorApp().errorApi(it.message!!) }
             )
         }
     }
@@ -97,7 +98,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
                 }
             }.fold(
                 onSuccess = { if (it != null) _collections.value = it },
-                onFailure = { Log.d("KDS", it.message ?: "getFilmInfo") } )
+                onFailure = { ErrorApp().errorApi(it.message!!) } )
         }
     }
 
@@ -109,7 +110,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
                 }
             }.fold(
                 onSuccess = { if (it != null) _collections.value = it },
-                onFailure = { Log.d("KDS", it.message ?: "getFilmInfo") }
+                onFailure = { ErrorApp().errorApi(it.message!!) }
             )
         }
     }
@@ -120,7 +121,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
                 dataRepository.getInfoFilmSeason(film)
             }.fold(
                 onSuccess = { if (it != null) _filmInfo.value = it },
-                onFailure = { Log.d("KDS", it.message ?: "getFilmInfo") }
+                onFailure = { ErrorApp().errorApi(it.message!!) }
             )
         }
     }
@@ -131,7 +132,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
                 dataRepository.getPersons(film)
             }.fold(
                 onSuccess = { _person.value = it },
-                onFailure = { Log.d("KDS", it.message ?: "getPersons") }
+                onFailure = { ErrorApp().errorApi(it.message!!) }
             )
         }
     }
@@ -142,7 +143,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
                 dataRepository.getImages(film)
             }.fold(
                 onSuccess = { _images.value = it },
-                onFailure = { Log.d("KDS", it.message ?: "getImages") }
+                onFailure = { ErrorApp().errorApi(it.message!!) }
             )
         }
     }
@@ -153,7 +154,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
                 dataRepository.getSimilar(film)
             }.fold(
                 onSuccess = { _similar.value = it },
-                onFailure = { Log.d("KDS", it.message ?: "getSimilar") }
+                onFailure = { ErrorApp().errorApi(it.message!!) }
             )
         }
     }
@@ -167,7 +168,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching { dataRepository.changeViewed(localFilm!!) }.fold(
                 onSuccess = {},
-                onFailure = { Log.d("KDS", it.message ?: "clickViewed") }
+                onFailure = { ErrorApp().errorApi(it.message!!) }
             )
         }
     }
@@ -176,7 +177,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching { dataRepository.changeFavorite(localFilm!!) }.fold(
                 onSuccess = {},
-                onFailure = { Log.d("KDS", it.message ?: "clickFavorite") }
+                onFailure = { ErrorApp().errorApi(it.message!!) }
             )
         }
     }
@@ -185,7 +186,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching { dataRepository.changeBookmark(localFilm!!) }.fold(
                 onSuccess = {},
-                onFailure = { Log.d("KDS", it.message ?: "clickBookmark") }
+                onFailure = { ErrorApp().errorApi(it.message!!) }
             )
         }
     }

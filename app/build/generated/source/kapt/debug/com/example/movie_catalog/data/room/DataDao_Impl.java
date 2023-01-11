@@ -1059,6 +1059,219 @@ public final class DataDao_Impl implements DataDao {
   }
 
   @Override
+  public List<FilmDB> getFilms() {
+    final String _sql = "SELECT * FROM films";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 0);
+    __db.assertNotSuspendingTransaction();
+    final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
+    try {
+      final int _cursorIndexOfIdFilm = CursorUtil.getColumnIndexOrThrow(_cursor, "idFilm");
+      final int _cursorIndexOfMsg = CursorUtil.getColumnIndexOrThrow(_cursor, "msg");
+      final int _cursorIndexOfFilmId = CursorUtil.getColumnIndexOrThrow(_cursor, "filmId");
+      final int _cursorIndexOfImdbId = CursorUtil.getColumnIndexOrThrow(_cursor, "imdbId");
+      final int _cursorIndexOfNameRu = CursorUtil.getColumnIndexOrThrow(_cursor, "nameRu");
+      final int _cursorIndexOfNameEn = CursorUtil.getColumnIndexOrThrow(_cursor, "nameEn");
+      final int _cursorIndexOfRating = CursorUtil.getColumnIndexOrThrow(_cursor, "rating");
+      final int _cursorIndexOfPosterUrlPreview = CursorUtil.getColumnIndexOrThrow(_cursor, "posterUrlPreview");
+      final int _cursorIndexOfCountries = CursorUtil.getColumnIndexOrThrow(_cursor, "countries");
+      final int _cursorIndexOfGenres = CursorUtil.getColumnIndexOrThrow(_cursor, "genres");
+      final int _cursorIndexOfFavorite = CursorUtil.getColumnIndexOrThrow(_cursor, "favorite");
+      final int _cursorIndexOfViewed = CursorUtil.getColumnIndexOrThrow(_cursor, "viewed");
+      final int _cursorIndexOfBookmark = CursorUtil.getColumnIndexOrThrow(_cursor, "bookmark");
+      final int _cursorIndexOfProfessionKey = CursorUtil.getColumnIndexOrThrow(_cursor, "professionKey");
+      final int _cursorIndexOfStartYear = CursorUtil.getColumnIndexOrThrow(_cursor, "startYear");
+      final int _cursorIndexOfImages = CursorUtil.getColumnIndexOrThrow(_cursor, "images");
+      final int _cursorIndexOfPosterUrl = CursorUtil.getColumnIndexOrThrow(_cursor, "posterUrl");
+      final int _cursorIndexOfLogoUrl = CursorUtil.getColumnIndexOrThrow(_cursor, "logoUrl");
+      final int _cursorIndexOfNameOriginal = CursorUtil.getColumnIndexOrThrow(_cursor, "nameOriginal");
+      final int _cursorIndexOfRatingImdb = CursorUtil.getColumnIndexOrThrow(_cursor, "ratingImdb");
+      final int _cursorIndexOfRatingAwait = CursorUtil.getColumnIndexOrThrow(_cursor, "ratingAwait");
+      final int _cursorIndexOfRatingGoodReview = CursorUtil.getColumnIndexOrThrow(_cursor, "ratingGoodReview");
+      final int _cursorIndexOfYear = CursorUtil.getColumnIndexOrThrow(_cursor, "year");
+      final int _cursorIndexOfTotalSeasons = CursorUtil.getColumnIndexOrThrow(_cursor, "totalSeasons");
+      final int _cursorIndexOfListSeasons = CursorUtil.getColumnIndexOrThrow(_cursor, "listSeasons");
+      final int _cursorIndexOfDescription = CursorUtil.getColumnIndexOrThrow(_cursor, "description");
+      final int _cursorIndexOfShortDescription = CursorUtil.getColumnIndexOrThrow(_cursor, "shortDescription");
+      final List<FilmDB> _result = new ArrayList<FilmDB>(_cursor.getCount());
+      while(_cursor.moveToNext()) {
+        final FilmDB _item;
+        final int _tmpIdFilm;
+        _tmpIdFilm = _cursor.getInt(_cursorIndexOfIdFilm);
+        final String _tmpMsg;
+        if (_cursor.isNull(_cursorIndexOfMsg)) {
+          _tmpMsg = null;
+        } else {
+          _tmpMsg = _cursor.getString(_cursorIndexOfMsg);
+        }
+        final Film _tmpFilm;
+        if (! (_cursor.isNull(_cursorIndexOfFilmId) && _cursor.isNull(_cursorIndexOfImdbId) && _cursor.isNull(_cursorIndexOfNameRu) && _cursor.isNull(_cursorIndexOfNameEn) && _cursor.isNull(_cursorIndexOfRating) && _cursor.isNull(_cursorIndexOfPosterUrlPreview) && _cursor.isNull(_cursorIndexOfCountries) && _cursor.isNull(_cursorIndexOfGenres) && _cursor.isNull(_cursorIndexOfFavorite) && _cursor.isNull(_cursorIndexOfViewed) && _cursor.isNull(_cursorIndexOfBookmark) && _cursor.isNull(_cursorIndexOfProfessionKey) && _cursor.isNull(_cursorIndexOfStartYear) && _cursor.isNull(_cursorIndexOfImages) && _cursor.isNull(_cursorIndexOfPosterUrl) && _cursor.isNull(_cursorIndexOfLogoUrl) && _cursor.isNull(_cursorIndexOfNameOriginal) && _cursor.isNull(_cursorIndexOfRatingImdb) && _cursor.isNull(_cursorIndexOfRatingAwait) && _cursor.isNull(_cursorIndexOfRatingGoodReview) && _cursor.isNull(_cursorIndexOfYear) && _cursor.isNull(_cursorIndexOfTotalSeasons) && _cursor.isNull(_cursorIndexOfListSeasons) && _cursor.isNull(_cursorIndexOfDescription) && _cursor.isNull(_cursorIndexOfShortDescription))) {
+          final Integer _tmpFilmId;
+          if (_cursor.isNull(_cursorIndexOfFilmId)) {
+            _tmpFilmId = null;
+          } else {
+            _tmpFilmId = _cursor.getInt(_cursorIndexOfFilmId);
+          }
+          final String _tmpImdbId;
+          if (_cursor.isNull(_cursorIndexOfImdbId)) {
+            _tmpImdbId = null;
+          } else {
+            _tmpImdbId = _cursor.getString(_cursorIndexOfImdbId);
+          }
+          final String _tmpNameRu;
+          if (_cursor.isNull(_cursorIndexOfNameRu)) {
+            _tmpNameRu = null;
+          } else {
+            _tmpNameRu = _cursor.getString(_cursorIndexOfNameRu);
+          }
+          final String _tmpNameEn;
+          if (_cursor.isNull(_cursorIndexOfNameEn)) {
+            _tmpNameEn = null;
+          } else {
+            _tmpNameEn = _cursor.getString(_cursorIndexOfNameEn);
+          }
+          final Double _tmpRating;
+          if (_cursor.isNull(_cursorIndexOfRating)) {
+            _tmpRating = null;
+          } else {
+            _tmpRating = _cursor.getDouble(_cursorIndexOfRating);
+          }
+          final String _tmpPosterUrlPreview;
+          if (_cursor.isNull(_cursorIndexOfPosterUrlPreview)) {
+            _tmpPosterUrlPreview = null;
+          } else {
+            _tmpPosterUrlPreview = _cursor.getString(_cursorIndexOfPosterUrlPreview);
+          }
+          final List<Country> _tmpCountries;
+          final String _tmp;
+          if (_cursor.isNull(_cursorIndexOfCountries)) {
+            _tmp = null;
+          } else {
+            _tmp = _cursor.getString(_cursorIndexOfCountries);
+          }
+          _tmpCountries = __converterForFilmDB.countryFromJSON(_tmp);
+          final List<Genre> _tmpGenres;
+          final String _tmp_1;
+          if (_cursor.isNull(_cursorIndexOfGenres)) {
+            _tmp_1 = null;
+          } else {
+            _tmp_1 = _cursor.getString(_cursorIndexOfGenres);
+          }
+          _tmpGenres = __converterForFilmDB.genreFromJSON(_tmp_1);
+          final boolean _tmpFavorite;
+          final int _tmp_2;
+          _tmp_2 = _cursor.getInt(_cursorIndexOfFavorite);
+          _tmpFavorite = _tmp_2 != 0;
+          final boolean _tmpViewed;
+          final int _tmp_3;
+          _tmp_3 = _cursor.getInt(_cursorIndexOfViewed);
+          _tmpViewed = _tmp_3 != 0;
+          final boolean _tmpBookmark;
+          final int _tmp_4;
+          _tmp_4 = _cursor.getInt(_cursorIndexOfBookmark);
+          _tmpBookmark = _tmp_4 != 0;
+          final String _tmpProfessionKey;
+          if (_cursor.isNull(_cursorIndexOfProfessionKey)) {
+            _tmpProfessionKey = null;
+          } else {
+            _tmpProfessionKey = _cursor.getString(_cursorIndexOfProfessionKey);
+          }
+          final Integer _tmpStartYear;
+          if (_cursor.isNull(_cursorIndexOfStartYear)) {
+            _tmpStartYear = null;
+          } else {
+            _tmpStartYear = _cursor.getInt(_cursorIndexOfStartYear);
+          }
+          final List<ImageFilm> _tmpImages;
+          final String _tmp_5;
+          if (_cursor.isNull(_cursorIndexOfImages)) {
+            _tmp_5 = null;
+          } else {
+            _tmp_5 = _cursor.getString(_cursorIndexOfImages);
+          }
+          _tmpImages = __converterForFilmDB.imageFromJSON(_tmp_5);
+          final String _tmpPosterUrl;
+          if (_cursor.isNull(_cursorIndexOfPosterUrl)) {
+            _tmpPosterUrl = null;
+          } else {
+            _tmpPosterUrl = _cursor.getString(_cursorIndexOfPosterUrl);
+          }
+          final String _tmpLogoUrl;
+          if (_cursor.isNull(_cursorIndexOfLogoUrl)) {
+            _tmpLogoUrl = null;
+          } else {
+            _tmpLogoUrl = _cursor.getString(_cursorIndexOfLogoUrl);
+          }
+          final String _tmpNameOriginal;
+          if (_cursor.isNull(_cursorIndexOfNameOriginal)) {
+            _tmpNameOriginal = null;
+          } else {
+            _tmpNameOriginal = _cursor.getString(_cursorIndexOfNameOriginal);
+          }
+          final Double _tmpRatingImdb;
+          if (_cursor.isNull(_cursorIndexOfRatingImdb)) {
+            _tmpRatingImdb = null;
+          } else {
+            _tmpRatingImdb = _cursor.getDouble(_cursorIndexOfRatingImdb);
+          }
+          final Double _tmpRatingAwait;
+          if (_cursor.isNull(_cursorIndexOfRatingAwait)) {
+            _tmpRatingAwait = null;
+          } else {
+            _tmpRatingAwait = _cursor.getDouble(_cursorIndexOfRatingAwait);
+          }
+          final Double _tmpRatingGoodReview;
+          if (_cursor.isNull(_cursorIndexOfRatingGoodReview)) {
+            _tmpRatingGoodReview = null;
+          } else {
+            _tmpRatingGoodReview = _cursor.getDouble(_cursorIndexOfRatingGoodReview);
+          }
+          final Integer _tmpYear;
+          if (_cursor.isNull(_cursorIndexOfYear)) {
+            _tmpYear = null;
+          } else {
+            _tmpYear = _cursor.getInt(_cursorIndexOfYear);
+          }
+          final Integer _tmpTotalSeasons;
+          if (_cursor.isNull(_cursorIndexOfTotalSeasons)) {
+            _tmpTotalSeasons = null;
+          } else {
+            _tmpTotalSeasons = _cursor.getInt(_cursorIndexOfTotalSeasons);
+          }
+          final List<SeasonDTO> _tmpListSeasons;
+          final String _tmp_6;
+          if (_cursor.isNull(_cursorIndexOfListSeasons)) {
+            _tmp_6 = null;
+          } else {
+            _tmp_6 = _cursor.getString(_cursorIndexOfListSeasons);
+          }
+          _tmpListSeasons = __converterForFilmDB.seasonFromJSON(_tmp_6);
+          final String _tmpDescription;
+          if (_cursor.isNull(_cursorIndexOfDescription)) {
+            _tmpDescription = null;
+          } else {
+            _tmpDescription = _cursor.getString(_cursorIndexOfDescription);
+          }
+          final String _tmpShortDescription;
+          if (_cursor.isNull(_cursorIndexOfShortDescription)) {
+            _tmpShortDescription = null;
+          } else {
+            _tmpShortDescription = _cursor.getString(_cursorIndexOfShortDescription);
+          }
+          _tmpFilm = new Film(_tmpFilmId,_tmpImdbId,_tmpNameRu,_tmpNameEn,_tmpRating,_tmpPosterUrlPreview,_tmpCountries,_tmpGenres,_tmpFavorite,_tmpViewed,_tmpBookmark,_tmpProfessionKey,_tmpStartYear,_tmpImages,_tmpPosterUrl,_tmpLogoUrl,_tmpNameOriginal,_tmpRatingImdb,_tmpRatingAwait,_tmpRatingGoodReview,_tmpYear,_tmpTotalSeasons,_tmpListSeasons,_tmpDescription,_tmpShortDescription);
+        }  else  {
+          _tmpFilm = null;
+        }
+        _item = new FilmDB(_tmpIdFilm,_tmpMsg,_tmpFilm);
+        _result.add(_item);
+      }
+      return _result;
+    } finally {
+      _cursor.close();
+      _statement.release();
+    }
+  }
+
+  @Override
   public boolean getViewed(final int id) {
     final String _sql = "SELECT viewed FROM films WHERE idFilm = ?";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
