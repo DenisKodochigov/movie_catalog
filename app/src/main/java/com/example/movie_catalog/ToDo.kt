@@ -9,6 +9,11 @@ class ToDo {
 2. Проверки на доступность.
 
 3. Недочеты
+    3.1 I/ViewTarget: Glide treats LayoutParams.WRAP_CONTENT as a request for an image the size
+     of this device's screen dimensions. If you want to load the original image and are ok with
+     the corresponding memory cost and OOMs (depending on the input size), use override
+     (Target.SIZE_ORIGINAL). Otherwise, use LayoutParams.MATCH_PARENT, set layout_width and
+     layout_height to fixed dimension, or use .override() with fixed dimensions.
 
 
 Может пригодиться.
