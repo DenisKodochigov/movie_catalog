@@ -32,7 +32,7 @@ class PersonFragment : Fragment() {
     private var _binding: FragmentPersonBinding? = null
     private val binding get() = _binding!!
     private val viewModel: PersonViewModel by viewModels()
-    private val filmAdapter = ListFilmAdapter(0, ModeViewer.FILM,
+    private val filmAdapter = ListFilmAdapter(Constants.PERSON_QTY_FILMCARD, ModeViewer.FILM,
         { film -> onItemClick(film)}, {})
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

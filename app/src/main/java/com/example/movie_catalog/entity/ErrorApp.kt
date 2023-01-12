@@ -9,19 +9,18 @@ import com.example.movie_catalog.R
 import com.example.movie_catalog.data.DataRepository
 
 class ErrorApp {
-    val error: String? = null
 
     fun errorApi (errorMessage:String){
-        var toastMessage = ""
+        val toastMessage: String
         when(errorMessage){
-            "HTTP 401" -> {
+            "HTTP 401 " -> {
                 toastMessage = App.context.getString(R.string.error401)
             }
-            "HTTP 402" -> {
+            "HTTP 402 " -> {
                 toastMessage = App.context.getString(R.string.error402)
                 setNewKeyApi()
             }
-            "HTTP 429" -> {
+            "HTTP 429 " -> {
                 toastMessage = App.context.getString(R.string.error429)
             }
             else -> {

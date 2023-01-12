@@ -50,15 +50,14 @@ class ListFilmAdapter @Inject constructor(
                 holder.binding.inclShowAll.root.visibility = View.INVISIBLE
                 holder.binding.inclClear.root.visibility = View.INVISIBLE
                 //Add card "Show all"
-                if (mode != ModeViewer.PROFILE && quantityItem > 0 && position > Constants.HOME_QTY_FILMCARD-2){
+                if (quantityItem > 0 && mode != ModeViewer.PROFILE && position > Constants.HOME_QTY_FILMCARD-2){
                     holder.binding.inclShowAll.root.visibility = View.VISIBLE
                     holder.binding.inclShowAll.oval.setOnClickListener {
                         linkers[position].kit?.let { kit -> onClickLast(kit) }
                     }
                 //Add card "Clear kit"
-                } else if (mode == ModeViewer.PROFILE &&
-                    (quantityItem > 0 && position > Constants.HOME_QTY_PROFILE-2) ||
-                    position == linkers.size - 1){
+                } else if (quantityItem > 0 && mode == ModeViewer.PROFILE &&
+                    (( position > Constants.HOME_QTY_PROFILE-2) || position == linkers.size - 1)){
                     holder.binding.inclClear.root.visibility = View.VISIBLE
                     holder.binding.inclClear.oval.setOnClickListener {
                         linkers[position].kit?.let { kit -> onClickLast(kit) }
@@ -122,7 +121,8 @@ class ListFilmAdapter @Inject constructor(
 //Set film name
                         nameFilm.text = film.nameRu ?: film.nameEn ?: film.nameOriginal
 //Set film date
-                        if (film.startYear != null) startYear.text = film.startYear.toString() + " " + film.genresTxt()
+                        if (film.year != null) startYear.text = film.year.toString() + " " + film.genresTxt()
+                        else startYear.text = film.genresTxt()
 //Set action on click item recyclerView
                         poster.setOnClickListener {
                             onClick(film)
@@ -153,5 +153,4 @@ class ListFilmAdapter @Inject constructor(
 }
 
 class ListVH(val binding: ItemListFilmBotBinding): RecyclerView.ViewHolder(binding.root)
-class FilmographyVH(val binding: ItemListFilmRightBinding):
-    RecyclerView.ViewHolder(binding.root)
+class FilmographyVH(val binding: ItemListFilmRightBinding): RecyclerView.ViewHolder(binding.root)

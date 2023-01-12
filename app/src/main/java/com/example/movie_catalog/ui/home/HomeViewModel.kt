@@ -47,7 +47,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         getPremieres()
 //        getPopular()
 //        getTop250()
-//        getSerials()
+        getSerials()
     }
 
     private fun getGenres() {

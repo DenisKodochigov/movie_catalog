@@ -47,10 +47,10 @@ class SeasonsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.listSeason.onEach {
+        viewModel.listSeason.onEach { itFilm ->
             (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text =
-                it.nameRu
-            it.listSeasons?.let { listSeasons -> processingTabLayout(it) }
+                itFilm.nameRu
+            itFilm.listSeasons?.let { processingTabLayout(itFilm) }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
 

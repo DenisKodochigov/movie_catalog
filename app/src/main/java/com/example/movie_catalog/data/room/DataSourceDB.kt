@@ -22,9 +22,9 @@ open class DataSourceDB  @Inject constructor(){
         return dataDao.getFilms()
     }
     private fun checkFilmInCollection(film: Film){
-//        if ( ! dataDao.existFilmInCollections(film.filmId!!)) {
-//            dataDao.deleteByIdFilmDB(film.filmId)
-//        }
+        if ( ! dataDao.existFilmInCollections(film.filmId!!)) {
+            dataDao.deleteByIdFilmDB(film.filmId)
+        }
     }
     fun addFilm(filmDB: FilmDB){
         dataDao.insert(filmDB)

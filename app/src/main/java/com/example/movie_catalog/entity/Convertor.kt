@@ -10,13 +10,13 @@ import com.example.movie_catalog.data.room.tables.CollectionDB
 import com.example.movie_catalog.data.room.tables.FilmDB
 
 class Convertor {
-    fun fromCollectionDBtoString(source: List<CollectionDB>): List<String>{
-        val list = mutableListOf<String>()
-        source.forEach {
-            list.add(it.collection?.name ?: "")
-        }
-        return list
-    }
+//    fun fromCollectionDBtoString(source: List<CollectionDB>): List<String>{
+//        val list = mutableListOf<String>()
+//        source.forEach {
+//            list.add(it.collection?.name ?: "")
+//        }
+//        return list
+//    }
     fun fromCollectionDBtoCollection(source: List<CollectionDB>): List<Collection>{
         val list = mutableListOf<Collection>()
         source.forEach {
@@ -44,13 +44,13 @@ class Convertor {
             bookmark = false,
         )
     }
-    fun fromListFilmDTOtoFilm(listfilmDTO: List<FilmDTO>):List<Film>{
-        val listFilm = mutableListOf<Film>()
-        listfilmDTO.forEach { filmDTO ->
-            listFilm.add(fromFilmDTOtoFilm(filmDTO))
-        }
-        return listFilm
-    }
+//    fun fromListFilmDTOtoFilm(listfilmDTO: List<FilmDTO>):List<Film>{
+//        val listFilm = mutableListOf<Film>()
+//        listfilmDTO.forEach { filmDTO ->
+//            listFilm.add(fromFilmDTOtoFilm(filmDTO))
+//        }
+//        return listFilm
+//    }
     fun fromTopFilmDTOtoFilm(topfilmDTO: TopFilmDTO):Film{
         return Film(
             filmId = topfilmDTO.filmId,
@@ -81,7 +81,6 @@ class Convertor {
             bookmark = false,
             nameOriginal = filmDTO.nameOriginal,
             year = filmDTO.year,
-            posterUrl = filmDTO.posterUrl
         )
     }
     fun fromSimilarFilmDTOtoFilm(filmSimilar: SimilarItemDTO):Film{
@@ -96,7 +95,7 @@ class Convertor {
             genres = emptyList(),// retrofitApi.getFilmInfo(it.filmId!!).genres!!,
             viewed = false,
             favorite = false,
-            bookmark = false
+            bookmark = false,
         )
     }
     fun fromPersonDTOtoPerson(personDTO: PersonDTO):Person{

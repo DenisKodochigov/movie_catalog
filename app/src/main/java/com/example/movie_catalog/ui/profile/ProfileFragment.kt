@@ -135,6 +135,10 @@ class ProfileFragment : Fragment() {
         viewModel.clearKit(kit)
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.refreshView()
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

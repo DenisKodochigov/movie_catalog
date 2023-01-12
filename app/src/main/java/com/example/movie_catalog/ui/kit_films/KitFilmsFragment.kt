@@ -35,8 +35,7 @@ class KitFilmsFragment: Fragment() {
     private var _binding: FragmentKitFilmsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: KitfilmsViewModel by viewModels()
-    private val listAdapter = ListFilmAdapter(0, ModeViewer.FILM,
-        { film -> onItemClick(film)}, {})
+    private val listAdapter = ListFilmAdapter(0, ModeViewer.FILM, { film -> onItemClick(film)}, {})
     private val pagingAdapter = ListFilmPagingAdapter( ModeViewer.FILM) { film -> onItemClick(film) }
 
 

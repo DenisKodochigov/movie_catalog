@@ -1,6 +1,5 @@
 package com.example.movie_catalog.data
 
-import android.provider.ContactsContract.Data
 import android.util.Log
 import com.example.movie_catalog.R
 import com.example.movie_catalog.data.api.DataSourceAPI

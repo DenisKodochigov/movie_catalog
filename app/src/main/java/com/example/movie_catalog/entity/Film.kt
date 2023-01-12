@@ -1,6 +1,7 @@
 package com.example.movie_catalog.entity
 
 import com.example.movie_catalog.data.api.home.seasons.SeasonDTO
+import com.example.movie_catalog.entity.enumApp.TypeFilm
 import com.example.movie_catalog.entity.filminfo.ImageFilm
 
 data class Film(
@@ -28,7 +29,7 @@ data class Film(
     var totalSeasons: Int? =null,
     var listSeasons:List<SeasonDTO>? = null,
     var description:String? = null,
-    var shortDescription:String? = null,
+    var shortDescription:String? = null
     ) {
 
     fun genresTxt(): String {

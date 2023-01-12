@@ -121,7 +121,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
                 dataRepository.getInfoFilmSeason(film)
             }.fold(
                 onSuccess = { if (it != null) _filmInfo.value = it },
-                onFailure = { ErrorApp().errorApi(it.message!!) }
+                onFailure = { ErrorApp().errorApi(it.message ?: "Error nothing") }
             )
         }
     }
@@ -132,7 +132,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
                 dataRepository.getPersons(film)
             }.fold(
                 onSuccess = { _person.value = it },
-                onFailure = { ErrorApp().errorApi(it.message!!) }
+                onFailure = { ErrorApp().errorApi(it.message ?: "Error nothing") }
             )
         }
     }

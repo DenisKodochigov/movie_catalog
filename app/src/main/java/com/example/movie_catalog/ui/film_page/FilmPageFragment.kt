@@ -148,7 +148,7 @@ class FilmPageFragment : Fragment() {
 //Show info serial
         if (filmInfo.totalSeasons != null ){
             binding.serials.root.visibility = View.VISIBLE
-            Log.d("KDS", "Visible block serials")
+//            Log.d("KDS", "Visible block serials")
             var quantitySeries = 0
             filmInfo.listSeasons?.forEach { season ->
                 quantitySeries += season.episodes?.count() ?: 0

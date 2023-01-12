@@ -20,58 +20,61 @@ interface KinopoiskAPI {
 
     @Headers("Accept: application/json", "Content-type: application/json")
     @GET("/api/v2.2/films/premieres")
-    suspend fun getPremieres(@Query("year") year:Int, @Query("month") month: String, @HeaderMap headers: Map<String, String>): PremieresDTO
+    suspend fun getPremieres(@Query("year") year:Int, @Query("month") month: String,
+                             @HeaderMap headers: Map<String, String>): PremieresDTO
 
     //TOP_100_POPULAR_FILMS  TOP_250_BEST_FILMS
-    @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
+    @Headers("Accept: application/json", "Content-type: application/json")
     @GET("/api/v2.2/films/top")
-    suspend fun getTop(@Query("page") page: Int, @Query("type") type: String): TopFilmsDTO
+    suspend fun getTop(@Query("page") page: Int, @Query("type") type: String,
+                       @HeaderMap headers: Map<String, String>): TopFilmsDTO
 
     //Order = RATING сортировка
     // type = FILM, TV_SHOW, TV_SERIES, MINI_SERIES, ALL
-    @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
+    @Headers("Accept: application/json", "Content-type: application/json")
     @GET("/api/v2.2/films?order=RATING&type=TV_SERIES&ratingFrom=5&ratingTo=10&yearFrom=1000&yearTo=3000")
     suspend fun getFilters(@Query("page") page: Int, @Query("order") order: String,
                            @Query("type") type: String, @Query("ratingFrom") ratingFrom: Int,
                            @Query("ratingTo") ratingTo: Int, @Query("yearFrom") yearFrom: Int,
-                           @Query("yearTo") yearTo: Int): FilterDTO
+                           @Query("yearTo") yearTo: Int, @HeaderMap headers: Map<String, String>): FilterDTO
 
-    @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
+    @Headers("Accept: application/json", "Content-type: application/json")
     @GET("/api/v2.2/films")
     suspend fun getFilters(@Query("page") page: Int, @Query("order") order: String,
                     @Query("type") type: String, @Query("ratingFrom") ratingFrom: Int,
                     @Query("ratingTo") ratingTo: Int, @Query("yearFrom") yearFrom: Int,
                     @Query("yearTo") yearTo: Int, @Query("keyword") keyword: String,
-                    @Query("countries") countries: Int?, @Query("genres") genres: Int?): FilterDTO
+                    @Query("countries") countries: Int?, @Query("genres") genres: Int?,
+                    @HeaderMap headers: Map<String, String>): FilterDTO
 
-    @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
+    @Headers("Accept: application/json", "Content-type: application/json")
     @GET("/api/v2.2/films/filters")
-    suspend fun getGenres(): ListGenresDTO
+    suspend fun getGenres(@HeaderMap headers: Map<String, String>): ListGenresDTO
 
-    @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
+    @Headers("Accept: application/json", "Content-type: application/json")
     @GET("/api/v2.2/films/{id}")
-    suspend fun getFilmInfo(@Path("id") id:Int): FilmInfoDTO
+    suspend fun getFilmInfo(@Path("id") id:Int, @HeaderMap headers: Map<String, String>): FilmInfoDTO
 
-    @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
+    @Headers("Accept: application/json", "Content-type: application/json")
     @GET("/api/v2.2/films/{id}/seasons")
-    suspend fun getSeasons(@Path("id") id:Int): SeasonsDTO
+    suspend fun getSeasons(@Path("id") id:Int, @HeaderMap headers: Map<String, String>): SeasonsDTO
 
-    @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
+    @Headers("Accept: application/json", "Content-type: application/json")
     @GET("/api/v1/staff")
-    suspend fun getPersons(@Query("filmId") id:Int): List<PersonDTO>
+    suspend fun getPersons(@Query("filmId") id:Int, @HeaderMap headers: Map<String, String>): List<PersonDTO>
 
-    @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
+    @Headers("Accept: application/json", "Content-type: application/json")
     @GET("/api/v1/staff/{id}")
-    suspend fun getPersonInfo(@Path("id") id:Int): PersonInfoDTO
+    suspend fun getPersonInfo(@Path("id") id:Int, @HeaderMap headers: Map<String, String>): PersonInfoDTO
 
-    @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
+    @Headers("Accept: application/json", "Content-type: application/json")
     @GET("/api/v2.2/films/{id}/images?")
-    suspend fun getGallery(@Path("id") id:Int, @Query("type") type: String,
-                           @Query("page") page: Int): FilmImageDTO
+    suspend fun getGallery(@Path("id") id:Int, @Query("type") type: String, @Query("page") page: Int,
+                           @HeaderMap headers: Map<String, String>): FilmImageDTO
 
-    @Headers("Accept: application/json", "Content-type: application/json", "X-API-KEY: $api_key")
+    @Headers("Accept: application/json", "Content-type: application/json")
     @GET("/api/v2.2/films/{id}/similars")
-    suspend fun getSimilar(@Path("id") id: Int): SimilarDTO
+    suspend fun getSimilar(@Path("id") id: Int, @HeaderMap headers: Map<String, String>): SimilarDTO
 
     companion object{
         private const val api_key = "f8b0f389-e491-48d0-8794-240a6d0bc635"

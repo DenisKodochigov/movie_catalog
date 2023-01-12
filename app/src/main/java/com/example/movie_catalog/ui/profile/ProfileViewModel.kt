@@ -29,6 +29,11 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
     var collection = _collection.asStateFlow()
 
     init {
+        refreshView()
+
+    }
+
+    fun refreshView(){
         getViewedFilm()
         getBookmarkFilm()
         getCollections()

@@ -67,7 +67,6 @@ class SettingFragment: Fragment()  {
             SortingField.YEAR -> binding.rbData.isChecked = true
             SortingField.NUM_VOTE -> binding.rbPopular.isChecked = true
             SortingField.RATING -> binding.rbRating.isChecked = true
-            else -> {}
         }
         binding.tvCountryEnter.text = filter.country.country ?: ""
         binding.tvGenreEnter.text = filter.genre.genre ?: ""

@@ -16,13 +16,13 @@ import javax.inject.Inject
 class DataSourceAPI @Inject constructor() {
 
     suspend fun getRandomKitName(): SelectedKit {
-        val genreList = retrofitApi.getGenres()
+        val genreList = retrofitApi.getGenres(DataCentre.headers)
         DataCentre.addCountryGenres(genreList)
         return SelectedKit(
             genre1 = genreList.genres!!.random(),
             country1 = genreList.countries!!.random(),
-            genre2 = genreList.genres!!.random(),
-            country2 = genreList.countries!!.random()
+            genre2 = genreList.genres.random(),
+            country2 = genreList.countries.random()
         )
 //        return SelectedKit(
 //            GenreIdDTO(id = 11, genre = "боевик"), CountryIdDTO(id = 1, country = "США"),
@@ -32,10 +32,10 @@ class DataSourceAPI @Inject constructor() {
 
     suspend fun getInfoFilmSeason(film: Film) {
         val filmInfoSeasons = InfoFilmSeasons()
-        filmInfoSeasons.infoFilm = film.filmId?.let { retrofitApi.getFilmInfo(it) }
+        filmInfoSeasons.infoFilm = film.filmId?.let { retrofitApi.getFilmInfo(it, DataCentre.headers) }
         //        Log.d("KDS start retrofit", "getFilmInfo start")
         if (filmInfoSeasons.infoFilm!!.serial!!) {
-            filmInfoSeasons.infoSeasons = film.filmId?.let { retrofitApi.getSeasons(it) }
+            filmInfoSeasons.infoSeasons = film.filmId?.let { retrofitApi.getSeasons(it, DataCentre.headers) }
             //            Log.d("KDS start retrofit", "getSeasons start id=$id")
         }
         DataCentre.addFilm(filmInfoSeasons, film)
@@ -69,7 +69,7 @@ class DataSourceAPI @Inject constructor() {
     }
 
     suspend fun getTop(page: Int, kit: Kit) {
-        DataCentre.addFilms(retrofitApi.getTop(page, kit.query), kit)
+        DataCentre.addFilms(retrofitApi.getTop(page, kit.query, DataCentre.headers), kit)
     }
 
     //        order=RATING&type=FILM&ratingFrom=0&ratingTo=10&yearFrom=1000&yearTo=3000"
@@ -79,33 +79,34 @@ class DataSourceAPI @Inject constructor() {
         return when (kit){
             Kit.RANDOM1 -> DataCentre.addFilms(retrofitApi.getFilters(page,
                 SortingField.RATING.toString(), TypeFilm.FILM.toString(), 1, 10,
-                1990, 2100, "", kit.countryID, kit.genreID), kit)
+                1990, 2100, "", kit.countryID, kit.genreID, DataCentre.headers), kit)
             Kit.RANDOM2 -> DataCentre.addFilms(retrofitApi.getFilters(page,
                 SortingField.RATING.toString(), TypeFilm.FILM.toString(), 1, 10,
-                1990, 2100, "", kit.countryID, kit.genreID), kit)
+                1990, 2100, "", kit.countryID, kit.genreID, DataCentre.headers), kit)
             Kit.SEARCH -> DataCentre.addFilms(retrofitApi.getFilters(page, filter.sorting.toString(),
                 filter.typeFilm.toString(), filter.rating.first.toInt(), filter.rating.second.toInt(),
-                filter.year.first, filter.year.second, filter.keyWord, filter.country.id, filter.genre.id), kit)
+                filter.year.first, filter.year.second, filter.keyWord, filter.country.id,
+                filter.genre.id, DataCentre.headers), kit)
             Kit.SERIALS -> DataCentre.addFilms(retrofitApi.getFilters(page, SortingField.RATING.toString(),
-                TypeFilm.SERIALS.toString(), 1, 10, 1900, 2100 ), kit)
-            else -> { emptyList<Linker>()}
+                TypeFilm.SERIALS.toString(), 1, 10, 1900, 2100, DataCentre.headers), kit)
+            else -> { emptyList()}
         }
     }
 
     suspend fun getSimilar(film: Film) {
-        DataCentre.addFilms(retrofitApi.getSimilar(film.filmId!!), film)
+        DataCentre.addFilms(retrofitApi.getSimilar(film.filmId!!, DataCentre.headers), film)
     }
 
     suspend fun getImages(film: Film) {
 //        Log.d("KDS start retrofit", "getGallery start")
         ImageGroup.values().forEach { tab ->
             var page = 1
-            val filmImageDTO = retrofitApi.getGallery(film.filmId!!, tab.toString(), page)
+            val filmImageDTO = retrofitApi.getGallery(film.filmId!!, tab.toString(), page, DataCentre.headers)
             if (filmImageDTO.total!! > 0) {
                 DataCentre.addImage(film, tab, filmImageDTO)
                 while (filmImageDTO.totalPages!! >= page) {
                     DataCentre.addImage(film, tab,
-                        retrofitApi.getGallery(film.filmId, tab.toString(), page++)
+                        retrofitApi.getGallery(film.filmId, tab.toString(), page++, DataCentre.headers)
                     )
                 }
             }
@@ -114,11 +115,12 @@ class DataSourceAPI @Inject constructor() {
 
     suspend fun getPersons(film: Film) {
 //        Log.d("KDS start retrofit", "getPersons start")
-        DataCentre.addPerson(retrofitApi.getPersons(film.filmId!!), film)
+        DataCentre.addPerson(retrofitApi.getPersons(film.filmId!!, DataCentre.headers), film)
     }
 
     suspend fun getPersonInfo(person: Person) {
-        person.personId?.let { retrofitApi.getPersonInfo(it) }?.let { DataCentre.addPersonInfo(it) }
+        person.personId?.let { retrofitApi.getPersonInfo(it, DataCentre.headers) }?.let {
+            DataCentre.addPersonInfo(it) }
 //        Log.d("KDS start retrofit", "getPersonInfo start")
     }
 }

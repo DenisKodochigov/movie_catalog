@@ -46,7 +46,6 @@ object DataCentre {
             "130f6e6d-9e90-4c52-8cf5-8c4cda072fa8" -> headers["X-API-KEY"] = "20c3f30c-7ba7-4417-9c72-4975ac6091c6"
             else -> headers["X-API-KEY"] = "20c3f30c-7ba7-4417-9c72-4975ac6091c6"
         }
-        headers["X-API-KEY"] = "20c3f30c-7ba7-4417-9c72-4975ac6091c6"
     }
 
     fun addFilms(listFilm: List<Film>) {
@@ -67,8 +66,8 @@ object DataCentre {
         }
     }
 
-    fun addFilms(item: TopFilmsDTO, kit: Kit) {
-        item.films.forEach { topfilmDTO ->
+    fun addFilms(topFilmsDTO: TopFilmsDTO, kit: Kit) {
+        topFilmsDTO.films.forEach { topfilmDTO ->
             var film = films.find { it.filmId == topfilmDTO.filmId }
             if (film == null) {
                 film = Convertor().fromTopFilmDTOtoFilm(topfilmDTO)
@@ -112,25 +111,25 @@ object DataCentre {
     fun addFilm(filmInfo: InfoFilmSeasons, film: Film) {
 
         with(film) {
-            imdbId = filmInfo.infoFilm!!.imdbId
-            nameRu = filmInfo.infoFilm!!.nameRu.orEmpty()
-            nameEn = filmInfo.infoFilm!!.nameEn.orEmpty()
-            rating = filmInfo.infoFilm!!.ratingKinopoisk
-            posterUrlPreview = filmInfo.infoFilm!!.posterUrlPreview
-            countries = filmInfo.infoFilm!!.countries.orEmpty()
-            genres = filmInfo.infoFilm!!.genres.orEmpty()
-            startYear = filmInfo.infoFilm!!.startYear?.toInt()
-            posterUrl = filmInfo.infoFilm!!.posterUrl.orEmpty()
-            logoUrl = filmInfo.infoFilm!!.logoUrl.orEmpty()
-            nameOriginal = filmInfo.infoFilm!!.nameOriginal.orEmpty()
-            ratingImdb = filmInfo.infoFilm!!.ratingImdb
-            ratingAwait = filmInfo.infoFilm!!.ratingAwait
-            ratingGoodReview = filmInfo.infoFilm!!.ratingGoodReview
-            totalSeasons = filmInfo.infoSeasons?.total
-            listSeasons = filmInfo.infoSeasons?.items
-            year = filmInfo.infoFilm!!.year
-            description = filmInfo.infoFilm!!.description.orEmpty()
-            shortDescription = filmInfo.infoFilm!!.shortDescription.orEmpty()
+            if ( !filmInfo.infoFilm!!.imdbId.isNullOrEmpty()) imdbId = filmInfo.infoFilm!!.imdbId
+            if ( !filmInfo.infoFilm!!.nameRu.isNullOrEmpty()) nameRu = filmInfo.infoFilm!!.nameRu
+            if ( !filmInfo.infoFilm!!.nameEn.isNullOrEmpty()) nameEn = filmInfo.infoFilm!!.nameEn
+            if ( !filmInfo.infoFilm!!.description.isNullOrEmpty()) description = filmInfo.infoFilm!!.description
+            if ( !filmInfo.infoFilm!!.shortDescription.isNullOrEmpty()) shortDescription = filmInfo.infoFilm!!.shortDescription
+            if ( !filmInfo.infoFilm!!.countries.isNullOrEmpty()) countries = filmInfo.infoFilm!!.countries
+            if ( !filmInfo.infoFilm!!.genres.isNullOrEmpty()) genres = filmInfo.infoFilm!!.genres!!
+            if ( !filmInfo.infoFilm!!.posterUrl.isNullOrEmpty()) posterUrl = filmInfo.infoFilm!!.posterUrl
+            if ( !filmInfo.infoFilm!!.logoUrl.isNullOrEmpty()) logoUrl = filmInfo.infoFilm!!.logoUrl
+            if ( !filmInfo.infoFilm!!.nameOriginal.isNullOrEmpty()) nameOriginal = filmInfo.infoFilm!!.nameOriginal
+            if ( !filmInfo.infoFilm!!.posterUrlPreview.isNullOrEmpty()) posterUrlPreview = filmInfo.infoFilm!!.posterUrlPreview
+            if ( !filmInfo.infoSeasons?.items.isNullOrEmpty()) listSeasons = filmInfo.infoSeasons?.items
+            if ( filmInfo.infoFilm!!.startYear != null) startYear = filmInfo.infoFilm!!.startYear?.toInt()
+            if ( filmInfo.infoFilm!!.ratingImdb != null) ratingImdb = filmInfo.infoFilm!!.ratingImdb
+            if ( filmInfo.infoFilm!!.ratingAwait != null) ratingAwait = filmInfo.infoFilm!!.ratingAwait
+            if ( filmInfo.infoFilm!!.ratingGoodReview != null) ratingGoodReview = filmInfo.infoFilm!!.ratingGoodReview
+            if ( filmInfo.infoSeasons?.total != null) totalSeasons = filmInfo.infoSeasons?.total
+            if ( filmInfo.infoFilm!!.year != null) year = filmInfo.infoFilm!!.year
+            if ( filmInfo.infoFilm!!.ratingKinopoisk != null) rating = filmInfo.infoFilm!!.ratingKinopoisk
         }
     }
 
@@ -294,3 +293,4 @@ object DataCentre {
         currentJobPerson = id
     }
 }
+
