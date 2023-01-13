@@ -67,21 +67,21 @@ class GalleryFragment : Fragment() {
         }.attach()
 
         binding.tabs.getTabAt(0)?.customView?.findViewById<ConstraintLayout>(R.id.linearlayout)
-            ?.setBackgroundResource(R.drawable.gallery_tab_selected_rectangle)
+            ?.setBackgroundResource(R.drawable.tab_selected_background)
         binding.tabs.getTabAt(0)?.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)
             ?.setTextColor(resources.getColor(R.color.white, null))
 
         binding.tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.customView?.findViewById<ConstraintLayout>(R.id.linearlayout)
-                    ?.setBackgroundResource(R.drawable.gallery_tab_selected_rectangle)
+                    ?.setBackgroundResource(R.drawable.tab_selected_background)
                 tab?.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)
                     ?.setTextColor(resources.getColor(R.color.white, null))
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
                 tab?.customView?.findViewById<ConstraintLayout>(R.id.linearlayout)
-                    ?.setBackgroundResource(R.drawable.gallery_tab_unselected_rectangle)
+                    ?.setBackgroundResource(R.drawable.tab_unselected_background)
                 tab?.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)
                     ?.setTextColor(resources.getColor(R.color.black, null))
             }

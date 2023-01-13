@@ -6,21 +6,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="?attr/actionBarSize"
-    android:layout_marginHorizontal="@dimen/margin_app_hor">
+    android:layout_marginHorizontal="@dimen/activity_horizontal_margin">
 
     <LinearLayout
         android:id="@+id/pole_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@drawable/round_rect_shape"
+        android:background="@drawable/search_edit_text_shape"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
         <ImageView
-            android:id="@+id/iv_search"
             style = "@style/search_lupa"
-            android:src="@drawable/icon_lupa"
+            android:src="@drawable/icon_search"
             tools:ignore="RtlSymmetry" />
 
         <EditText

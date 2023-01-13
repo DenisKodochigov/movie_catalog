@@ -20,6 +20,10 @@ class DataRepository @Inject constructor() {
 
     private val dataSourceDB = DataSourceDB()
 
+    fun getConditionWork():Boolean{
+        val resultat = false
+        return resultat
+    }
     // home  fragment
     suspend fun getRandomKitName() = dataSourceAPI.getRandomKitName()
 

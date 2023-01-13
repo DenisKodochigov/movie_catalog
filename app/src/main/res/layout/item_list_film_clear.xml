@@ -25,7 +25,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/oval"/>
     <TextView
-        android:id="@+id/tv_all"
         style="@style/H5_show_all"
         android:text="@string/clear"
         android:layout_marginTop="8dp"

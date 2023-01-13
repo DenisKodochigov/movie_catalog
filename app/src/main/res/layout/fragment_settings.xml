@@ -14,7 +14,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/margin_app_hor">
+        android:layout_marginHorizontal="@dimen/activity_horizontal_margin">
 
         <TextView
             android:id="@+id/tv_viewing"
@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="103dp"
-            android:background="@drawable/control_switch_background_border"
+            android:background="@drawable/radiogroup_border"
             android:checkedButton="@+id/rbAll"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -38,17 +38,17 @@
             <RadioButton
                 android:id="@+id/rbAll"
                 style="@style/radiobutton"
-                android:background="@drawable/control_switch_background_selector_left"
+                android:background="@drawable/radiobutton_selector_left"
                 android:text="@string/show_all" />
             <RadioButton
                 android:id="@+id/rbFilm"
                 style="@style/radiobutton"
-                android:background="@drawable/control_switch_background_selector_middle"
+                android:background="@drawable/radiobutton_selector_middle"
                 android:text="@string/films" />
             <RadioButton
                 android:id="@+id/rbSerial"
                 style="@style/radiobutton"
-                android:background="@drawable/control_switch_background_selector_right"
+                android:background="@drawable/radiobutton_selector_right"
                 android:text="@string/serials" />
         </RadioGroup>
 
@@ -172,7 +172,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:background="@drawable/control_switch_background_border"
+            android:background="@drawable/radiogroup_border"
             android:checkedButton="@+id/rbData"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -182,19 +182,19 @@
             <RadioButton
                 android:id="@+id/rbData"
                 style="@style/radiobutton"
-                android:background="@drawable/control_switch_background_selector_left"
+                android:background="@drawable/radiobutton_selector_left"
                 android:text="@string/date" />
 
             <RadioButton
                 android:id="@+id/rbPopular"
                 style="@style/radiobutton"
-                android:background="@drawable/control_switch_background_selector_middle"
+                android:background="@drawable/radiobutton_selector_middle"
                 android:text="@string/popularis" />
 
             <RadioButton
                 android:id="@+id/rbRating"
                 style="@style/radiobutton"
-                android:background="@drawable/control_switch_background_selector_right"
+                android:background="@drawable/radiobutton_selector_right"
                 android:text="@string/rating" />
         </RadioGroup>
 

@@ -10,12 +10,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.example.movie_catalog.entity.Constants
 import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
 import com.example.movie_catalog.databinding.FragmentPersonBinding
+import com.example.movie_catalog.entity.Constants
 import com.example.movie_catalog.entity.Film
-import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.enumApp.ModeViewer
 import com.example.movie_catalog.ui.recycler.ListFilmAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -65,6 +64,14 @@ class PersonFragment : Fragment() {
                     }
                 }
                 animationCard.setAnimation(binding.ivPhoto, linker[0].person?.posterUrl, R.dimen.card_people_radius)
+                binding.ivPhoto.setOnClickListener {
+                    binding.flPhoto.visibility = View.VISIBLE
+                    animationCard.setAnimation(binding.ivBigPhoto, linker[0].person?.posterUrl, R.dimen.card_people_radius)
+                }
+                binding.ivBigPhoto.setOnClickListener {
+                    binding.flPhoto.visibility = View.GONE
+//                    animationCard.setAnimation(binding.ivBigPhoto, linker[0].person?.posterUrl, R.dimen.card_people_radius)
+                }
             }.launchIn(viewLifecycleOwner.lifecycleScope)
 
             showAll.setOnClickListener {

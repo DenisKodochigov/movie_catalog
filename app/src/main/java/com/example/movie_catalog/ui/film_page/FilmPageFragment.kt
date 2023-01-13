@@ -29,6 +29,7 @@ import com.example.movie_catalog.entity.Person
 import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.enumApp.ModeViewer
 import com.example.movie_catalog.ui.recycler.*
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
@@ -309,6 +310,7 @@ class FilmPageFragment : Fragment() {
         val adapterBottom = BottomAdapterAny {collection -> onClickChecked(collection as CollectionDB) }
         val bottomSheetDialog = context?.let{ BottomSheetDialog(it, R.style.AppBottomSheetDialogTheme)}!!
         bottomSheetDialog.setContentView(R.layout.include_bottom_sheet)
+        bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
 
         val animationCard = LoadImageURLShow()
         animationCard.setAnimation( bottomSheetDialog.findViewById(R.id.poster)!!,

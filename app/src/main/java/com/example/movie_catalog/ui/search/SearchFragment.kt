@@ -46,7 +46,7 @@ class SearchFragment : Fragment() {
             LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         binding.recyclerSearch.adapter = adapter
         viewModel.pagedFilms.onEach {
-            Log.d("KDS", "SearchFragment, start load list.")
+//            Log.d("KDS", "SearchFragment, start load list.")
             val textSearch = binding.etSearch.text
             adapter.submitData(it)
 //            if (textSearch.isNotEmpty()) {
@@ -60,7 +60,7 @@ class SearchFragment : Fragment() {
 //            } else {
 //                adapter.submitData(it)
 //            }
-            Log.d("KDS", "SearchFragment, end load list.")
+//            Log.d("KDS", "SearchFragment, end load list.")
         }.launchIn(viewLifecycleOwner.lifecycleScope)
         binding.swipeRefresh.setOnRefreshListener {
             adapter.refresh()

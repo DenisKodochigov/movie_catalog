@@ -3,7 +3,7 @@
     android:id="@+id/ll_dialog"
     android:layout_width="@dimen/dialog_root_width"
     android:layout_height="wrap_content"
-    android:background="@drawable/dialog_corner"
+    android:background="@drawable/dialog_background"
     android:orientation="vertical"
     android:textAlignment="center">
 

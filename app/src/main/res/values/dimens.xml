@@ -1,21 +1,13 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="activity_horizontal_margin">26dp</dimen>
 
-    <dimen name="poster_logo_top">240dp</dimen>
-    <dimen name="poster_logo_bottom_v1">16dp</dimen>
     <dimen name="poster_logo_bottom">80dp</dimen>
     <dimen name="poster_image_height">400dp</dimen>
-    <dimen name="poster_icon_end">28dp</dimen>
-    <dimen name="poster_linear_icon_top">16dp</dimen>
     <dimen name="poster_linear_icon_bottom">28dp</dimen>
     <dimen name="poster_name_top">16dp</dimen>
     <dimen name="poster_yearGenreOther_top">16dp</dimen>
-    <dimen name="poster_yearGenreOther_bottom">4dp</dimen>
 
-    <dimen name="margin_1">28dp</dimen>
-    <dimen name="margin_app_hor">26dp</dimen>
     <dimen name="margin_app_top">32dp</dimen>
     <dimen name="margin_app_bottom">60dp</dimen>
     <dimen name="margin_top_h5_home">2dp</dimen>
@@ -26,7 +18,6 @@
     <dimen name="film_page_margin_bottom_h2">32dp</dimen>
     <dimen name="film_page_card_person_radius">4dp</dimen>
     <dimen name="film_page_gallery_margin_hor">4dp</dimen>
-    <dimen name="film_page_gallery_radius">6dp</dimen>
     <dimen name="film_page_poster_radius">1dp</dimen>
 
     <dimen name="card_film_width">111dp</dimen>
@@ -37,8 +28,6 @@
     <dimen name="card_gallery_icon_width">192dp</dimen>
     <dimen name="card_gallery_icon_height">108dp</dimen>
     <dimen name="card_gallery_icon_radius">6dp</dimen>
-    <dimen name="card_gallery_icon_name_marTop">8dp</dimen>
-    <dimen name="card_gallery_icon_marStart">8dp</dimen>
 
     <dimen name="card_people_width">49dp</dimen>
     <dimen name="card_people_height">68dp</dimen>
@@ -47,16 +36,10 @@
     <dimen name="card_people_radius">6dp</dimen>
     <dimen name="card_people_name_marTop">4dp</dimen>
     <dimen name="card_people_name_marHor">16dp</dimen>
-    <dimen name="card_people_recycler_marTop">32dp</dimen>
 
     <dimen name="home_recycler_marTop">16dp</dimen>
 
-    <dimen name="text_margin">16dp</dimen>
-    <dimen name="short_description_margin_top">40dp</dimen>
-    <dimen name="ratio_wave">300dp</dimen>
-
     <dimen name="ic_rating_corners">5dp</dimen>
-    <dimen name="full_list_margin_top">88dp</dimen>
     <dimen name="toolbar_margin_top">20dp</dimen>
     <dimen name="dp0">0dp</dimen>
 
@@ -64,9 +47,7 @@
     <dimen name="tab_rectangle_stroke_width">2dp</dimen>
     <dimen name="tab_margin_hor">24dp</dimen>
     <dimen name="tab_item_margin_hor">10dp</dimen>
-    <dimen name="tab_margin_ver">8dp</dimen>
 
-    <dimen name="gallery_marginTop">20dp</dimen>
     <dimen name="gallery_list_big_card_width">308dp</dimen>
     <dimen name="gallery_list_big_card_height">173dp</dimen>
     <dimen name="gallery_list_small_card_width">146dp</dimen>
@@ -78,15 +59,10 @@
     //person page
     <dimen name="person_photo_width">146dp</dimen>
     <dimen name="person_photo_height">201dp</dimen>
-    <dimen name="person_photo_radius">4dp</dimen>
-    <dimen name="person_photo_margin_hor">8dp</dimen>
-    <dimen name="person_photo_margin_top">98dp</dimen>
     <dimen name="person_name_margin_start">16dp</dimen>
-    <dimen name="person_name_margin_end">37dp</dimen>
     <dimen name="person_job_margin_top">4dp</dimen>
 
     //viewer image
-    <dimen name="viewer_image_button_radius">20dp</dimen>
     <dimen name="viewer_image_button_length">20dp</dimen>
     <dimen name="viewer_image_button_margin_end">20dp</dimen>
     <dimen name="viewer_image_button_margin_ver">8dp</dimen>
@@ -94,7 +70,6 @@
     <dimen name="viewer_image_button_corner_minus">-44</dimen>
 
     <dimen name="viewer_season_header_top">100dp</dimen>
-    <dimen name="viewer_season_header_bottom">16dp</dimen>
     <dimen name="viewer_season_recycler_bottom">40dp</dimen>
     <dimen name="viewer_season_recycler_data_top">4dp</dimen>
     <dimen name="viewer_season_recycler_top">16dp</dimen>
@@ -125,23 +100,16 @@
     <dimen name="dialog_root_width">308dp</dimen>
 
     <dimen name="search_root_radius">56dp</dimen>
-    <dimen name="search_size_icon">22dp</dimen>
     <dimen name="search_recycler_top">24dp</dimen>
-    <dimen name="search_separator_padding_hor">19dp</dimen>
 
     <dimen name="settings_padding_ver1">14dp</dimen>
     <dimen name="settings_padding_vert">16dp</dimen>
-    <dimen name="settings_padding_bottom">30dp</dimen>
     <dimen name="settings_padding_hor">16dp</dimen>
     <dimen name="settings_margin_hor">16dp</dimen>
-    <dimen name="settings_margin_start">12dp</dimen>
-    <dimen name="settings_margin_end1">12dp</dimen>
     <dimen name="settings_margin_end">26dp</dimen>
     <dimen name="settings_recycler_height">160dp</dimen>
-    <dimen name="settings_recycler_padding">24dp</dimen>
     <dimen name="settings_recycler_padding_year">20dp</dimen>
 
-    <dimen name="profile_recycler_margin_ver">24dp</dimen>
     <dimen name="profile_cards_margin_ver">27dp</dimen>
     <dimen name="profile_card_height">146dp</dimen>
     <dimen name="profile_card_tv_margin_top">8dp</dimen>

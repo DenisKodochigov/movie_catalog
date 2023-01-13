@@ -7,7 +7,7 @@
     android:layout_marginBottom="@dimen/viewer_season_recycler_bottom">
 
    <TextView
-      android:id="@+id/tvNameEn"
+       android:id="@+id/tvNameEn"
        android:hint="@string/numberSeriaName"
       style = "@style/H4"/>
    <TextView

@@ -58,6 +58,7 @@ class HomeFragment : Fragment() {
         (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text = ""
         (activity as AppCompatActivity).findViewById<BottomNavigationView>(R.id.nav_view).visibility = View.VISIBLE
 //        postponeEnterTransition()
+        findNavController()
         return binding.root
     }
 

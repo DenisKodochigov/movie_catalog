@@ -40,7 +40,7 @@ class LoadImageURLShow {
         } else if (imageURL != null){
 
             val option = if (!centerCrop) RequestOptions().transform(RoundedCorners(radius))
-                        else RequestOptions().transform(CenterCrop(), RoundedCorners(radius))
+            else RequestOptions().transform(CenterCrop(), RoundedCorners(radius))
             Glide
                 .with(view)
                 .load(imageURL)
@@ -58,7 +58,7 @@ class LoadImageURLShow {
                         target: Target<Drawable>?, dataSource: com.bumptech.glide.load.DataSource?,
                         isFirstResource: Boolean): Boolean {
                         animationCard.stop()
-                        view.background?.alpha = (0 ?: null) as Int
+                        view.background?.alpha = (0) as Int
 //                        Log.d("KDS","LoadImageURLShow.setAnimation animation stop $imageURL")
                         return false
                     }

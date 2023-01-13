@@ -21,7 +21,7 @@
       android:layout_height="wrap_content"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      android:layout_marginHorizontal="@dimen/margin_app_hor"
+      android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
       android:orientation="vertical"
       app:layout_constraintBottom_toBottomOf="parent">
       <TextView

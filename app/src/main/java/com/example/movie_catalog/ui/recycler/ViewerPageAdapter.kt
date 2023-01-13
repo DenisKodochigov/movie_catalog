@@ -85,7 +85,7 @@ class ViewerPageAdapter (private val mode: ModeViewer, private val onClick: (Any
                         }
 
                         holder.binding.recyclerImage.adapter = imageAdapter
-                        Log.d("KDS", "ViewPagerAdapter, load image tab[position]=$position ")
+//                        Log.d("KDS", "ViewPagerAdapter, load image tab[position]=$position ")
                         val listImage = gallery.images.filter { it.imageGroup == gallery.tabs[position].first }
                         if (listImage.isEmpty()){
                             imageAdapter.setList(listOf(
@@ -105,7 +105,7 @@ class ViewerPageAdapter (private val mode: ModeViewer, private val onClick: (Any
                             RecyclerView.VERTICAL, false)
                         holder.binding.recyclerImage.adapter = filmAdapter
 
-                        Log.d("KDS", "ViewPagerAdapter, load image tab[position]=$position ")
+//                        Log.d("KDS", "ViewPagerAdapter, load image tab[position]=$position ")
                         filmAdapter.setListFilm(person.linkers.filter{ it.profKey == person.tabsKey[position].first})
                     }
 

@@ -33,7 +33,7 @@ object DataCentre {
         genre = GenreIdDTO(id = 11, genre = "боевик"),
         typeFilm = TypeFilm.FILM,
         year = Pair(1999,2020),
-        rating = Pair(3.0, 10.0),
+        rating = Pair(1.0, 10.0),
         viewed = false,
         sorting = SortingField.YEAR
     )
@@ -111,25 +111,25 @@ object DataCentre {
     fun addFilm(filmInfo: InfoFilmSeasons, film: Film) {
 
         with(film) {
-            if ( !filmInfo.infoFilm!!.imdbId.isNullOrEmpty()) imdbId = filmInfo.infoFilm!!.imdbId
-            if ( !filmInfo.infoFilm!!.nameRu.isNullOrEmpty()) nameRu = filmInfo.infoFilm!!.nameRu
-            if ( !filmInfo.infoFilm!!.nameEn.isNullOrEmpty()) nameEn = filmInfo.infoFilm!!.nameEn
-            if ( !filmInfo.infoFilm!!.description.isNullOrEmpty()) description = filmInfo.infoFilm!!.description
-            if ( !filmInfo.infoFilm!!.shortDescription.isNullOrEmpty()) shortDescription = filmInfo.infoFilm!!.shortDescription
-            if ( !filmInfo.infoFilm!!.countries.isNullOrEmpty()) countries = filmInfo.infoFilm!!.countries
-            if ( !filmInfo.infoFilm!!.genres.isNullOrEmpty()) genres = filmInfo.infoFilm!!.genres!!
-            if ( !filmInfo.infoFilm!!.posterUrl.isNullOrEmpty()) posterUrl = filmInfo.infoFilm!!.posterUrl
-            if ( !filmInfo.infoFilm!!.logoUrl.isNullOrEmpty()) logoUrl = filmInfo.infoFilm!!.logoUrl
-            if ( !filmInfo.infoFilm!!.nameOriginal.isNullOrEmpty()) nameOriginal = filmInfo.infoFilm!!.nameOriginal
-            if ( !filmInfo.infoFilm!!.posterUrlPreview.isNullOrEmpty()) posterUrlPreview = filmInfo.infoFilm!!.posterUrlPreview
-            if ( !filmInfo.infoSeasons?.items.isNullOrEmpty()) listSeasons = filmInfo.infoSeasons?.items
-            if ( filmInfo.infoFilm!!.startYear != null) startYear = filmInfo.infoFilm!!.startYear?.toInt()
-            if ( filmInfo.infoFilm!!.ratingImdb != null) ratingImdb = filmInfo.infoFilm!!.ratingImdb
-            if ( filmInfo.infoFilm!!.ratingAwait != null) ratingAwait = filmInfo.infoFilm!!.ratingAwait
-            if ( filmInfo.infoFilm!!.ratingGoodReview != null) ratingGoodReview = filmInfo.infoFilm!!.ratingGoodReview
-            if ( filmInfo.infoSeasons?.total != null) totalSeasons = filmInfo.infoSeasons?.total
-            if ( filmInfo.infoFilm!!.year != null) year = filmInfo.infoFilm!!.year
-            if ( filmInfo.infoFilm!!.ratingKinopoisk != null) rating = filmInfo.infoFilm!!.ratingKinopoisk
+            filmInfo.infoFilm?.imdbId?.let { imdbId = it }
+            filmInfo.infoFilm?.nameRu?.let { nameRu = it }
+            filmInfo.infoFilm?.nameEn?.let { nameEn = it }
+            filmInfo.infoFilm?.nameOriginal?.let { nameOriginal = it }
+            filmInfo.infoFilm?.description?.let { description = it }
+            filmInfo.infoFilm?.shortDescription?.let { shortDescription = it }
+            filmInfo.infoFilm?.countries?.let { countries = it }
+            filmInfo.infoFilm?.genres?.let { genres = it }
+            filmInfo.infoFilm?.posterUrl?.let { posterUrl = it }
+            filmInfo.infoFilm?.logoUrl?.let { logoUrl = it }
+            filmInfo.infoFilm?.posterUrlPreview?.let { posterUrlPreview = it }
+            filmInfo.infoFilm?.startYear?.let { startYear = it.toInt() }
+            filmInfo.infoFilm?.year?.let { year = it }
+            filmInfo.infoFilm?.ratingKinopoisk?.let { rating = it }
+            filmInfo.infoFilm?.ratingImdb?.let { ratingImdb = it }
+            filmInfo.infoFilm?.ratingAwait?.let { ratingAwait = it }
+            filmInfo.infoFilm?.ratingGoodReview?.let { ratingGoodReview = it }
+            filmInfo.infoSeasons?.total?.let { totalSeasons = it }
+            filmInfo.infoSeasons?.items?.let { listSeasons = it }
         }
     }
 
@@ -183,11 +183,13 @@ object DataCentre {
             addLinker(film, person, filmPerson.professionKey!!)
         }
     }
+
     private fun addLinker(film: Film) {
         if (linkers.find { (it.film == film) } == null) {
             linkers.add(Linker(film = film))
         }
     }
+
     private fun addLinker(film: Film, kit: Kit) {
         if (linkers.find { (it.film == film) && (it.kit == kit) } == null) {
             linkers.add(Linker(film = film, kit = kit))
@@ -283,6 +285,7 @@ object DataCentre {
         )
     }
     //###############################################################################################
+
     fun takeJobPerson(): String? {
         val it = currentJobPerson
         currentJobPerson = null

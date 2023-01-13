@@ -24,6 +24,7 @@ import com.example.movie_catalog.entity.enumApp.SortingField
 import com.example.movie_catalog.entity.enumApp.TypeFilm
 import com.example.movie_catalog.ui.home.HomeFragment
 import com.example.movie_catalog.ui.recycler.BottomAdapterAny
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.slider.RangeSlider
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,6 +55,7 @@ class SettingFragment: Fragment()  {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bottomSheetDialog = context?.let{ BottomSheetDialog(it, R.style.AppBottomSheetDialogTheme) }!!
+        bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
 
         val filter = viewModel.filter
 

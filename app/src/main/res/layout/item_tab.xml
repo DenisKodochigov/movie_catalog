@@ -5,7 +5,7 @@
     android:id="@+id/linearlayout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/gallery_tab_unselected_rectangle"
+    android:background="@drawable/tab_unselected_background"
     android:orientation="horizontal">
 
     <TextView

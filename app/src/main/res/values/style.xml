@@ -1,20 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="animation1">
-        <item name="android:windowExitAnimation">@anim/anim1</item>
-        <item name="android:windowEnterAnimation">@anim/anim2</item>
-    </style>
     <style name="Style_Dialog_Rounded_Corner" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:windowBackground">@drawable/dialog_corner</item>
+        <item name="android:windowBackground">@drawable/dialog_background</item>
         <item name="android:windowMinWidthMinor">85%</item>
     </style>
     <style name="style_app" parent="TextAppearance.MaterialComponents.Body1">
-        <item name="android:textSize">15sp</item>
-        <item name="android:textColor">@color/general</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:singleLine">true</item>
+
     </style>
     <style name="textApp" parent="style_app">
         <item name="android:textSize">15sp</item>
@@ -23,16 +15,6 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:singleLine">true</item>
     </style>
-    <style name="movie_genre" parent = "textApp">
-        <item name="android:textSize">12sp</item>
-        <item name="android:textColor">#838391</item>
-        <item name="android:gravity">top</item>
-    </style>
-    <style name="movie_name" parent = "textApp">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/general</item>
-        <item name="android:gravity">top</item>
-    </style>
 
     <style name="H1" parent = "textApp">
         <item name="android:textSize">24sp</item>
@@ -40,7 +22,7 @@
         <item name="android:gravity">center_horizontal</item>
     </style>
     <style name="H1_poster" parent = "H1">
-        <item name="android:textColor">@color/h5_poster</item>
+        <item name="android:textColor">@color/background_card</item>
         <item name="android:gravity">center_horizontal</item>
     </style>
 
@@ -61,20 +43,13 @@
     </style>
     <style name="H3.1" parent = "H3">
         <item name="android:layout_marginTop">@dimen/margin_app_top</item>
-        <item name="android:layout_marginEnd">@dimen/margin_app_hor</item>
-        <item name="android:layout_marginStart">@dimen/margin_app_hor</item>
+        <item name="android:layout_marginEnd">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_marginStart">@dimen/activity_horizontal_margin</item>
     </style>
     <style name="H3_description" parent="H3.1">
         <item name="android:maxLines">20</item>
         <item name="android:ellipsize">end</item>
         <item name="android:inputType">textMultiLine</item>
-    </style>
-    <style name="H3_short_description" parent="H3.1">
-        <item name="android:inputType">textMultiLine</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:maxLines">5</item>
-        <item name="android:clickable">true</item>
-        <item name="android:focusable">true</item>
     </style>
     <style name="H3_person_name" parent="H3.1">
         <item name="android:textStyle">bold</item>
@@ -113,17 +88,8 @@
         <item name="android:textColor">@color/blue_arrow</item>
         <item name="android:gravity">end|top</item>
     </style>
-    <style name="H4_show_all" parent = "H4">
-        <item name="android:textColor">@color/blue_arrow</item>
-        <item name="android:gravity">end|center_vertical</item>
-        <item name="android:layout_marginEnd">10dp</item>
-    </style>
     <style name="H4_viewer_serial" parent = "H4">
         <item name="android:textColor">@color/h5</item>
-    </style>
-    <style name="H4_viewer_serial_rec_episode" parent = "H4">
-        <item name="android:textStyle">bold</item>
-        <item name="android:layout_marginTop">@dimen/viewer_season_header_top</item>
     </style>
     <style name="H4_search_settings_rating_from" parent="H4">
         <item name="android:textColor">@color/h5</item>
@@ -156,7 +122,7 @@
     </style>
     <style name="H5.1" parent = "H5">
         <item name="android:layout_marginTop">@dimen/margin_app_top</item>
-        <item name="android:layout_marginEnd">@dimen/margin_app_hor</item>
+        <item name="android:layout_marginEnd">@dimen/activity_horizontal_margin</item>
         <item name="android:layout_gravity">center_horizontal</item>
     </style>
     <style name="H5_actor" parent = "H5.1">
@@ -208,9 +174,9 @@
     <style name="icon_rating" parent = "textApp">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">6sp</item>
-        <item name="android:textColor">@color/ic_rating_text</item>
-        <item name="android:textColorHint">@color/ic_rating_text</item>
-        <item name="android:background">@drawable/card_film_rating_rectangle</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@color/white</item>
+        <item name="android:background">@drawable/card_film_rating_background</item>
         <item name="android:paddingHorizontal">5dp</item>
         <item name="android:paddingVertical">2dp</item>
         <item name="android:hint">@string/icon_rating_hint</item>
@@ -218,29 +184,26 @@
     <style name="cardViewMy" parent="textApp">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/fon_app</item>
+        <item name="android:background">@color/white</item>
         <item name="android:layout_marginTop">@dimen/film_page_margin_bottom_h2</item>
     </style>
     <style name="tabs_name" parent = "H2">
-        <item name="android:textColor">@color/ic_rating_text</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:maxLength">15</item>
         <item name="android:ellipsize">end</item>
         <item name="android:paddingStart">@dimen/tab_margin_hor</item>
         <item name="android:paddingVertical">8dp</item>
     </style>
     <style name="tabs_quantity" parent = "H4">
-        <item name="android:textColor">@color/h5_poster</item>
+        <item name="android:textColor">@color/background_card</item>
         <item name="android:paddingStart">@dimen/tab_item_margin_hor</item>
         <item name="android:paddingEnd">@dimen/tab_margin_hor</item>
     </style>
 
-    <style name="AppBottomSheetDialogTheme"
-        parent="Theme.Design.Light.BottomSheetDialog">
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/AppModalStyle</item>
     </style>
-
-    <style name="AppModalStyle"
-        parent="Widget.Design.BottomSheet.Modal">
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bottom_sheet</item>
     </style>
     <style name="divider">
@@ -248,13 +211,6 @@
         <item name="android:layout_height">1dp</item>
         <item name="android:background">@color/material_dynamic_neutral95</item>
     </style>
-
-    <style name="H4_checkbox_collection" parent="style_app">
-        <item name="android:textSize">16sp</item>
-        <item name="marginHorizontal">26dp</item>
-        <item name="paddingStart">16dp</item>
-    </style>
-
     <style name="film_page_icon">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -265,7 +221,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">@dimen/dialog_tv_height</item>
         <item name="android:layout_gravity">center</item>
-        <item name="android:background">@drawable/gallery_tab_selected_rectangle</item>
+        <item name="android:background">@drawable/tab_selected_background</item>
         <item name="android:clickable">true</item>
         <item name="android:gravity">center</item>
         <item name="android:paddingHorizontal">@dimen/dialog_tv_padding_hor</item>
@@ -291,7 +247,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:layout_marginTop">@dimen/profile_count_margin_top</item>
-        <item name="android:background">@drawable/gallery_tab_selected_rectangle</item>
+        <item name="android:background">@drawable/tab_selected_background</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
         <item name="android:gravity">center</item>
@@ -315,12 +271,6 @@
         <item name="android:contentDescription">@string/todo</item>
         <item name="android:layout_gravity">center_vertical</item>
     </style>
-    <style name="search_settings">
-        <item name="android:layout_width">@dimen/search_size_icon</item>
-        <item name="android:layout_height">@dimen/search_size_icon</item>
-        <item name="android:layout_marginEnd">18dp</item>
-        <item name="android:contentDescription">@string/todo</item>
-    </style>
     <style name="search_edit_text">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -328,19 +278,6 @@
         <item name="android:textSize">14sp</item>
         <item name="android:gravity">start</item>
         <item name="android:layout_gravity">start</item>
-    </style>
-    <style name="search_separator">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/h5</item>
-        <item name="android:paddingHorizontal">@dimen/search_separator_padding_hor</item>
-    </style>
-    <style name="settings_search_group_start">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:paddingHorizontal">26dp</item>
     </style>
     <style name="settings_year_text" parent = "H3">
         <item name="android:width">0dp</item>
@@ -362,9 +299,8 @@
         <item name="android:gravity">center</item>
         <item name="android:button">@null</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@drawable/control_switch_color_selector</item>
+        <item name="android:textColor">@drawable/radiobutton_color_selector</item>
     </style>
-
     <style name="SCBSwitch" parent="Theme.AppCompat.Light">
         <item name="colorControlActivated">@color/blue_arrow</item>
         <item name="colorSwitchThumbNormal">@color/white</item>

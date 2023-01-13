@@ -7,18 +7,17 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="transparent">#00000000</color>
+
     <color name="background_card">#B5B5C9</color>
     <color name="gradient_dark">#C1BAB9B9</color>
     <color name="gradient_light">#C1567DDF</color>
-    <color name="general">#272727</color>
-    <color name="h5">#838390</color>
-    <color name="h5_poster">#B5B5C9</color>
-    <color name="blue_arrow">#3D3BFF</color>
-    <color name="ic_rating_text">#FFFFFF</color>
-    <color name="clear">#00FAF8F8</color>
-    <color name="fon_app">#FFFFFF</color>
     <color name="gradient_viewed1">#B3B5B5C9</color>
     <color name="gradient_viewed2">#B33D3BFF</color>
+    <color name="general">#272727</color>
+    <color name="h5">#838390</color>
+    <color name="blue_arrow">#3D3BFF</color>
+    <color name="clear">#00FAF8F8</color>
     <color name="hint_color">#757575</color>
-    <color name="transparent">#00000000</color>
+
 </resources>
