@@ -29,12 +29,11 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
         navView.setupWithNavController(navController)
 
-        if (viewModel.getConditionWork()) {
-            navController.setGraph(R.navigation.fragment_navigation)
-        } else {
-            navController.setGraph(R.navigation.fragment_navigation_start)
-        }
-
+        val inflater = navController.navInflater
+        val graph = inflater.inflate(R.navigation.fragment_navigation)
+        graph.setStartDestination(R.id.nav_home)
+        if (viewModel.getConditionWork()) graph.setStartDestination(R.id.nav_start)
+        navController.graph = graph
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.title = ""

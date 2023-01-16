@@ -6,8 +6,6 @@ import com.example.movie_catalog.data.DataRepository
 import com.example.movie_catalog.entity.ErrorApp
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
