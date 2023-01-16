@@ -15,7 +15,12 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.example.movie_catalog.App
 import com.example.movie_catalog.R
-
+/*
+Module for downloading images from the Internet using glide and animation processing load.
+During the loading process, the image changes size and context.
+Performs exception handling.
+Before loading the image, the gradient animation is displayed.
+ */
 class LoadImageURLShow {
     var animationCard = AnimationDrawable()
 
@@ -23,7 +28,7 @@ class LoadImageURLShow {
     fun setAnimation(view: ImageView, imageURL: String?, roundedCorners:Int, centerCrop:Boolean = true){
 
         val radius = view.resources.getDimensionPixelOffset(roundedCorners)
-
+        // Start of the image loading animation.
         if (view.background != null) {
             animationCard = view.background as AnimationDrawable
             animationCard.apply {
@@ -33,27 +38,30 @@ class LoadImageURLShow {
             }
 //            Log.d("KDS","LoadImageURLShow.setAnimation animation start $imageURL")
         }
-
+        //If there is no link to the image, then we substitute a stub and stop the animation.
         if (imageURL == ""){
             view.setImageResource(R.drawable.ic_baseline_image_not_supported_24)
             animationCard.stop()
         } else if (imageURL != null){
-
+        //Starting the image loading process.
+            //Options for transforming the image after loading - rounding the corners and centering in the center
             val option = if (!centerCrop) RequestOptions().transform(RoundedCorners(radius))
             else RequestOptions().transform(CenterCrop(), RoundedCorners(radius))
             Glide
                 .with(view)
                 .load(imageURL)
+                    //If there is a loading error, we substitute a stub
                 .fallback(R.drawable.ic_baseline_image_not_supported_24)
                 .apply(option)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .listener(object: RequestListener<Drawable> {
+                    //If an error occurs, we output a message
                     override fun onLoadFailed( resource: GlideException?, model: Any?,
                         target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
                         Toast.makeText(App.context,"Error load image",Toast.LENGTH_SHORT).show()
                         return false
                     }
-
+                    //When loading successfully, we stop the animation
                     override fun onResourceReady(resource: Drawable?, model: Any?,
                         target: Target<Drawable>?, dataSource: com.bumptech.glide.load.DataSource?,
                         isFirstResource: Boolean): Boolean {

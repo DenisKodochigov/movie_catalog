@@ -55,6 +55,7 @@
     <string name="SHOOTING">Изображения со съемок</string>
     <string name="STILL">Кадры</string>
     <string name="WALLPAPER">Обои</string>
+    <string name="OTHER">Другие</string>
     
     // person page person_filmography_quantity
     <string name="person_best_film">Лучшее</string>
@@ -85,10 +86,10 @@
     <string name="EDITOR">Монтажеры</string>
     <string name="COMPOSER">Композиторы</string>
     <string name="VOICE_DIRECTOR">Звукорежисер</string>
-    <string name="HRONO_TITR_MALE">HRONO_TITR_MALE</string>
-    <string name="VOICE_MALE">VOICE_MALE</string>
-    <string name="VOICE_FEMALE">VOICE_FEMALE</string>
-    <string name="HRONO_TITR_FEMALE">HRONO_TITR_FEMALE</string>
+    <string name="HRONO_TITR_MALE">ХРОНО ТИТР</string>
+    <string name="VOICE_MALE">Озвучивание</string>
+    <string name="VOICE_FEMALE">Озвучивание</string>
+    <string name="HRONO_TITR_FEMALE">ХРОНО ТИТР </string>
     <string name="name_film">Название фильма</string>
     <string name="genre_film">Жанр фильма</string>
     <string name="add_collection">Добавить коллекцию.</string>

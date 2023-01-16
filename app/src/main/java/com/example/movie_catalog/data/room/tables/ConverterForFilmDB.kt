@@ -11,8 +11,11 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import java.lang.reflect.ParameterizedType
-
+/*
+Converter class for adding the FILE class to the database table: FilmDB
+*/
 class ConverterForFilmDB {
+    // Converter class List<Country> to string and back
     val moshi: Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
     private val typeListCountry: ParameterizedType = Types.newParameterizedType(List::class.java, Country::class.java)
     private val countryAdapter: JsonAdapter<List<Country>> = moshi.adapter(typeListCountry)
@@ -20,14 +23,14 @@ class ConverterForFilmDB {
     fun countryToJSON(source: List<Country>?): String = countryAdapter.toJson(source)
     @TypeConverter
     fun countryFromJSON(sourceStr: String) = countryAdapter.fromJson(sourceStr)
-
+    // Converter class List<Genre> to string and back
     private val typeListGenre: ParameterizedType = Types.newParameterizedType(List::class.java, Genre::class.java)
     private val genreAdapter: JsonAdapter<List<Genre>> = moshi.adapter(typeListGenre)
     @TypeConverter
     fun genreToJSON(source: List<Genre>?): String = genreAdapter.toJson(source)
     @TypeConverter
     fun genreFromJSON(sourceStr: String) = genreAdapter.fromJson(sourceStr)
-
+    // Converter class List<ImageFilm> to string and back
     private val typeListImage: ParameterizedType = Types.newParameterizedType(List::class.java, ImageFilm::class.java)
     private val imageAdapter: JsonAdapter<List<ImageFilm>> = moshi.adapter(typeListImage)
     @TypeConverter
@@ -35,7 +38,7 @@ class ConverterForFilmDB {
     @TypeConverter
     fun imageFromJSON(sourceStr: String) = imageAdapter.fromJson(sourceStr)
 
-    //SeasonDTO season
+    // Converter class List<SeasonDTO> to string and back
     private val typeListSeason: ParameterizedType = Types.newParameterizedType(List::class.java, SeasonDTO::class.java)
     private val seasonAdapter: JsonAdapter<List<SeasonDTO>> = moshi.adapter(typeListSeason)
     @TypeConverter
@@ -43,12 +46,11 @@ class ConverterForFilmDB {
     @TypeConverter
     fun seasonFromJSON(sourceStr: String) = seasonAdapter.fromJson(sourceStr)
 
-    //EpisodeDTO episode
+    //Converter class List<EpisodeDTO> to string and back
     private val typeListEpisode: ParameterizedType = Types.newParameterizedType(List::class.java, EpisodeDTO::class.java)
     private val episodeAdapter: JsonAdapter<List<EpisodeDTO>> = moshi.adapter(typeListEpisode)
     @TypeConverter
     fun episodeToJSON(source: List<EpisodeDTO>?): String = episodeAdapter.toJson(source)
     @TypeConverter
     fun episodeFromJSON(sourceStr: String) = episodeAdapter.fromJson(sourceStr)
-
 }

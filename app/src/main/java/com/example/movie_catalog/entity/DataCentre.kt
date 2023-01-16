@@ -174,8 +174,10 @@ object DataCentre {
             var film = films.find { it.filmId == filmPerson.filmId }
             if (film == null) { //Если нет, то создаем новый фильм
                 film = Film(
-                    filmId = filmPerson.filmId, nameRu = filmPerson.nameRu,
-                    nameEn = filmPerson.nameEn, rating = filmPerson.rating?.toDouble(),
+                    filmId = filmPerson.filmId,
+                    nameRu = filmPerson.nameRu,
+                    nameEn = filmPerson.nameEn,
+                    rating = filmPerson.rating?.toDouble(),
                     professionKey = filmPerson.professionKey
                 )
                 films.add(film)  //Добавляем новый фильм к базе.

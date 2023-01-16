@@ -31,7 +31,7 @@ class ListFilmsViewModel @Inject constructor(): ViewModel() {
 
     private fun getData(film: Film?, person: Person?) {
         viewModelScope.launch(Dispatchers.IO) {
-            _listLink.value = dataRepository.getForListFilmFragment(film, person)
+            _listLink.value = dataRepository.getLinkersForListFilmFragment(film, person)
         }
     }
     fun putFilm(film: Film){

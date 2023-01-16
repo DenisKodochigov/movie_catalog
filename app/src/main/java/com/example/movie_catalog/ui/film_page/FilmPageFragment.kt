@@ -40,20 +40,28 @@ class FilmPageFragment : Fragment() {
 
     private var _binding: FragmentFilmPageBinding? = null
     private val binding get() = _binding!!
+    //Declaring Adapters
+    //Actors in the film
     private val personAdapter = PersonsAdapter({ person -> onPersonClick(person)}, sizeGird = 20, whatRole = 1)
+    //People involved in the making of the film
     private val staffAdapter = PersonsAdapter({person -> onPersonClick(person)}, sizeGird = 6, whatRole = 2)
+    // To show photos for the movie
     private val galleryAdapter = ImagesAdapter ({ onImageClick() })
+    //To show similar movie for the movie
     private val similarAdapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD, ModeViewer.SIMILAR,
         { onSimilarClick()}, { kit -> onClickAll(kit)})
     private val viewModel: FilmPageViewModel by viewModels()
+    //The state of the description field is compressed expanded
     private var isCollapsed = false
 
     @SuppressLint("CutPasteId", "UseCompatLoadingForDrawables")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentFilmPageBinding.inflate(inflater, container,false)
+        //Making the toolbar translucent
         (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).background =
             resources.getDrawable(R.drawable.gradient_toolbar, context?.theme)
+        //Removing the text toolbar
         (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text = ""
         return binding.root
     }
@@ -62,17 +70,20 @@ class FilmPageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.posterBig.viewmodel = viewModel
         binding.posterBig.lifecycleOwner = viewLifecycleOwner
+        //Request for full information about the film
         viewModel.filmInfo.onEach {
             if (it != Film()) fillPage(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
+        //Request for a list of people involved in the creation of the film
         processingPerson()
+        //Request for photos for the movie
         processingGallery()
+        //Request for similar movie for the movie
         processingSimilar()
     }
-
+    //Displaying the initial part of the page
     @SuppressLint("SetTextI18n", "ResourceType")
     private fun fillPage(filmInfo: Film){
-
 //Show poster film. Before load image, show waiting animation.
         val animationCard = LoadImageURLShow()
         animationCard.setAnimation(binding.posterBig.poster, filmInfo.posterUrl, R.dimen.film_page_poster_radius)
@@ -127,11 +138,12 @@ class FilmPageFragment : Fragment() {
             enableTransitionType(LayoutTransition.CHANGING)
         }
 //        Log.d("KDS", "description = $description")
+        //If the description size is larger than a certain value, then we shorten it.
         if (description.length > Constants.LENGTH_DESCRIPTION)
             binding.descriptionFilm.text = description.substring(0, Constants.LENGTH_DESCRIPTION) + "..."
         else binding.descriptionFilm.text = description
         binding.descriptionFilm.setTextAppearance(R.style.app_bold)
-
+        // When you click on the text, we change its state
         binding.descriptionFilm.setOnClickListener {
             if (binding.descriptionFilm.length() > Constants.LENGTH_DESCRIPTION ) {
                 if (isCollapsed) {
@@ -146,10 +158,9 @@ class FilmPageFragment : Fragment() {
                 }
             }
         }
-//Show info serial
+//Show info tv serial
         if (filmInfo.totalSeasons != null ){
             binding.serials.root.visibility = View.VISIBLE
-//            Log.d("KDS", "Visible block serials")
             var quantitySeries = 0
             filmInfo.listSeasons?.forEach { season ->
                 quantitySeries += season.episodes?.count() ?: 0
@@ -168,15 +179,19 @@ class FilmPageFragment : Fragment() {
             viewModel.putFilm()
             findNavController().navigate(R.id.action_nav_filmInfo_to_nav_seasons)
         }
+        // Click icon viewed
         binding.posterBig.ivViewed.setOnClickListener {
             viewModel.clickViewed()
         }
+        //Click icon favorite
         binding.posterBig.ivFavorite.setOnClickListener {
             viewModel.clickFavorite()
         }
+        //Click icon bookmark
         binding.posterBig.ivBookmark.setOnClickListener {
             viewModel.clickBookmark()
         }
+        //Click icon share
         binding.posterBig.ivShare.setOnClickListener {
             val share = Intent.createChooser(Intent().apply {
                 action = Intent.ACTION_SEND
@@ -185,14 +200,17 @@ class FilmPageFragment : Fragment() {
             }, null)
             startActivity(share)
         }
+        //Click icon other
         binding.posterBig.ivOther.setOnClickListener {
             viewModel.getCollections()
             showBottomSheetDialog(filmInfo)
         }
     }
 
+    //Output of information about the people involved in the creation of the film
     @SuppressLint("SetTextI18n")
     private fun processingPerson(){
+        //Filling in the page fields
         binding.person.tvHeader.text = getText(R.string.header_actor)
         binding.person.personRecycler.adapter = personAdapter
         binding.person.personRecycler.layoutManager= GridLayoutManager(context,5,
