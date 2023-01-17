@@ -17,24 +17,27 @@ import javax.inject.Inject
 class FilmographyViewModel @Inject constructor(): ViewModel() {
 
     private val dataRepository = DataRepository()
+    //The person that is displayed on the page
     private var localPerson: Person? = null
-
+    //Stream for displaying a list of movie for person
     private var _person = MutableStateFlow(FilmographyData())
     var person = _person.asStateFlow()
-
+    //Requesting data when starting a fragment
     init {
         takePerson()
         localPerson?.let { getImages(it) }
     }
-
+    //Get a list of images to display
     private fun getImages(localPerson: Person) {
         viewModelScope.launch(Dispatchers.IO) {
             _person.value = dataRepository.getFilmographyData(localPerson)
         }
     }
+    //Save the film.object for the next fragment
     fun putFilm(film: Film){
         dataRepository.putFilm(film)
     }
+    //Get a saved person object
     private fun takePerson(){
         val item = dataRepository.takePerson()
         if (item != null) localPerson = item

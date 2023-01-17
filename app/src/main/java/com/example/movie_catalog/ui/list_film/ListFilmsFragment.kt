@@ -33,6 +33,7 @@ class ListFilmsFragment : Fragment() {
     private var _binding: FragmentListFilmsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ListFilmsViewModel by viewModels()
+    //Creating an adapter for show list
     private val listAdapter = ListFilmAdapter(0, ModeViewer.FILM,
         { film -> onItemClick(film)}, {})
 
@@ -45,16 +46,17 @@ class ListFilmsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //Connecting layout manager
         binding.filmRecyclerVertical.layoutManager =
             GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
-
+        //Connecting adapter to recyclerview
         binding.filmRecyclerVertical.adapter = listAdapter
-
+        //Received and transferred to the recycler a list of films
         viewModel.listLink.onEach {
             listAdapter.setListFilm(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
-
+    //When you click on the movie card, go to the page of the selected movie
     private fun onItemClick(film: Film) {
         viewModel.putFilm(film)
         findNavController().navigate(R.id.action_nav_list_films_to_nav_filmInfo)

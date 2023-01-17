@@ -21,27 +21,30 @@ import javax.inject.Inject
 class FilmPageViewModel @Inject constructor() : ViewModel() {
 
     private val dataRepository = DataRepository()
+    //The movie that is displayed on the page
     private var localFilm:Film? = null
-
+    //A stream for displaying complete information about the movie
     private var _filmInfo = MutableStateFlow(Film())
     var filmInfo = _filmInfo.asStateFlow()
-
+    //Stream for displaying a list of people who worked on the film
     private var _person = MutableStateFlow(listOf<Linker>())
     var person = _person.asStateFlow()
-
+    //Photo output stream
     private var _images = MutableStateFlow(listOf<ImageFilm>())
     var images = _images.asStateFlow()
-
+    //Stream for a list of similar movies
     private var _similar = MutableStateFlow(listOf<Linker>())
     var similar = _similar.asStateFlow()
-
+    //A stream for getting collections and information about them
     private var _collections = MutableStateFlow(listOf<CollectionDB>())
     var collections = _collections.asStateFlow()
-
+    //Stream of viewed state changes
     lateinit var viewed: StateFlow<Boolean>
+    //Stream of favorite state changes
     lateinit var favorite: StateFlow<Boolean>
+    //Stream of bookmark state changes
     lateinit var bookmark: StateFlow<Boolean>
-
+    //Requesting data when starting a fragment
     init {
         takeFilm()
         localFilm?.let {
@@ -53,7 +56,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
             getCollections()
         }
     }
-
+    //Request for streams for icons
     private fun getFlowIcon(id: Int?){
         id?.let { filmId ->
             viewed = dataRepository.viewedFlow(filmId).stateIn(
@@ -73,7 +76,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
             )
         }
     }
-
+    //Requesting Collections
     fun getCollections() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
@@ -87,7 +90,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
             )
         }
     }
-
+    //Adding a new collection
     fun newCollection(nameCollection: String){
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
@@ -101,7 +104,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
                 onFailure = { ErrorApp().errorApi(it.message!!) } )
         }
     }
-
+    //Adding (deleting) a movie to (from) a collection
     fun addRemoveFilmToCollection(collection: CollectionDB){
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
@@ -114,7 +117,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
             )
         }
     }
-
+    //Get a movie to display
     private fun getFilmInfo(film: Film) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
@@ -125,7 +128,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
             )
         }
     }
-
+    //Get a list of persons to display
     private fun getPersons(film: Film) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
@@ -136,7 +139,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
             )
         }
     }
-
+    //Get a list of images to display
     private fun getImages(film: Film) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
@@ -147,7 +150,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
             )
         }
     }
-
+    //Get a list of similar movie to display
     private fun getSimilar(film: Film) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
@@ -158,12 +161,12 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
             )
         }
     }
-
+    //Get a saved film object
     private fun takeFilm() {
         val film = dataRepository.takeFilm()
         if (film != null) localFilm = film
     }
-
+    //Practice clicking on the viewed icon
     fun clickViewed() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching { dataRepository.changeViewed(localFilm!!) }.fold(
@@ -172,7 +175,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
             )
         }
     }
-
+    //Practice clicking on the favorite icon
     fun clickFavorite() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching { dataRepository.changeFavorite(localFilm!!) }.fold(
@@ -181,7 +184,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
             )
         }
     }
-
+    //Practice clicking on the bookmark icon
     fun clickBookmark() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching { dataRepository.changeBookmark(localFilm!!) }.fold(
@@ -190,19 +193,23 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
             )
         }
     }
-
+    //Save the film.object for the next fragment
     fun putFilm(){
         localFilm?.let { dataRepository.putFilm(it) }
     }
-
+    //Save the film.object for the next fragment
+    fun putFilm(film: Film){
+        dataRepository.putFilm(film)
+    }
+    //Save the kit.object for the next fragment
     fun putKit(kit: Kit){
         dataRepository.putKit(kit)
     }
-
+    //Save the person.object for the next fragment
     fun putPerson(person: Person) {
         dataRepository.putPerson(person)
     }
-
+    //Save the personJob.object for the next fragment
     fun putJobPerson(item: String){
         dataRepository.putJobPerson(item)
     }

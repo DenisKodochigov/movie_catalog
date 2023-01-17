@@ -1296,6 +1296,33 @@ public final class DataDao_Impl implements DataDao {
   }
 
   @Override
+  public List<Integer> getViewedFilms(final boolean viewed) {
+    final String _sql = "SELECT filmId FROM films WHERE viewed = ?";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
+    int _argIndex = 1;
+    final int _tmp = viewed ? 1 : 0;
+    _statement.bindLong(_argIndex, _tmp);
+    __db.assertNotSuspendingTransaction();
+    final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
+    try {
+      final List<Integer> _result = new ArrayList<Integer>(_cursor.getCount());
+      while(_cursor.moveToNext()) {
+        final Integer _item;
+        if (_cursor.isNull(0)) {
+          _item = null;
+        } else {
+          _item = _cursor.getInt(0);
+        }
+        _result.add(_item);
+      }
+      return _result;
+    } finally {
+      _cursor.close();
+      _statement.release();
+    }
+  }
+
+  @Override
   public Flow<Boolean> setViewedFlow(final int id) {
     final String _sql = "SELECT viewed FROM films WHERE idFilm = ?";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
@@ -1329,33 +1356,6 @@ public final class DataDao_Impl implements DataDao {
         _statement.release();
       }
     });
-  }
-
-  @Override
-  public List<Integer> getViewedFilms(final boolean viewed) {
-    final String _sql = "SELECT filmId FROM films WHERE viewed = ?";
-    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 1);
-    int _argIndex = 1;
-    final int _tmp = viewed ? 1 : 0;
-    _statement.bindLong(_argIndex, _tmp);
-    __db.assertNotSuspendingTransaction();
-    final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
-    try {
-      final List<Integer> _result = new ArrayList<Integer>(_cursor.getCount());
-      while(_cursor.moveToNext()) {
-        final Integer _item;
-        if (_cursor.isNull(0)) {
-          _item = null;
-        } else {
-          _item = _cursor.getInt(0);
-        }
-        _result.add(_item);
-      }
-      return _result;
-    } finally {
-      _cursor.close();
-      _statement.release();
-    }
   }
 
   @Override

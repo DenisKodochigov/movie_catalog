@@ -33,10 +33,8 @@ class GalleryFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: GalleryViewModel by viewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View {
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
         (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text = ""
         return binding.root
@@ -44,18 +42,21 @@ class GalleryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        //Requesting data to display the gallery
         viewModel.galleryFlow.onEach {
             processingTabLayout(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
-
+    //Rendering the gallery page
     private fun processingTabLayout(gallery: Gallery) {
+        //Declaring Adapters viewpager2
         val adapter = ViewerPageAdapter(ModeViewer.GALLERY) { onClickViewPager() }
+        //Initializing the tabs list
         adapter.setList(gallery)
         binding.viewpager.adapter = adapter
-//        binding.viewpager.adapter = GalleryViewPagerAdapter(gallery) { onClickViewPager() }
+        //Programmatically select the first tab.
         binding.viewpager.currentItem = 0
+        //We fill in the tabs text fields
         TabLayoutMediator(binding.tabs, binding.viewpager) { tab, position ->
             tab.setCustomView(R.layout.item_tab)
             tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)?.text =
@@ -65,12 +66,12 @@ class GalleryFragment : Fragment() {
             tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)
                 ?.setTextColor(resources.getColor(R.color.black, null))
         }.attach()
-
+        //We draw the tabs
         binding.tabs.getTabAt(0)?.customView?.findViewById<ConstraintLayout>(R.id.linearlayout)
             ?.setBackgroundResource(R.drawable.tab_selected_background)
         binding.tabs.getTabAt(0)?.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)
             ?.setTextColor(resources.getColor(R.color.white, null))
-
+        //Actions when activating a particular tabs
         binding.tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.customView?.findViewById<ConstraintLayout>(R.id.linearlayout)
@@ -78,7 +79,6 @@ class GalleryFragment : Fragment() {
                 tab?.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)
                     ?.setTextColor(resources.getColor(R.color.white, null))
             }
-
             override fun onTabUnselected(tab: TabLayout.Tab?) {
                 tab?.customView?.findViewById<ConstraintLayout>(R.id.linearlayout)
                     ?.setBackgroundResource(R.drawable.tab_unselected_background)
@@ -88,7 +88,7 @@ class GalleryFragment : Fragment() {
             override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
     }
-
+    //When you click on a photo, we go to the page of viewing all photos in full size
     private fun onClickViewPager() {
         viewModel.putFilm()
         findNavController().navigate(R.id.action_nav_gallery_to_nav_viewer_image)

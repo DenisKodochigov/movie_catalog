@@ -16,20 +16,23 @@ import javax.inject.Inject
 class ImagesViewModel @Inject constructor(): ViewModel() {
 
     private val dataRepository = DataRepository()
+    //The movie that is displayed on the page
     private var localFilm: Film? = null
+    // Images data chanel
     private var _listImage = MutableStateFlow(Gallery())
     var listImage = _listImage.asStateFlow()
-
+    //Requesting data when starting a fragment
     init {
         takeFilm()
         localFilm?.let{ getImages(it) }
     }
-
+    //Get a list of images to display
     private fun getImages(film: Film) {
         viewModelScope.launch(Dispatchers.IO) {
             _listImage.value = dataRepository.getGallery(film)
         }
     }
+    //Get a saved film object
     private fun takeFilm() {
         val film = dataRepository.takeFilm()
         if (film != null) localFilm = film

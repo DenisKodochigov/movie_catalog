@@ -42,14 +42,14 @@ class FilmPageFragment : Fragment() {
     private val binding get() = _binding!!
     //Declaring Adapters
     //Actors in the film
-    private val personAdapter = PersonsAdapter({ person -> onPersonClick(person)}, sizeGird = 20, whatRole = 1)
+    private val actorAdapter = PersonsAdapter({ person -> onPersonClick(person)}, sizeGird = 20, whatRole = 1)
     //People involved in the making of the film
     private val staffAdapter = PersonsAdapter({person -> onPersonClick(person)}, sizeGird = 6, whatRole = 2)
     // To show photos for the movie
     private val galleryAdapter = ImagesAdapter ({ onImageClick() })
     //To show similar movie for the movie
     private val similarAdapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD, ModeViewer.SIMILAR,
-        { onSimilarClick()}, { kit -> onClickAll(kit)})
+        { film -> onSimilarClick(film)}, { kit -> onClickAll(kit)})
     private val viewModel: FilmPageViewModel by viewModels()
     //The state of the description field is compressed expanded
     private var isCollapsed = false
@@ -58,9 +58,6 @@ class FilmPageFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentFilmPageBinding.inflate(inflater, container,false)
-        //Making the toolbar translucent
-        (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).background =
-            resources.getDrawable(R.drawable.gradient_toolbar, context?.theme)
         //Removing the text toolbar
         (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text = ""
         return binding.root
@@ -206,64 +203,70 @@ class FilmPageFragment : Fragment() {
             showBottomSheetDialog(filmInfo)
         }
     }
-
     //Output of information about the people involved in the creation of the film
     @SuppressLint("SetTextI18n")
     private fun processingPerson(){
-        //Filling in the page fields
+        //Filling in the fields for actors
         binding.person.tvHeader.text = getText(R.string.header_actor)
-        binding.person.personRecycler.adapter = personAdapter
+        binding.person.personRecycler.adapter = actorAdapter
         binding.person.personRecycler.layoutManager= GridLayoutManager(context,5,
             RecyclerView.HORIZONTAL,false)
+        //Filling in the fields for staff
         binding.staff.tvHeader.text = getText(R.string.header_staff)
         binding.staff.personRecycler.adapter = staffAdapter
         binding.staff.personRecycler.layoutManager= GridLayoutManager(context,2,
             RecyclerView.HORIZONTAL,false)
 
         viewModel.person.onEach { binder ->
+            //Displaying a list of actors
             val actorList = binder.filter { it.person!!.professionKey == Constants.ACTOR }
-            personAdapter.setListPerson(actorList)
+            actorAdapter.setListPerson(actorList)
             if (actorList.size > Constants.INFO_QTY_PERSONCARD) {
+                //If the number of actors is more than displayed in the grid, then we show
+                // the number and a link to display the full list.
                 binding.person.tvQuantityActor.visibility = View.VISIBLE
                 binding.person.tvQuantityActor.text = "${actorList.size} >"
             } else {
                 binding.person.tvQuantityActor.visibility = View.INVISIBLE
             }
-
+            //Displaying a list of staffs
             val staffList = binder.filter { it.person!!.professionKey != Constants.ACTOR }
             staffAdapter.setListPerson(staffList)
             if (staffList.size > Constants.INFO_QTY_PERSONCARD) {
+                //If the number of staffs is more than displayed in the grid, then we show
+                // the number and a link to display the full list.
                 binding.staff.tvQuantityActor.visibility = View.VISIBLE
                 binding.staff.tvQuantityActor.text = "${staffList.size} >"
             } else {
                 binding.staff.tvQuantityActor.visibility = View.INVISIBLE
             }
-
         }.launchIn(viewLifecycleOwner.lifecycleScope)
-
+        //When you click on the number of actors, we save the type of persons, the movie and
+        // proceed to display the full list.
         binding.person.tvQuantityActor.setOnClickListener {
             viewModel.putJobPerson(Constants.ACTOR)
             viewModel.putFilm()
             findNavController().navigate(R.id.action_nav_filmInfo_to_nav_list_person)
         }
+        //When you click on the number of staffs, we save the type of persons, the movie and
+        // proceed to display the full list.
         binding.staff.tvQuantityActor.setOnClickListener {
             viewModel.putJobPerson(Constants.OTHER)
             viewModel.putFilm()
             findNavController().navigate(R.id.action_nav_filmInfo_to_nav_list_person)
         }
     }
-
+    //Displaying movie photos
     @SuppressLint("SetTextI18n")
     private fun processingGallery(){
         binding.gallery.imageRecycler.layoutManager = LinearLayoutManager(context,
             RecyclerView.HORIZONTAL,false)
         binding.gallery.imageRecycler.adapter = galleryAdapter
-
+        //Getting data to display a list of photos
         viewModel.images.onEach { listImage ->
-
             if (listImage.isNotEmpty()) {
                 galleryAdapter.setList(listImage)
-                if (listImage.size > Constants.HOME_QTY_FILMCARD-15) { //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                if (listImage.size > Constants.HOME_QTY_FILMCARD) {
                     binding.gallery.tvQuantityImages.visibility = View.VISIBLE
                     binding.gallery.tvQuantityImages.text = listImage.size.toString() + " >"
                 }else if (listImage.isEmpty()){
@@ -274,13 +277,14 @@ class FilmPageFragment : Fragment() {
                 }
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
-
+        //When you click on the number of images, we save the movie and
+        // proceed to display the full list.
         binding.gallery.tvQuantityImages.setOnClickListener {
             viewModel.putFilm()
             findNavController().navigate(R.id.action_nav_filmInfo_to_nav_gallery)
         }
     }
-
+    //Displaying movie similar film
     @SuppressLint("SetTextI18n")
     private fun processingSimilar() {
         binding.similar.similarRecycler.layoutManager = LinearLayoutManager(context,
@@ -290,64 +294,71 @@ class FilmPageFragment : Fragment() {
         viewModel.similar.onEach {
             similarAdapter.setListFilm(it)
             if (it.size > Constants.HOME_QTY_FILMCARD-1) {
+                //If the number of similar is more than displayed in the list, then we show
+                // the number and a link to display the full list.
                 binding.similar.tvQuantityMovies.visibility = View.VISIBLE
                 binding.similar.tvQuantityMovies.text = it.size.toString()  + " >"
             } else {
                 binding.gallery.tvQuantityImages.visibility = View.INVISIBLE
             }
         }.launchIn(viewLifecycleOwner.lifecycleScope)
-
+        //When you click on the number of similar films, we save the movie and
+        // proceed to display the full list.
         binding.similar.tvQuantityMovies.setOnClickListener {
             viewModel.putFilm()
             findNavController().navigate(R.id.action_nav_filmInfo_to_nav_list_films)
         }
     }
-
+    //When you click on a person, save the person and go to the person page
     private fun onPersonClick(person: Person) {
         viewModel.putPerson(person)
         findNavController().navigate(R.id.action_nav_filmInfo_to_nav_person)
     }
-
+    //When you click on the picture, save the current movie and go to the photo gallery
     private fun onImageClick() {
         viewModel.putFilm()
         findNavController().navigate(R.id.action_nav_filmInfo_to_nav_gallery)
     }
-
-    private fun onSimilarClick() {
-        viewModel.putFilm()
-        findNavController().navigate(R.id.action_nav_filmInfo_to_nav_list_films)
+    //When you click on a similar movie, save the selected movie and go to the detailed information
+    // page for the selected movie
+    private fun onSimilarClick(film: Film) {
+        viewModel.putFilm(film)
+        findNavController().navigate(R.id.action_nav_filmInfo_self)
     }
-
+    //When you click on the number of similar movies, save the current movie and go to the full list
+    //of similar movies
     private fun onClickAll(kit: Kit) {
         viewModel.putKit(kit)
         findNavController().navigate(R.id.action_nav_home_to_nav_kitfilms)
     }
-
+    //Displaying a pop-up bottom dialog sheet
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun showBottomSheetDialog(film:Film){
         val adapterBottom = BottomAdapterAny {collection -> onClickChecked(collection as CollectionDB) }
         val bottomSheetDialog = context?.let{ BottomSheetDialog(it, R.style.AppBottomSheetDialogTheme)}!!
         bottomSheetDialog.setContentView(R.layout.include_bottom_sheet)
+        //We show it in expanded form
         bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
-
+        //Loading the poster
         val animationCard = LoadImageURLShow()
         animationCard.setAnimation( bottomSheetDialog.findViewById(R.id.poster)!!,
             film.posterUrlPreview, R.dimen.gallery_list_small_card_radius)
-         context?.getDrawable(R.drawable.ic_baseline_image_not_supported_24)
+//        context?.getDrawable(R.drawable.ic_baseline_image_not_supported_24)
+        //Filling in the text variables
         bottomSheetDialog.findViewById<TextView>(R.id.bottom_name_film)?.text = film.nameRu
         bottomSheetDialog.findViewById<TextView>(R.id.bottom_genre_film)?.text = film.genresTxt()
 
         val recyclerView = bottomSheetDialog.findViewById<RecyclerView>(R.id.rv_collections)
         recyclerView?.adapter = adapterBottom
-
+        //Filling in the list of collections
         viewModel.collections.onEach {
             adapterBottom.setList(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
-//        adapterBottom.setListFilm(Plug.listCollection)
         val newCollection = bottomSheetDialog.findViewById<LinearLayout>(R.id.ll_add_collection)
         bottomSheetDialog.show()
+        //Actions when clicking create a new collection
         newCollection?.setOnClickListener {
-            //Запустить диалоговое окно, с запросом на новое название коллекции.
+            //Launch a dialog box with a request for a new collection name.
              val dialogView = requireActivity().layoutInflater.inflate(R.layout.dialog_layout, null)
 //            val dialogView = LayoutInflater.from(activity).inflate(R.layout.dialog_layout, null)
             val dialogAlert = activity?.let {
@@ -358,12 +369,12 @@ class FilmPageFragment : Fragment() {
             dialogButton.setOnClickListener{
                 val nameCollection = dialogView.findViewById<EditText>(R.id.username).text
                 viewModel.newCollection(nameCollection.toString())
-                Toast.makeText(context,"New collection $nameCollection сreated", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(context,"New collection $nameCollection сreated", Toast.LENGTH_SHORT).show()
                 dialogAlert.dismiss()
             }
         }
     }
-
+    //Actions for clicking check box
     private fun onClickChecked(collection: CollectionDB){
         viewModel.addRemoveFilmToCollection(collection)
         Toast.makeText(context,"Selected collection: ${collection.collection?.name ?: ""}",Toast.LENGTH_SHORT).show()

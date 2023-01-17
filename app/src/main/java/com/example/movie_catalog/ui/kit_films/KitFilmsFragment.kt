@@ -35,9 +35,10 @@ class KitFilmsFragment: Fragment() {
     private var _binding: FragmentKitFilmsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: KitfilmsViewModel by viewModels()
+    //Creating an adapter for show premieres
     private val listAdapter = ListFilmAdapter(0, ModeViewer.FILM, { film -> onItemClick(film)}, {})
+    //Creating an adapter for show other kit
     private val pagingAdapter = ListFilmPagingAdapter( ModeViewer.FILM) { film -> onItemClick(film) }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -49,34 +50,41 @@ class KitFilmsFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //Connecting layout manager
         binding.filmRecyclerVertical.layoutManager =
             GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
 
         if (viewModel.localKit == Kit.PREMIERES || viewModel.localKit == Kit.COLLECTION) processingPremieres()
         else processingPagingListFilm()
     }
-
+    //Output of the full list of the selection without pagination
     private fun processingPremieres(){
+        //Assigned an adapter
         binding.filmRecyclerVertical.adapter = listAdapter
+        //Received and transferred to the recycler a list of films
         viewModel.premieres.onEach {
             listAdapter.setListFilm(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
         binding.swipeRefresh.isEnabled = false
     }
-
+    //Output of the full list of the selection with pagination
     private fun processingPagingListFilm(){
+        //Assigned an adapter
         binding.filmRecyclerVertical.adapter = pagingAdapter.withLoadStateFooter(StateAdapterTopFilm())
+        //Received and transferred to the recycler a list of films
         viewModel.pagedFilms.onEach {
             pagingAdapter.submitData(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
+        //Started displaying data loading
         binding.swipeRefresh.setOnRefreshListener {
             pagingAdapter.refresh()
         }
+        //Tracking data loading
         pagingAdapter.loadStateFlow.onEach {
             binding.swipeRefresh.isRefreshing = it.refresh == LoadState.Loading
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
-
+    //When you click on the movie card, go to the page of the selected movie
     private fun onItemClick(film: Film) {
         viewModel.putFilm(film)
         findNavController().navigate(R.id.action_nav_kitFilms_to_nav_filmInfo)

@@ -17,12 +17,14 @@ import javax.inject.Inject
 class ListFilmsViewModel @Inject constructor(): ViewModel() {
 
     private val dataRepository = DataRepository()
+    //The person object that is used on the page
     private var localPerson: Person? = null
+    //The film object that is used on the page
     private var localFilm:Film? = null
-
+    //Data chanel a list for show
     private var _listLink = MutableStateFlow(Plug.plugLinkers)
     var listLink = _listLink.asStateFlow()
-
+    //Requesting data when starting a fragment
     init {
         takeFilm()
         takePerson()
@@ -30,17 +32,21 @@ class ListFilmsViewModel @Inject constructor(): ViewModel() {
     }
 
     private fun getData(film: Film?, person: Person?) {
+
         viewModelScope.launch(Dispatchers.IO) {
             _listLink.value = dataRepository.getLinkersForListFilmFragment(film, person)
         }
     }
+    //Save the film.object for the next fragment
     fun putFilm(film: Film){
         dataRepository.putFilm(film)
     }
+    //Get a saved film object
     private fun takeFilm() {
         val film = dataRepository.takeFilm()
         if (film != null) localFilm = film
     }
+    //Get a saved person object
     private fun takePerson(){
         val item = dataRepository.takePerson()
         if (item != null) localPerson = item

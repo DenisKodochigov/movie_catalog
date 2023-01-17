@@ -25,11 +25,12 @@ import javax.inject.Inject
 class KitfilmsViewModel @Inject constructor(): ViewModel() {
 
     private val dataRepository = DataRepository()
+    //The kit that is displayed on the page
     var localKit: Kit? = null
-
+    //Data chanel for premiere movies
     private var _premieres = MutableStateFlow(Plug.plugLinkers)
     var premieres = _premieres.asStateFlow()
-
+    //Data chanel for paging adapter
     var pagedFilms: Flow<PagingData<Linker>> = Pager(
         config = PagingConfig(pageSize = 20),
         pagingSourceFactory = { PagedSourceData(localKit!!) }
@@ -37,11 +38,15 @@ class KitfilmsViewModel @Inject constructor(): ViewModel() {
 
     init {
         takeKit()
-        if (localKit == Kit.PREMIERES) getData()
-        else if (localKit == Kit.VIEWED) getDataViewed()
-        else if (localKit == Kit.BOOKMARK) getDataCollection("",2)
-        else if (localKit == Kit.COLLECTION) getDataCollection(localKit!!.nameKit)
+        when(localKit) {
+            Kit.PREMIERES -> getPremieres()
+            Kit.VIEWED -> getDataViewed()
+            Kit.BOOKMARK -> getDataCollection("",2)
+            Kit.COLLECTION -> getDataCollection(localKit!!.nameKit)
+            else -> {}
+        }
     }
+    //Request for a list of movies from the collection
     private fun getDataCollection(nameCollection: String = "", idCollection: Int = 0) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
@@ -52,7 +57,7 @@ class KitfilmsViewModel @Inject constructor(): ViewModel() {
             )
         }
     }
-
+    //Request for a list of viewed movies
     private fun getDataViewed() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
@@ -63,7 +68,8 @@ class KitfilmsViewModel @Inject constructor(): ViewModel() {
             )
         }
     }
-    private fun getData() {
+    //Request for a list of premiers
+    private fun getPremieres() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 dataRepository.getPremieres()
@@ -73,9 +79,11 @@ class KitfilmsViewModel @Inject constructor(): ViewModel() {
             )
         }
     }
+    //Save the film.object for the next fragment
     fun putFilm(film: Film){
         dataRepository.putFilm(film)
     }
+    //Get a saved kit object
     private fun takeKit(){
         val kit = dataRepository.takeKit()
         if (kit != null) localKit = kit

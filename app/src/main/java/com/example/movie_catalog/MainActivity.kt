@@ -1,11 +1,14 @@
 package com.example.movie_catalog
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.example.movie_catalog.App.Companion.context
 import com.example.movie_catalog.databinding.ActivityMainBinding
 import com.example.movie_catalog.ui.MainActivityViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -16,11 +19,11 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    val viewModel: MainActivityViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        val viewModel: MainActivityViewModel by viewModels()
         setContentView(binding.root)
 
         val navView: BottomNavigationView = binding.navView
@@ -38,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.title = ""
         binding.toolbar.setNavigationIcon(R.drawable.icon_arrow_toolbar)
-        binding.toolbar.setNavigationOnClickListener {
-            onBackPressedDispatcher.onBackPressed() }
+        binding.toolbar.setNavigationOnClickListener { onBackPressedDispatcher.onBackPressed() }
+        binding.navView.visibility = View.VISIBLE
     }
 }

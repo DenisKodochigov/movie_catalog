@@ -37,42 +37,44 @@ class FilmographyFragment : Fragment() {
 
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?,
                                savedInstanceState: Bundle? ): View {
-
         _binding = FragmentFilmographyBinding.inflate(inflater, container, false)
+        //Removing the text toolbar
         (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text = ""
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        //Request a list films for person
         viewModel.person.onEach {
             processingTabLayout(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
-
-    private fun processingTabLayout(person: FilmographyData) {
-
+    //Filling the page with data
+    private fun processingTabLayout(filmography: FilmographyData) {
+        //Creating an adapter for viewpager2
         val adapter = ViewerPageAdapter(ModeViewer.FILMOGRAPHY) { film -> onClickViewPager(film as Film) }
-        adapter.setList(person)
+        //We send a list of tabs to the adapter
+        adapter.setList(filmography)
         binding.viewpager.adapter = adapter
-
+        //Programmatically select the first tab.
         binding.viewpager.currentItem = 0
+        //We fill in the tabs text fields
         TabLayoutMediator(binding.tabs, binding.viewpager) { tab, position ->
             tab.setCustomView(R.layout.item_tab)
             tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)?.text =
-                person.tabsKey[position].first?.nameView
+                filmography.tabsKey[position].first?.nameView
             tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_quantity)?.text =
-                person.tabsKey[position].second.toString()
+                filmography.tabsKey[position].second.toString()
             tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)
                 ?.setTextColor(resources.getColor(R.color.black, null))
         }.attach()
-
+        //We draw the tabs
         binding.tabs.getTabAt(0)?.customView?.findViewById<ConstraintLayout>(R.id.linearlayout)
             ?.setBackgroundResource(R.drawable.tab_selected_background)
         binding.tabs.getTabAt(0)?.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)
             ?.setTextColor(resources.getColor(R.color.white, null))
-
+        //Changing the rendering of the selected tab.
         binding.tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 tab?.customView?.findViewById<ConstraintLayout>(R.id.linearlayout)
@@ -89,7 +91,7 @@ class FilmographyFragment : Fragment() {
             override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
     }
-
+    //When you click on the movie card, go to the page of the selected movie
     private fun onClickViewPager(film: Film) {
         viewModel.putFilm(film)
         findNavController().navigate(R.id.action_nav_filmography_to_nav_filmInfo)

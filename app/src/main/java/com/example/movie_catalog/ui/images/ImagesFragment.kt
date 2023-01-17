@@ -31,7 +31,6 @@ class ImagesFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-
         _binding = FragmentImagesBinding.inflate(inflater, container, false)
         (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text = ""
         return binding.root
@@ -39,21 +38,23 @@ class ImagesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        //Request list images
         viewModel.listImage.onEach {
             processingTabLayout(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
-
+    //Filling page images
     private fun processingTabLayout(gallery: Gallery) {
         val adapter = ViewerPageAdapter(ModeViewer.IMAGE) {}
         adapter.setList(gallery)
         binding.viewpager.adapter = adapter
 //        binding.viewpager.currentItem = viewModel.takeGallery()?.viewingPosition!!
+        //Moving through the list to the left
         binding.ivButtonLeft.setOnClickListener {
             if (binding.viewpager.currentItem > 0)
                 binding.viewpager.currentItem = binding.viewpager.currentItem - 1
         }
+        //Moving through the list to the right
         binding.ivButtonRight.setOnClickListener {
             if (binding.viewpager.currentItem < gallery.images.size)
                 binding.viewpager.currentItem = binding.viewpager.currentItem + 1

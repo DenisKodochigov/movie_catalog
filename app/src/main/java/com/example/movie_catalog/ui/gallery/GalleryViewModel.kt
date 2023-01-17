@@ -16,25 +16,28 @@ import javax.inject.Inject
 class GalleryViewModel @Inject constructor(): ViewModel() {
 
     private val dataRepository = DataRepository()
+    //The movie that is displayed on the page
     private var localFilm: Film? = null
-
+    //Photo output stream
     private var _gallery = MutableStateFlow( Gallery())
     var galleryFlow = _gallery.asStateFlow()
-
+    //Requesting data when starting a fragment
     init {
         takeFilm()
         localFilm?.let { getImages(it)}
     }
-
+    //Get a list of images to display
     private fun getImages(film: Film) {
         viewModelScope.launch(Dispatchers.IO) {
             if (localFilm != null) _gallery.value = dataRepository.getGallery(film)
         }
     }
+    //Get a saved film object
     private fun takeFilm() {
         val film = dataRepository.takeFilm()
         if (film != null) localFilm = film
     }
+    //Save the film.object for the next fragment
     fun putFilm(){
         localFilm?.let { dataRepository.putFilm(it)}
     }

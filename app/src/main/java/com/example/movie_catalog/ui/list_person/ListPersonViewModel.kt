@@ -19,6 +19,7 @@ import javax.inject.Inject
 class ListPersonViewModel @Inject constructor() : ViewModel() {
 
     private val dataRepository = DataRepository()
+
     private var localFilm: Film? = null
     private var localJob: String? = null
 
