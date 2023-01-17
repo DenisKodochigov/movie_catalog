@@ -19,19 +19,20 @@ import javax.inject.Inject
 class ListPersonViewModel @Inject constructor() : ViewModel() {
 
     private val dataRepository = DataRepository()
-
+    //The film-object that is used on the page
     private var localFilm: Film? = null
+    //The job-object that is used on the page
     private var localJob: String? = null
-
+    //Data chanel list person
     private var _listPerson = MutableStateFlow(Plug.plugLinkers)
     var listPerson = _listPerson.asStateFlow()
-
+    //Requesting data when starting a fragment
     init {
         takeFilm()
         takeJobPerson()
         if (localJob !=  null && localFilm != null) getData()
     }
-
+    //Request for a list of persons
     private fun getData() {
         viewModelScope.launch(Dispatchers.IO) {
             val listPerson = dataRepository.getPersons(localFilm!!, localJob!!)
@@ -39,17 +40,17 @@ class ListPersonViewModel @Inject constructor() : ViewModel() {
             else Toast.makeText(App.context, "Нет данных для отображения", Toast.LENGTH_SHORT).show()
         }
     }
-
+    //Get a saved film object
     private fun takeFilm() {
         val film = dataRepository.takeFilm()
         if (film != null) localFilm = film
     }
-
+    //Get a saved job.object
     private fun takeJobPerson() {
         val item = dataRepository.takeJobPerson()
         if (item != null) localJob = item
     }
-
+    //Save the person job.object for the next fragment
     fun putPersonId(person: Person){
         dataRepository.putPerson(person)
     }

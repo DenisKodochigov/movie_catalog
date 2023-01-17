@@ -30,7 +30,7 @@ class ListPersonFragment : Fragment() {
     private var _binding: FragmentListPersonBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ListPersonViewModel by viewModels()
-//    private val listAdapter = ListPersonAdapter{person -> onItemClick(person)}
+    //Creating an adapter for list person
     private val listAdapter = PersonsAdapter({person -> onItemClick(person)})
 
     override fun onCreateView(
@@ -42,16 +42,19 @@ class ListPersonFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //Connecting layout manager to recyclerview
         binding.personRecyclerVertical.layoutManager =
             GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
+        //Connecting adapter to recyclerview
         binding.personRecyclerVertical.adapter = listAdapter
-
+        //Received and transferred to the recycler a list of persons
         viewModel.listPerson.onEach {
             listAdapter.setListPerson(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
     }
-
+    //When you clicked on the person's card
     private fun onItemClick(person: Person) {
+        //Saved the selected perosona
         viewModel.putPersonId(person)
         findNavController().navigate(R.id.action_nav_list_person_to_nav_person)
     }

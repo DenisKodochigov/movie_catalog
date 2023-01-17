@@ -35,7 +35,7 @@ class KitfilmsViewModel @Inject constructor(): ViewModel() {
         config = PagingConfig(pageSize = 20),
         pagingSourceFactory = { PagedSourceData(localKit!!) }
     ).flow.cachedIn(viewModelScope)
-
+    //Requesting data when starting a fragment
     init {
         takeKit()
         when(localKit) {

@@ -38,22 +38,20 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ProfileViewModel by viewModels()
-
+    //Creating an adapter for show viewed films from collection
     private val viewedAdapter = ListFilmAdapter(
         Constants.HOME_QTY_PROFILE, ModeViewer.PROFILE, { file -> onClickItem(file)},
         { kit -> onClickClearCollection(kit) })
-
+    //Creating an adapter for show films from collection bookmark
     private val bookmarkAdapter = ListFilmAdapter(
         Constants.HOME_QTY_PROFILE, ModeViewer.PROFILE, { file -> onClickItem(file)},
         { kit -> onClickClearCollection(kit)})
-
+    //Creating an adapter for collection
     private val collectionAdapter = BottomAdapterAny {item -> onClickCollection(item) }
 
     @SuppressLint("CutPasteId", "UseCompatLoadingForDrawables")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).background =
-            resources.getDrawable(R.drawable.gradient_toolbar, context?.theme)
         (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text = ""
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         return binding.root
@@ -82,40 +80,52 @@ class ProfileFragment : Fragment() {
             }
         }
     }
-
-    private fun processingViewCollection(){
-        with(binding.inclCollection){
-            filmRecyclerHorizontal.adapter = collectionAdapter
-            filmRecyclerHorizontal.layoutManager =
-                GridLayoutManager(context,2,RecyclerView.HORIZONTAL,false)
-            viewModel.collection.onEach {
-                collectionAdapter.setList(it)
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
-        }
-    }
-
+    //Output of movie lists
     private fun processingView(view: IncludeListFilmBinding, adapter: ListFilmAdapter,
-                               flowFilms: StateFlow<List<Linker>>, kit : Kit
-    ){
+                               flowFilms: StateFlow<List<Linker>>, kit : Kit){
         with(view){
+            //Output of name list
             kitName.text = kit.nameKit
+            //Connecting adapter
             filmRecyclerHorizontal.adapter = adapter
+            //Received and transferred to the recycler a list of films
             flowFilms.onEach {
                 adapter.setListFilm(it)
+                //Managing the display of the number of movies
                 if (it.size > Constants.HOME_QTY_FILMCARD-1) showAll.visibility = View.VISIBLE
                 else showAll.visibility = View.INVISIBLE
             }.launchIn(viewLifecycleOwner.lifecycleScope)
-
+            //When you click on the number of movies, save the current movie and go to the full list
+            //of similar movies
             showAll.setOnClickListener {
                 viewModel.putKit(kit)
                 findNavController().navigate(R.id.action_nav_profile_to_nav_kitFilms)
             }
         }
     }
-
+    //Output list collection
+    private fun processingViewCollection(){
+        with(binding.inclCollection){
+            //Connecting adapter recyclerview
+            filmRecyclerHorizontal.adapter = collectionAdapter
+            //Connecting layout manager recyclerview
+            filmRecyclerHorizontal.layoutManager =
+                GridLayoutManager(context,2,RecyclerView.HORIZONTAL,false)
+            //Received and transferred to the recycler a list of films
+            viewModel.collection.onEach {
+                collectionAdapter.setList(it)
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
+        }
+    }
+    //The function tracks two events: clicking on an item to delete a collection and showing
+    // the full list of movies in the collection.
     private fun onClickCollection(item: Any){
         when (item){
-            is Collection -> viewModel.deleteCollection(item)
+            //Deleting collection
+            is Collection -> {
+                viewModel.deleteCollection(item)
+            }
+            //Showing the full list of movies in the collection.
             is String -> {
                 val kit = Kit.COLLECTION
                 kit.nameKit = item
@@ -125,12 +135,12 @@ class ProfileFragment : Fragment() {
             else -> {}
         }
     }
-
+    //When you click on the movie card, go to the page of the selected movie
     private fun onClickItem(film: Film) {
         viewModel.putFilm(film)
         findNavController().navigate(R.id.action_nav_profile_to_nav_filmInfo)
     }
-
+    //When we click the last item in the list movie
     private fun onClickClearCollection(kit: Kit) {
         viewModel.clearKit(kit)
     }

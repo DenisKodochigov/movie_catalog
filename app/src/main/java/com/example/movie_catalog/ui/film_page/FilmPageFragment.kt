@@ -290,7 +290,7 @@ class FilmPageFragment : Fragment() {
         binding.similar.similarRecycler.layoutManager = LinearLayoutManager(context,
             RecyclerView.HORIZONTAL, false)
         binding.similar.similarRecycler.adapter = similarAdapter
-
+        //Received and transferred to the recycler a list of films
         viewModel.similar.onEach {
             similarAdapter.setListFilm(it)
             if (it.size > Constants.HOME_QTY_FILMCARD-1) {
