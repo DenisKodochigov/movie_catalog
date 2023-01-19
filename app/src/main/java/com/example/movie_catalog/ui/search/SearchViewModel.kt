@@ -19,16 +19,17 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(): ViewModel() {
 
     private val dataRepository = DataRepository()
-
+    //Data chanel for paging adapter
     var pagedFilms: Flow<PagingData<Linker>>
 
     init {
+        //Request when starting a fragment
         pagedFilms = Pager(
             config = PagingConfig(pageSize = 20),
             pagingSourceFactory = { PagedSourceData(Kit.SEARCH) }
         ).flow.cachedIn(viewModelScope)
     }
-
+    //Request after updating the search parameters
     fun startSearch(keyWord: String){
         putTextSearch(keyWord)
         pagedFilms = Pager(
@@ -36,7 +37,7 @@ class SearchViewModel @Inject constructor(): ViewModel() {
             pagingSourceFactory = { PagedSourceData(Kit.SEARCH) }
         ).flow.cachedIn(viewModelScope)
     }
-
+    //Save the set search parameters
     fun putTextSearch(keyWord:String){
         if (keyWord.isNotEmpty()) {
             val filter = dataRepository.takeSearchFilter()
@@ -44,7 +45,7 @@ class SearchViewModel @Inject constructor(): ViewModel() {
             dataRepository.putSearchFilter(filter)
         }
     }
-
+    //Save the film.object for the next fragment
     fun putFilm(film: Film){
         dataRepository.putFilm(film)
     }

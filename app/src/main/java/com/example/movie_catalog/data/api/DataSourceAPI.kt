@@ -95,7 +95,7 @@ class DataSourceAPI @Inject constructor() {
                 filter.genre.id, DataCentre.headers), kit)
             //Get a list of TV series
             Kit.SERIALS -> DataCentre.addFilms(retrofitApi.getFilters(page, SortingField.RATING.toString(),
-                TypeFilm.SERIALS.toString(), 1, 10, 1900, 2100, DataCentre.headers), kit)
+                TypeFilm.TV_SERIES.toString(), 1, 10, 1900, 2100, DataCentre.headers), kit)
             else -> { emptyList()}
         }
     }
@@ -113,7 +113,7 @@ class DataSourceAPI @Inject constructor() {
             if (filmImageDTO.total!! > 0) {
                 //Add DataCentre
                 DataCentre.addImage(film, tab, filmImageDTO)
-                while (filmImageDTO.totalPages!! >= page) {
+                while (filmImageDTO.totalPages!! > page + 1) {
                     //We get data from the following request pages.
                     DataCentre.addImage(film, tab,
                         retrofitApi.getGallery(film.filmId, tab.toString(), page++, DataCentre.headers)

@@ -17,14 +17,14 @@ import javax.inject.Inject
 class StartViewModel @Inject constructor(): ViewModel() {
 
     private val dataRepository = DataRepository()
-
+    //Data chanel for images
     private var _listImage = MutableStateFlow(listOf<ImageStart>())
     var listImage = _listImage.asStateFlow()
-
+    //Requesting data when starting a fragment
     init {
          getImages()
     }
-
+    //Request for a list of images
     private fun getImages() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {

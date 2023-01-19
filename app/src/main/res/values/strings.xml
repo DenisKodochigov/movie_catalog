@@ -1,4 +1,7 @@
 <resources>
+    <string name="toolbar_filmography">Фильмография</string>
+    <string name="toolbar_gallery">Галерея</string>
+
     <string name="app_name">movie_catalog</string>
     <string name="title_home">Home</string>
     <string name="name_movie">Название фильма</string>

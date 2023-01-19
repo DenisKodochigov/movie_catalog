@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentListFilmsBinding
 import com.example.movie_catalog.entity.Film
-import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.enumApp.ModeViewer
 import com.example.movie_catalog.ui.recycler.ListFilmAdapter
 import com.example.movie_catalog.ui.list_person.ListPersonFragment
@@ -33,7 +32,7 @@ class ListFilmsFragment : Fragment() {
     private var _binding: FragmentListFilmsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ListFilmsViewModel by viewModels()
-    //Creating an adapter for show list
+    //Creating an adapter for show a list movies
     private val listAdapter = ListFilmAdapter(0, ModeViewer.FILM,
         { film -> onItemClick(film)}, {})
 

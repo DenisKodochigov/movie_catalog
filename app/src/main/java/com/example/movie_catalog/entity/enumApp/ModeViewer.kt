@@ -9,4 +9,5 @@ enum class ModeViewer {
     SIMILAR,
     PROFILE,
     START,
+    SEARCH
 }

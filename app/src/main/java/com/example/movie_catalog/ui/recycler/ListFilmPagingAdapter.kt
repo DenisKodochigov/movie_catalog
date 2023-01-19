@@ -17,32 +17,41 @@ import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Linker
 import com.example.movie_catalog.entity.enumApp.ModeViewer
 import javax.inject.Inject
+/*
+The adapter is used in:
+ 1. The Kit Fragment to display a list premieres
+ 2. The Search Fragment to display a list movies
 
-class ListFilmPagingAdapter @Inject constructor(private val mode: ModeViewer,
-                                                private val onClick: (Film) -> Unit
+To properly connect the necessary modules, the ModeViewer enumeration is used
+
+ */
+class ListFilmPagingAdapter @Inject constructor(private val mode: ModeViewer, //For what context is the adapter called
+                                                private val onClick: (Film) -> Unit //Call back on click item recyclerview
 ) : PagingDataAdapter<Linker, RecyclerView.ViewHolder>(DiffUtilCallback()) {
-
+    //Assign the holder depending on the adapter's operating mode
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             R.layout.item_list_film_bot -> PagingBotVH(
-                ItemListFilmBotBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+                ItemListFilmBotBinding.inflate(LayoutInflater.from(parent.context),
+                    parent, false))
             R.layout.item_list_film_right -> PagingRightVH(
-                ItemListFilmRightBinding.inflate(LayoutInflater.from(parent.context), parent, false))
-            else -> throw IllegalArgumentException("Unsupported layout") // in case populated with a model we don't know how to display.
+                ItemListFilmRightBinding.inflate(LayoutInflater.from(parent.context),
+                    parent, false))
+            // in case populated with a model we don't know how to display.
+            else -> throw IllegalArgumentException("Unsupported layout")
         }
     }
+    //We connect the markup depending on the mode viewer
     override fun getItemViewType(position: Int): Int {
         return when (mode) {
             ModeViewer.FILM -> R.layout.item_list_film_bot
-            ModeViewer.SIMILAR -> R.layout.item_list_film_bot
-            ModeViewer.FILMOGRAPHY -> R.layout.item_list_film_right
+            ModeViewer.SEARCH -> R.layout.item_list_film_right
             else -> throw IllegalArgumentException("Unsupported type") // in case populated with a model we don't know how to display.
         }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables", "SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-//        Log.d("KDS", "PagingDataAdapter, position=$position")
         val filmF = getItem(position)?.film
         when (holder) {
             is PagingBotVH -> {
@@ -52,7 +61,6 @@ class ListFilmPagingAdapter @Inject constructor(private val mode: ModeViewer,
                 }else {
                     holder.binding.inclFilm.root.visibility = View.VISIBLE
                     holder.binding.inclShowAll.root.visibility = View.INVISIBLE
-
                     //Set film name
                     filmF?.let { film ->
                         holder.binding.inclFilm.nameFilm.text = film.nameRu ?: ""
@@ -72,11 +80,10 @@ class ListFilmPagingAdapter @Inject constructor(private val mode: ModeViewer,
                 }
             }
             is PagingRightVH -> {
-//        Log.d("KDS", "ImagesAdapter, onBindViewHolder start. position=$position")
                 val animationCard = LoadImageURLShow()
                 filmF?.let { film ->
                     with(holder.binding) {
-//Set viewed flag
+                        //Set viewed flag
                         if (film.viewed) {
                             ivViewed.background = App.context.getDrawable(R.drawable.icon_viewed)
                             ivViewed.visibility = View.VISIBLE
@@ -84,16 +91,16 @@ class ListFilmPagingAdapter @Inject constructor(private val mode: ModeViewer,
                             ivViewed.visibility = View.INVISIBLE
                             ivViewed.layoutParams.height = 0
                         }
-//Set rating
+                        //Set rating
                         if (film.rating != null) tvRating.text = film.rating.toString()
                         else tvRating.visibility = View.INVISIBLE
 
                         animationCard.setAnimation( poster, film.posterUrlPreview, R.dimen.gallery_list_small_card_radius)
-//Set film name
+                        //Set film name
                         nameFilm.text = film.nameRu ?: film.nameEn ?: film.nameOriginal
-//Set film date
+                        //Set film date
                         startYear.text = film.year.toString().orEmpty() + " " + film.genresTxt()
-//Set action on click item recyclerView
+                        //Set action on click item recyclerView
                         poster.setOnClickListener {
                             onClick(film)
                         }

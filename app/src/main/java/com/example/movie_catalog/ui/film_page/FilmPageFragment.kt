@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,9 +44,9 @@ class FilmPageFragment : Fragment() {
     private val actorAdapter = PersonsAdapter({ person -> onPersonClick(person)}, sizeGird = 20, whatRole = 1)
     //People involved in the making of the film
     private val staffAdapter = PersonsAdapter({person -> onPersonClick(person)}, sizeGird = 6, whatRole = 2)
-    // To show photos for the movie
-    private val galleryAdapter = ImagesAdapter ({ onImageClick() })
-    //To show similar movie for the movie
+    //Creating adapter for gallery
+    private val galleryAdapter = SimpleAdapterAny ({ onImageClick() })
+    //Creating adapter for similar movie for the movie
     private val similarAdapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD, ModeViewer.SIMILAR,
         { film -> onSimilarClick(film)}, { kit -> onClickAll(kit)})
     private val viewModel: FilmPageViewModel by viewModels()
@@ -331,10 +330,10 @@ class FilmPageFragment : Fragment() {
         viewModel.putKit(kit)
         findNavController().navigate(R.id.action_nav_home_to_nav_kitfilms)
     }
-    //Displaying a pop-up bottom dialog sheet
+    //Displaying a bottom dialog sheet
     @SuppressLint("UseCompatLoadingForDrawables")
     private fun showBottomSheetDialog(film:Film){
-        val adapterBottom = BottomAdapterAny {collection -> onClickChecked(collection as CollectionDB) }
+        val adapterBottom = SimpleAdapterAny ({ collection -> onClickChecked(collection as CollectionDB) })
         val bottomSheetDialog = context?.let{ BottomSheetDialog(it, R.style.AppBottomSheetDialogTheme)}!!
         bottomSheetDialog.setContentView(R.layout.include_bottom_sheet)
         //We show it in expanded form

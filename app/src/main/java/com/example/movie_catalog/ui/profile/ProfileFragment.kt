@@ -25,7 +25,7 @@ import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Linker
 import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.enumApp.ModeViewer
-import com.example.movie_catalog.ui.recycler.BottomAdapterAny
+import com.example.movie_catalog.ui.recycler.SimpleAdapterAny
 import com.example.movie_catalog.ui.recycler.ListFilmAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.StateFlow
@@ -47,7 +47,7 @@ class ProfileFragment : Fragment() {
         Constants.HOME_QTY_PROFILE, ModeViewer.PROFILE, { file -> onClickItem(file)},
         { kit -> onClickClearCollection(kit)})
     //Creating an adapter for collection
-    private val collectionAdapter = BottomAdapterAny {item -> onClickCollection(item) }
+    private val collectionAdapter = SimpleAdapterAny ({ item -> onClickCollection(item) })
 
     @SuppressLint("CutPasteId", "UseCompatLoadingForDrawables")
     override fun onCreateView(

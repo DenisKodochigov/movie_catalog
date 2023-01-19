@@ -11,7 +11,14 @@ import com.example.movie_catalog.databinding.ItemPersonListBinding
 import com.example.movie_catalog.entity.Linker
 import com.example.movie_catalog.entity.Person
 import javax.inject.Inject
+/*
+The adapter is used in:
+ 1. The Film Page Fragment to display a list of person.
+ 2. The List Person Fragment to display a list of person.
 
+If the size of the list is not specified, then we use the markup for the vertical full list of persons,
+if the size is set, then we use the markup to display a grid of persons
+ */
 class PersonsAdapter @Inject constructor(
     private val onClick: (Person) -> Unit, val sizeGird: Int = 0, val whatRole: Int = 0
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -27,10 +34,10 @@ class PersonsAdapter @Inject constructor(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
             RecyclerView.ViewHolder {
         return when (viewType) {
-//            R.layout.item_film_page_person -> PersonGridVH(inflater.inflate(viewType, parent, false))
-//            R.layout.item_person_list -> PersonListVH(inflater.inflate(viewType, parent, false))
+            //The markup to display a grid of persons
             R.layout.item_film_page_person -> PersonGridVH(
                 ItemFilmPagePersonBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+            //The markup for the vertical full list of persons
             R.layout.item_person_list -> PersonListVH(
                 ItemPersonListBinding.inflate(LayoutInflater.from(parent.context), parent, false))
             else -> throw IllegalArgumentException("Unsupported layout") // in case populated with a model we don't know how to display.
@@ -41,6 +48,7 @@ class PersonsAdapter @Inject constructor(
         val person = linkers.getOrNull(position)?.person
 
         when (holder) {
+            //The markup for the vertical full list of persons
             is PersonListVH -> {
                 person?.let {
                     //Set Person name
@@ -56,7 +64,7 @@ class PersonsAdapter @Inject constructor(
                 val animationCard = LoadImageURLShow()
                 animationCard.setAnimation(holder.binding.poster, person?.posterUrl, R.dimen.card_film_radius)
             }
-
+            //The markup to display a grid of persons
             is PersonGridVH -> {
                 person?.let {
                     //Set actor name
@@ -81,12 +89,14 @@ class PersonsAdapter @Inject constructor(
         return if (linkers.size > sizeGird - 1 && sizeGird != 0) sizeGird
         else linkers.size
     }
-
+//    If the size of the list is not specified, then we use the markup for the vertical full list of persons,
+//    if the size is set, then we use the markup to display a grid of persons
     override fun getItemViewType(position: Int): Int {
         return when (sizeGird) {
             0 -> R.layout.item_person_list
             in 1..100 -> R.layout.item_film_page_person
-            else -> throw IllegalArgumentException("Unsupported type") // in case populated with a model we don't know how to display.
+            // in case populated with a model we don't know how to display.
+            else -> throw IllegalArgumentException("Unsupported type")
         }
     }
 }

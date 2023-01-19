@@ -17,21 +17,35 @@ import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.enumApp.ModeViewer
 import javax.inject.Inject
 
+/*
+The adapter is used in:
+ 1. The Profile Fragment to display a list of films for collection.
+ 2. The Film Page Fragment to display a list similar movie for the movie.
+ 3. The Home Fragment to display a list movies for selections
+ 4. The Kit Fragment to display a list premieres
+ 5. The List Film Fragment to display a list movies
+ 6. The Person Fragment to display a list persons
+ 7. The Filmography Fragment to display a list movie
+
+To properly connect the necessary modules, the ModeViewer enumeration is used
+
+ */
+
 class ListFilmAdapter @Inject constructor(
-    private val quantityItem: Int = 0,
-    private val mode: ModeViewer = ModeViewer.FILM,
-    private val onClick: (film: Film) -> Unit,
-    private val onClickLast: (kit: Kit) -> Unit
+    private val quantityItem: Int = 0,              //The number of displayed items in the list
+    private val mode: ModeViewer = ModeViewer.FILM, //For what context is the adapter called
+    private val onClick: (film: Film) -> Unit,      //Call back on click item recyclerview
+    private val onClickLast: (kit: Kit) -> Unit     //Call back on click last item recyclerview
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
+    //Working list items
     private var linkers: List<Linker> = emptyList()
-
+    //Determining the size of the list
     @SuppressLint("NotifyDataSetChanged")
     fun setListFilm(listLinker: List<Linker>) {
         linkers = listLinker
         notifyDataSetChanged()
     }
-
+    //Assign the holder depending on the adapter's operating mode
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             R.layout.item_list_film_bot -> ListVH(
@@ -62,30 +76,30 @@ class ListFilmAdapter @Inject constructor(
                     holder.binding.inclClear.oval.setOnClickListener {
                         linkers[position].kit?.let { kit -> onClickLast(kit) }
                     }
+                //Defining how to display the list
                 }else {
                     holder.binding.inclFilm.root.visibility = View.VISIBLE
                     var film = linkers.getOrNull(position)?.film
                     if (mode == ModeViewer.SIMILAR) film = linkers.getOrNull(position)?.similarFilm
                     film?.let {
                         //Set film name
-                        holder.binding.inclFilm.nameFilm.text = film.nameRu ?: film.nameEn ?: film.nameOriginal
-        //Set film genres.
+                        holder.binding.inclFilm.nameFilm.text =
+                            film.nameRu ?: film.nameEn ?: film.nameOriginal
+                        //Set film genres.
                         holder.binding.inclFilm.genreFilm.text = film.genresTxt()
-        //Set viewed flag
+                         //Set viewed flag
                         if (film.viewed) {
                             holder.binding.inclFilm.ivViewed.visibility = View.VISIBLE
                             holder.binding.inclFilm.poster.foreground =
                                 App.context.getDrawable(R.drawable.gradientviewed)
-//                            Log.d("KDS", "Viewed = true for name =${film.nameRu}, id=${film.filmId}")
                         } else {
                             holder.binding.inclFilm.poster.foreground = null
                         }
-
-        //Set rating
+                        //Set rating
                         if (film.rating != null) holder.binding.inclFilm.tvRating.text =
                             film.rating.toString()
                         else holder.binding.inclFilm.tvRating.visibility = View.INVISIBLE
-        //Set action on click item recyclerView
+                        //Set action on click item recyclerView
                         holder.binding.root.setOnClickListener {
                             onClick(film)
                         }
@@ -101,11 +115,10 @@ class ListFilmAdapter @Inject constructor(
             }
             is FilmographyVH -> {
                 val filmF = linkers[position].film
-//        Log.d("KDS", "ImagesAdapter, onBindViewHolder start. position=$position")
                 val animationCard = LoadImageURLShow()
                 filmF?. let { film ->
                     with(holder.binding) {
-//Set viewed flag
+                        //Set viewed flag
                         if (film.viewed) {
                             ivViewed.background = App.context.getDrawable(R.drawable.icon_viewed)
                             ivViewed.visibility = View.VISIBLE
@@ -113,17 +126,17 @@ class ListFilmAdapter @Inject constructor(
                             ivViewed.visibility = View.INVISIBLE
                             ivViewed.layoutParams.height = 0
                         }
-//Set rating
+                        //Set rating
                         if (film.rating != null) tvRating.text = film.rating.toString()
                         else tvRating.visibility = View.INVISIBLE
 
                         animationCard.setAnimation( poster, film.posterUrlPreview, R.dimen.gallery_list_small_card_radius)
-//Set film name
+                        //Set film name
                         nameFilm.text = film.nameRu ?: film.nameEn ?: film.nameOriginal
-//Set film date
+                        //Set film date
                         if (film.year != null) startYear.text = film.year.toString() + " " + film.genresTxt()
                         else startYear.text = film.genresTxt()
-//Set action on click item recyclerView
+                        //Set action on click item recyclerView
                         poster.setOnClickListener {
                             onClick(film)
                         }
@@ -144,6 +157,7 @@ class ListFilmAdapter @Inject constructor(
     }
 
     override fun getItemCount(): Int {
+        //If it is necessary to display a limited list, then we carry out the appropriate checks
         return if (quantityItem > 0 && linkers.size > quantityItem - 1) {
             quantityItem
         } else {

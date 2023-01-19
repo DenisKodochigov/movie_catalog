@@ -12,6 +12,5 @@ enum class ImageGroup (val nameDisplay: String) {
     CONCEPT(App.context.getString(R.string.CONCEPT)),
     WALLPAPER(App.context.getString(R.string.WALLPAPER)),
     COVER(App.context.getString(R.string.COVER)),
-    SCREENSHOT(App.context.getString(R.string.SCREENSHOT)),
-    OTHER(App.context.getString(R.string.OTHER))
+    SCREENSHOT(App.context.getString(R.string.SCREENSHOT))
 }

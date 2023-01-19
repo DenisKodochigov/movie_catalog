@@ -16,19 +16,21 @@ class SeasonsViewModel @Inject constructor(): ViewModel() {
 
     private val dataRepository = DataRepository()
     private var localFilm: Film? = null
+    //Data chanel for tv series
     private var _listSeason = MutableStateFlow(Film())
     var listSeason = _listSeason.asStateFlow()
-
+    //Requesting data when starting a fragment
     init {
         takeFilm()
         localFilm?.let{ getSerials(it) }
     }
-
+    //Requesting a list of TV series
     private fun getSerials(film: Film) {
         viewModelScope.launch(Dispatchers.IO) {
             _listSeason.value = dataRepository.getInfoFilmSeason(film)!!
         }
     }
+    //Get a saved film object
     private fun takeFilm() {
         val film = dataRepository.takeFilm()
         if (film != null) localFilm = film

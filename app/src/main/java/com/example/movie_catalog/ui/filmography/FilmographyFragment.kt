@@ -39,7 +39,8 @@ class FilmographyFragment : Fragment() {
                                savedInstanceState: Bundle? ): View {
         _binding = FragmentFilmographyBinding.inflate(inflater, container, false)
         //Removing the text toolbar
-        (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text = ""
+        (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text =
+            resources.getString(R.string.toolbar_filmography)
         return binding.root
     }
 

@@ -1,7 +1,6 @@
 package com.example.movie_catalog.ui.recycler
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
@@ -74,7 +73,7 @@ class ViewerPageAdapter (private val mode: ModeViewer, private val onClick: (Any
                 when (mode){
                     ModeViewer.GALLERY -> {
                         val gallery = items as Gallery
-                        val imageAdapter = ImagesAdapter ({ onClickImagesAdapter(null)},1)
+                        val imageAdapter = SimpleAdapterAny ({ onClickImagesAdapter(null)},1)
                         holder.binding.recyclerImage.layoutManager = GridLayoutManager(App.context, 2).also {
                             it.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                                 override fun getSpanSize(position: Int): Int {
@@ -126,7 +125,7 @@ class ViewerPageAdapter (private val mode: ModeViewer, private val onClick: (Any
             }
             is SeasonVH -> {
                 val film = items as Film
-                val episodeAdapter = EpisodeAdapter()
+                val episodeAdapter = SimpleAdapterAny({})
                 holder.binding.recycler.layoutManager = LinearLayoutManager(App.context, RecyclerView.VERTICAL, false)
                 holder.binding.recycler.adapter = episodeAdapter
 

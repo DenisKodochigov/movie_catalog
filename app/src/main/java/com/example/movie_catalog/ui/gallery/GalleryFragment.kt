@@ -37,6 +37,7 @@ class GalleryFragment : Fragment() {
                               savedInstanceState: Bundle?): View {
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
         (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text = ""
+        resources.getString(R.string.toolbar_gallery)
         return binding.root
     }
 

@@ -29,25 +29,24 @@ class SeasonsFragment : Fragment() {
     private var _binding: FragmentSeasonsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SeasonsViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val inflater = TransitionInflater.from(requireContext())
-        enterTransition = inflater.inflateTransition(R.transition.slide_right)
-        exitTransition = inflater.inflateTransition(R.transition.fade)
-    }
+//
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        val inflater = TransitionInflater.from(requireContext())
+//        enterTransition = inflater.inflateTransition(R.transition.slide_right)
+//        exitTransition = inflater.inflateTransition(R.transition.fade)
+//    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-
         _binding = FragmentSeasonsBinding.inflate(inflater, container, false)
-        (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text = ""
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        //Received and transferred to the recycler a list of films
         viewModel.listSeason.onEach { itFilm ->
+            //Settings text toolbar
             (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text =
                 itFilm.nameRu
             itFilm.listSeasons?.let { processingTabLayout(itFilm) }
@@ -57,12 +56,14 @@ class SeasonsFragment : Fragment() {
     private fun processingTabLayout(film: Film) {
         val adapter = ViewerPageAdapter(ModeViewer.SEASON) {}
         adapter.setList(film)
+        //Connecting adapter
         binding.viewpager.adapter = adapter
-//        Log.d("KDS","ViewerImageFragment.processingTabLayout currentItem=${App.galleryApp?.viewingPosition!!}")
+        //Reaction to swiping to the left
         binding.ivButtonLeft.setOnClickListener {
             if (binding.viewpager.currentItem > 0)
                 binding.viewpager.currentItem = binding.viewpager.currentItem - 1
         }
+        //Reaction to swiping to the right
         binding.ivButtonRight.setOnClickListener {
             if (binding.viewpager.currentItem < film.listSeasons!!.size)
                 binding.viewpager.currentItem = binding.viewpager.currentItem + 1
