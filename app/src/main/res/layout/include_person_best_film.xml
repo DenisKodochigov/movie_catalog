@@ -29,6 +29,6 @@
         app:layout_constraintBottom_toBottomOf="@id/kit_name"
         app:layout_constraintTop_toTopOf="@id/kit_name"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="@string/show_all"/>
+        android:text="@string/tv_show_all"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">858972274624-rsfnt2806ppsrg34od0ds8eba0eugk6t.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">858972274624</string>
+    <string name="google_api_key" translatable="false">AIzaSyCz0iMsYnu0fgiEKPJ8YeD08najGe61lWw</string>
+    <string name="google_app_id" translatable="false">1:858972274624:android:85692d30847d4bb221d225</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyCz0iMsYnu0fgiEKPJ8YeD08najGe61lWw</string>
+    <string name="google_storage_bucket" translatable="false">movie-catalog-21327.appspot.com</string>
+    <string name="project_id" translatable="false">movie-catalog-21327</string>
+</resources>

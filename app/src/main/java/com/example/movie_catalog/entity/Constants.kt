@@ -6,9 +6,10 @@ object Constants {
     const val INFO_QTY_PERSONCARD = 20
     const val PERSON_QTY_FILMCARD = 10
     const val PREMIERES_WEEKS = 2
-    const val RATING_FILM = 8
     const val ACTOR = "ACTOR"
     const val OTHER = "OTHER"
     const val FILM = "FILM"
     const val LENGTH_DESCRIPTION = 250
+    const val PREFERENCE_NAME = "movie_catalog"
+    const val FIRST_START = "FIRST_START"
 }

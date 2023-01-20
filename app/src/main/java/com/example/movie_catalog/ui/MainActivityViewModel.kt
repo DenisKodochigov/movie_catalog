@@ -14,21 +14,15 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
 
     private val dataRepository = DataRepository()
 
-    init {
-        getConditionWork()
-    }
-    fun getConditionWork(): Boolean {
-        var conditionWork: Boolean? = null
+    fun synchronizationDataCenterAndDB(){
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 dataRepository.synchronizationDataCenterAndDB()
-                dataRepository.getConditionWork()
             }.fold(
-                onSuccess = {conditionWork = it },
+                onSuccess = {},
                 onFailure = { ErrorApp().errorApi(it.message!!)}
             )
         }
-        while (conditionWork == null) {}
-        return conditionWork as Boolean
+        return
     }
 }

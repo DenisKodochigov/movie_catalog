@@ -89,7 +89,6 @@
             android:id="@+id/ratingName"
             style="@style/H5_poster"
             android:layout_marginTop="@dimen/poster_yearGenreOther_top"
-            android:hint="@string/poster_rating_name_ru_film"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/nameRuOrig" />
@@ -97,7 +96,6 @@
         <TextView
             android:id="@+id/yearGenreOther"
             style="@style/H5_poster"
-            android:hint="@string/poster_yeargenreother"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ratingName" />

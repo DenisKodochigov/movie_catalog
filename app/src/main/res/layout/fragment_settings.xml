@@ -39,7 +39,7 @@
                 android:id="@+id/rbAll"
                 style="@style/radiobutton"
                 android:background="@drawable/radiobutton_selector_left"
-                android:text="@string/show_all" />
+                android:text="@string/tv_show_all" />
             <RadioButton
                 android:id="@+id/rbFilm"
                 style="@style/radiobutton"
@@ -49,7 +49,7 @@
                 android:id="@+id/rbSerial"
                 style="@style/radiobutton"
                 android:background="@drawable/radiobutton_selector_right"
-                android:text="@string/serials" />
+                android:text="@string/serials_kit" />
         </RadioGroup>
 
         <TextView
@@ -189,7 +189,7 @@
                 android:id="@+id/rbPopular"
                 style="@style/radiobutton"
                 android:background="@drawable/radiobutton_selector_middle"
-                android:text="@string/popularis" />
+                android:text="@string/popularity" />
 
             <RadioButton
                 android:id="@+id/rbRating"

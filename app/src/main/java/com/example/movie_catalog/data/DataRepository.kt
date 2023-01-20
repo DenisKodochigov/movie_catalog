@@ -47,7 +47,7 @@ class DataRepository @Inject constructor() {
         if (listBinder.isEmpty()) {
             //If not, we make a request for a resource
             dataSourceAPI.getTop(page, kit)
-            // Select the list of premieres
+            // Select the list of top movies
             listBinder = DataCentre.linkers.filter { it.kit == kit }
         }
         return listBinder
@@ -61,7 +61,7 @@ class DataRepository @Inject constructor() {
         if (listFilm.isEmpty()) {
             //If not, we make a request for a resource
             dataSourceAPI.getSimilar(film)
-            // Select the list of premieres
+            // Select the list of similar films
             listFilm = DataCentre.linkers.filter { it.film == film && it.similarFilm != null }
         }
         return listFilm

@@ -80,11 +80,11 @@ class SimpleAdapterAny @Inject constructor(private val onClick: (Any) -> Unit, p
     override fun getItemViewType(position: Int): Int {
         return when (items[position]) {
             is CollectionDB -> R.layout.item_bottom_recycler        // The list of collections with checkbox
-            is RecyclerData -> R.layout.item_bottom_recycler_years  //The list of years
+            is RecyclerData -> R.layout.item_bottom_recycler_years  // The list of years
             is Collection -> R.layout.item_profile_card_collections // The list of collections
-            is EpisodeDTO -> R.layout.item_viewer_season_recycler // The list of episodes
-            is ImageFilm -> R.layout.item_image_recycler // The list of images
-            else -> R.layout.item_bottom_recycler_text              //The list of country or genres
+            is EpisodeDTO -> R.layout.item_viewer_season_recycler   // The list of episodes
+            is ImageFilm -> R.layout.item_image_recycler            // The list of images
+            else -> R.layout.item_bottom_recycler_text              // The list of country or genres
         }
     }
     @SuppressLint("UseCompatLoadingForDrawables", "SetTextI18n")

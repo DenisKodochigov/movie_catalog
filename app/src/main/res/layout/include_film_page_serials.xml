@@ -17,13 +17,13 @@
         style = "@style/H5_poster"
         app:layout_constraintTop_toBottomOf="@id/tv_header"
         app:layout_constraintStart_toStartOf="@id/tv_header"
-        android:hint="@string/quantity_starred"/>
+        android:hint="@string/tv_quantity_starred"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_all"
         style = "@style/H4_et"
         app:layout_constraintTop_toTopOf="@id/tv_header"
         app:layout_constraintEnd_toEndOf="parent"
-        android:text="@string/show_all"/>
+        android:text="@string/tv_show_all"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

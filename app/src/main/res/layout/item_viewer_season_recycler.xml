@@ -8,11 +8,11 @@
 
    <TextView
        android:id="@+id/tvNameEn"
-       android:hint="@string/numberSeriaName"
+       android:hint="@string/number_serial_name"
       style = "@style/H4"/>
    <TextView
        android:id="@+id/tvNameRu"
-       android:hint="@string/numberSeriaName"
+       android:hint="@string/number_serial_name"
        style = "@style/H4"/>
    <TextView
        android:id="@+id/tvDescription"

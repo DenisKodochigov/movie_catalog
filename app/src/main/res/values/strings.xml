@@ -7,48 +7,28 @@
     <string name="name_movie">Название фильма</string>
     <string name="genre_movie">Жанр фильма</string>
 
-    <string name="kit_name">KIT NAME</string>
-    <string name="show_all">Все</string>
-    <string name="show_all1">Показать все</string>
-    <string name="clear">Очистить все</string>
-    <string name="quantity_starred">Всего</string>
-
-    <string name="premieres">Премьеры</string>
-    <string name="popular">Популярное</string>
-    <string name="top">Top 250</string>
-    <string name="serials">Сериалы</string>
-    <string name="random1">Подборка 1</string>
-    <string name="random2">Подборка 2</string>
+    //Name kit movies
+    <string name="premieres_kit">Премьеры</string>
+    <string name="popular_kit">Популярное</string>
+    <string name="top_kit">Top 250</string>
+    <string name="serials_kit">Сериалы</string>
+    <string name="random1_kit">Подборка 1</string>
+    <string name="random2_kit">Подборка 2</string>
     <string name="search_kit">Поиск</string>
     <string name="viewed_kit">Просмотрено</string>
     <string name="bookmark_kit">Вам было интересно</string>
 
-    <string name="card_starred_actor">Актер</string>
-    <string name="card_starred_role">Роль</string>
-    <string name="card_starred_photo">Фотография актера</string>
-
+    //contentDescription
     <string name="poster_small">poster_small</string>
-    <string name="nameru">Руское название фильма</string>
-    <string name="poster_yeargenreother">poster_yearGenreOther</string>
     <string name="icon_favorite">icon_favorite</string>
     <string name="icon_bookmark">icon_bookmark</string>
     <string name="icon_viewed">icon_viewed</string>
     <string name="icon_share">icon_share</string>
     <string name="icon_other">icon_other</string>
-    <string name="the_film_starred">В фильме снимались</string>
-    <string name="poster_rating_name_ru_film">Rating, name RU film</string>
     <string name="poster_show_logotype_film">Show Logotype film</string>
-    <string name="search">Search</string>
-    <string name="profile">Profile</string>
+    <string name="todo">TODO</string>
 
-    <string name="header_actor">В фильме снимались</string>
-    <string name="header_staff">Над фильмом работали</string>
-    <string name="header_gallery">Галерея</string>
-    <string name="header_similar">Похожие фильмы</string>
-
-    <string name="icon_rating_hint">5.5</string>
-    <string name="not_data">Нет данных</string>
-
+    //Image Group
     <string name="FAN_ART">Фан-арты</string>
     <string name="CONCEPT">Концепт-арты</string>
     <string name="COVER">Обложки</string>
@@ -71,13 +51,7 @@
     <string name="job">Участие</string>
     <string name="seasonSeries">Сезоны и серии</string>
 
-    <string name="film_info_poster_seasons">сезонов: </string>
-    <string name="viewer_seasons_season">сезон</string>
-    <string name="episode">серия</string>
-    <string name="quantity_series">серий</string>
-    <string name="numberSeriaName">Номер серии. Название</string>
-    <string name="date">Дата</string>
-
+    //ProfKey
     <string name="ACTOR">Актеры</string>
     <string name="HERSELF">Ведущая</string>
     <string name="HIMSELF">Ведущий</string>
@@ -93,6 +67,35 @@
     <string name="VOICE_MALE">Озвучивание</string>
     <string name="VOICE_FEMALE">Озвучивание</string>
     <string name="HRONO_TITR_FEMALE">ХРОНО ТИТР </string>
+
+    //
+    <string name="nameru">Руское название фильма</string>
+    <string name="the_film_starred">В фильме снимались</string>
+    <string name="search">Search</string>
+    <string name="profile">Profile</string>
+    <string name="header_actor">В фильме снимались</string>
+    <string name="header_staff">Над фильмом работали</string>
+    <string name="header_gallery">Галерея</string>
+    <string name="header_similar">Похожие фильмы</string>
+    <string name="icon_rating_hint">5.5</string>
+    <string name="not_data">Нет данных</string>
+    <string name="card_starred_actor">Актер</string>
+    <string name="card_starred_role">Роль</string>
+    <string name="card_starred_photo">Фотография актера</string>
+
+    <string name="kit_name">KIT NAME</string>
+    <string name="tv_show_all">Все</string>
+    <string name="tv_show_all1">Показать все</string>
+    <string name="tv_clear">Очистить все</string>
+    <string name="tv_quantity_starred">Всего</string>
+
+    <string name="film_info_poster_seasons">сезонов: </string>
+    <string name="viewer_seasons_season">сезон</string>
+    <string name="episode">серия</string>
+    <string name="quantity_series">серий</string>
+    <string name="number_serial_name">Номер серии. Название</string>
+    <string name="date">Дата</string>
+    Popularity
     <string name="name_film">Название фильма</string>
     <string name="genre_film">Жанр фильма</string>
     <string name="add_collection">Добавить коллекцию.</string>
@@ -102,7 +105,7 @@
     <string name="want_look">Хочу посмотреть</string>
     <string name="favourite">Любимые</string>
     <string name="_0">0</string>
-    <string name="todo">TODO</string>
+
     <string name="this_search">Фильмы, актеры, режисеры</string>
     <string name="films">Фильмы</string>
     <string name="country">Страна</string>
@@ -113,7 +116,7 @@
     <string name="_10">10</string>
     <string name="sorting">Сортировка</string>
     <string name="dont_show_viewed">Не показывать просмотренные фильмы</string>
-    <string name="popularis">Популярность</string>
+    <string name="popularity">Популярность</string>
     <string name="viewing">Показывать</string>
     <string name="enter_country">Введите название</string>
     <string name="search_from">Искать в период с</string>
@@ -127,6 +130,7 @@
     <string name="signature2">Создавай \nколлекции</string>
     <string name="signature3">Делись \nс друзьями</string>
     <string name="signature4"></string>
+    //Error message
     <string name="error401">Запрос к удаленному ресурсу закончился неудачей, с кодом HTTP 401: Пустой или неправильный токен</string>
     <string name="error402">Запрос к удаленному ресурсу закончился неудачей, с кодом HTTP 402: Превышен лимит запросов(или дневной, или общий)</string>
     <string name="error429">Запрос к удаленному ресурсу закончился неудачей, с кодом HTTP 429: Слишком много запросов. Общий лимит - 20 запросов в секунду</string>

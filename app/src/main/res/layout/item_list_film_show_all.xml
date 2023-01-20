@@ -27,7 +27,7 @@
     <TextView
         android:id="@+id/tv_all"
         style="@style/H5_show_all"
-        android:text="@string/show_all1"
+        android:text="@string/tv_show_all1"
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -28,6 +28,6 @@
         app:layout_constraintTop_toTopOf="@id/tv_header"
         app:layout_constraintBottom_toBottomOf="@+id/tv_header"
         app:layout_constraintEnd_toEndOf="parent"
-        android:hint="@string/quantity_starred"/>
+        android:hint="@string/tv_quantity_starred"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
