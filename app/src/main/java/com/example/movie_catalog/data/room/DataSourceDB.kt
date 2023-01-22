@@ -105,8 +105,15 @@ open class DataSourceDB  @Inject constructor(){
         dataDao.setAllViewed(false)
     }
     //Deleting record in table crossFC by bookmark
+    fun clearCollection(nameCollection: String){
+        val colDb = dataDao.getCollectionRecord(nameCollection)?.idCollection
+        colDb?.let{
+            dataDao.clearByCollectionIdCrossFC(colDb)
+        }
+    }
+    //Deleting record in table crossFC by bookmark
     fun clearBookmarkFilm(){
-        dataDao.deleteByIdCrossFC(2)
+        dataDao.clearByCollectionIdCrossFC(2)
     }
     //Deleting collection by name collection
     fun deleteCollection(nameCollection: String){

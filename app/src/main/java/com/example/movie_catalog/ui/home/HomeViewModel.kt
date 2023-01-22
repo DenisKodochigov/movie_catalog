@@ -46,8 +46,8 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         getGenres()
         getPremieres()
         getPopular()
-        getTop250()
-        getSerials()
+//        getTop250()
+//        getSerials()
     }
     //Requesting data to select two random movie selections
     private fun getGenres() {

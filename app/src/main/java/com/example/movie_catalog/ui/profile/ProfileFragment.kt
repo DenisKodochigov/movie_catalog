@@ -16,6 +16,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.movie_catalog.App
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentProfileBinding
 import com.example.movie_catalog.databinding.IncludeListFilmBinding
@@ -39,13 +40,11 @@ class ProfileFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: ProfileViewModel by viewModels()
     //Creating an adapter for show viewed films from collection
-    private val viewedAdapter = ListFilmAdapter(
-        Constants.HOME_QTY_PROFILE, ModeViewer.PROFILE, { file -> onClickItem(file)},
-        { kit -> onClickClearCollection(kit) })
+    private val viewedAdapter = ListFilmAdapter(Constants.PROFILE_QTY_FILM_CARD,
+        ModeViewer.PROFILE, { file -> onClickItem(file)}, { onClickCleaViewed() })
     //Creating an adapter for show films from collection bookmark
-    private val bookmarkAdapter = ListFilmAdapter(
-        Constants.HOME_QTY_PROFILE, ModeViewer.PROFILE, { file -> onClickItem(file)},
-        { kit -> onClickClearCollection(kit)})
+    private val bookmarkAdapter = ListFilmAdapter(Constants.PROFILE_QTY_FILM_CARD,
+        ModeViewer.PROFILE, { file -> onClickItem(file)}, { kit -> onClickClearCollection(kit)})
     //Creating an adapter for collection
     private val collectionAdapter = SimpleAdapterAny ({ item -> onClickCollection(item) })
 
@@ -59,14 +58,21 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        processingView(binding.inclViewedFilm, viewedAdapter, viewModel.viewedFilm, Kit.VIEWED)
-        processingView(binding.inclInterestingFilm, bookmarkAdapter, viewModel.bookmarkFilm, Kit.BOOKMARK)
+        val kit = Kit.COLLECTION
+        //Display a list of viewed movies
+        kit.nameKit = App.context.getString(R.string.viewed_kit)
+        kit.displayText = App.context.getString(R.string.viewed_kit)
+        processingView(binding.inclViewedFilm, viewedAdapter, viewModel.viewedFilm, kit)
+        //Display a list bookmark movies
+        kit.nameKit = App.context.getString(R.string.bookmark_kit)
+        kit.displayText = App.context.getString(R.string.bookmark_head)
+        processingView(binding.inclInterestingFilm, bookmarkAdapter, viewModel.bookmarkFilm, kit)
+        //Display card view collection
         processingViewCollection()
 
         binding.inclCollection.tvCreate.setOnClickListener {
-            //Запустить диалоговое окно, с запросом на новое название коллекции.
+            //Launch a dialog box with a request for a new collection name.
             val dialogView = requireActivity().layoutInflater.inflate(R.layout.dialog_layout, null)
-//            val dialogView = LayoutInflater.from(activity).inflate(R.layout.dialog_layout, null)
             val dialogAlert = activity?.let {
                 AlertDialog.Builder(it,R.style.Style_Dialog_Rounded_Corner).setView(dialogView).create() } ?:
             throw IllegalStateException("Activity cannot be null")
@@ -82,17 +88,17 @@ class ProfileFragment : Fragment() {
     }
     //Output of movie lists
     private fun processingView(view: IncludeListFilmBinding, adapter: ListFilmAdapter,
-                               flowFilms: StateFlow<List<Linker>>, kit : Kit){
+                               flowFilms: StateFlow<List<Linker>>, kit: Kit){
         with(view){
             //Output of name list
-            kitName.text = kit.nameKit
+            kitName.text = kit.displayText
             //Connecting adapter
             filmRecyclerHorizontal.adapter = adapter
             //Received and transferred to the recycler a list of films
             flowFilms.onEach {
                 adapter.setListFilm(it)
                 //Managing the display of the number of movies
-                if (it.size > Constants.HOME_QTY_FILMCARD-1) showAll.visibility = View.VISIBLE
+                if (it.size > Constants.PROFILE_QTY_FILM_CARD-1) showAll.visibility = View.VISIBLE
                 else showAll.visibility = View.INVISIBLE
             }.launchIn(viewLifecycleOwner.lifecycleScope)
             //When you click on the number of movies, save the current movie and go to the full list
@@ -119,7 +125,7 @@ class ProfileFragment : Fragment() {
     }
     //The function tracks two events: clicking on an item to delete a collection and showing
     // the full list of movies in the collection.
-    private fun onClickCollection(item: Any){
+    private fun onClickCollection(item: Any){ // item = Collection or Collection.name
         when (item){
             //Deleting collection
             is Collection -> {
@@ -142,7 +148,11 @@ class ProfileFragment : Fragment() {
     }
     //When we click the last item in the list movie
     private fun onClickClearCollection(kit: Kit) {
-        viewModel.clearKit(kit)
+        viewModel.clearCollection(kit)
+    }
+    //When we click the last item in the list movie
+    private fun onClickCleaViewed() {
+        viewModel.clearViewed()
     }
 
     override fun onStart() {

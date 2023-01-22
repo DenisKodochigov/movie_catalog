@@ -16,7 +16,10 @@
     <string name="random2_kit">Подборка 2</string>
     <string name="search_kit">Поиск</string>
     <string name="viewed_kit">Просмотрено</string>
-    <string name="bookmark_kit">Вам было интересно</string>
+    <string name="bookmark_kit">Хочу посмотреть</string>
+    <string name="favourite_kit">Любимые</string>
+
+    <string name="bookmark_head">Вам было интересно</string>
 
     //contentDescription
     <string name="poster_small">poster_small</string>
@@ -102,8 +105,6 @@
     <string name="create_collection">Создать свою коллекцию.</string>
     <string name="dialog_message">Придумайте название для вашей новой коллекции.</string>
     <string name="ok">ГОТОВО</string>
-    <string name="want_look">Хочу посмотреть</string>
-    <string name="favourite">Любимые</string>
     <string name="_0">0</string>
 
     <string name="this_search">Фильмы, актеры, режисеры</string>
@@ -131,9 +132,10 @@
     <string name="signature3">Делись \nс друзьями</string>
     <string name="signature4"></string>
     //Error message
-    <string name="error401">Запрос к удаленному ресурсу закончился неудачей, с кодом HTTP 401: Пустой или неправильный токен</string>
-    <string name="error402">Запрос к удаленному ресурсу закончился неудачей, с кодом HTTP 402: Превышен лимит запросов(или дневной, или общий)</string>
-    <string name="error429">Запрос к удаленному ресурсу закончился неудачей, с кодом HTTP 429: Слишком много запросов. Общий лимит - 20 запросов в секунду</string>
+    <string name="error401">Запрос к удаленному ресурсу закончился неудачей, с кодом HTTP 401: Пустой или неправильный токен.</string>
+    <string name="error402">Запрос к удаленному ресурсу закончился неудачей, с кодом HTTP 402: Превышен лимит запросов(или дневной, или общий).</string>
+    <string name="error404">Запрос к удаленному ресурсу закончился неудачей, с кодом HTTP 404: Фильм не найден.)</string>
+    <string name="error429">Запрос к удаленному ресурсу закончился неудачей, с кодом HTTP 429: Слишком много запросов. Общий лимит - 20 запросов в секунду.</string>
     <string name="errorUser">Ошибка операции.</string>
 
 </resources>

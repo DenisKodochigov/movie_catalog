@@ -36,7 +36,11 @@ class KitFilmsFragment: Fragment() {
     private val binding get() = _binding!!
     private val viewModel: KitfilmsViewModel by viewModels()
     //Creating an adapter for show premieres
-    private val listAdapter = ListFilmAdapter(0, ModeViewer.FILM, { film -> onItemClick(film)}, {})
+    private val premieresAdapter = ListFilmAdapter(0, ModeViewer.FILM,
+        { film -> onItemClick(film)}, {})
+    //Creating an adapter for show premieres
+    private val profileAdapter = ListFilmAdapter(0, ModeViewer.PROFILE,
+        { film -> onItemClick(film)}, {onClickClearCollection()})
     //Creating an adapter for show other kit
     private val pagingAdapter = ListFilmPagingAdapter( ModeViewer.FILM) { film -> onItemClick(film) }
 
@@ -53,17 +57,29 @@ class KitFilmsFragment: Fragment() {
         //Connecting layout manager
         binding.filmRecyclerVertical.layoutManager =
             GridLayoutManager(context, 2, RecyclerView.VERTICAL, false)
-
-        if (viewModel.localKit == Kit.PREMIERES || viewModel.localKit == Kit.COLLECTION) processingPremieres()
-        else processingPagingListFilm()
+        when (viewModel.localKit){
+            Kit.PREMIERES -> processingPremieres()
+            Kit.COLLECTION -> processingProfile()
+            else -> processingPagingListFilm()
+        }
     }
     //Output of the full list of the selection without pagination
     private fun processingPremieres(){
         //Assigned an adapter
-        binding.filmRecyclerVertical.adapter = listAdapter
+        binding.filmRecyclerVertical.adapter = premieresAdapter
         //Received and transferred to the recycler a list of films
         viewModel.premieres.onEach {
-            listAdapter.setListFilm(it)
+            premieresAdapter.setListFilm(it)
+        }.launchIn(viewLifecycleOwner.lifecycleScope)
+        binding.swipeRefresh.isEnabled = false
+    }
+    //Output of the full list of the selection without pagination
+    private fun processingProfile(){
+        //Assigned an adapter
+        binding.filmRecyclerVertical.adapter = profileAdapter
+        //Received and transferred to the recycler a list of films
+        viewModel.collectionFilm.onEach {
+            profileAdapter.setListFilm(it)
         }.launchIn(viewLifecycleOwner.lifecycleScope)
         binding.swipeRefresh.isEnabled = false
     }
@@ -88,6 +104,10 @@ class KitFilmsFragment: Fragment() {
     private fun onItemClick(film: Film) {
         viewModel.putFilm(film)
         findNavController().navigate(R.id.action_nav_kitFilms_to_nav_filmInfo)
+    }
+    //When we click the last item in the list movie
+    private fun onClickClearCollection() {
+        viewModel.clearCollection()
     }
     override fun onDestroyView() {
         super.onDestroyView()

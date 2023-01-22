@@ -220,6 +220,12 @@ object DataCentre {
         }
     }
 
+    fun clearViewedFilms(){
+        films.forEach {
+            it.viewed = false
+        }
+    }
+
     fun addCountryGenres(listDTO: ListGenresDTO){
         listDTO.genres?.forEach { dto ->
             if (genres.find { it.id == dto.id } == null) {

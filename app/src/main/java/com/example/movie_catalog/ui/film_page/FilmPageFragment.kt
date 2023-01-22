@@ -47,7 +47,7 @@ class FilmPageFragment : Fragment() {
     //Creating adapter for gallery
     private val galleryAdapter = SimpleAdapterAny ({ onImageClick() })
     //Creating adapter for similar movie for the movie
-    private val similarAdapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD, ModeViewer.SIMILAR,
+    private val similarAdapter = ListFilmAdapter(Constants.HOME_QTY_FILM_CARD, ModeViewer.SIMILAR,
         { film -> onSimilarClick(film)}, { kit -> onClickAll(kit)})
     private val viewModel: FilmPageViewModel by viewModels()
     //The state of the description field is compressed expanded
@@ -220,7 +220,7 @@ class FilmPageFragment : Fragment() {
             //Displaying a list of actors
             val actorList = binder.filter { it.person!!.professionKey == Constants.ACTOR }
             actorAdapter.setListPerson(actorList)
-            if (actorList.size > Constants.INFO_QTY_PERSONCARD) {
+            if (actorList.size > Constants.INFO_QTY_PERSON_CARD) {
                 //If the number of actors is more than displayed in the grid, then we show
                 // the number and a link to display the full list.
                 binding.person.tvQuantityActor.visibility = View.VISIBLE
@@ -231,7 +231,7 @@ class FilmPageFragment : Fragment() {
             //Displaying a list of staffs
             val staffList = binder.filter { it.person!!.professionKey != Constants.ACTOR }
             staffAdapter.setListPerson(staffList)
-            if (staffList.size > Constants.INFO_QTY_PERSONCARD) {
+            if (staffList.size > Constants.INFO_QTY_PERSON_CARD) {
                 //If the number of staffs is more than displayed in the grid, then we show
                 // the number and a link to display the full list.
                 binding.staff.tvQuantityActor.visibility = View.VISIBLE
@@ -265,7 +265,7 @@ class FilmPageFragment : Fragment() {
         viewModel.images.onEach { listImage ->
             if (listImage.isNotEmpty()) {
                 galleryAdapter.setList(listImage)
-                if (listImage.size > Constants.HOME_QTY_FILMCARD) {
+                if (listImage.size > Constants.HOME_QTY_FILM_CARD) {
                     binding.gallery.tvQuantityImages.visibility = View.VISIBLE
                     binding.gallery.tvQuantityImages.text = listImage.size.toString() + " >"
                 }else if (listImage.isEmpty()){
@@ -292,7 +292,7 @@ class FilmPageFragment : Fragment() {
         //Received and transferred to the recycler a list of films
         viewModel.similar.onEach {
             similarAdapter.setListFilm(it)
-            if (it.size > Constants.HOME_QTY_FILMCARD-1) {
+            if (it.size > Constants.HOME_QTY_FILM_CARD-1) {
                 //If the number of similar is more than displayed in the list, then we show
                 // the number and a link to display the full list.
                 binding.similar.tvQuantityMovies.visibility = View.VISIBLE

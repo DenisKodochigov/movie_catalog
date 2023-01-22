@@ -32,7 +32,7 @@ class PersonFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: PersonViewModel by viewModels()
     //Creating an adapter for show films
-    private val filmAdapter = ListFilmAdapter(Constants.PERSON_QTY_FILMCARD, ModeViewer.FILM,
+    private val filmAdapter = ListFilmAdapter(Constants.PERSON_QTY_FILM_CARD, ModeViewer.FILM,
         { film -> onItemClick(film)}, {})
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -59,7 +59,7 @@ class PersonFragment : Fragment() {
                         //Refresh list the best film
                         filmAdapter.setListFilm(linker)
                         //Show or hide icon "all films"
-                        if (linker.size > Constants.PERSON_QTY_FILMCARD-1) {
+                        if (linker.size > Constants.PERSON_QTY_FILM_CARD-1) {
                             showAll.visibility = View.VISIBLE
                         } else showAll.visibility = View.INVISIBLE
                     }

@@ -94,6 +94,9 @@ interface DataDao {
     //Deleting record in table crossFC by id
     @Query("DELETE FROM crossFC WHERE id = :id")
     fun deleteByIdCrossFC(id:Int)
+    //Clear all link collection to film for collection
+    @Query("DELETE FROM crossFC WHERE collection_id = :id")
+    fun clearByCollectionIdCrossFC(id:Int)
     //Selecting a list of movies-id added to the collection
     @Query("SELECT film_id FROM crossFC WHERE collection_id = :collectionId")
     fun getListFilmsInCollection(collectionId: Int): List<Int>

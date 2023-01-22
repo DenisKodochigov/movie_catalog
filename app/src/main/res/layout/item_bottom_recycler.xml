@@ -18,7 +18,7 @@
             android:layout_marginStart="@dimen/bottom_button_new_collection"
             android:paddingStart="@dimen/bottom_rv_item_checkbox_paddingStart"
             android:textSize="16sp"
-            android:hint="@string/want_look"/>
+            android:hint="@string/bookmark_kit"/>
 
         <TextView
             android:id="@+id/tv_count"

@@ -20,6 +20,9 @@ class ErrorApp {
                 toastMessage = App.context.getString(R.string.error402)
                 setNewKeyApi()
             }
+            "HTTP 404 " -> {
+                toastMessage = App.context.getString(R.string.error404)
+            }
             "HTTP 429 " -> {
                 toastMessage = App.context.getString(R.string.error429)
             }

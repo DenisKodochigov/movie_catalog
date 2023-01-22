@@ -6,6 +6,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.example.movie_catalog.App
+import com.example.movie_catalog.R
 import com.example.movie_catalog.data.DataRepository
 import com.example.movie_catalog.data.PagedSourceData
 import com.example.movie_catalog.entity.ErrorApp
@@ -30,44 +32,36 @@ class KitfilmsViewModel @Inject constructor(): ViewModel() {
     //Data chanel for premiere movies
     private var _premieres = MutableStateFlow(Plug.plugLinkers)
     var premieres = _premieres.asStateFlow()
+    //Data chanel for premiere movies
+    private var _collectionFilm = MutableStateFlow(Plug.plugLinkers)
+    var collectionFilm = _collectionFilm.asStateFlow()
     //Data chanel for paging adapter
     var pagedFilms: Flow<PagingData<Linker>> = Pager(
         config = PagingConfig(pageSize = 20),
         pagingSourceFactory = { PagedSourceData(localKit!!) }
     ).flow.cachedIn(viewModelScope)
+
     //Requesting data when starting a fragment
     init {
         takeKit()
         when(localKit) {
             Kit.PREMIERES -> getPremieres()
-            Kit.VIEWED -> getDataViewed()
-            Kit.BOOKMARK -> getDataCollection("",2)
             Kit.COLLECTION -> getDataCollection(localKit!!.nameKit)
             else -> {}
         }
     }
     //Request for a list of movies from the collection
-    private fun getDataCollection(nameCollection: String = "", idCollection: Int = 0) {
+    private fun getDataCollection(nameCollection: String = "") {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                dataRepository.getFilmsInCollectionName(nameCollection, idCollection)
+                dataRepository.getFilmsInCollectionName(nameCollection)
             }.fold(
-                onSuccess = { _premieres.value = it},
+                onSuccess = { _collectionFilm.value = it},
                 onFailure = { ErrorApp().errorApi(it.message!!)}
             )
         }
     }
-    //Request for a list of viewed movies
-    private fun getDataViewed() {
-        viewModelScope.launch(Dispatchers.IO) {
-            kotlin.runCatching {
-                dataRepository.getViewedFilms()
-            }.fold(
-                onSuccess = { _premieres.value = it},
-                onFailure = { ErrorApp().errorApi(it.message!!)}
-            )
-        }
-    }
+
     //Request for a list of premiers
     private fun getPremieres() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -76,6 +70,27 @@ class KitfilmsViewModel @Inject constructor(): ViewModel() {
             }.fold(
                 onSuccess = { _premieres.value = it},
                 onFailure = { ErrorApp().errorApi(it.message!!)}
+            )
+        }
+    }
+    // Clear the viewed attribute or collection for all movies
+    fun clearCollection(){
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                localKit?.let { kit ->
+                    if (kit.nameKit == App.context.getString(R.string.viewed_kit)){
+                        dataRepository.clearViewedFilm()
+                    } else if (kit.nameKit == App.context.getString(R.string.viewed_kit)){
+                        dataRepository.clearBookmarkFilm()
+                    } else {
+                        dataRepository.clearCollection(kit.nameKit)
+                    }
+                    //Refresh a list film of collection
+                    getDataCollection(kit.nameKit)
+                }
+            }.fold(
+                onSuccess = { },
+                onFailure = { ErrorApp().errorApi(it.message!!) }
             )
         }
     }

@@ -18,40 +18,10 @@ class DataRepository @Inject constructor() {
     private val dataSourceAPI = DataSourceAPI()
 
     private val dataSourceDB = DataSourceDB()
-    //Checking for the first launch
-    fun getConditionWork():Boolean{
-        val resultat = false
-        return resultat
-    }
+
     // home  fragment
     // Request a list of countries and genres. Randomly selecting two pairs of country-genre
     suspend fun getRandomKitName() = dataSourceAPI.getRandomKitName()
-    //Creating an array of data to display premieres
-    suspend fun getPremieres(): List<Linker> {
-        //Checking the availability of data in DataCenter
-        var linkers = DataCentre.linkers.filter { it.kit == Kit.PREMIERES }
-        if (linkers.isEmpty()) {
-            //If not, we make a request for a resource
-            dataSourceAPI.getPremieres()
-            // Select the list of premieres
-            linkers = DataCentre.linkers.filter { it.kit == Kit.PREMIERES }
-        }
-//        Log.d("KDS", "${linkers[0].kit}")
-//        linkers = Plug.listLinkers
-        return linkers
-    }
-    //Select the list of top films
-    suspend fun getTop(page: Int, kit: Kit): List<Linker> {
-        //Checking the availability of data in DataCenter
-        var listBinder = DataCentre.linkers.filter { it.kit == kit }
-        if (listBinder.isEmpty()) {
-            //If not, we make a request for a resource
-            dataSourceAPI.getTop(page, kit)
-            // Select the list of top movies
-            listBinder = DataCentre.linkers.filter { it.kit == kit }
-        }
-        return listBinder
-    }
 
     // film info fragment
     //Select the list of similar films
@@ -146,6 +116,36 @@ class DataRepository @Inject constructor() {
             else -> emptyList()
         }
     }
+    //Creating an array of data to display premieres
+    suspend fun getPremieres(): List<Linker> {
+        //Checking the availability of data in DataCenter
+        var linkers = DataCentre.linkers.filter { it.kit == Kit.PREMIERES }
+        if (linkers.isEmpty()) {
+            //If not, we make a request for a resource
+            dataSourceAPI.getPremieres()
+            // Select the list of premieres
+            linkers = DataCentre.linkers.filter { it.kit == Kit.PREMIERES }
+        }
+//        Log.d("KDS", "${linkers[0].kit}")
+//        linkers = Plug.listLinkers
+        return linkers
+    }
+    //Select the list of top films
+    suspend fun getTop(page: Int, kit: Kit): List<Linker> {
+        //Checking the availability of data in DataCenter
+        var listBinder = DataCentre.linkers.filter { it.kit == kit }
+        if (listBinder.isEmpty()) {
+            //If not, we make a request for a resource
+            dataSourceAPI.getTop(page, kit)
+            // Select the list of top movies
+            listBinder = DataCentre.linkers.filter { it.kit == kit }
+        }
+        return listBinder
+    }
+    //Getting a list of movies by filter
+    suspend fun getFilters(page: Int, kit: Kit): List<Linker> {
+        return dataSourceAPI.getFilters(page, kit)
+    }
 
     //List film fragment
     //Selecting data to display the full list
@@ -181,10 +181,6 @@ class DataRepository @Inject constructor() {
                 ImageStart(imageResource = R.drawable.ic_start1, signature = R.string.signature4,
                     imageIndicator = R.drawable.indicator_start_fragment_3),
         )
-    }
-    //Getting a list of movies by filter
-    suspend fun getFilters(page: Int, kit: Kit): List<Linker> {
-        return dataSourceAPI.getFilters(page, kit)
     }
     //Getting a list of genres from DataCenter
     fun getGenres() = DataCentre.genres
@@ -233,7 +229,10 @@ class DataRepository @Inject constructor() {
         }
         setApiKey()
     }
+
+
     // FUNCTION DB #################################################
+
     //Changing the viewed state to the opposite
     fun changeViewed(film: Film) {
         dataSourceDB.setViewed(film)
@@ -285,6 +284,10 @@ class DataRepository @Inject constructor() {
         }
         return listCollectionFilmDB
     }
+    //Find the collection id by name.
+    fun findCollectionID(nameCollection: String): Int {
+        return  dataSourceDB.getCollectionRecord(nameCollection)?.idCollection ?: 0
+    }
     //Adding a new collection
     fun addCollection(nameCollection: String): CollectionDB? {
         //Checking for a collection with the same name
@@ -305,47 +308,56 @@ class DataRepository @Inject constructor() {
         return getCollectionsFilm(film.filmId!!)
     }
     //Forming a selection of viewed movies
-    fun getViewedFilms() : List<Linker> {
+    fun getViewedFilms(nameCollection: String = "") : List<Linker> {
         val linkers = mutableListOf<Linker>()
         val listFilmId = dataSourceDB.getViewedFilmsId()
+        val kit = Kit.COLLECTION
+        kit.nameKit = nameCollection
         listFilmId.forEach { filmId ->
             //Creating a link between the movie and the VIEWED selection
-            linkers.add(Linker(film = DataCentre.films.find { it.filmId == filmId },
-                kit = Kit.VIEWED))
+            DataCentre.films.find { it.filmId == filmId }?.let {
+                linkers.add(Linker(film = it, kit = kit))
+            }
         }
         //Add item for viewing card "clear history"
-        linkers.add(Linker(Film(),null,null,null,Kit.VIEWED))
+        linkers.add(Linker(Film(),null,null,null,kit))
         return linkers
     }
     //Get a list of movies from the collection
-    fun getFilmsInCollectionName(nameCollection: String = "", idCollection: Int = 0): List<Linker> {
-        var idCollect = idCollection
-        val linkers = mutableListOf<Linker>()
+    fun getFilmsInCollectionName(nameCollection: String = ""): List<Linker> {
+        var linkers = mutableListOf<Linker>()
         //Looking for a collection by name
-        if (idCollect == 0){
-            idCollect = dataSourceDB.getCollectionRecord(nameCollection)?.idCollection ?: 0
-        }
-        var kit = Kit.COLLECTION
-        if (idCollect == 2) kit = Kit.BOOKMARK
+        val idCollect = dataSourceDB.getCollectionRecord(nameCollection)?.idCollection ?: 0
+        val kit = Kit.COLLECTION
+        kit.nameKit = nameCollection
         if (idCollect != 0) {
             //Selecting a list of movies from the collection
             val listFilmId = dataSourceDB.getListFilmsIdInCollection(idCollect)
             listFilmId.forEach { filmId ->
                 //Adding the movie kit link bundle to the Linkers array
                 linkers.add( Linker(film = DataCentre.films.find { it.filmId == filmId }, kit = kit))
-            }
-        } //If you haven't found the collection, then add an empty movie to the array of links
-        linkers.add(Linker( Film(),null,null,null, kit))
+            }// Adding an empty list member
+            //If you haven't found the collection, then add an empty movie to the array of links
+            linkers.add(Linker( Film(),null,null,null, kit))
+        } else if (idCollect == 1){ //If collection is viewed films
+            linkers = getViewedFilms() as MutableList<Linker>
+        }
         return linkers
     }
     //Mark all movies not viewed
     fun clearViewedFilm(){
         dataSourceDB.clearViewedFilm()
+        DataCentre.clearViewedFilms()
     }
     //Mark all movies not bookmark
     fun clearBookmarkFilm(){
         dataSourceDB.clearBookmarkFilm()
     }
+    //Clear collection
+    fun clearCollection(nameCollection: String){
+        dataSourceDB.clearCollection(nameCollection)
+    }
+
     //Get a stream to change the viewed parameter
     fun viewedFlow(id: Int): Flow<Boolean> = dataSourceDB.viewedFlow(id)
     //Get a stream to change the bookmark parameter

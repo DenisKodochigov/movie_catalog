@@ -225,8 +225,8 @@ class SimpleAdapterAny @Inject constructor(private val onClick: (Any) -> Unit, p
     override fun getItemCount(): Int{
         var sizeList = items.size
         if (items.getOrNull(0) is ImageFilm){
-           if (items.size > Constants.HOME_QTY_FILMCARD - 1 && mode == 0) {
-               sizeList = Constants.HOME_QTY_FILMCARD
+           if (items.size > Constants.HOME_QTY_FILM_CARD - 1 && mode == 0) {
+               sizeList = Constants.HOME_QTY_FILM_CARD
             }
         }
         return sizeList

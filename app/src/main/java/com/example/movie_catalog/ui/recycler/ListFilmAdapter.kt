@@ -64,14 +64,20 @@ class ListFilmAdapter @Inject constructor(
                 holder.binding.inclShowAll.root.visibility = View.INVISIBLE
                 holder.binding.inclClear.root.visibility = View.INVISIBLE
                 //Add card "Show all"
-                if (quantityItem > 0 && mode != ModeViewer.PROFILE && position > Constants.HOME_QTY_FILMCARD-2){
+                if (quantityItem > 0 && mode != ModeViewer.PROFILE && position > Constants.HOME_QTY_FILM_CARD-2){
                     holder.binding.inclShowAll.root.visibility = View.VISIBLE
                     holder.binding.inclShowAll.oval.setOnClickListener {
                         linkers[position].kit?.let { kit -> onClickLast(kit) }
                     }
                 //Add card "Clear kit"
                 } else if (quantityItem > 0 && mode == ModeViewer.PROFILE &&
-                    (( position > Constants.HOME_QTY_PROFILE-2) || position == linkers.size - 1)){
+                    (( position > Constants.PROFILE_QTY_FILM_CARD-2) || position == linkers.size - 1)){
+                    holder.binding.inclClear.root.visibility = View.VISIBLE
+                    holder.binding.inclClear.oval.setOnClickListener {
+                        linkers[position].kit?.let { kit -> onClickLast(kit) }
+                    }
+                //Add card "Clear kit"
+                } else if (quantityItem == 0 && mode == ModeViewer.PROFILE && position == linkers.size - 1){
                     holder.binding.inclClear.root.visibility = View.VISIBLE
                     holder.binding.inclClear.oval.setOnClickListener {
                         linkers[position].kit?.let { kit -> onClickLast(kit) }
@@ -106,11 +112,8 @@ class ListFilmAdapter @Inject constructor(
                     }
                     //Load small poster. Before load image, show waiting animation.
                     val animationCard = LoadImageURLShow()
-                    animationCard.setAnimation(
-                        holder.binding.inclFilm.poster,
-                        film?.posterUrlPreview,
-                        R.dimen.card_film_radius
-                    )
+                    animationCard.setAnimation(holder.binding.inclFilm.poster,
+                        film?.posterUrlPreview, R.dimen.card_film_radius)
                 }
             }
             is FilmographyVH -> {

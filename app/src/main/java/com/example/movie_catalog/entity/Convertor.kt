@@ -8,6 +8,7 @@ import com.example.movie_catalog.data.api.home.top.TopFilmDTO
 import com.example.movie_catalog.data.api.person.PersonInfoDTO
 import com.example.movie_catalog.data.room.tables.CollectionDB
 import com.example.movie_catalog.data.room.tables.FilmDB
+import java.util.regex.Pattern
 
 class Convertor {
 //    fun fromCollectionDBtoString(source: List<CollectionDB>): List<String>{
@@ -52,12 +53,14 @@ class Convertor {
 //        return listFilm
 //    }
     fun fromTopFilmDTOtoFilm(topfilmDTO: TopFilmDTO):Film{
+        val rating = topfilmDTO.rating?.let{
+                rating-> rating.filter { it.isDigit() || it == '.'}}?.toDouble()
         return Film(
             filmId = topfilmDTO.filmId,
             imdbId = null,
             nameRu = topfilmDTO.nameRu,
             nameEn = topfilmDTO.nameEn,
-            rating = topfilmDTO.rating?.toDouble(),
+            rating = rating,
             posterUrlPreview = topfilmDTO.posterUrlPreview,
             countries = topfilmDTO.countries,
             genres = topfilmDTO.genres,

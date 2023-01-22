@@ -21,7 +21,6 @@ import com.example.movie_catalog.entity.Linker
 import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.enumApp.ModeViewer
 import com.example.movie_catalog.ui.recycler.ListFilmAdapter
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -34,22 +33,22 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private val homeViewModel: HomeViewModel by viewModels()
     //Creating an adapter for show premieres
-    private val premieresAdapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD, ModeViewer.FILM,
+    private val premieresAdapter = ListFilmAdapter(Constants.HOME_QTY_FILM_CARD, ModeViewer.FILM,
         { film -> onItemClick(film)}, { kit -> onClickAll(kit)})
     //Creating an adapter for show popular
-    private val popularAdapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD, ModeViewer.FILM,
+    private val popularAdapter = ListFilmAdapter(Constants.HOME_QTY_FILM_CARD, ModeViewer.FILM,
         { film -> onItemClick(film)}, { kit -> onClickAll(kit)})
     //Creating an adapter for show top 250
-    private val top250Adapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD, ModeViewer.FILM,
+    private val top250Adapter = ListFilmAdapter(Constants.HOME_QTY_FILM_CARD, ModeViewer.FILM,
         { film -> onItemClick(film)}, { kit -> onClickAll(kit)})
     //Creating an adapter for show random 1
-    private val random1Adapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD, ModeViewer.FILM,
+    private val random1Adapter = ListFilmAdapter(Constants.HOME_QTY_FILM_CARD, ModeViewer.FILM,
         { film -> onItemClick(film)}, { kit -> onClickAll(kit)})
     //Creating an adapter for show random 2
-    private val random2Adapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD, ModeViewer.FILM,
+    private val random2Adapter = ListFilmAdapter(Constants.HOME_QTY_FILM_CARD, ModeViewer.FILM,
         { film -> onItemClick(film)}, { kit -> onClickAll(kit)})
     //Creating an adapter for show tv series
-    private val serialAdapter = ListFilmAdapter(Constants.HOME_QTY_FILMCARD, ModeViewer.FILM,
+    private val serialAdapter = ListFilmAdapter(Constants.HOME_QTY_FILM_CARD, ModeViewer.FILM,
         { film -> onItemClick(film)}, { kit -> onClickAll(kit)})
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -108,7 +107,7 @@ class HomeFragment : Fragment() {
                 adapter.setListFilm(it)
                 //If the number of item is more than displayed in the list, then we show
                 // the number and a link to display the full list.
-                if (it.size > Constants.HOME_QTY_FILMCARD-1) showAll.visibility = View.VISIBLE
+                if (it.size > Constants.HOME_QTY_FILM_CARD-1) showAll.visibility = View.VISIBLE
                 else showAll.visibility = View.INVISIBLE
             }.launchIn(viewLifecycleOwner.lifecycleScope)
             //When you click on the number of items, we save the kit and

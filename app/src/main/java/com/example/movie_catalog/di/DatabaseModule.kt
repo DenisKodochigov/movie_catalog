@@ -27,9 +27,9 @@ object DatabaseModule {
     fun provideDatabase(@ApplicationContext appContext: Context): AppDatabase {
 //        database = Room.databaseBuilder( appContext, AppDatabase::class.java, "data.db")
 //            .build()
-        val nameCollection1 = appContext.getString(R.string.favourite)
+        val nameCollection1 = appContext.getString(R.string.favourite_kit)
         val imageCollection1 = R.drawable.icon_favorite
-        val nameCollection2 = appContext.getString(R.string.want_look)
+        val nameCollection2 = appContext.getString(R.string.bookmark_kit)
         val imageCollection2 = R.drawable.icon_bookmark
         database = Room.inMemoryDatabaseBuilder(appContext, AppDatabase::class.java)
             .addCallback( object: RoomDatabase.Callback(){

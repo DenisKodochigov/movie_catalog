@@ -55,29 +55,25 @@ class ListFilmPagingAdapter @Inject constructor(private val mode: ModeViewer, //
         val filmF = getItem(position)?.film
         when (holder) {
             is PagingBotVH -> {
-                if (position > Constants.HOME_QTY_FILMCARD-1){
-                    holder.binding.inclFilm.root.visibility = View.INVISIBLE
-                    holder.binding.inclShowAll.root.visibility = View.VISIBLE
-                }else {
-                    holder.binding.inclFilm.root.visibility = View.VISIBLE
-                    holder.binding.inclShowAll.root.visibility = View.INVISIBLE
-                    //Set film name
-                    filmF?.let { film ->
-                        holder.binding.inclFilm.nameFilm.text = film.nameRu ?: ""
-                        //Set film genres.
-                        holder.binding.inclFilm.genreFilm.text = film.genresTxt()
-                        //Set viewed flag
-                        if (film.viewed) {
-                            holder.binding.inclFilm.ivViewed.visibility = View.VISIBLE
-                            holder.binding.root.background = App.context.getDrawable(R.drawable.gradientviewed)
-                        }
-                        //Set action on click item recyclerView
-                        holder.binding.root.setOnClickListener { onClick(film) }
+                holder.binding.inclClear.root.visibility = View.INVISIBLE
+                holder.binding.inclFilm.root.visibility = View.VISIBLE
+                holder.binding.inclShowAll.root.visibility = View.INVISIBLE
+                //Set film name
+                filmF?.let { film ->
+                    holder.binding.inclFilm.nameFilm.text = film.nameRu ?: ""
+                    //Set film genres.
+                    holder.binding.inclFilm.genreFilm.text = film.genresTxt()
+                    //Set viewed flag
+                    if (film.viewed) {
+                        holder.binding.inclFilm.ivViewed.visibility = View.VISIBLE
+                        holder.binding.root.background = App.context.getDrawable(R.drawable.gradientviewed)
                     }
-                    //Load small poster. Before load image, show waiting animation.
-                    val animationCard = LoadImageURLShow()
-                    animationCard.setAnimation(holder.binding.inclFilm.poster, filmF?.posterUrlPreview, R.dimen.card_film_radius)
+                    //Set action on click item recyclerView
+                    holder.binding.root.setOnClickListener { onClick(film) }
                 }
+                //Load small poster. Before load image, show waiting animation.
+                val animationCard = LoadImageURLShow()
+                animationCard.setAnimation(holder.binding.inclFilm.poster, filmF?.posterUrlPreview, R.dimen.card_film_radius)
             }
             is PagingRightVH -> {
                 val animationCard = LoadImageURLShow()
