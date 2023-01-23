@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/oval"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="@dimen/list_film_iv_oval_width"
+        android:layout_height="@dimen/list_film_iv_oval_height"
         android:foregroundGravity="center"
         android:src="@drawable/icon_ring"
         app:layout_constraintTop_toTopOf="parent"
@@ -28,7 +28,7 @@
         android:id="@+id/tv_all"
         style="@style/H5_show_all"
         android:text="@string/tv_show_all1"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="@dimen/list_film_tv_margin_top"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/oval"

@@ -6,6 +6,7 @@ import com.example.movie_catalog.data.DataRepository
 import com.example.movie_catalog.entity.ErrorApp
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Person
+import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.plug.Plug
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -51,5 +52,9 @@ class PersonViewModel @Inject constructor() : ViewModel() {
     //Save the film.object for the next fragment
     fun putFilm(film: Film){
         dataRepository.putFilm(film)
+    }
+    //Save the kit.object for the next fragment
+    fun putKit(kit: Kit){
+        dataRepository.putKit(kit)
     }
 }

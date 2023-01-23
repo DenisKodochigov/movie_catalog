@@ -17,8 +17,8 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="97dp"
-                android:layout_marginBottom="47dp"
+                android:layout_marginTop="@dimen/home_skill_cinema_margin_top"
+                android:layout_marginBottom="@dimen/home_skill_cinema_margin_bot"
                 android:src="@drawable/icon_skillcinema"/>
 
             <include

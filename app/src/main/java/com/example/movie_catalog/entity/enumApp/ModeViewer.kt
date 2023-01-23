@@ -6,7 +6,6 @@ enum class ModeViewer {
     IMAGE,
     SEASON,
     FILM,
-    SIMILAR,
     PROFILE,
     START,
     SEARCH

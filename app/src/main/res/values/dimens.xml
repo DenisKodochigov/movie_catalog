@@ -20,6 +20,37 @@
     <dimen name="film_page_gallery_margin_hor">4dp</dimen>
     <dimen name="film_page_poster_radius">1dp</dimen>
 
+    <dimen name="home_recycler_marTop">16dp</dimen>
+    <dimen name="home_skill_cinema_margin_top">97dp</dimen>
+    <dimen name="home_skill_cinema_margin_bot">47dp</dimen>
+
+    <dimen name="images_button_margin_bot">60dp</dimen>
+
+    <dimen name="search_edit_text_margin_top">10dp</dimen>
+    <dimen name="search_icon_search_width">22dp</dimen>
+    <dimen name="search_icon_setting_height">22dp</dimen>
+    <dimen name="search_icon_setting_margin_end">18dp</dimen>
+    <dimen name="search_icon_search_margin_str">18dp</dimen>
+    <dimen name="search_icon_separator_margin_str">18dp</dimen>
+    <dimen name="search_tv_test_margin_ver">12dp</dimen>
+
+    <dimen name="season_iv_button_margin_bot">60dp</dimen>
+
+    <dimen name="settings_radio_group_margin_bot">103dp</dimen>
+    <dimen name="settings_radio_group2_margin_top">2dp</dimen>
+    <dimen name="settings_tv_country_margin_top">24dp</dimen>
+    <dimen name="settings_range_slider_from">1</dimen>
+    <dimen name="settings_range_slider_to">10</dimen>
+    <dimen name="settings_range_slider_step">1</dimen>
+    <dimen name="settings_divider_margin_top">33dp</dimen>
+    <dimen name="settings_switch1_margin_top">66dp</dimen>
+
+    <dimen name="start_iv_skill_margin_bot">60dp</dimen>
+    <dimen name="start_iv_skill_margin_str">26dp</dimen>
+    <dimen name="start_tv_next_margin_end">26dp</dimen>
+    <dimen name="start_item_tv_signature_margin_bot">56dp</dimen>
+    <dimen name="start_item_iv_indicator_margin_bot">26dp</dimen>
+
     <dimen name="card_film_width">111dp</dimen>
     <dimen name="card_film_height">157dp</dimen>
     <dimen name="card_film_radius">6dp</dimen>
@@ -37,7 +68,8 @@
     <dimen name="card_people_name_marTop">4dp</dimen>
     <dimen name="card_people_name_marHor">16dp</dimen>
 
-    <dimen name="home_recycler_marTop">16dp</dimen>
+    <dimen name="card_collection_iv1_width">22dp</dimen>
+    <dimen name="card_collection_iv1_height">22dp</dimen>
 
     <dimen name="ic_rating_corners">5dp</dimen>
     <dimen name="toolbar_margin_top">20dp</dimen>
@@ -86,7 +118,10 @@
     <dimen name="bottom_line_height">40dp</dimen>
     <dimen name="bottom_recycler_height">120dp</dimen>
     <dimen name="bottom_button_new_collection">64dp</dimen>
-
+    <dimen name="bottom_item_tv_text_padding_ver">15dp</dimen>
+    <dimen name="bottom_years_width">250dp</dimen>
+    <dimen name="bottom_years_padding_ver">8dp</dimen>
+    <dimen name="bottom_years_padding_hor">18dp</dimen>
     <dimen name="bottom_rv_item_height">39dp</dimen>
     <dimen name="bottom_rv_item_checkbox_paddingStart">25dp</dimen>
 
@@ -118,4 +153,9 @@
     <dimen name="profile_count_margin_top">12dp</dimen>
     <dimen name="profile_count_padding_hor">8dp</dimen>
     <dimen name="profile_count_padding_ver">2dp</dimen>
+    <dimen name="profile_iv_plus_margin_str">7dp</dimen>
+
+    <dimen name="list_film_iv_oval_width">32dp</dimen>
+    <dimen name="list_film_iv_oval_height">32dp</dimen>
+    <dimen name="list_film_tv_margin_top">8dp</dimen>
 </resources>

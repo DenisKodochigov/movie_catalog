@@ -105,7 +105,7 @@ class ProfileFragment : Fragment() {
             //of similar movies
             showAll.setOnClickListener {
                 viewModel.putKit(kit)
-                findNavController().navigate(R.id.action_nav_profile_to_nav_kitFilms)
+                findNavController().navigate(R.id.action_nav_profile_to_nav_listFilm)
             }
         }
     }
@@ -136,7 +136,7 @@ class ProfileFragment : Fragment() {
                 val kit = Kit.COLLECTION
                 kit.nameKit = item
                 viewModel.putKit(kit)
-                findNavController().navigate(R.id.action_nav_profile_to_nav_kitFilms)
+                findNavController().navigate(R.id.action_nav_profile_to_nav_listFilm)
             }
             else -> {}
         }

@@ -15,6 +15,7 @@ import com.example.movie_catalog.animations.LoadImageURLShow
 import com.example.movie_catalog.databinding.FragmentPersonBinding
 import com.example.movie_catalog.entity.Constants
 import com.example.movie_catalog.entity.Film
+import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.enumApp.ModeViewer
 import com.example.movie_catalog.ui.recycler.ListFilmAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -80,7 +81,8 @@ class PersonFragment : Fragment() {
             // proceed to display the full list.
             showAll.setOnClickListener {
                 viewModel.putPerson()
-                findNavController().navigate(R.id.action_nav_person_to_nav_list_films)
+                viewModel.putKit(Kit.PERSON)
+                findNavController().navigate(R.id.action_nav_person_to_nav_listFilm)
             }
             //When you click on the link of filmography, we save the person and
             // proceed to display the filmography.

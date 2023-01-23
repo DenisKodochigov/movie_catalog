@@ -47,7 +47,7 @@ class FilmPageFragment : Fragment() {
     //Creating adapter for gallery
     private val galleryAdapter = SimpleAdapterAny ({ onImageClick() })
     //Creating adapter for similar movie for the movie
-    private val similarAdapter = ListFilmAdapter(Constants.HOME_QTY_FILM_CARD, ModeViewer.SIMILAR,
+    private val similarAdapter = ListFilmAdapter(Constants.HOME_QTY_FILM_CARD, ModeViewer.FILM,
         { film -> onSimilarClick(film)}, { kit -> onClickAll(kit)})
     private val viewModel: FilmPageViewModel by viewModels()
     //The state of the description field is compressed expanded
@@ -292,7 +292,7 @@ class FilmPageFragment : Fragment() {
         //Received and transferred to the recycler a list of films
         viewModel.similar.onEach {
             similarAdapter.setListFilm(it)
-            if (it.size > Constants.HOME_QTY_FILM_CARD-1) {
+            if (it.size > Constants.HOME_QTY_FILM_CARD-18) {
                 //If the number of similar is more than displayed in the list, then we show
                 // the number and a link to display the full list.
                 binding.similar.tvQuantityMovies.visibility = View.VISIBLE
@@ -304,8 +304,10 @@ class FilmPageFragment : Fragment() {
         //When you click on the number of similar films, we save the movie and
         // proceed to display the full list.
         binding.similar.tvQuantityMovies.setOnClickListener {
+            viewModel.putKit(Kit.SIMILAR)
             viewModel.putFilm()
-            findNavController().navigate(R.id.action_nav_filmInfo_to_nav_list_films)
+//            findNavController().navigate(R.id.action_nav_filmInfo_to_nav_list_films)
+            findNavController().navigate(R.id.action_nav_filmInfo_to_nav_listFilm)
         }
     }
     //When you click on a person, save the person and go to the person page
@@ -328,7 +330,7 @@ class FilmPageFragment : Fragment() {
     //of similar movies
     private fun onClickAll(kit: Kit) {
         viewModel.putKit(kit)
-        findNavController().navigate(R.id.action_nav_home_to_nav_kitfilms)
+        findNavController().navigate(R.id.action_nav_home_to_nav_listFilm)
     }
     //Displaying a bottom dialog sheet
     @SuppressLint("UseCompatLoadingForDrawables")

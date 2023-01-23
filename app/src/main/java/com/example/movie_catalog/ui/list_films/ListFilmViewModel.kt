@@ -1,4 +1,4 @@
-package com.example.movie_catalog.ui.kit_films
+package com.example.movie_catalog.ui.list_films
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,6 +13,7 @@ import com.example.movie_catalog.data.PagedSourceData
 import com.example.movie_catalog.entity.ErrorApp
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Linker
+import com.example.movie_catalog.entity.Person
 import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.plug.Plug
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,14 +25,18 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class KitfilmsViewModel @Inject constructor(): ViewModel() {
+class ListFilmViewModel @Inject constructor(): ViewModel() {
 
     private val dataRepository = DataRepository()
     //The kit that is displayed on the page
     var localKit: Kit? = null
-    //Data chanel for premiere movies
-    private var _premieres = MutableStateFlow(Plug.plugLinkers)
-    var premieres = _premieres.asStateFlow()
+    //The person object that is used on the page
+    var localPerson: Person? = null
+    //The film object that is used on the page
+    var localFilm:Film? = null
+    //Data chanel a list of linkers (movies)
+    private var _listLink = MutableStateFlow(Plug.plugLinkers)
+    var listLink = _listLink.asStateFlow()
     //Data chanel for premiere movies
     private var _collectionFilm = MutableStateFlow(Plug.plugLinkers)
     var collectionFilm = _collectionFilm.asStateFlow()
@@ -44,14 +49,43 @@ class KitfilmsViewModel @Inject constructor(): ViewModel() {
     //Requesting data when starting a fragment
     init {
         takeKit()
-        when(localKit) {
-            Kit.PREMIERES -> getPremieres()
-            Kit.COLLECTION -> getDataCollection(localKit!!.nameKit)
-            else -> {}
+        takeFilm()
+        takePerson()
+
+        if (localKit != null) {
+            when (localKit){
+                Kit.PREMIERES -> getPremieres()
+                Kit.COLLECTION -> localKit?.let { getDataCollection( it.nameKit) }
+                Kit.PERSON -> localPerson?.let { getListLinkerForPerson(it) }
+                Kit.SIMILAR -> localFilm?.let{ getListLinkerForSimilar(it) }
+                else -> {} // Other case working PagingData
+            }
+        }
+    }
+    //Request for a list of movies for a person
+    private fun getListLinkerForPerson(person: Person) /*: List<Linkers>*/{
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                dataRepository.getListLinkerForPerson(person)
+            }.fold(
+                onSuccess = { _listLink.value = it },
+                onFailure = { ErrorApp().errorApi(it.message!!) }
+            )
+        }
+    }
+    //Get a list of similar movie to display
+    private fun getListLinkerForSimilar(film: Film)/*: List<Linkers>*/ {
+        viewModelScope.launch(Dispatchers.IO) {
+            kotlin.runCatching {
+                dataRepository.getListLinkerForSimilar(film)
+            }.fold(
+                onSuccess = { _listLink.value = it },
+                onFailure = { ErrorApp().errorApi(it.message!!) }
+            )
         }
     }
     //Request for a list of movies from the collection
-    private fun getDataCollection(nameCollection: String = "") {
+    private fun getDataCollection(nameCollection: String = "")/*: List<Linkers>*/ {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 dataRepository.getFilmsInCollectionName(nameCollection)
@@ -61,14 +95,13 @@ class KitfilmsViewModel @Inject constructor(): ViewModel() {
             )
         }
     }
-
     //Request for a list of premiers
-    private fun getPremieres() {
+    private fun getPremieres()/*: List<Linkers>*/ {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 dataRepository.getPremieres()
             }.fold(
-                onSuccess = { _premieres.value = it},
+                onSuccess = { _listLink.value = it},
                 onFailure = { ErrorApp().errorApi(it.message!!)}
             )
         }
@@ -102,5 +135,15 @@ class KitfilmsViewModel @Inject constructor(): ViewModel() {
     private fun takeKit(){
         val kit = dataRepository.takeKit()
         if (kit != null) localKit = kit
+    }
+    //Get a saved person object
+    private fun takePerson(){
+        val item = dataRepository.takePerson()
+        if (item != null) localPerson = item
+    }
+    //Get a saved film object
+    private fun takeFilm() {
+        val film = dataRepository.takeFilm()
+        if (film != null) localFilm = film
     }
 }

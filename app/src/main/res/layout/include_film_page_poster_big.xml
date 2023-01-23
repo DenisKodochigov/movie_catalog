@@ -78,7 +78,7 @@
 
         <TextView
             android:id="@+id/nameRuOrig"
-            style="@style/H1_poster"
+            style="@style/H0_poster"
             android:layout_marginBottom="@dimen/poster_logo_bottom"
             android:hint="@string/nameru"
             app:layout_constraintEnd_toEndOf="parent"

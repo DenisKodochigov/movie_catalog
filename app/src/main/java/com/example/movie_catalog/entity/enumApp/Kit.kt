@@ -15,5 +15,7 @@ enum class Kit(var nameKit:String = "",
     RANDOM1 (nameKit = App.context.getString(R.string.random1_kit)),
     RANDOM2 (nameKit = App.context.getString(R.string.random2_kit)),
     SEARCH (nameKit = App.context.getString(R.string.search_kit)),
-    COLLECTION
+    SIMILAR (nameKit = App.context.getString(R.string.similar_kit)),
+    COLLECTION,
+    PERSON
 }

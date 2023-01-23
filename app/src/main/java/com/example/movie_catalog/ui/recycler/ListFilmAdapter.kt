@@ -85,8 +85,7 @@ class ListFilmAdapter @Inject constructor(
                 //Defining how to display the list
                 }else {
                     holder.binding.inclFilm.root.visibility = View.VISIBLE
-                    var film = linkers.getOrNull(position)?.film
-                    if (mode == ModeViewer.SIMILAR) film = linkers.getOrNull(position)?.similarFilm
+                    val film = linkers.getOrNull(position)?.film
                     film?.let {
                         //Set film name
                         holder.binding.inclFilm.nameFilm.text =
@@ -152,7 +151,6 @@ class ListFilmAdapter @Inject constructor(
     override fun getItemViewType(position: Int): Int {
         return when (mode) {
             ModeViewer.FILM -> R.layout.item_list_film_bot
-            ModeViewer.SIMILAR -> R.layout.item_list_film_bot
             ModeViewer.FILMOGRAPHY -> R.layout.item_list_film_right
             ModeViewer.PROFILE -> R.layout.item_list_film_bot
             else -> throw IllegalArgumentException("Unsupported type") // in case populated with a model we don't know how to display.

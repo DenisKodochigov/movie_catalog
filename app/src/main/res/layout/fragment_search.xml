@@ -13,7 +13,7 @@
         android:id="@+id/tl_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/search_edit_text_margin_top"
         android:background="@drawable/search_edit_text_shape"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,36 +21,29 @@
         <TableRow>
             <ImageView
                 android:id="@+id/iv_search"
-                android:layout_width="22dp"
+                android:layout_width="@dimen/search_icon_search_width"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="18dp"
+                android:layout_marginStart="@dimen/search_icon_search_margin_str"
                 android:src="@drawable/icon_search" />
-
             <EditText
                 android:id="@+id/et_search"
-                android:layout_gravity="center_vertical"
+                style = "@style/H4_search_settings_edit_text"
                 android:layout_weight="1"
                 android:backgroundTint="@color/transparent"
                 android:hint="@string/this_search"
-                android:lines="1"
-                android:singleLine="true"
-                android:textSize="14sp"
-                tools:ignore="TouchTargetSizeCheck" />
-
+               tools:ignore="TouchTargetSizeCheck" />
             <TextView
                 android:id="@+id/separator"
-                android:layout_marginStart="18dp"
-                android:layout_gravity="center_vertical"
-                android:textSize="20sp"
+                style = "@style/H1_search_separator"
                 android:text="|"/>
 
             <ImageView
                 android:id="@+id/iv_config"
                 android:layout_width="wrap_content"
                 android:layout_gravity="center_vertical|end"
-                android:layout_height="22dp"
-                android:layout_marginEnd="18dp"
+                android:layout_height="@dimen/search_icon_setting_height"
+                android:layout_marginEnd="@dimen/search_icon_setting_margin_end"
                 android:outlineAmbientShadowColor="@color/black"
                 android:src="@drawable/icon_search_settings" />
         </TableRow>
@@ -58,11 +51,7 @@
 
     <TextView
         android:id="@+id/tv_test"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:gravity="start"
-        android:layout_marginVertical="12dp"
+        style = "@style/H5_search_tv_test"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tl_1"/>

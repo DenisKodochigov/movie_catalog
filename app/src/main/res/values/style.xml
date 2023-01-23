@@ -6,30 +6,57 @@
         <item name="android:windowMinWidthMinor">85%</item>
     </style>
     <style name="style_app" parent="TextAppearance.MaterialComponents.Body1">
-
-    </style>
-    <style name="textApp" parent="style_app">
-        <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/general</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:singleLine">true</item>
     </style>
+    <style name="textApp" parent="style_app">
+        <item name="android:textSize">15sp</item>
+    </style>
 
-    <style name="H1" parent = "textApp">
+    <style name="H0" parent = "style_app">
         <item name="android:textSize">24sp</item>
         <item name="android:layout_marginTop">@dimen/poster_name_top</item>
         <item name="android:gravity">center_horizontal</item>
     </style>
-    <style name="H1_poster" parent = "H1">
+    <style name="H1" parent = "style_app">
+        <item name="android:textSize">20sp</item>
+    </style>
+    <style name="H2" parent = "style_app">
+        <item name="android:textSize">18sp</item>
+        <item name="android:gravity">start</item>
+    </style>
+    <style name="H3" parent = "style_app">
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">start</item>
+    </style>
+    <style name="H4" parent = "style_app">
+        <item name="android:textSize">14sp</item>
+        <item name="android:gravity">start</item>
+    </style>
+    <style name="H4_bold" parent = "style_app">
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="H5" parent = "style_app">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/h5</item>
+        <item name="android:gravity">start</item>
+    </style>
+    <style name="H6" parent = "style_app">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/h5</item>
+        <item name="android:layout_marginTop">@dimen/viewer_season_recycler_data_top</item>
+        <item name="android:gravity">start</item>
+    </style>
+
+
+    <style name="H0_poster" parent = "H0">
         <item name="android:textColor">@color/background_card</item>
         <item name="android:gravity">center_horizontal</item>
     </style>
 
-    <style name="H2" parent = "textApp">
-        <item name="android:textSize">18sp</item>
-        <item name="android:gravity">start</item>
-    </style>
+
     <style name="H2_app" parent = "H2">
         <item name="android:layout_marginTop">@dimen/margin_app_top</item>
     </style>
@@ -37,10 +64,7 @@
         <item name="android:layout_marginTop">@dimen/film_page_margin_top_h2</item>
         <item name="android:layout_marginBottom">@dimen/film_page_margin_bottom_h2</item>
     </style>
-    <style name="H3" parent = "textApp">
-        <item name="android:textSize">16sp</item>
-        <item name="android:gravity">start</item>
-    </style>
+
     <style name="H3.1" parent = "H3">
         <item name="android:layout_marginTop">@dimen/margin_app_top</item>
         <item name="android:layout_marginEnd">@dimen/activity_horizontal_margin</item>
@@ -67,13 +91,7 @@
     <style name="H3_search_settings_text1" parent="H3">
         <item name="android:paddingVertical">16dp</item>
     </style>
-    <style name="H4" parent = "textApp">
-        <item name="android:textSize">14sp</item>
-        <item name="android:gravity">start</item>
-    </style>
-    <style name="H4_bold" parent = "textApp">
-        <item name="android:textStyle">bold</item>
-    </style>
+
     <style name="H4_" parent = "H4">
         <item name="android:layout_marginTop">@dimen/margin_top_display</item>
         <item name="android:layout_marginStart">@dimen/card_people_name_marHor</item>
@@ -115,11 +133,30 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:paddingVertical">@dimen/settings_padding_vert</item>
     </style>
-    <style name="H5" parent = "textApp">
-        <item name="android:textSize">12sp</item>
+    <style name="H4_search_settings_edit_text" parent="H4">
         <item name="android:textColor">@color/h5</item>
-        <item name="android:gravity">start</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:backgroundTint">@color/transparent</item>
+        <item name="android:singleLine">true</item>
     </style>
+    <style name="H4_bottom_item_tv_text" parent="H4">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColor">@color/h5</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:gravity">start</item>
+        <item name="android:paddingVertical">@dimen/bottom_item_tv_text_padding_ver</item>
+        <item name="android:singleLine">true</item>
+    </style>
+    <style name="H3_bottom_years" parent="H4">
+        <item name="android:layout_width">@dimen/bottom_years_width</item>
+        <item name="android:textColor">@color/h5</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingVertical">@dimen/bottom_years_padding_ver</item>
+        <item name="android:paddingHorizontal">@dimen/bottom_years_padding_hor</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
     <style name="H5.1" parent = "H5">
         <item name="android:layout_marginTop">@dimen/margin_app_top</item>
         <item name="android:layout_marginEnd">@dimen/activity_horizontal_margin</item>
@@ -158,12 +195,7 @@
     <style name="H5_show_all" parent = "H5">
         <item name="android:textColor">@color/general</item>
     </style>
-    <style name="H6" parent = "textApp">
-        <item name="android:textSize">10sp</item>
-        <item name="android:textColor">@color/h5</item>
-        <item name="android:layout_marginTop">@dimen/viewer_season_recycler_data_top</item>
-        <item name="android:gravity">start</item>
-    </style>
+
 
     <style name="app_bold" parent = "textApp">
         <item name="android:textStyle">bold</item>
@@ -278,6 +310,22 @@
         <item name="android:textSize">14sp</item>
         <item name="android:gravity">start</item>
         <item name="android:layout_gravity">start</item>
+    </style>
+    <style name="H1_search_separator" parent = "H1">
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_marginStart">@dimen/search_icon_separator_margin_str</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+    <style name="H5_search_tv_test" parent = "H5">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:gravity">start</item>
+        <item name="android:layout_marginVertical">@dimen/search_tv_test_margin_ver</item>
+        <item name="android:layout_gravity">center_vertical</item>
+    </style>
+    <style name="H5_card_collection" parent = "H5">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:layout_marginTop">@dimen/profile_card_tv_margin_top</item>
+        <item name="android:layout_gravity">center_vertical</item>
     </style>
     <style name="settings_year_text" parent = "H3">
         <item name="android:width">0dp</item>

@@ -11,6 +11,7 @@ import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Person
 import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.filminfo.ImageFilm
+import com.example.movie_catalog.entity.plug.Plug
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -33,7 +34,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
     private var _images = MutableStateFlow(listOf<ImageFilm>())
     var images = _images.asStateFlow()
     //Stream for a list of similar movies
-    private var _similar = MutableStateFlow(listOf<Linker>())
+    private var _similar = MutableStateFlow(Plug.plugLinkers)
     var similar = _similar.asStateFlow()
     //A stream for getting collections and information about them
     private var _collections = MutableStateFlow(listOf<CollectionDB>())
@@ -154,7 +155,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
     private fun getSimilar(film: Film) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                dataRepository.getSimilar(film)
+                dataRepository.getListLinkerForSimilar(film)
             }.fold(
                 onSuccess = { _similar.value = it },
                 onFailure = { ErrorApp().errorApi(it.message!!) }

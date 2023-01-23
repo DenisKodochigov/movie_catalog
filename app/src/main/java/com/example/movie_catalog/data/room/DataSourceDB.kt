@@ -62,7 +62,7 @@ open class DataSourceDB  @Inject constructor(){
     }
     //Select all records from the table collections
     fun getCollections():List<CollectionDB>{
-        return dataDao.getCollection()
+        return dataDao.getCollections()
     }
     //Insert new record to the table collections
     fun addCollection(collection: CollectionDB){

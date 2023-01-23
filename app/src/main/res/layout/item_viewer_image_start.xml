@@ -30,7 +30,7 @@
           android:layout_height="wrap_content"
           android:textSize="32sp"
           android:textColor="@color/black"
-          android:layout_marginBottom="56dp"
+          android:layout_marginBottom="@dimen/start_item_tv_signature_margin_bot"
           />
 
       <ImageView
@@ -39,7 +39,7 @@
           android:layout_height="wrap_content"
           app:layout_constraintTop_toBottomOf="@id/tv_signature"
           android:src="@drawable/indicator_start_fragment_1"
-          android:layout_marginBottom="26dp" />
+          android:layout_marginBottom="@dimen/start_item_iv_indicator_margin_bot" />
    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

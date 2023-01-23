@@ -23,16 +23,16 @@ class DataRepository @Inject constructor() {
     // Request a list of countries and genres. Randomly selecting two pairs of country-genre
     suspend fun getRandomKitName() = dataSourceAPI.getRandomKitName()
 
-    // film info fragment
+    // Film page and kit_list fragment
     //Select the list of similar films
-    suspend fun getSimilar(film: Film): List<Linker> {
+    suspend fun getListLinkerForSimilar(film: Film): List<Linker> {
         //Checking the availability of data in DataCenter
-        var listFilm = DataCentre.linkers.filter { it.film == film && it.similarFilm != null }
+        var listFilm = DataCentre.linkers.filter { it.similarFilm == film && it.film != null }
         if (listFilm.isEmpty()) {
             //If not, we make a request for a resource
             dataSourceAPI.getSimilar(film)
             // Select the list of similar films
-            listFilm = DataCentre.linkers.filter { it.film == film && it.similarFilm != null }
+            listFilm = DataCentre.linkers.filter { it.similarFilm == film && it.film != null }
         }
         return listFilm
     }
@@ -76,7 +76,6 @@ class DataRepository @Inject constructor() {
         }
         return DataCentre.films.find { it == film }!!.images
     }
-
     //Person fragment
     //Request for additional information on a person
     suspend fun getPersonInfo(person: Person): List<Linker> {
@@ -104,8 +103,8 @@ class DataRepository @Inject constructor() {
     }
 
     //Kit fragment
-    //Controls the choice of procedure depending on the selection of films
-    suspend fun routerGetApi(page: Int, kit: Kit): List<Linker> {
+    //Controls the choice of procedure depending on the selection of films for paging adapter
+    suspend fun routerGetPagingApi(page: Int, kit: Kit): List<Linker> {
         return when (kit) {
             Kit.POPULAR -> getTop(page, Kit.POPULAR)
             Kit.TOP250 -> getTop(page, Kit.TOP250)
@@ -115,6 +114,10 @@ class DataRepository @Inject constructor() {
             Kit.SEARCH -> getFilters(page, Kit.SEARCH)
             else -> emptyList()
         }
+    }
+    //Selecting data to display the full list
+    fun getListLinkerForPerson(person: Person): List<Linker> {
+        return DataCentre.linkers.filter { it.person == person && it.film != null }
     }
     //Creating an array of data to display premieres
     suspend fun getPremieres(): List<Linker> {
@@ -145,20 +148,6 @@ class DataRepository @Inject constructor() {
     //Getting a list of movies by filter
     suspend fun getFilters(page: Int, kit: Kit): List<Linker> {
         return dataSourceAPI.getFilters(page, kit)
-    }
-
-    //List film fragment
-    //Selecting data to display the full list
-    fun getLinkersForListFilmFragment(film: Film?, person: Person?): List<Linker> {
-        var linkers = listOf<Linker>()
-        if (film != null && person == null) {// For show similar film
-            linkers = DataCentre.linkers.filter { it.film == film && it.similarFilm != null }
-        } else if (film == null && person != null) { //for show list film in person fragment
-            linkers = DataCentre.linkers.filter { it.person == person && it.film != null }
-        } else if (film != null && person != null) { //For show list film in filmography
-            linkers = DataCentre.linkers.filter { it.person == person && it.film == film }
-        }
-        return linkers
     }
 
     //List person fragment, images fragment

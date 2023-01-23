@@ -19,8 +19,8 @@
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" >
         <action
-            android:id="@+id/action_nav_home_to_nav_kitfilms"
-            app:destination="@id/nav_kitFilms" />
+            android:id="@+id/action_nav_home_to_nav_listFilm"
+            app:destination="@id/nav_listFilm" />
         <action
             android:id="@+id/action_nav_home_to_nav_filmInfo"
             app:destination="@id/nav_filmInfo" />
@@ -47,19 +47,16 @@
             android:id="@+id/action_nav_profile_to_nav_filmInfo"
             app:destination="@id/nav_filmInfo" />
         <action
-            android:id="@+id/action_nav_profile_to_nav_list_films"
-            app:destination="@id/nav_list_films" />
-        <action
-            android:id="@+id/action_nav_profile_to_nav_kitFilms"
-            app:destination="@id/nav_kitFilms" />
+            android:id="@+id/action_nav_profile_to_nav_listFilm"
+            app:destination="@id/nav_listFilm" />
     </fragment>
     <fragment
-        android:id="@+id/nav_kitFilms"
-        android:name="com.example.movie_catalog.ui.kit_films.KitFilmsFragment"
+        android:id="@+id/nav_listFilm"
+        android:name="com.example.movie_catalog.ui.list_films.ListFilmFragment"
         android:label="KitFilmsFragment"
-        tools:layout="@layout/fragment_kit_films" >
+        tools:layout="@layout/fragment_list_films" >
         <action
-            android:id="@+id/action_nav_kitFilms_to_nav_filmInfo"
+            android:id="@+id/action_nav_listFilm_to_nav_filmInfo"
             app:destination="@id/nav_filmInfo" />
     </fragment>
     <fragment
@@ -73,9 +70,6 @@
             android:id="@+id/action_nav_filmInfo_to_nav_person"
             app:destination="@id/nav_person" />
         <action
-            android:id="@+id/action_nav_filmInfo_to_nav_list_films"
-            app:destination="@id/nav_list_films" />
-        <action
             android:id="@+id/action_nav_filmInfo_to_nav_list_person"
             app:destination="@id/nav_list_person" />
         <action
@@ -84,6 +78,9 @@
         <action
             android:id="@+id/action_nav_filmInfo_self"
             app:destination="@id/nav_filmInfo" />
+        <action
+            android:id="@+id/action_nav_filmInfo_to_nav_listFilm"
+            app:destination="@id/nav_listFilm" />
     </fragment>
     <fragment
         android:id="@+id/nav_gallery"
@@ -102,19 +99,11 @@
             android:id="@+id/action_nav_person_to_nav_filmInfo"
             app:destination="@id/nav_filmInfo" />
         <action
-            android:id="@+id/action_nav_person_to_nav_list_films"
-            app:destination="@id/nav_list_films" />
-        <action
             android:id="@+id/action_nav_person_to_nav_filmography"
             app:destination="@id/nav_filmography" />
-    </fragment>
-    <fragment
-        android:id="@+id/nav_list_films"
-        android:name="com.example.movie_catalog.ui.list_film.ListFilmsFragment"
-        android:label="ListFilmsFragment" >
         <action
-            android:id="@+id/action_nav_list_films_to_nav_filmInfo"
-            app:destination="@id/nav_filmInfo" />
+            android:id="@+id/action_nav_person_to_nav_listFilm"
+            app:destination="@id/nav_listFilm" />
     </fragment>
     <fragment
         android:id="@+id/nav_viewer_image"
@@ -146,5 +135,4 @@
         android:id="@+id/nav_setting"
         android:name="com.example.movie_catalog.ui.settings.SettingFragment"
         android:label="SettingFragment" />
-
 </navigation>

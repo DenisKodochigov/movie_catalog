@@ -15,10 +15,6 @@ class ToDo {
      (Target.SIZE_ORIGINAL). Otherwise, use LayoutParams.MATCH_PARENT, set layout_width and
      layout_height to fixed dimension, or use .override() with fixed dimensions.
 
-    3.3 Объеденить фрагменты List_film и  kit_film
-
-
-
 
 Может пригодиться.
 

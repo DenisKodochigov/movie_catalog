@@ -43,11 +43,11 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     var serials = _serials.asStateFlow()
     //Requesting data when starting a fragment
     init {
-        getGenres()
+//        getGenres()
         getPremieres()
-        getPopular()
+//        getPopular()
 //        getTop250()
-//        getSerials()
+        getSerials()
     }
     //Requesting data to select two random movie selections
     private fun getGenres() {

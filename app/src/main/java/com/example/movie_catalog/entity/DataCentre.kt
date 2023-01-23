@@ -43,9 +43,11 @@ object DataCentre {
             "" -> headers["X-API-KEY"] = "20c3f30c-7ba7-4417-9c72-4975ac6091c6"
             "20c3f30c-7ba7-4417-9c72-4975ac6091c6" -> headers["X-API-KEY"] = "f8b0f389-e491-48d0-8794-240a6d0bc635"
             "f8b0f389-e491-48d0-8794-240a6d0bc635" -> headers["X-API-KEY"] = "130f6e6d-9e90-4c52-8cf5-8c4cda072fa8"
-            "130f6e6d-9e90-4c52-8cf5-8c4cda072fa8" -> headers["X-API-KEY"] = "20c3f30c-7ba7-4417-9c72-4975ac6091c6"
-            else -> headers["X-API-KEY"] = "20c3f30c-7ba7-4417-9c72-4975ac6091c6"
+            "130f6e6d-9e90-4c52-8cf5-8c4cda072fa8" -> headers["X-API-KEY"] = "e923d7ea-a131-4064-b8c1-b33976f498ca"
+            "e923d7ea-a131-4064-b8c1-b33976f498ca" -> headers["X-API-KEY"] = "20c3f30c-7ba7-4417-9c72-4975ac6091c6"
+            else -> headers["X-API-KEY"] = "e923d7ea-a131-4064-b8c1-b33976f498ca"
         }
+        Log.d("KDS","${headers["X-API-KEY"]}")
     }
 
     fun addFilms(listFilm: List<Film>) {
@@ -199,8 +201,12 @@ object DataCentre {
     }
 
     private fun addLinker(film: Film, similar: Film) {
-        if (linkers.find { (it.film == film) && (it.similarFilm == similar) } == null) {
-            linkers.add(Linker(film = film, similarFilm = similar))
+//        if (linkers.find { (it.film == film) && (it.similarFilm == similar) } == null) {
+//            linkers.add(Linker(film = film, similarFilm = similar))
+//        }
+
+        if (linkers.find {(it.film == similar) && (it.similarFilm == film)} == null){
+            linkers.add(Linker(film = similar, similarFilm = film))
         }
     }
 

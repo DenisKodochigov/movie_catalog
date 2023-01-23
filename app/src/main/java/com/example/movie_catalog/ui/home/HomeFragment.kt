@@ -114,7 +114,7 @@ class HomeFragment : Fragment() {
             // proceed to display the full list.
             showAll.setOnClickListener {
                 homeViewModel.putKit(kit)
-                findNavController().navigate(R.id.action_nav_home_to_nav_kitfilms)
+                findNavController().navigate(R.id.action_nav_home_to_nav_listFilm)
             }
         }
     }
@@ -131,7 +131,7 @@ class HomeFragment : Fragment() {
     //When clicking on the last item in the list
     private fun onClickAll(kit: Kit) {
         homeViewModel.putKit(kit)
-        findNavController().navigate(R.id.action_nav_home_to_nav_kitfilms)
+        findNavController().navigate(R.id.action_nav_home_to_nav_listFilm)
     }
 
     companion object {

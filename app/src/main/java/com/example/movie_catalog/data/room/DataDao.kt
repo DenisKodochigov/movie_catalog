@@ -56,7 +56,7 @@ interface DataDao {
     fun deleteByIdCollection(id:Int)
     //Select all records from the table collections
     @Query("SELECT * FROM collections ")
-    fun getCollection(): List<CollectionDB>
+    fun getCollections(): List<CollectionDB>
     //Selecting a record from a table collections where name =
     @Query("SELECT * FROM collections WHERE name = :collectionName ")
     fun getCollectionRecord(collectionName: String): CollectionDB?

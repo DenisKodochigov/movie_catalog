@@ -28,7 +28,7 @@
             android:id="@+id/rgTypeFilm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="103dp"
+            android:layout_marginBottom="@dimen/settings_radio_group_margin_bot"
             android:background="@drawable/radiogroup_border"
             android:checkedButton="@+id/rbAll"
             android:orientation="horizontal"
@@ -55,7 +55,7 @@
         <TextView
             android:id="@+id/tv_country"
             style="@style/H3_search_settings_text1"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="@dimen/settings_tv_country_margin_top"
             android:text="@string/country"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/rgTypeFilm" />
@@ -132,9 +132,9 @@
             android:id="@+id/range_slider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:stepSize="1"
-            android:valueFrom="1"
-            android:valueTo="10"
+            android:stepSize="@dimen/settings_range_slider_step"
+            android:valueFrom="@dimen/settings_range_slider_from"
+            android:valueTo="@dimen/settings_range_slider_to"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_rating"
@@ -171,7 +171,7 @@
             android:id="@+id/rgSorting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="@dimen/settings_radio_group2_margin_top"
             android:background="@drawable/radiogroup_border"
             android:checkedButton="@+id/rbData"
             android:orientation="horizontal"
@@ -200,7 +200,7 @@
 
         <View
             style="@style/divider"
-            android:layout_marginTop="33dp"
+            android:layout_marginTop="@dimen/settings_divider_margin_top"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rgSorting" />
 
@@ -208,7 +208,7 @@
             android:id="@+id/switch1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="66dp"
+            android:layout_marginTop="@dimen/settings_switch1_margin_top"
             android:switchPadding="@dimen/settings_padding_ver1"
             android:theme="@style/SCBSwitch"
             android:text="@string/dont_show_viewed"

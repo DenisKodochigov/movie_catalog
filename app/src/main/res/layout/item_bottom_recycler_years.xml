@@ -8,13 +8,6 @@
 
     <TextView
         android:id="@+id/tv_text"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:paddingVertical="8dp"
-        android:paddingHorizontal="18dp"
-        android:hint="@string/_0"
-        android:textSize="16sp" />
-
+        style = "@style/H3_bottom_years"
+        android:hint="@string/_0" />
 </LinearLayout>
