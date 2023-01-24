@@ -25,26 +25,37 @@ object DatabaseModule {
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext appContext: Context): AppDatabase {
-//        database = Room.databaseBuilder( appContext, AppDatabase::class.java, "data.db")
-//            .build()
+
         val nameCollection1 = appContext.getString(R.string.favourite_kit)
         val imageCollection1 = R.drawable.icon_favorite
         val nameCollection2 = appContext.getString(R.string.bookmark_kit)
         val imageCollection2 = R.drawable.icon_bookmark
-        database = Room.inMemoryDatabaseBuilder(appContext, AppDatabase::class.java)
-            .addCallback( object: RoomDatabase.Callback(){
-                override fun onCreate(db: SupportSQLiteDatabase) {
-                    super.onCreate(db)
-                    ioThread {
-                        database.dataDao().insert(CollectionDB(
-                            collection = Collection( name = nameCollection1, image = imageCollection1)))
-                        database.dataDao().insert(CollectionDB(
-                            collection = Collection( name = nameCollection2, image = imageCollection2)))
+//        database = Room.inMemoryDatabaseBuilder(appContext, AppDatabase::class.java)
+//            .addCallback( object: RoomDatabase.Callback(){
+//                override fun onCreate(db: SupportSQLiteDatabase) {
+//                    super.onCreate(db)
+//                    ioThread {
+//                        database.dataDao().insert(CollectionDB(
+//                            collection = Collection( name = nameCollection1, image = imageCollection1)))
+//                        database.dataDao().insert(CollectionDB(
+//                            collection = Collection( name = nameCollection2, image = imageCollection2)))
+//                    }
+//                }
+//            })
+//            .build()
+            database = Room.databaseBuilder( appContext, AppDatabase::class.java, "data.db")
+                .addCallback( object: RoomDatabase.Callback(){
+                    override fun onCreate(db: SupportSQLiteDatabase) {
+                        super.onCreate(db)
+                        ioThread {
+                            database.dataDao().insert(CollectionDB(
+                                collection = Collection( name = nameCollection1, image = imageCollection1)))
+                            database.dataDao().insert(CollectionDB(
+                                collection = Collection( name = nameCollection2, image = imageCollection2)))
+                        }
                     }
-                }
-            })
-            .build()
-
+                })
+                .build()
         return database
     }
 
