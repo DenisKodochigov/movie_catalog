@@ -4,7 +4,7 @@ object Constants {
     const val HOME_QTY_FILM_CARD = 20
     const val INFO_QTY_PERSON_CARD = 20
     const val PERSON_QTY_FILM_CARD = 10
-    const val PROFILE_QTY_FILM_CARD = 2
+    const val PROFILE_QTY_FILM_CARD = 10
     const val PREMIERES_WEEKS = 2
     const val ACTOR = "ACTOR"
     const val OTHER = "OTHER"
