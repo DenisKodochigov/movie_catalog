@@ -5,11 +5,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.res.ResourcesCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.example.movie_catalog.App.Companion.context
 import com.example.movie_catalog.databinding.ActivityMainBinding
 import com.example.movie_catalog.entity.Constants
 import com.example.movie_catalog.ui.MainActivityViewModel

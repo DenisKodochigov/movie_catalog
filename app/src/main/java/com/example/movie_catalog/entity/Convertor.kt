@@ -8,7 +8,6 @@ import com.example.movie_catalog.data.api.home.top.TopFilmDTO
 import com.example.movie_catalog.data.api.person.PersonInfoDTO
 import com.example.movie_catalog.data.room.tables.CollectionDB
 import com.example.movie_catalog.data.room.tables.FilmDB
-import java.util.regex.Pattern
 
 class Convertor {
 //    fun fromCollectionDBtoString(source: List<CollectionDB>): List<String>{
@@ -45,25 +44,25 @@ class Convertor {
             bookmark = false,
         )
     }
-//    fun fromListFilmDTOtoFilm(listfilmDTO: List<FilmDTO>):List<Film>{
+//    fun fromListFilmDTOtoFilm(listfilm: List<FilmDTO>):List<Film>{
 //        val listFilm = mutableListOf<Film>()
-//        listfilmDTO.forEach { filmDTO ->
+//        listfilm.forEach { filmDTO ->
 //            listFilm.add(fromFilmDTOtoFilm(filmDTO))
 //        }
 //        return listFilm
 //    }
-    fun fromTopFilmDTOtoFilm(topfilmDTO: TopFilmDTO):Film{
-        val rating = topfilmDTO.rating?.let{
+    fun fromTopFilmDTOtoFilm(topfilm: TopFilmDTO):Film{
+        val rating = topfilm.rating?.let{
                 rating-> rating.filter { it.isDigit() || it == '.'}}?.toDouble()
         return Film(
-            filmId = topfilmDTO.filmId,
+            filmId = topfilm.filmId,
             imdbId = null,
-            nameRu = topfilmDTO.nameRu,
-            nameEn = topfilmDTO.nameEn,
+            nameRu = topfilm.nameRu,
+            nameEn = topfilm.nameEn,
             rating = rating,
-            posterUrlPreview = topfilmDTO.posterUrlPreview,
-            countries = topfilmDTO.countries,
-            genres = topfilmDTO.genres,
+            posterUrlPreview = topfilm.posterUrlPreview,
+            countries = topfilm.countries,
+            genres = topfilm.genres,
             viewed = false,
             favorite = false,
             bookmark = false,

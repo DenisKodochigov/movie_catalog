@@ -22,8 +22,8 @@ class PersonViewModel @Inject constructor() : ViewModel() {
     //The person that is used on the page
     private var localPerson:Person? = null
     //Data chanel movie list
-    private var _linkrers = MutableStateFlow(Plug.plugLinkers)
-    var linkrers = _linkrers.asStateFlow()
+    private var _linkers = MutableStateFlow(Plug.plugLinkers)
+    var linkers = _linkers.asStateFlow()
     //Requesting data when starting a fragment
     init {
         takePerson()
@@ -35,7 +35,7 @@ class PersonViewModel @Inject constructor() : ViewModel() {
             kotlin.runCatching {
                 dataRepository.getPersonInfo(person)
             }.fold(
-                onSuccess = { _linkrers.value = it },
+                onSuccess = { _linkers.value = it },
                 onFailure = { ErrorApp().errorApi(it.message!!) }
             )
         }

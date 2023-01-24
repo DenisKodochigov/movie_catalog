@@ -1,14 +1,12 @@
 package com.example.movie_catalog.entity.plug
 
 import com.example.movie_catalog.data.api.film_info.FilmInfoDTO
-import com.example.movie_catalog.data.room.tables.CollectionDB
-import com.example.movie_catalog.entity.Collection
-import com.example.movie_catalog.entity.Linker
-import com.example.movie_catalog.entity.Film
-import com.example.movie_catalog.entity.filminfo.InfoFilmSeasons
-import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.Country
+import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Genre
+import com.example.movie_catalog.entity.Linker
+import com.example.movie_catalog.entity.enumApp.Kit
+import com.example.movie_catalog.entity.filminfo.InfoFilmSeasons
 
 object Plug {
 
@@ -16,7 +14,7 @@ object Plug {
         Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),
         Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),Linker(),Linker())
 
-    val filmPlug = listOf(
+    private val filmPlug = listOf(
         Film( filmId =  1115454,
             nameRu= "Портрет незнакомца",
             nameEn= "",

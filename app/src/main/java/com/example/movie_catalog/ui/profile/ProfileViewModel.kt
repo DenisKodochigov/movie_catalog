@@ -83,7 +83,7 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
     fun deleteCollection(collection: Collection) {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                //Delleting collection by name and back a new list of collection
+                //Deleting collection by name and back a new list of collection
                 dataRepository.deleteCollection(collection)
                 Convertor().fromCollectionDBtoCollection(dataRepository.getCollectionsDB())
             }.fold(

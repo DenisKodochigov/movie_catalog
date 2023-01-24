@@ -81,7 +81,7 @@ class ProfileFragment : Fragment() {
             dialogButton.setOnClickListener{
                 val nameCollection = dialogView.findViewById<EditText>(R.id.username).text
                 viewModel.newCollection(nameCollection.toString())
-                Toast.makeText(context,"New collection $nameCollection сreated", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"A new collection $nameCollection has been created", Toast.LENGTH_SHORT).show()
                 dialogAlert.dismiss()
             }
         }

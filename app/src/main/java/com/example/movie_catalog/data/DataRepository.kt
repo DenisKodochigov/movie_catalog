@@ -273,10 +273,6 @@ class DataRepository @Inject constructor() {
         }
         return listCollectionFilmDB
     }
-    //Find the collection id by name.
-    fun findCollectionID(nameCollection: String): Int {
-        return  dataSourceDB.getCollectionRecord(nameCollection)?.idCollection ?: 0
-    }
     //Adding a new collection
     fun addCollection(nameCollection: String): CollectionDB? {
         //Checking for a collection with the same name
@@ -314,7 +310,7 @@ class DataRepository @Inject constructor() {
     }
     //Get a list of movies from the collection
     fun getFilmsInCollectionName(nameCollection: String = ""): List<Linker> {
-        var linkers = mutableListOf<Linker>()
+        val linkers = mutableListOf<Linker>()
         //Looking for a collection by name
         val idCollect = dataSourceDB.getCollectionRecord(nameCollection)?.idCollection ?: 0
         val kit = Kit.COLLECTION
@@ -328,8 +324,6 @@ class DataRepository @Inject constructor() {
             }// Adding an empty list member
             //If you haven't found the collection, then add an empty movie to the array of links
             linkers.add(Linker( Film(),null,null,null, kit))
-        } else if (idCollect == 1){ //If collection is viewed films
-            linkers = getViewedFilms() as MutableList<Linker>
         }
         return linkers
     }

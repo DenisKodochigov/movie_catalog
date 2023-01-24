@@ -31,9 +31,9 @@ class ListFilmViewModel @Inject constructor(): ViewModel() {
     //The kit that is displayed on the page
     var localKit: Kit? = null
     //The person object that is used on the page
-    var localPerson: Person? = null
+    private var localPerson: Person? = null
     //The film object that is used on the page
-    var localFilm:Film? = null
+    private var localFilm:Film? = null
     //Data chanel a list of linkers (movies)
     private var _listLink = MutableStateFlow(Plug.plugLinkers)
     var listLink = _listLink.asStateFlow()
@@ -111,12 +111,10 @@ class ListFilmViewModel @Inject constructor(): ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
                 localKit?.let { kit ->
-                    if (kit.nameKit == App.context.getString(R.string.viewed_kit)){
-                        dataRepository.clearViewedFilm()
-                    } else if (kit.nameKit == App.context.getString(R.string.viewed_kit)){
-                        dataRepository.clearBookmarkFilm()
-                    } else {
-                        dataRepository.clearCollection(kit.nameKit)
+                    when(kit.nameKit) {
+                        App.context.getString(R.string.viewed_kit) -> dataRepository.clearViewedFilm()
+                        App.context.getString(R.string.bookmark_kit) -> dataRepository.clearBookmarkFilm()
+                        else -> dataRepository.clearCollection(kit.nameKit)
                     }
                     //Refresh a list film of collection
                     getDataCollection(kit.nameKit)

@@ -56,18 +56,17 @@ class SettingFragment: Fragment()  {
         //All parameter requests are made via the Bottom Sheet dialog
         //Initializing the Bottom Sheet dialog
         bottomSheetDialog = context?.let{ BottomSheetDialog(it, R.style.AppBottomSheetDialogTheme) }!!
-        //Showing the Bottom Sheetdialog in expanded form
+        //Showing the Bottom Sheet dialog in expanded form
         bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
         // Get current values search settings (filter)
         val filter = viewModel.filter
-        //Set radiogroup TYPE FILM to the previously selected value
+        //Set radio group TYPE FILM to the previously selected value
         when (filter.typeFilm) {
             TypeFilm.ALL -> binding.rbAll.isChecked = true
             TypeFilm.FILM -> binding.rbFilm.isChecked = true
             TypeFilm.TV_SERIES -> binding.rbSerial.isChecked = true
-            else -> {}
         }
-        //Set radiogroup SORTING to the previously selected value
+        //Set radio group SORTING to the previously selected value
         when (filter.sorting) {
             SortingField.YEAR -> binding.rbData.isChecked = true
             SortingField.NUM_VOTE -> binding.rbPopular.isChecked = true
@@ -82,7 +81,7 @@ class SettingFragment: Fragment()  {
                 filter.rating.second.toString()
         binding.rangeSlider.setValues(filter.rating.first.toFloat(), filter.rating.second.toFloat())
         binding.switch1.isChecked = filter.viewed
-        // Processing the selection in radiogroup TYPE FILM
+        // Processing the selection in radio group TYPE FILM
         binding.rgTypeFilm.setOnCheckedChangeListener { _, b ->
             when (b){
                 binding.rbAll.id -> viewModel.takeFilterType(TypeFilm.ALL)
@@ -91,7 +90,7 @@ class SettingFragment: Fragment()  {
                 else -> {}
             }
         }
-        // Processing the selection in radiogroup SORTING
+        // Processing the selection in radio group SORTING
         binding.rgSorting.setOnCheckedChangeListener { _, b ->
             when (b){
                 binding.rbData.id -> viewModel.takeFilterSorting(SortingField.YEAR)
@@ -150,7 +149,7 @@ class SettingFragment: Fragment()  {
         val recyclerFrom = bottomSheetDialog.findViewById<RecyclerView>(R.id.recyclerFrom)!!
         //Connecting layout manager
         recyclerFrom.layoutManager = GridLayoutManager(context, 3, RecyclerView.VERTICAL, false)
-        //connecting adaper
+        //connecting adapter
         recyclerFrom.adapter = adapterFrom
         //Transferred to the recycler a list of films
         adapterFrom.setList(recyclerData1)
@@ -159,7 +158,7 @@ class SettingFragment: Fragment()  {
         val recyclerTo = bottomSheetDialog.findViewById<RecyclerView>(R.id.recyclerTo)!!
         //Connecting layout manager
         recyclerTo.layoutManager = GridLayoutManager(context, 3, RecyclerView.VERTICAL, false)
-        //connecting adaper
+        //connecting adapter
         recyclerTo.adapter = adapterTo
         //Transferred to the recycler a list of films
         adapterTo.setList(recyclerData2)

@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.transition.TransitionInflater
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentSeasonsBinding
 import com.example.movie_catalog.entity.Film

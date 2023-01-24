@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
         <ImageView
-            style = "@style/search_lupa"
+            style = "@style/search_loupe"
             android:src="@drawable/icon_search"
             tools:ignore="RtlSymmetry" />
 

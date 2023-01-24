@@ -50,7 +50,7 @@ class PersonFragment : Fragment() {
             //Connecting adapter
             filmRecyclerHorizontal.adapter = filmAdapter
             //Getting a list persons for recyclerview
-            viewModel.linkrers.onEach { linker ->
+            viewModel.linkers.onEach { linker ->
                 if (linker.isNotEmpty()){
                     if (linker[0].person != null) {
                         //Filing in text fields on the page

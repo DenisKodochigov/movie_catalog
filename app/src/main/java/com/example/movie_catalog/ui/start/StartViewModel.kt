@@ -1,6 +1,5 @@
 package com.example.movie_catalog.ui.start
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.data.DataRepository

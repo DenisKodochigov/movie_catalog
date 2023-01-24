@@ -296,7 +296,7 @@
         <item name="android:hint">@string/dialog_message</item>
         <item name="android:textColorHint">@color/hint_color</item>
     </style>
-    <style name="search_lupa">
+    <style name="search_loupe">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">18dp</item>

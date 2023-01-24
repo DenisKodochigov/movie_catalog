@@ -1,6 +1,5 @@
 package com.example.movie_catalog.ui.settings
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.data.DataRepository
@@ -60,7 +59,7 @@ class SettingsViewModel @Inject constructor() : ViewModel()  {
             )
         }
     }
-    //Seva the type movie
+    //Save the type movie
     fun takeFilterType(typeFilm: TypeFilm){
         filter.typeFilm = typeFilm
         dataRepository.putSearchFilter(filter)

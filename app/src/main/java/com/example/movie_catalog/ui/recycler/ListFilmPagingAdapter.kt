@@ -12,11 +12,11 @@ import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
 import com.example.movie_catalog.databinding.ItemListFilmBotBinding
 import com.example.movie_catalog.databinding.ItemListFilmRightBinding
-import com.example.movie_catalog.entity.Constants
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Linker
 import com.example.movie_catalog.entity.enumApp.ModeViewer
 import javax.inject.Inject
+
 /*
 The adapter is used in:
  1. The Kit Fragment to display a list premieres
@@ -95,7 +95,7 @@ class ListFilmPagingAdapter @Inject constructor(private val mode: ModeViewer, //
                         //Set film name
                         nameFilm.text = film.nameRu ?: film.nameEn ?: film.nameOriginal
                         //Set film date
-                        startYear.text = film.year.toString().orEmpty() + " " + film.genresTxt()
+                        startYear.text = film.year.toString() + " " + film.genresTxt()
                         //Set action on click item recyclerView
                         poster.setOnClickListener {
                             onClick(film)

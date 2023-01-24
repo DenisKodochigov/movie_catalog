@@ -1,7 +1,6 @@
 package com.example.movie_catalog.entity
 
 import com.example.movie_catalog.data.api.home.seasons.SeasonDTO
-import com.example.movie_catalog.entity.enumApp.TypeFilm
 import com.example.movie_catalog.entity.filminfo.ImageFilm
 
 data class Film(

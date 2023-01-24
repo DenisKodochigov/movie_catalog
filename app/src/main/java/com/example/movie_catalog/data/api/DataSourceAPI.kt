@@ -105,7 +105,7 @@ class DataSourceAPI @Inject constructor() {
     }
 //Get a list of photos for the movie
     suspend fun getImages(film: Film) {
-        //Sorting through the possible types of images from the movieм
+        //Sorting through the possible types of images from the movies
         ImageGroup.values().forEach { tab ->
             var page = 1
             val filmImageDTO = retrofitApi.getGallery(film.filmId!!, tab.toString(), page, DataCentre.headers)

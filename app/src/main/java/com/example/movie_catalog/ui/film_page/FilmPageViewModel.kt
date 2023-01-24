@@ -1,13 +1,12 @@
 package com.example.movie_catalog.ui.film_page
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movie_catalog.data.DataRepository
 import com.example.movie_catalog.data.room.tables.CollectionDB
 import com.example.movie_catalog.entity.ErrorApp
-import com.example.movie_catalog.entity.Linker
 import com.example.movie_catalog.entity.Film
+import com.example.movie_catalog.entity.Linker
 import com.example.movie_catalog.entity.Person
 import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.filminfo.ImageFilm

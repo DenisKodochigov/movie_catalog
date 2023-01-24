@@ -19,7 +19,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_skill_cinema_margin_top"
                 android:layout_marginBottom="@dimen/home_skill_cinema_margin_bot"
-                android:src="@drawable/icon_skillcinema"/>
+                android:src="@drawable/icon_skill_cinema"/>
 
             <include
                 android:id="@+id/premier_kit"

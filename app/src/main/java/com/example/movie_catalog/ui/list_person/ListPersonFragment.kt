@@ -54,7 +54,7 @@ class ListPersonFragment : Fragment() {
     }
     //When you clicked on the person's card
     private fun onItemClick(person: Person) {
-        //Saved the selected perosona
+        //Saved the selected persona
         viewModel.putPersonId(person)
         findNavController().navigate(R.id.action_nav_list_person_to_nav_person)
     }

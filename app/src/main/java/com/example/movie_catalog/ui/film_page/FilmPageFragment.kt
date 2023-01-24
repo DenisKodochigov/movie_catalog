@@ -292,7 +292,7 @@ class FilmPageFragment : Fragment() {
         //Received and transferred to the recycler a list of films
         viewModel.similar.onEach {
             similarAdapter.setListFilm(it)
-            if (it.size > Constants.HOME_QTY_FILM_CARD-18) {
+            if (it.size > Constants.HOME_QTY_FILM_CARD-1) {
                 //If the number of similar is more than displayed in the list, then we show
                 // the number and a link to display the full list.
                 binding.similar.tvQuantityMovies.visibility = View.VISIBLE
@@ -370,7 +370,6 @@ class FilmPageFragment : Fragment() {
             dialogButton.setOnClickListener{
                 val nameCollection = dialogView.findViewById<EditText>(R.id.username).text
                 viewModel.newCollection(nameCollection.toString())
-//                Toast.makeText(context,"New collection $nameCollection сreated", Toast.LENGTH_SHORT).show()
                 dialogAlert.dismiss()
             }
         }

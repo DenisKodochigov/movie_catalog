@@ -36,6 +36,7 @@ interface KinopoiskAPI {
                            @Query("type") type: String, @Query("ratingFrom") ratingFrom: Int,
                            @Query("ratingTo") ratingTo: Int, @Query("yearFrom") yearFrom: Int,
                            @Query("yearTo") yearTo: Int, @HeaderMap headers: Map<String, String>): FilterDTO
+
     //Request list movies for filter
     @Headers("Accept: application/json", "Content-type: application/json")
     @GET("/api/v2.2/films")
@@ -45,44 +46,43 @@ interface KinopoiskAPI {
                     @Query("yearTo") yearTo: Int, @Query("keyword") keyword: String,
                     @Query("countries") countries: Int?, @Query("genres") genres: Int?,
                     @HeaderMap headers: Map<String, String>): FilterDTO
+
     //Request genres and country
     @Headers("Accept: application/json", "Content-type: application/json")
     @GET("/api/v2.2/films/filters")
     suspend fun getGenres(@HeaderMap headers: Map<String, String>): ListGenresDTO
+
     //Request for additional information on a movie
     @Headers("Accept: application/json", "Content-type: application/json")
     @GET("/api/v2.2/films/{id}")
     suspend fun getFilmInfo(@Path("id") id:Int, @HeaderMap headers: Map<String, String>): FilmInfoDTO
+
     //Request for additional information on a season
     @Headers("Accept: application/json", "Content-type: application/json")
     @GET("/api/v2.2/films/{id}/seasons")
     suspend fun getSeasons(@Path("id") id:Int, @HeaderMap headers: Map<String, String>): SeasonsDTO
+
     //Request a list person
     @Headers("Accept: application/json", "Content-type: application/json")
     @GET("/api/v1/staff")
     suspend fun getPersons(@Query("filmId") id:Int, @HeaderMap headers: Map<String, String>): List<PersonDTO>
+
     //Request for additional information on a person
     @Headers("Accept: application/json", "Content-type: application/json")
     @GET("/api/v1/staff/{id}")
     suspend fun getPersonInfo(@Path("id") id:Int, @HeaderMap headers: Map<String, String>): PersonInfoDTO
+
     //Request a list of images for the movie
     @Headers("Accept: application/json", "Content-type: application/json")
     @GET("/api/v2.2/films/{id}/images?")
     suspend fun getGallery(@Path("id") id:Int, @Query("type") type: String, @Query("page") page: Int,
                            @HeaderMap headers: Map<String, String>): FilmImageDTO
+
     //Request a list of similar film for the movie
     @Headers("Accept: application/json", "Content-type: application/json")
     @GET("/api/v2.2/films/{id}/similars")
     suspend fun getSimilar(@Path("id") id: Int, @HeaderMap headers: Map<String, String>): SimilarDTO
-
-    companion object{
-        private const val api_key = "f8b0f389-e491-48d0-8794-240a6d0bc635"
-    }
 }
-
-// 20c3f30c-7ba7-4417-9c72-4975ac6091c6
-// f8b0f389-e491-48d0-8794-240a6d0bc635
-// 130f6e6d-9e90-4c52-8cf5-8c4cda072fa8
 
 val retrofitApi: KinopoiskAPI by lazy {
     Retrofit

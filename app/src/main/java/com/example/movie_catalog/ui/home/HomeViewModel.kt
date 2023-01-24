@@ -6,7 +6,6 @@ import com.example.movie_catalog.data.DataRepository
 import com.example.movie_catalog.data.api.home.getKit.SelectedKit
 import com.example.movie_catalog.entity.ErrorApp
 import com.example.movie_catalog.entity.Film
-import com.example.movie_catalog.entity.Linker
 import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.plug.Plug
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -43,10 +42,10 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     var serials = _serials.asStateFlow()
     //Requesting data when starting a fragment
     init {
-//        getGenres()
+        getGenres()
         getPremieres()
-//        getPopular()
-//        getTop250()
+        getPopular()
+        getTop250()
         getSerials()
     }
     //Requesting data to select two random movie selections
