@@ -15,6 +15,7 @@
     <color name="gradient_viewed1">#B3B5B5C9</color>
     <color name="gradient_viewed2">#B33D3BFF</color>
     <color name="general">#272727</color>
+    <color name="general_night">#C1C1C1</color>
     <color name="h5">#838390</color>
     <color name="blue_arrow">#3D3BFF</color>
     <color name="clear">#00FAF8F8</color>
