@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         //Synchronization of the data storage system in memory and
         // data in the database from previous use.
- //       AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
+        AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
         viewModel.synchronizationDataCenterAndDB()
 
         val navView: BottomNavigationView = binding.navView
