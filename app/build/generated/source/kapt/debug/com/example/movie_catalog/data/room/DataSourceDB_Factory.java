@@ -5,6 +5,7 @@ import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
+import javax.inject.Provider;
 
 @ScopeMetadata("javax.inject.Singleton")
 @QualifierMetadata
@@ -14,20 +15,22 @@ import dagger.internal.ScopeMetadata;
     "rawtypes"
 })
 public final class DataSourceDB_Factory implements Factory<DataSourceDB> {
+  private final Provider<DataDao> dataDaoProvider;
+
+  public DataSourceDB_Factory(Provider<DataDao> dataDaoProvider) {
+    this.dataDaoProvider = dataDaoProvider;
+  }
+
   @Override
   public DataSourceDB get() {
-    return newInstance();
+    return newInstance(dataDaoProvider.get());
   }
 
-  public static DataSourceDB_Factory create() {
-    return InstanceHolder.INSTANCE;
+  public static DataSourceDB_Factory create(Provider<DataDao> dataDaoProvider) {
+    return new DataSourceDB_Factory(dataDaoProvider);
   }
 
-  public static DataSourceDB newInstance() {
-    return new DataSourceDB();
-  }
-
-  private static final class InstanceHolder {
-    private static final DataSourceDB_Factory INSTANCE = new DataSourceDB_Factory();
+  public static DataSourceDB newInstance(DataDao dataDao) {
+    return new DataSourceDB(dataDao);
   }
 }

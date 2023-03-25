@@ -1,6 +1,7 @@
 package com.example.movie_catalog.ui.recycler
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +25,7 @@ class PersonsAdapter @Inject constructor(
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var linkers: List<Linker> = emptyList()
+    lateinit var contextClass: Context
 
     @SuppressLint("NotifyDataSetChanged")
     fun setListPerson(listLinker: List<Linker>) {
@@ -31,8 +33,8 @@ class PersonsAdapter @Inject constructor(
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int):
-            RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        contextClass = parent.context
         return when (viewType) {
             //The markup to display a grid of persons
             R.layout.item_film_page_person -> PersonGridVH(

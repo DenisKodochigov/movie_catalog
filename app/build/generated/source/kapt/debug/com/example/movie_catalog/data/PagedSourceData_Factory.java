@@ -18,20 +18,25 @@ import javax.inject.Provider;
 public final class PagedSourceData_Factory implements Factory<PagedSourceData> {
   private final Provider<Kit> kitProvider;
 
-  public PagedSourceData_Factory(Provider<Kit> kitProvider) {
+  private final Provider<DataRepository> dataRepositoryProvider;
+
+  public PagedSourceData_Factory(Provider<Kit> kitProvider,
+      Provider<DataRepository> dataRepositoryProvider) {
     this.kitProvider = kitProvider;
+    this.dataRepositoryProvider = dataRepositoryProvider;
   }
 
   @Override
   public PagedSourceData get() {
-    return newInstance(kitProvider.get());
+    return newInstance(kitProvider.get(), dataRepositoryProvider.get());
   }
 
-  public static PagedSourceData_Factory create(Provider<Kit> kitProvider) {
-    return new PagedSourceData_Factory(kitProvider);
+  public static PagedSourceData_Factory create(Provider<Kit> kitProvider,
+      Provider<DataRepository> dataRepositoryProvider) {
+    return new PagedSourceData_Factory(kitProvider, dataRepositoryProvider);
   }
 
-  public static PagedSourceData newInstance(Kit kit) {
-    return new PagedSourceData(kit);
+  public static PagedSourceData newInstance(Kit kit, DataRepository dataRepository) {
+    return new PagedSourceData(kit, dataRepository);
   }
 }

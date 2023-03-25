@@ -6,9 +6,9 @@ import com.example.movie_catalog.entity.Linker
 import com.example.movie_catalog.entity.enumApp.Kit
 import javax.inject.Inject
 
-class PagedSourceData  @Inject constructor(val kit: Kit): PagingSource<Int, Linker>() {
+class PagedSourceData  @Inject constructor(val kit: Kit, private val dataRepository: DataRepository): PagingSource<Int, Linker>() {
 
-    private val dataRepository = DataRepository()
+//    private val dataRepository = DataRepository()
 
     override fun getRefreshKey(state: PagingState<Int, Linker>): Int = FIRST_PAGE
 

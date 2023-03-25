@@ -10,9 +10,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainActivityViewModel @Inject constructor(): ViewModel() {
-
-    private val dataRepository = DataRepository()
+class MainActivityViewModel @Inject constructor(
+    private var dataRepository: DataRepository,
+    private val errorApp: ErrorApp): ViewModel() {
 
     fun synchronizationDataCenterAndDB(){
         viewModelScope.launch(Dispatchers.IO) {
@@ -20,7 +20,7 @@ class MainActivityViewModel @Inject constructor(): ViewModel() {
                 dataRepository.synchronizationDataCenterAndDB()
             }.fold(
                 onSuccess = {},
-                onFailure = { ErrorApp().errorApi(it.message!!)}
+                onFailure = { errorApp.errorApi(it.message!!)}
             )
         }
         return

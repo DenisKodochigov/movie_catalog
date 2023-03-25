@@ -1,12 +1,12 @@
 package com.example.movie_catalog.ui.recycler
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movie_catalog.App
 import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
 import com.example.movie_catalog.databinding.*
@@ -16,6 +16,7 @@ import com.example.movie_catalog.entity.Gallery
 import com.example.movie_catalog.entity.ImageStart
 import com.example.movie_catalog.entity.enumApp.ModeViewer
 import com.example.movie_catalog.entity.filminfo.ImageFilm
+
 /*
 The adapter is used in:
  1. The Filmography Fragment to display a list of collections.
@@ -35,6 +36,8 @@ Each case uses its own screen layout
  */
 class ViewerPageAdapter (private val mode: ModeViewer, private val onClick: (Any?) -> Unit ):
     RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+
+    private lateinit var contextClass: Context
     private var items: Any? = null
 
     @SuppressLint("NotifyDataSetChanged")
@@ -58,6 +61,8 @@ class ViewerPageAdapter (private val mode: ModeViewer, private val onClick: (Any
     }
     //Assign the holder depending on the adapter's operating mode
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+
+        contextClass = parent.context
         return when (viewType) {
             // The list of start images
             R.layout.item_viewer_image_start -> ImageStartHV(ItemViewerImageStartBinding
@@ -98,7 +103,7 @@ class ViewerPageAdapter (private val mode: ModeViewer, private val onClick: (Any
                         //Creating an adapter for the viewpager body
                         val imageAdapter = SimpleAdapterAny ({ onClickImagesAdapter(null)},1)
                         //Connecting layout manager
-                        holder.binding.recyclerImage.layoutManager = GridLayoutManager(App.context, 2).also {
+                        holder.binding.recyclerImage.layoutManager = GridLayoutManager(contextClass, 2).also {
                             //Changing the markup depending on the image number
                             it.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
                                 override fun getSpanSize(position: Int): Int {
@@ -129,7 +134,7 @@ class ViewerPageAdapter (private val mode: ModeViewer, private val onClick: (Any
                         val filmAdapter = ListFilmAdapter (0, ModeViewer.FILMOGRAPHY,
                             { film -> onClickImagesAdapter(film)},{})
                         //Connecting layout manager
-                        holder.binding.recyclerImage.layoutManager = LinearLayoutManager(App.context,
+                        holder.binding.recyclerImage.layoutManager = LinearLayoutManager(contextClass,
                             RecyclerView.VERTICAL, false)
                         //Connecting adapter
                         holder.binding.recyclerImage.adapter = filmAdapter
@@ -151,7 +156,7 @@ class ViewerPageAdapter (private val mode: ModeViewer, private val onClick: (Any
                 holder.binding.ivIcon.setImageResource(listImageStart[position].imageResource!!)
                 holder.binding.ivIndicator.setImageResource(listImageStart[position].imageIndicator!!)
                 holder.binding.tvSignature.text =
-                    App.context.resources.getString(listImageStart[position].signature!!)
+                    contextClass.resources.getString(listImageStart[position].signature!!)
             }
             is SeasonVH -> {
                 //Output of information on the series in the series
@@ -159,15 +164,15 @@ class ViewerPageAdapter (private val mode: ModeViewer, private val onClick: (Any
                 //Creating an adapter for the viewpager body
                 val episodeAdapter = SimpleAdapterAny({})
                 //Connecting layout manager
-                holder.binding.recycler.layoutManager = LinearLayoutManager(App.context,
+                holder.binding.recycler.layoutManager = LinearLayoutManager(contextClass,
                     RecyclerView.VERTICAL, false)
                 //Connecting adapter
                 holder.binding.recycler.adapter = episodeAdapter
                 //Loading the created list.
                 film.listSeasons?.get(position)?.let {
                     episodeAdapter.setList(it.episodes!!)
-                    holder.binding.tvHeader.text = it.number.toString() + " " + App.context.getString(R.string.viewer_seasons_season) + ", " +
-                            it.episodes.size.toString() + " " + App.context.getString(R.string.quantity_series)
+                    holder.binding.tvHeader.text = it.number.toString() + " " + contextClass.getString(R.string.viewer_seasons_season) + ", " +
+                            it.episodes.size.toString() + " " + contextClass.getString(R.string.quantity_series)
                 }
             }
             else -> {}

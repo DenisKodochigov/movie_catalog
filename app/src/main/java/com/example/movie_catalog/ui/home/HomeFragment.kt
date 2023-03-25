@@ -99,7 +99,7 @@ class HomeFragment : Fragment() {
                                flowFilms: StateFlow<List<Linker>>, kit : Kit ) {
         with(view){
             //Set name kit
-            kitName.text = kit.nameKit
+            kitName.text = context?.getString(kit.nameKit) ?: ""
             //Purpose of the adapter for recyclerview
             filmRecyclerHorizontal.adapter = adapter
             flowFilms.onEach {

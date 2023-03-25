@@ -14,9 +14,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FilmographyViewModel @Inject constructor(): ViewModel() {
+class FilmographyViewModel @Inject constructor(private var dataRepository: DataRepository): ViewModel() {
 
-    private val dataRepository = DataRepository()
+//    private val dataRepository = DataRepository()
     //The person that is displayed on the page
     private var localPerson: Person? = null
     //Stream for displaying a list of movie for person

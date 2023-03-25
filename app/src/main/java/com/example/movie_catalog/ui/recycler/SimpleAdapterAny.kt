@@ -2,6 +2,7 @@ package com.example.movie_catalog.ui.recycler
 
 import android.annotation.SuppressLint
 import android.app.ActionBar
+import android.content.Context
 import android.graphics.Typeface
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -10,7 +11,6 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movie_catalog.App
 import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
 import com.example.movie_catalog.data.api.home.getKit.CountryIdDTO
@@ -18,11 +18,12 @@ import com.example.movie_catalog.data.api.home.getKit.GenreIdDTO
 import com.example.movie_catalog.data.api.home.seasons.EpisodeDTO
 import com.example.movie_catalog.data.room.tables.CollectionDB
 import com.example.movie_catalog.databinding.*
-import com.example.movie_catalog.entity.RecyclerData
 import com.example.movie_catalog.entity.Collection
 import com.example.movie_catalog.entity.Constants
+import com.example.movie_catalog.entity.RecyclerData
 import com.example.movie_catalog.entity.filminfo.ImageFilm
 import javax.inject.Inject
+
 /*
 The adapter is used in:
  1. The Film Page Fragment to display a list of collections.
@@ -46,6 +47,7 @@ class SimpleAdapterAny @Inject constructor(private val onClick: (Any) -> Unit, p
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     //List of displayed objects in the recycler view
     private var items: List<Any> = emptyList()
+    private lateinit var contextClass: Context
 
     @SuppressLint("NotifyDataSetChanged")
     fun setList(list: List<Any>) {
@@ -54,6 +56,7 @@ class SimpleAdapterAny @Inject constructor(private val onClick: (Any) -> Unit, p
     }
     //Assign holder depending on the type of input data
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        contextClass = parent.context
         return when (viewType) {
             // The list of collections
             R.layout.item_profile_card_collections -> CollectionVH( ItemProfileCardCollectionsBinding
@@ -146,16 +149,16 @@ class SimpleAdapterAny @Inject constructor(private val onClick: (Any) -> Unit, p
                 if (item is EpisodeDTO) {
                     if (item.nameRu != null && item.nameEn != null) {
                         holder.binding.tvNameEn.text = item.episodeNumber.toString() + " " +
-                                App.context.getString(R.string.episode) + ", " + item.nameEn.toString()
+                                contextClass.getString(R.string.episode) + ", " + item.nameEn.toString()
                         holder.binding.tvNameRu.text = item.nameRu.toString()
                     } else if (item.nameRu == null && item.nameEn != null) {
                         holder.binding.tvNameEn.text = item.episodeNumber.toString() + " " +
-                                App.context.getString(R.string.episode) + ", " + item.nameEn.toString()
+                                contextClass.getString(R.string.episode) + ", " + item.nameEn.toString()
                         holder.binding.tvNameRu.visibility = View.INVISIBLE
                         holder.binding.tvNameRu.layoutParams.height = 0
                     } else {
                         holder.binding.tvNameEn.text = item.episodeNumber.toString() + " " +
-                                App.context.getString(R.string.episode) + ", " + item.nameRu.toString()
+                                contextClass.getString(R.string.episode) + ", " + item.nameRu.toString()
                         holder.binding.tvNameRu.visibility = View.INVISIBLE
                         holder.binding.tvNameRu.layoutParams.height = 0
                     }

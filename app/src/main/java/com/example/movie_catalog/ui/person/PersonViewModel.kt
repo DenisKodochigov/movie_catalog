@@ -16,9 +16,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PersonViewModel @Inject constructor() : ViewModel() {
+class PersonViewModel @Inject constructor(private var dataRepository: DataRepository,
+                                          private val errorApp: ErrorApp) : ViewModel() {
 
-    private val dataRepository = DataRepository()
     //The person that is used on the page
     private var localPerson:Person? = null
     //Data chanel movie list
@@ -36,7 +36,7 @@ class PersonViewModel @Inject constructor() : ViewModel() {
                 dataRepository.getPersonInfo(person)
             }.fold(
                 onSuccess = { _linkers.value = it },
-                onFailure = { ErrorApp().errorApi(it.message!!) }
+                onFailure = { errorApp.errorApi(it.message!!) }
             )
         }
     }

@@ -6,7 +6,6 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.movie_catalog.App
 import com.example.movie_catalog.R
 import com.example.movie_catalog.data.DataRepository
 import com.example.movie_catalog.data.PagedSourceData
@@ -25,9 +24,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ListFilmViewModel @Inject constructor(): ViewModel() {
+class ListFilmViewModel @Inject constructor(
+    private var dataRepository: DataRepository,
+    private val errorApp: ErrorApp
+): ViewModel() {
 
-    private val dataRepository = DataRepository()
     //The kit that is displayed on the page
     var localKit: Kit? = null
     //The person object that is used on the page
@@ -43,7 +44,7 @@ class ListFilmViewModel @Inject constructor(): ViewModel() {
     //Data chanel for paging adapter
     var pagedFilms: Flow<PagingData<Linker>> = Pager(
         config = PagingConfig(pageSize = 20),
-        pagingSourceFactory = { PagedSourceData(localKit!!) }
+        pagingSourceFactory = { PagedSourceData(localKit!!, dataRepository) }
     ).flow.cachedIn(viewModelScope)
 
     //Requesting data when starting a fragment
@@ -55,7 +56,7 @@ class ListFilmViewModel @Inject constructor(): ViewModel() {
         if (localKit != null) {
             when (localKit){
                 Kit.PREMIERES -> getPremieres()
-                Kit.COLLECTION -> localKit?.let { getDataCollection( it.nameKit) }
+                Kit.COLLECTION -> localKit?.let { getDataCollection( it.displayText) }
                 Kit.PERSON -> localPerson?.let { getListLinkerForPerson(it) }
                 Kit.SIMILAR -> localFilm?.let{ getListLinkerForSimilar(it) }
                 else -> {} // Other case working PagingData
@@ -69,7 +70,7 @@ class ListFilmViewModel @Inject constructor(): ViewModel() {
                 dataRepository.getListLinkerForPerson(person)
             }.fold(
                 onSuccess = { _listLink.value = it },
-                onFailure = { ErrorApp().errorApi(it.message!!) }
+                onFailure = { errorApp.errorApi(it.message!!) }
             )
         }
     }
@@ -80,7 +81,7 @@ class ListFilmViewModel @Inject constructor(): ViewModel() {
                 dataRepository.getListLinkerForSimilar(film)
             }.fold(
                 onSuccess = { _listLink.value = it },
-                onFailure = { ErrorApp().errorApi(it.message!!) }
+                onFailure = { errorApp.errorApi(it.message!!) }
             )
         }
     }
@@ -91,7 +92,7 @@ class ListFilmViewModel @Inject constructor(): ViewModel() {
                 dataRepository.getFilmsInCollectionName(nameCollection)
             }.fold(
                 onSuccess = { _collectionFilm.value = it},
-                onFailure = { ErrorApp().errorApi(it.message!!)}
+                onFailure = { errorApp.errorApi(it.message!!)}
             )
         }
     }
@@ -102,7 +103,7 @@ class ListFilmViewModel @Inject constructor(): ViewModel() {
                 dataRepository.getPremieres()
             }.fold(
                 onSuccess = { _listLink.value = it},
-                onFailure = { ErrorApp().errorApi(it.message!!)}
+                onFailure = { errorApp.errorApi(it.message!!)}
             )
         }
     }
@@ -112,16 +113,16 @@ class ListFilmViewModel @Inject constructor(): ViewModel() {
             kotlin.runCatching {
                 localKit?.let { kit ->
                     when(kit.nameKit) {
-                        App.context.getString(R.string.viewed_kit) -> dataRepository.clearViewedFilm()
-                        App.context.getString(R.string.bookmark_kit) -> dataRepository.clearBookmarkFilm()
-                        else -> dataRepository.clearCollection(kit.nameKit)
+                       R.string.viewed_kit -> dataRepository.clearViewedFilm()
+                       R.string.bookmark_kit -> dataRepository.clearBookmarkFilm()
+                       else -> dataRepository.clearCollection(kit.displayText)
                     }
                     //Refresh a list film of collection
-                    getDataCollection(kit.nameKit)
+                    getDataCollection(kit.displayText)
                 }
             }.fold(
                 onSuccess = { },
-                onFailure = { ErrorApp().errorApi(it.message!!) }
+                onFailure = { errorApp.errorApi(it.message!!) }
             )
         }
     }

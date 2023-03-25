@@ -18,9 +18,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FilmPageViewModel @Inject constructor() : ViewModel() {
+class FilmPageViewModel @Inject constructor(private var dataRepository: DataRepository,
+                                            private val errorApp: ErrorApp) : ViewModel() {
 
-    private val dataRepository = DataRepository()
+//    private val dataRepository = DataRepository()
     //The movie that is displayed on the page
     private var localFilm:Film? = null
     //A stream for displaying complete information about the movie
@@ -86,7 +87,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
                     }}
             }.fold(
                 onSuccess = { if (it != null) _collections.value = it },
-                onFailure = { ErrorApp().errorApi(it.message!!) }
+                onFailure = { errorApp.errorApi(it.message!!) }
             )
         }
     }
@@ -101,7 +102,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
                 }
             }.fold(
                 onSuccess = { if (it != null) _collections.value = it },
-                onFailure = { ErrorApp().errorApi(it.message!!) } )
+                onFailure = { errorApp.errorApi(it.message!!) } )
         }
     }
     //Adding (deleting) a movie to (from) a collection
@@ -113,7 +114,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
                 }
             }.fold(
                 onSuccess = { if (it != null) _collections.value = it },
-                onFailure = { ErrorApp().errorApi(it.message!!) }
+                onFailure = { errorApp.errorApi(it.message!!) }
             )
         }
     }
@@ -124,7 +125,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
                 dataRepository.getInfoFilmSeason(film)
             }.fold(
                 onSuccess = { if (it != null) _filmInfo.value = it },
-                onFailure = { ErrorApp().errorApi(it.message ?: "Error nothing") }
+                onFailure = { errorApp.errorApi(it.message ?: "Error nothing") }
             )
         }
     }
@@ -135,7 +136,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
                 dataRepository.getPersons(film)
             }.fold(
                 onSuccess = { _person.value = it },
-                onFailure = { ErrorApp().errorApi(it.message ?: "Error nothing") }
+                onFailure = { errorApp.errorApi(it.message ?: "Error nothing") }
             )
         }
     }
@@ -146,7 +147,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
                 dataRepository.getImages(film)
             }.fold(
                 onSuccess = { _images.value = it },
-                onFailure = { ErrorApp().errorApi(it.message!!) }
+                onFailure = { errorApp.errorApi(it.message!!) }
             )
         }
     }
@@ -157,7 +158,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
                 dataRepository.getListLinkerForSimilar(film)
             }.fold(
                 onSuccess = { _similar.value = it },
-                onFailure = { ErrorApp().errorApi(it.message!!) }
+                onFailure = { errorApp.errorApi(it.message!!) }
             )
         }
     }
@@ -171,7 +172,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching { dataRepository.changeViewed(localFilm!!) }.fold(
                 onSuccess = {},
-                onFailure = { ErrorApp().errorApi(it.message!!) }
+                onFailure = { errorApp.errorApi(it.message!!) }
             )
         }
     }
@@ -180,7 +181,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching { dataRepository.changeFavorite(localFilm!!) }.fold(
                 onSuccess = {},
-                onFailure = { ErrorApp().errorApi(it.message!!) }
+                onFailure = { errorApp.errorApi(it.message!!) }
             )
         }
     }
@@ -189,7 +190,7 @@ class FilmPageViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching { dataRepository.changeBookmark(localFilm!!) }.fold(
                 onSuccess = {},
-                onFailure = { ErrorApp().errorApi(it.message!!) }
+                onFailure = { errorApp.errorApi(it.message!!) }
             )
         }
     }

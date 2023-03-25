@@ -12,9 +12,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SeasonsViewModel @Inject constructor(): ViewModel() {
+class SeasonsViewModel @Inject constructor(private var dataRepository: DataRepository): ViewModel() {
 
-    private val dataRepository = DataRepository()
+//    private val dataRepository = DataRepository()
     private var localFilm: Film? = null
     //Data chanel for tv series
     private var _listSeason = MutableStateFlow(Film())

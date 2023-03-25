@@ -13,9 +13,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ImagesViewModel @Inject constructor(): ViewModel() {
+class ImagesViewModel @Inject constructor(private var dataRepository: DataRepository): ViewModel() {
 
-    private val dataRepository = DataRepository()
     //The movie that is displayed on the page
     private var localFilm: Film? = null
     // Images data chanel

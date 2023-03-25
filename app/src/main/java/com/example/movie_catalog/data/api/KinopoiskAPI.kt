@@ -10,11 +10,7 @@ import com.example.movie_catalog.data.api.home.premieres.PremieresDTO
 import com.example.movie_catalog.data.api.home.seasons.SeasonsDTO
 import com.example.movie_catalog.data.api.home.top.TopFilmsDTO
 import com.example.movie_catalog.data.api.person.PersonInfoDTO
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
-
-private const val SERVER_API = "https://kinopoiskapiunofficial.tech"
 
 interface KinopoiskAPI {
     //Request premieres
@@ -82,13 +78,4 @@ interface KinopoiskAPI {
     @Headers("Accept: application/json", "Content-type: application/json")
     @GET("/api/v2.2/films/{id}/similars")
     suspend fun getSimilar(@Path("id") id: Int, @HeaderMap headers: Map<String, String>): SimilarDTO
-}
-
-val retrofitApi: KinopoiskAPI by lazy {
-    Retrofit
-        .Builder()
-        .baseUrl(SERVER_API)
-        .addConverterFactory(MoshiConverterFactory.create())
-        .build()
-        .create(KinopoiskAPI::class.java)
 }

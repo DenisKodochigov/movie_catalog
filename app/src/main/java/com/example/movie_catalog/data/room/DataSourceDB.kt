@@ -1,6 +1,5 @@
 package com.example.movie_catalog.data.room
 
-import com.example.movie_catalog.App
 import com.example.movie_catalog.data.room.tables.CollectionDB
 import com.example.movie_catalog.data.room.tables.CrossFC
 import com.example.movie_catalog.data.room.tables.FilmDB
@@ -8,13 +7,14 @@ import com.example.movie_catalog.entity.Film
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 import javax.inject.Singleton
+
 /*
 A class for generating queries to the database and their further processing.
  */
 @Singleton
-open class DataSourceDB  @Inject constructor(){
+open class DataSourceDB  @Inject constructor(private val dataDao: DataDao){
 
-    private val dataDao = ProviderDao().getDataDao(App.context)
+//    private val dataDao = ProviderDao().getDataDao(App.context)
     //Select filmDB bi id
     fun getFilm(film: Film): FilmDB? {
         return dataDao.getFilm(film.filmId!!)
@@ -98,8 +98,7 @@ open class DataSourceDB  @Inject constructor(){
     fun getViewedFilmsId() = dataDao.getViewedFilms(true)
     //Selecting a list of movies-id added to the collection
     fun getListFilmsIdInCollection(collectionId: Int) = dataDao.getListFilmsInCollection(collectionId)
-    //Selection of records from the FILES table where shs belong to the list
-    fun getListFilmDB(listId: List<Int>) = dataDao.getFilmInList(listId)
+
     //Setting the viewed parameter to false in all records
     fun clearViewedFilm(){
         dataDao.setAllViewed(false)

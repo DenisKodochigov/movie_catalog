@@ -1,13 +1,13 @@
 package com.example.movie_catalog.ui.recycler
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movie_catalog.App
 import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
 import com.example.movie_catalog.databinding.ItemListFilmBotBinding
@@ -28,8 +28,12 @@ To properly connect the necessary modules, the ModeViewer enumeration is used
 class ListFilmPagingAdapter @Inject constructor(private val mode: ModeViewer, //For what context is the adapter called
                                                 private val onClick: (Film) -> Unit //Call back on click item recyclerview
 ) : PagingDataAdapter<Linker, RecyclerView.ViewHolder>(DiffUtilCallback()) {
+
+    private lateinit var contextClass: Context
     //Assign the holder depending on the adapter's operating mode
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+
+        contextClass = parent.context
         return when (viewType) {
             R.layout.item_list_film_bot -> PagingBotVH(
                 ItemListFilmBotBinding.inflate(LayoutInflater.from(parent.context),
@@ -66,7 +70,7 @@ class ListFilmPagingAdapter @Inject constructor(private val mode: ModeViewer, //
                     //Set viewed flag
                     if (film.viewed) {
                         holder.binding.inclFilm.ivViewed.visibility = View.VISIBLE
-                        holder.binding.root.background = App.context.getDrawable(R.drawable.gradientviewed)
+                        holder.binding.root.background = contextClass.getDrawable(R.drawable.gradientviewed)
                     }
                     //Set action on click item recyclerView
                     holder.binding.root.setOnClickListener { onClick(film) }
@@ -81,7 +85,7 @@ class ListFilmPagingAdapter @Inject constructor(private val mode: ModeViewer, //
                     with(holder.binding) {
                         //Set viewed flag
                         if (film.viewed) {
-                            ivViewed.background = App.context.getDrawable(R.drawable.icon_viewed)
+                            ivViewed.background = contextClass.getDrawable(R.drawable.icon_viewed)
                             ivViewed.visibility = View.VISIBLE
                         }else{
                             ivViewed.visibility = View.INVISIBLE

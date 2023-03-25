@@ -16,9 +16,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor() : ViewModel() {
+class HomeViewModel @Inject constructor(private var dataRepository: DataRepository,
+                                        private val errorApp: ErrorApp) : ViewModel() {
 
-    private val dataRepository = DataRepository()
     //Random Selection Data Channel
     private var _namekit = MutableStateFlow(SelectedKit())
     var namekit = _namekit.asStateFlow()
@@ -62,13 +62,13 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                     Kit.RANDOM2.genreID = kit.genre2.id ?: 0
                     Kit.RANDOM2.countryID = kit.country2.id ?: 0
                     if (kit.genre1.genre != null || kit.country1.country != null) {
-                        Kit.RANDOM1.nameKit  =
+                        Kit.RANDOM1.displayText  =
                             kit.genre1.genre.toString().replaceFirstChar{it.uppercase()}.trim() + " " +
                             kit.country1.country.toString().replaceFirstChar{it.uppercase()}.trim()
                     }
 
                     if (kit.genre2.genre != null || kit.country2.country != null) {
-                        Kit.RANDOM2.nameKit =
+                        Kit.RANDOM2.displayText =
                             kit.genre2.genre.toString().replaceFirstChar{it.uppercase()}.trim() + " " +
                             kit.country2.country.toString().replaceFirstChar{it.uppercase()}.trim()
                     }
@@ -76,7 +76,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                     getRandom1()
                     getRandom2()
                 },
-                onFailure = { ErrorApp().errorApi(it.message!!)}
+                onFailure = { errorApp.errorApi(it.message!!)}
             )
         }
     }
@@ -87,7 +87,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                 dataRepository.getPremieres()
             }.fold(
                 onSuccess = {_premieres.value = it },
-                onFailure = { ErrorApp().errorApi(it.message!!)}
+                onFailure = { errorApp.errorApi(it.message!!)}
             )
         }
     }
@@ -98,7 +98,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                 dataRepository.getTop(1, Kit.POPULAR)
             }.fold(
                 onSuccess = {_popularFilms.value = it },
-                onFailure = { ErrorApp().errorApi(it.message!!)}
+                onFailure = { errorApp.errorApi(it.message!!)}
             )
         }
     }
@@ -109,7 +109,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                 dataRepository.getTop(1, Kit.TOP250)
             }.fold(
                 onSuccess = {_pageTop250.value = it },
-                onFailure = { ErrorApp().errorApi(it.message!!)}
+                onFailure = { errorApp.errorApi(it.message!!)}
             )
         }
     }
@@ -120,7 +120,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
                 dataRepository.getFilters(1, Kit.SERIALS)
             }.fold(
                 onSuccess = {_serials.value = it },
-                onFailure = { ErrorApp().errorApi(it.message!!)}
+                onFailure = { errorApp.errorApi(it.message!!)}
             )
         }
     }
@@ -129,7 +129,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching { dataRepository.getFilters(1, Kit.RANDOM1) }.fold(
                 onSuccess = {_randomKit1.value = it },
-                onFailure = { ErrorApp().errorApi(it.message!!)}
+                onFailure = { errorApp.errorApi(it.message!!)}
             )
         }
     }
@@ -138,7 +138,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching { dataRepository.getFilters(1, Kit.RANDOM2) }.fold(
                 onSuccess = {_randomKit2.value = it },
-                onFailure = { ErrorApp().errorApi(it.message!!)}
+                onFailure = { errorApp.errorApi(it.message!!)}
             )
         }
     }

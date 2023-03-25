@@ -241,7 +241,7 @@
     <style name="divider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
-        <item name="android:background">@color/material_dynamic_neutral95</item>
+        <item name="android:background">@color/background_card</item>
     </style>
     <style name="film_page_icon">
         <item name="android:layout_width">wrap_content</item>

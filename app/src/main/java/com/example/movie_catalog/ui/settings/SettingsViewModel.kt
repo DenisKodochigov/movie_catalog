@@ -17,9 +17,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SettingsViewModel @Inject constructor() : ViewModel()  {
+class SettingsViewModel @Inject constructor(
+    private var dataRepository: DataRepository,
+    private val errorApp: ErrorApp) : ViewModel()  {
 
-    private val dataRepository = DataRepository()
+//    private val dataRepository = DataRepository()
     var filter = SearchFilter()
     //Data chanel for country
     private var _countries = MutableStateFlow(listOf<CountryIdDTO>())
@@ -44,7 +46,7 @@ class SettingsViewModel @Inject constructor() : ViewModel()  {
                 dataRepository.getCountries()
             }.fold(
                 onSuccess = { if (it.isNotEmpty()) _countries.value = it },
-                onFailure = { ErrorApp().errorApi(it.message!!) }
+                onFailure = { errorApp.errorApi(it.message!!) }
             )
         }
     }
@@ -55,7 +57,7 @@ class SettingsViewModel @Inject constructor() : ViewModel()  {
                 dataRepository.getGenres()
             }.fold(
                 onSuccess = { if (it.isNotEmpty()) _genres.value = it },
-                onFailure = { ErrorApp().errorApi(it.message!!) }
+                onFailure = { errorApp.errorApi(it.message!!) }
             )
         }
     }

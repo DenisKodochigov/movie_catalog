@@ -13,11 +13,8 @@ import com.example.movie_catalog.entity.filminfo.ImageFilm
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class DataRepository @Inject constructor() {
-
-    private val dataSourceAPI = DataSourceAPI()
-
-    private val dataSourceDB = DataSourceDB()
+class DataRepository @Inject constructor( private var dataSourceDB: DataSourceDB,
+                                          private var dataSourceAPI: DataSourceAPI) {
 
     // home  fragment
     // Request a list of countries and genres. Randomly selecting two pairs of country-genre
@@ -297,7 +294,7 @@ class DataRepository @Inject constructor() {
         val linkers = mutableListOf<Linker>()
         val listFilmId = dataSourceDB.getViewedFilmsId()
         val kit = Kit.COLLECTION
-        kit.nameKit = nameCollection
+        kit.displayText = nameCollection
         listFilmId.forEach { filmId ->
             //Creating a link between the movie and the VIEWED selection
             DataCentre.films.find { it.filmId == filmId }?.let {
@@ -314,7 +311,7 @@ class DataRepository @Inject constructor() {
         //Looking for a collection by name
         val idCollect = dataSourceDB.getCollectionRecord(nameCollection)?.idCollection ?: 0
         val kit = Kit.COLLECTION
-        kit.nameKit = nameCollection
+        kit.displayText = nameCollection
         if (idCollect != 0) {
             //Selecting a list of movies from the collection
             val listFilmId = dataSourceDB.getListFilmsIdInCollection(idCollect)

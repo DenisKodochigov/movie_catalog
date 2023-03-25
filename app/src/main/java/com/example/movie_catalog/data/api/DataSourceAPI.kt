@@ -15,7 +15,7 @@ import javax.inject.Inject
 /*
 The class participates in data loading via Retrofit
  */
-class DataSourceAPI @Inject constructor() {
+class DataSourceAPI @Inject constructor(private val retrofitApi: KinopoiskAPI) {
 // Request a list of countries and genres. Randomly selecting two pairs of country-genre
     suspend fun getRandomKitName(): SelectedKit {
         val genreList = retrofitApi.getGenres(DataCentre.headers)

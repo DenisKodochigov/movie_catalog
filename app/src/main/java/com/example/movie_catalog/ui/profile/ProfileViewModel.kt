@@ -1,14 +1,15 @@
 package com.example.movie_catalog.ui.profile
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movie_catalog.App
 import com.example.movie_catalog.R
 import com.example.movie_catalog.data.DataRepository
 import com.example.movie_catalog.entity.*
 import com.example.movie_catalog.entity.Collection
 import com.example.movie_catalog.entity.enumApp.Kit
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,9 +17,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfileViewModel @Inject constructor() : ViewModel() {
+class ProfileViewModel @Inject constructor(private var dataRepository: DataRepository,
+       private val errorApp: ErrorApp, @ApplicationContext val context: Context): ViewModel() {
 
-    private val dataRepository = DataRepository()
+//    private val dataRepository = DataRepository()
     //Data chanel a list viewed films
     private var _viewedFilm = MutableStateFlow(listOf<Linker>())
     var viewedFilm = _viewedFilm.asStateFlow()
@@ -42,10 +44,10 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
     private fun getViewedFilm() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                 dataRepository.getViewedFilms(App.context.getString(R.string.viewed_kit))
+                 dataRepository.getViewedFilms(context.getString(R.string.viewed_kit))
             }.fold(
                 onSuccess = { _viewedFilm.value = it },
-                onFailure = { ErrorApp().errorApi(it.message!!) }
+                onFailure = { errorApp.errorApi(it.message!!) }
             )
         }
     }
@@ -53,10 +55,10 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
     private fun getBookmarkFilm() {
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                dataRepository.getFilmsInCollectionName(App.context.getString(R.string.bookmark_kit))
+                dataRepository.getFilmsInCollectionName(context.getString(R.string.bookmark_kit))
             }.fold(
                 onSuccess = { _bookmarkFilm.value = it },
-                onFailure = { ErrorApp().errorApi(it.message!!) }
+                onFailure = { errorApp.errorApi(it.message!!) }
             )
         }
     }
@@ -67,7 +69,7 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
                 Convertor().fromCollectionDBtoCollection(dataRepository.getCollectionsDB())
             }.fold(
                 onSuccess = { _collection.value = it },
-                onFailure = { ErrorApp().errorApi(it.message!!) }
+                onFailure = { errorApp.errorApi(it.message!!) }
             )
         }
     }
@@ -88,7 +90,7 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
                 Convertor().fromCollectionDBtoCollection(dataRepository.getCollectionsDB())
             }.fold(
                 onSuccess = { _collection.value = it },
-                onFailure = { ErrorApp().errorApi(it.message!!) }
+                onFailure = { errorApp.errorApi(it.message!!) }
             )
         }
     }
@@ -96,12 +98,13 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
     fun clearCollection(kit: Kit){
         viewModelScope.launch(Dispatchers.IO) {
             kotlin.runCatching {
-                dataRepository.clearBookmarkFilm()
+                val nameCollection = if (context.getString(kit.nameKit) != "") context.getString(kit.nameKit) else kit.displayText
+                dataRepository.clearCollection(nameCollection)
                 getBookmarkFilm()
                 getCollections()
             }.fold(
                 onSuccess = { },
-                onFailure = { ErrorApp().errorApi(it.message!!) }
+                onFailure = { errorApp.errorApi(it.message!!) }
             )
         }
     }
@@ -114,7 +117,7 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
                 getCollections()
             }.fold(
                 onSuccess = { },
-                onFailure = { ErrorApp().errorApi(it.message!!) }
+                onFailure = { errorApp.errorApi(it.message!!) }
             )
         }
     }
@@ -126,7 +129,7 @@ class ProfileViewModel @Inject constructor() : ViewModel() {
                 Convertor().fromCollectionDBtoCollection(dataRepository.getCollectionsDB())
             }.fold(
                 onSuccess = { _collection.value = it },
-                onFailure = { ErrorApp().errorApi(it.message!!) } )
+                onFailure = { errorApp.errorApi(it.message!!) } )
         }
     }
 }

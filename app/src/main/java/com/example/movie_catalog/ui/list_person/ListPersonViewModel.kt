@@ -1,9 +1,7 @@
 package com.example.movie_catalog.ui.list_person
 
-import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movie_catalog.App
 import com.example.movie_catalog.data.DataRepository
 import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Person
@@ -16,9 +14,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ListPersonViewModel @Inject constructor() : ViewModel() {
+class ListPersonViewModel @Inject constructor(
+    private var dataRepository: DataRepository
+): ViewModel() {
 
-    private val dataRepository = DataRepository()
+//    private val dataRepository = DataRepository()
     //The film-object that is used on the page
     private var localFilm: Film? = null
     //The job-object that is used on the page
@@ -33,11 +33,13 @@ class ListPersonViewModel @Inject constructor() : ViewModel() {
         if (localJob !=  null && localFilm != null) getData()
     }
     //Request for a list of persons
-    private fun getData() {
+    private fun getData(){
         viewModelScope.launch(Dispatchers.IO) {
+
             val listPerson = dataRepository.getPersons(localFilm!!, localJob!!)
-            if (listPerson.isNotEmpty()) _listPerson.value = listPerson
-            else Toast.makeText(App.context, "Нет данных для отображения", Toast.LENGTH_SHORT).show()
+            if (listPerson.isNotEmpty()) {
+                _listPerson.value = listPerson
+            }
         }
     }
     //Get a saved film object

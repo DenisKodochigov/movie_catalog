@@ -13,9 +13,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class StartViewModel @Inject constructor(): ViewModel() {
+class StartViewModel @Inject constructor(
+    private var dataRepository: DataRepository,
+    private val errorApp: ErrorApp): ViewModel() {
 
-    private val dataRepository = DataRepository()
     //Data chanel for images
     private var _listImage = MutableStateFlow(listOf<ImageStart>())
     var listImage = _listImage.asStateFlow()
@@ -30,7 +31,7 @@ class StartViewModel @Inject constructor(): ViewModel() {
                 dataRepository.getImageStart()
             }.fold(
                 onSuccess = {_listImage.value = it },
-                onFailure = { ErrorApp().errorApi(it.message!!)}
+                onFailure = { errorApp.errorApi(it.message!!)}
             )
         }
     }

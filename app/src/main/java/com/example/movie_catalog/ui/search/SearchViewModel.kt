@@ -16,9 +16,9 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchViewModel @Inject constructor(): ViewModel() {
+class SearchViewModel @Inject constructor(private var dataRepository: DataRepository): ViewModel() {
 
-    private val dataRepository = DataRepository()
+//    private val dataRepository = DataRepository()
     //Data chanel for paging adapter
     var pagedFilms: Flow<PagingData<Linker>>
 
@@ -26,7 +26,7 @@ class SearchViewModel @Inject constructor(): ViewModel() {
         //Request when starting a fragment
         pagedFilms = Pager(
             config = PagingConfig(pageSize = 20),
-            pagingSourceFactory = { PagedSourceData(Kit.SEARCH) }
+            pagingSourceFactory = { PagedSourceData(Kit.SEARCH,dataRepository) }
         ).flow.cachedIn(viewModelScope)
     }
     //Request after updating the search parameters
@@ -34,7 +34,7 @@ class SearchViewModel @Inject constructor(): ViewModel() {
         putTextSearch(keyWord)
         pagedFilms = Pager(
             config = PagingConfig(pageSize = 20),
-            pagingSourceFactory = { PagedSourceData(Kit.SEARCH) }
+            pagingSourceFactory = { PagedSourceData(Kit.SEARCH, dataRepository) }
         ).flow.cachedIn(viewModelScope)
     }
     //Save the set search parameters

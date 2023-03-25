@@ -61,7 +61,7 @@ class GalleryFragment : Fragment() {
         TabLayoutMediator(binding.tabs, binding.viewpager) { tab, position ->
             tab.setCustomView(R.layout.item_tab)
             tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)?.text =
-                gallery.tabs[position].first?.nameDisplay
+                gallery.tabs[position].first?.nameDisplay?.let { context?.getString(it) }
             tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_quantity)?.text =
                 gallery.tabs[position].second.toString()
             tab.customView?.findViewById<TextView>(R.id.tv_gallery_tab_name)

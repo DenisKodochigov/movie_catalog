@@ -5,6 +5,7 @@ import dagger.internal.DaggerGenerated;
 import dagger.internal.Factory;
 import dagger.internal.QualifierMetadata;
 import dagger.internal.ScopeMetadata;
+import javax.inject.Provider;
 
 @ScopeMetadata
 @QualifierMetadata
@@ -14,20 +15,22 @@ import dagger.internal.ScopeMetadata;
     "rawtypes"
 })
 public final class DataSourceAPI_Factory implements Factory<DataSourceAPI> {
+  private final Provider<KinopoiskAPI> retrofitApiProvider;
+
+  public DataSourceAPI_Factory(Provider<KinopoiskAPI> retrofitApiProvider) {
+    this.retrofitApiProvider = retrofitApiProvider;
+  }
+
   @Override
   public DataSourceAPI get() {
-    return newInstance();
+    return newInstance(retrofitApiProvider.get());
   }
 
-  public static DataSourceAPI_Factory create() {
-    return InstanceHolder.INSTANCE;
+  public static DataSourceAPI_Factory create(Provider<KinopoiskAPI> retrofitApiProvider) {
+    return new DataSourceAPI_Factory(retrofitApiProvider);
   }
 
-  public static DataSourceAPI newInstance() {
-    return new DataSourceAPI();
-  }
-
-  private static final class InstanceHolder {
-    private static final DataSourceAPI_Factory INSTANCE = new DataSourceAPI_Factory();
+  public static DataSourceAPI newInstance(KinopoiskAPI retrofitApi) {
+    return new DataSourceAPI(retrofitApi);
   }
 }

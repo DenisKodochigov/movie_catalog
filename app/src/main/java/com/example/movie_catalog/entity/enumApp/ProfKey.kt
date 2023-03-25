@@ -1,22 +1,22 @@
 package com.example.movie_catalog.entity.enumApp
 
-import com.example.movie_catalog.App
+import androidx.annotation.StringRes
 import com.example.movie_catalog.R
 
-enum class ProfKey( var nameView: String) {
-    ACTOR ( App.context.getString(R.string.ACTOR)),
-    HERSELF ( App.context.getString(R.string.HERSELF)),
-    HIMSELF ( App.context.getString(R.string.HIMSELF)),
-    PRODUCER ( App.context.getString(R.string.PRODUCER)),
-    DIRECTOR ( App.context.getString(R.string.DIRECTOR)),
-    WRITER ( App.context.getString(R.string.WRITER)),
-    OPERATOR ( App.context.getString(R.string.OPERATOR)),
-    DESIGN ( App.context.getString(R.string.DESIGN)),
-    EDITOR ( App.context.getString(R.string.EDITOR)),
-    COMPOSER ( App.context.getString(R.string.COMPOSER)),
-    VOICE_DIRECTOR (App.context.getString(R.string.VOICE_DIRECTOR)),
-    HRONO_TITR_MALE (App.context.getString(R.string.HRONO_TITR_MALE)),
-    VOICE_MALE (App.context.getString(R.string.VOICE_MALE)),
-    VOICE_FEMALE(App.context.getString(R.string.VOICE_FEMALE)),
-    HRONO_TITR_FEMALE(App.context.getString(R.string.HRONO_TITR_FEMALE)),
+enum class ProfKey(@StringRes var nameView: Int) {
+    ACTOR ( R.string.ACTOR),
+    HERSELF ( R.string.HERSELF),
+    HIMSELF ( R.string.HIMSELF),
+    PRODUCER ( R.string.PRODUCER),
+    DIRECTOR ( R.string.DIRECTOR),
+    WRITER ( R.string.WRITER),
+    OPERATOR ( R.string.OPERATOR),
+    DESIGN ( R.string.DESIGN),
+    EDITOR ( R.string.EDITOR),
+    COMPOSER ( R.string.COMPOSER),
+    VOICE_DIRECTOR (R.string.VOICE_DIRECTOR),
+    HRONO_TITR_MALE (R.string.HRONO_TITR_MALE),
+    VOICE_MALE (R.string.VOICE_MALE),
+    VOICE_FEMALE(R.string.VOICE_FEMALE),
+    HRONO_TITR_FEMALE(R.string.HRONO_TITR_FEMALE),
 }

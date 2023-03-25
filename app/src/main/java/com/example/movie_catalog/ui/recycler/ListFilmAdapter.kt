@@ -1,11 +1,11 @@
 package com.example.movie_catalog.ui.recycler
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movie_catalog.App
 import com.example.movie_catalog.R
 import com.example.movie_catalog.animations.LoadImageURLShow
 import com.example.movie_catalog.databinding.ItemListFilmBotBinding
@@ -39,6 +39,7 @@ class ListFilmAdapter @Inject constructor(
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     //Working list items
     private var linkers: List<Linker> = emptyList()
+    lateinit var contextClass: Context
     //Determining the size of the list
     @SuppressLint("NotifyDataSetChanged")
     fun setListFilm(listLinker: List<Linker>) {
@@ -47,11 +48,12 @@ class ListFilmAdapter @Inject constructor(
     }
     //Assign the holder depending on the adapter's operating mode
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        contextClass = parent.context
         return when (viewType) {
-            R.layout.item_list_film_bot -> ListVH(
-                ItemListFilmBotBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+            R.layout.item_list_film_bot -> ListVH(ItemListFilmBotBinding.inflate(LayoutInflater.from(parent.context),
+                    parent, false))
             R.layout.item_list_film_right -> FilmographyVH(
-                ItemListFilmRightBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+                    ItemListFilmRightBinding.inflate(LayoutInflater.from(parent.context), parent, false))
             else -> throw IllegalArgumentException("Unsupported layout") // in case populated with a model we don't know how to display.
         }
     }
@@ -96,7 +98,7 @@ class ListFilmAdapter @Inject constructor(
                         if (film.viewed) {
                             holder.binding.inclFilm.ivViewed.visibility = View.VISIBLE
                             holder.binding.inclFilm.poster.foreground =
-                                App.context.getDrawable(R.drawable.gradientviewed)
+                                contextClass.getDrawable(R.drawable.gradientviewed)
                         } else {
                             holder.binding.inclFilm.poster.foreground = null
                         }
@@ -122,7 +124,7 @@ class ListFilmAdapter @Inject constructor(
                     with(holder.binding) {
                         //Set viewed flag
                         if (film.viewed) {
-                            ivViewed.background = App.context.getDrawable(R.drawable.icon_viewed)
+                            ivViewed.background = contextClass.getDrawable(R.drawable.icon_viewed)
                             ivViewed.visibility = View.VISIBLE
                         }else{
                             ivViewed.visibility = View.INVISIBLE

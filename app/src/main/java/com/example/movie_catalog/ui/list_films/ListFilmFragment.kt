@@ -49,7 +49,7 @@ class ListFilmFragment: Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentListFilmsBinding.inflate(inflater, container, false)
         (activity as AppCompatActivity).findViewById<TextView>(R.id.toolbar_text).text =
-            viewModel.localKit?.nameKit ?: ""
+            viewModel.localKit?.displayText ?: ""
         return binding.root
     }
 

@@ -16,7 +16,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.movie_catalog.App
 import com.example.movie_catalog.R
 import com.example.movie_catalog.databinding.FragmentProfileBinding
 import com.example.movie_catalog.databinding.IncludeListFilmBinding
@@ -26,8 +25,8 @@ import com.example.movie_catalog.entity.Film
 import com.example.movie_catalog.entity.Linker
 import com.example.movie_catalog.entity.enumApp.Kit
 import com.example.movie_catalog.entity.enumApp.ModeViewer
-import com.example.movie_catalog.ui.recycler.SimpleAdapterAny
 import com.example.movie_catalog.ui.recycler.ListFilmAdapter
+import com.example.movie_catalog.ui.recycler.SimpleAdapterAny
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -60,12 +59,12 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val kit = Kit.COLLECTION
         //Display a list of viewed movies
-        kit.nameKit = App.context.getString(R.string.viewed_kit)
-        kit.displayText = App.context.getString(R.string.viewed_kit)
+        kit.nameKit = R.string.viewed_kit
+        kit.displayText = context?.getString(R.string.viewed_kit) ?: ""
         processingView(binding.inclViewedFilm, viewedAdapter, viewModel.viewedFilm, kit)
         //Display a list bookmark movies
-        kit.nameKit = App.context.getString(R.string.bookmark_kit)
-        kit.displayText = App.context.getString(R.string.bookmark_head)
+        kit.nameKit = R.string.bookmark_kit
+        kit.displayText = context?.getString(R.string.bookmark_head) ?: ""
         processingView(binding.inclInterestingFilm, bookmarkAdapter, viewModel.bookmarkFilm, kit)
         //Display card view collection
         processingViewCollection()
@@ -134,7 +133,9 @@ class ProfileFragment : Fragment() {
             //Showing the full list of movies in the collection.
             is String -> {
                 val kit = Kit.COLLECTION
-                kit.nameKit = item
+                kit.nameKit = 0
+//                val namecollection = context?.getString(kit.nameKit) ?: ""
+                kit.displayText = item
                 viewModel.putKit(kit)
                 findNavController().navigate(R.id.action_nav_profile_to_nav_listFilm)
             }
