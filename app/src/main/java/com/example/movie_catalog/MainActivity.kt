@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -28,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         //Synchronization of the data storage system in memory and
         // data in the database from previous use.
+//        AppCompatDelegate.setDefaultNightMode(MODE_NIGHT_YES)
         viewModel.synchronizationDataCenterAndDB()
 
         val navView: BottomNavigationView = binding.navView

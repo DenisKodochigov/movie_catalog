@@ -6,5 +6,5 @@
     <item
         android:state_pressed="true"
         android:color="@color/transparent" />
-    <item android:color="@color/black" />
+    <item android:color="?attr/colorOnSecondary" />
 </selector>
